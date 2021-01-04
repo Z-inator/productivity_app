@@ -1,79 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/components/reusable_time_card_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Card(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.all_out),
-                    onPressed: () {},
-                  ),
-                  Text('User\'s Name'),
-                ],
+              const ListTile(
+                leading: Icon(Icons.all_out),
+                title: Text('The Enchanted Nightingale'),
+                subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.all_out),
-                    onPressed: () {},
+                  TextButton(
+                    child: const Text('BUY TICKETS'),
+                    onPressed: () {/* ... */},
                   ),
-                  IconButton(
-                    icon: Icon(Icons.all_out),
-                    onPressed: () {},
+                  const SizedBox(width: 8),
+                  TextButton(
+                    child: const Text('LISTEN'),
+                    onPressed: () {/* ... */},
                   ),
-                  IconButton(
-                    icon: Icon(Icons.all_out),
-                    onPressed: () {},
-                  ),
+                  const SizedBox(width: 8),
                 ],
               ),
-              // Row(
-              //   children: <Widget>[
-              //     LinearProgressIndicator(
-              //       semanticsLabel: 'Progress',
-              //     )
-              //   ],
-              // )
             ],
           ),
         ),
-        ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.play_arrow_outlined),
-                    title: Text('Most Recent Log'),
-                    subtitle: Text('Project Title'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      TextButton(
-                        child: Text('Edit'),
-                        onPressed: () {},
-                      ),
-                      TextButton(
-                        child: Text('Delete'),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            )
-          ],
-        )
+        Container(
+          height: 150.0,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              ReusableTimeCard(
+                  task: 'task name',
+                  project: 'project name',
+                  timeLogged: '20 hrs'),
+            ],
+          ),
+        ),
       ],
     );
   }
