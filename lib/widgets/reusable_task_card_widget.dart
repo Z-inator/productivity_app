@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ReusableTimeCard extends StatelessWidget {
-  ReusableTimeCard({this.task, this.project, this.timeLogged});
+  ReusableTimeCard(
+      {this.task, this.project, this.projectColor, this.timeLogged});
 
   final String task;
   final String project;
+  final Color projectColor;
   final String timeLogged;
 
   @override
@@ -13,6 +15,7 @@ class ReusableTimeCard extends StatelessWidget {
         child: Container(
       constraints: BoxConstraints(
         maxWidth: 200,
+        minWidth: 100,
       ),
       padding: EdgeInsets.all(10.0),
       child: Column(
@@ -21,14 +24,21 @@ class ReusableTimeCard extends StatelessWidget {
             task,
             softWrap: false,
             overflow: TextOverflow.fade,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+            textScaleFactor: 1.25,
           ),
           Text(
             project,
             softWrap: false,
             overflow: TextOverflow.fade,
+            style: TextStyle(
+              color: projectColor,
+            ),
           ),
           Row(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 IconButton(
@@ -36,16 +46,37 @@ class ReusableTimeCard extends StatelessWidget {
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.edit_location_rounded),
+                  icon: Icon(Icons.create_rounded),
                   onPressed: () {},
                 ),
                 IconButton(
                   icon: Icon(Icons.delete_outline_rounded),
                   onPressed: () {},
                 ),
+                CheckboxesDemo(),
               ])
         ],
       ),
     ));
+  }
+}
+
+class CheckboxesDemo extends StatefulWidget {
+  @override
+  _CheckboxesDemoState createState() => _CheckboxesDemoState();
+}
+
+class _CheckboxesDemoState extends State<CheckboxesDemo> {
+  bool val = false;
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      value: val,
+      onChanged: (bool value) {
+         setState(() {
+           val = value;
+        });
+      }
+    );
   }
 }

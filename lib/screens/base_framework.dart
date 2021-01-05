@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
-
+import 'package:productivity_app/widgets/bottom_navigation_bar.dart';
+import 'package:productivity_app/widgets/settings_drawer_widget.dart';
 
 class BaseFramework extends StatelessWidget {
   @override
@@ -8,48 +9,17 @@ class BaseFramework extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Log'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search_rounded),
+            onPressed: () {},
+          )
+        ],
       ),
-      body: HomeScreen(),
-      bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: CircularNotchedRectangle(),
-          child: Container(
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.home_rounded),
-                    iconSize: 30.0,
-                    onPressed: () {},
-                  ),
-                ),
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.timer_rounded),
-                    iconSize: 30.0,
-                    onPressed: () {},
-                  ),
-                ),
-                Spacer(),
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.playlist_add_rounded),
-                    iconSize: 30.0,
-                    onPressed: () {},
-                  ),
-                ),
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.gavel_rounded),
-                    iconSize: 30.0,
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            ),
-          )),
+      body: SafeArea(
+        child: HomeScreen()
+      ),
+      bottomNavigationBar: BottomNavigationBarBase(),
       floatingActionButton: Container(
         height: 65.0,
         width: 65.0,
@@ -63,6 +33,7 @@ class BaseFramework extends StatelessWidget {
         )),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      drawer: SettingsDrawer(),
     );
   }
 }

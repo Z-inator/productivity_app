@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/components/reusable_time_card_widget.dart';
+import 'package:flutter/rendering.dart';
+import 'package:productivity_app/widgets/time_log_list_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -12,8 +13,11 @@ class HomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const ListTile(
-                leading: Icon(Icons.all_out),
-                title: Text('The Enchanted Nightingale'),
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                ),
+                title: Text('User\'s Name'),
                 subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
               ),
               Row(
@@ -34,19 +38,16 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          height: 150.0,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              ReusableTimeCard(
-                  task: 'task name',
-                  project: 'project name',
-                  timeLogged: '20 hrs'),
-            ],
-          ),
+        Divider(
+          height: 3,
+          indent: 4,
+          endIndent: 4,
         ),
+        TimeLogList(),
+        TimeLogList(),
+        
       ],
     );
   }
 }
+
