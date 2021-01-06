@@ -8,7 +8,7 @@ class BaseFramework extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Log'),
+        title: Text('Dashboard'),
         actions: [
           IconButton(
             icon: Icon(Icons.search_rounded),
