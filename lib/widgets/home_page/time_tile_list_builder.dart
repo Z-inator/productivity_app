@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'reusable_time_card_widget.dart';
+import 'reusable_time_tile.dart';
 
-class TimeLogList extends StatefulWidget {
+class TimeTileList extends StatefulWidget {
   @override
-  _TimeLogListState createState() => _TimeLogListState();
+  _TimeTileListState createState() => _TimeTileListState();
 }
 
-class _TimeLogListState extends State<TimeLogList> {
+class _TimeTileListState extends State<TimeTileList> {
   final List<String> list = [
     'asdfsadf asdfsfsa sadf',
     'asdfsfa' 'adf',
@@ -37,13 +37,13 @@ class _TimeLogListState extends State<TimeLogList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120.0,
+      height: 120.0,    // TODO: Check if this height is even needed since you are using flex
       child: Scrollbar(
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: list.length,
           itemBuilder: (context, index) {
-            return ReusableTimeCard(
+            return ReusableTimeTile(
               task: list[index],
               project: list[index],
             );
