@@ -29,6 +29,7 @@ class _TimeLogListState extends State<TimeLogList> {
           scrollDirection: Axis.vertical,
           itemCount: date.length,
           itemBuilder: (context, index) {
+            print('building large row with lots of characters to stand out');
             return Card(
                 child: Container(
                     padding: EdgeInsets.all(5),
