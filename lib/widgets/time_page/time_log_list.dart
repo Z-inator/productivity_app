@@ -26,25 +26,29 @@ class _TimeLogListState extends State<TimeLogList> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: date.length,
-          itemBuilder: (context, index) {
-            print('building large row with lots of characters to stand out');
-            return Card(
-                child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          TimeCardHeader(
-                            date: date[index],
-                            dateTime: time[index],
-                          ),
-                          TimeLogEntryBuilder()
-                        ])));
-          }),
+        scrollDirection: Axis.vertical,
+        itemCount: date.length,
+        itemBuilder: (context, index) {
+          print('building large row with lots of characters to stand out');
+          return Card(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  TimeCardHeader(
+                    date: date[index],
+                    dateTime: time[index],
+                  ),
+                  TimeLogEntryBuilder()
+                ]
+              )
+            )
+          );
+        }
+      ),
     );
   }
 }

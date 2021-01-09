@@ -1,83 +1,160 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp(
-    items: List<ListItem>.generate(
-      1000,
-      (i) => i % 6 == 0
-          ? HeadingItem("Heading $i")
-          : MessageItem("Sender $i", "Message body $i"),
-    ),
-  ));
+import 'package:fl_chart/fl_chart.dart';
+
+/// Icons by svgrepo.com (https://www.svgrepo.com/collection/job-and-professions-3/)
+class PieChartSample3 extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => PieChartSample3State();
 }
 
-class MyApp extends StatelessWidget {
-  final List<ListItem> items;
-
-  MyApp({Key key, @required this.items}) : super(key: key);
+class PieChartSample3State extends State {
+  int touchedIndex;
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Mixed List';
-
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: ListView.builder(
-          // Let the ListView know how many items it needs to build.
-          itemCount: items.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
-          itemBuilder: (context, index) {
-            final item = items[index];
-
-            return ListTile(
-              title: item.buildTitle(context),
-              subtitle: item.buildSubtitle(context),
-            );
-          },
+    return AspectRatio(
+      aspectRatio: 1.3,
+      child: Card(
+        color: Colors.white,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: PieChart(
+            PieChartData(
+                pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                  setState(() {
+                    if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                        pieTouchResponse.touchInput is FlPanEnd) {
+                      touchedIndex = -1;
+                    } else {
+                      touchedIndex = pieTouchResponse.touchedSectionIndex;
+                    }
+                  });
+                }),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                sectionsSpace: 0,
+                centerSpaceRadius: 0,
+                sections: showingSections()),
+          ),
         ),
       ),
     );
   }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(4, (i) {
+      final isTouched = i == touchedIndex;
+      final double fontSize = isTouched ? 20 : 16;
+      final double radius = isTouched ? 110 : 100;
+      final double widgetSize = isTouched ? 55 : 40;
+
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: const Color(0xff0293ee),
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            badgeWidget: _Badge(
+              'assets/ophthalmology-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: const Color(0xff0293ee),
+            ),
+            badgePositionPercentageOffset: .98,
+          );
+        case 1:
+          return PieChartSectionData(
+            color: const Color(0xfff8b250),
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            badgeWidget: _Badge(
+              'assets/librarian-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: const Color(0xfff8b250),
+            ),
+            badgePositionPercentageOffset: .98,
+          );
+        case 2:
+          return PieChartSectionData(
+            color: const Color(0xff845bef),
+            value: 16,
+            title: '16%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            badgeWidget: _Badge(
+              'assets/fitness-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: const Color(0xff845bef),
+            ),
+            badgePositionPercentageOffset: .98,
+          );
+        case 3:
+          return PieChartSectionData(
+            color: const Color(0xff13d38e),
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            badgeWidget: _Badge(
+              'assets/worker-svgrepo-com.svg',
+              size: widgetSize,
+              borderColor: const Color(0xff13d38e),
+            ),
+            badgePositionPercentageOffset: .98,
+          );
+        default:
+          return null;
+      }
+    });
+  }
 }
 
-/// The base class for the different types of items the list can contain.
-abstract class ListItem {
-  /// The title line to show in a list item.
-  Widget buildTitle(BuildContext context);
+class _Badge extends StatelessWidget {
+  final String svgAsset;
+  final double size;
+  final Color borderColor;
 
-  /// The subtitle line, if any, to show in a list item.
-  Widget buildSubtitle(BuildContext context);
-}
+  const _Badge(
+    this.svgAsset, {
+    Key key,
+    @required this.size,
+    @required this.borderColor,
+  }) : super(key: key);
 
-/// A ListItem that contains data to display a heading.
-class HeadingItem implements ListItem {
-  final String heading;
-
-  HeadingItem(this.heading);
-
-  Widget buildTitle(BuildContext context) {
-    return Text(
-      heading,
-      style: Theme.of(context).textTheme.headline5,
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: PieChart.defaultDuration,
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: borderColor,
+          width: 2,
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(.5),
+            offset: const Offset(3, 3),
+            blurRadius: 3,
+          ),
+        ],
+      ),
+      padding: EdgeInsets.all(size * .15),
+      child: Center(
+        child: Icon(Icons.access_alarms_rounded)
+      ),
     );
   }
-
-  Widget buildSubtitle(BuildContext context) => null;
-}
-
-/// A ListItem that contains data to display a message.
-class MessageItem implements ListItem {
-  final String sender;
-  final String body;
-
-  MessageItem(this.sender, this.body);
-
-  Widget buildTitle(BuildContext context) => Text(sender);
-
-  Widget buildSubtitle(BuildContext context) => Text(body);
 }
