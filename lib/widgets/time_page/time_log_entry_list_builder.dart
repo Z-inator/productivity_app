@@ -31,7 +31,6 @@ class _TimeLogEntryBuilderState extends State<TimeLogEntryBuilder> {
           scrollDirection: Axis.vertical,
           itemCount: data.length,
           itemBuilder: (context, index) {
-            print('building row $index');
             return TimeLogRow(
               // task: list[index],
               // project: list[index],

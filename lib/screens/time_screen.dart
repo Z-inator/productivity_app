@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/widgets/time_page/test.dart';
 import 'package:productivity_app/widgets/time_page/time_log_list.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:async';
-import 'dart:math';
+
 
 class TimeScreen extends StatelessWidget {
   @override
@@ -18,7 +17,7 @@ class TimeScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(20),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Flexible(
                   flex: 1,

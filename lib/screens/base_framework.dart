@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'time_screen.dart';
+import 'task_screen.dart';
 import 'package:productivity_app/widgets/bottom_navigation_bar.dart';
 import 'package:productivity_app/widgets/settings_drawer_widget.dart';
 
@@ -18,7 +19,7 @@ class BaseFramework extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: TimeScreen()
+        child: TaskScreen()
       ),
       bottomNavigationBar: BottomNavigationBarBase(),
       floatingActionButton: Container(
