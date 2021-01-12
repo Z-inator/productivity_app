@@ -18,8 +18,6 @@ class BottomNavigationBarBase extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.home_rounded),
                 iconSize: 30.0,
-                autofocus: true,
-                focusColor: Colors.red,
                 onPressed: () {},
               ),
             ),

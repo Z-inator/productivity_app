@@ -12,11 +12,18 @@ class _TasksDueTodayState extends State<TasksDueToday> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dueTaskList.length,
-      itemBuilder: (context, index) {
-        return ExpandedTaskRow(statuses: statuses, dueTask: dueTaskList[index]);
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: dueTaskList.length,
+          itemBuilder: (context, index) {
+            return ExpandedTaskRow(statuses: statuses, dueTask: dueTaskList[index]);
+          },
+        ),
+      ]
     );
   }
 }

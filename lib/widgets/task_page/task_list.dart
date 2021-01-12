@@ -14,28 +14,26 @@ class _TaskListState extends State<TaskList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemCount: projectList.length,
-        itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.all(5),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ExpansionTile(
-                  title: Text(projectList[index]),
-                  children: [
-                    TasksDueToday()
-                  ],  
-                ),
-              ]
-            )
-          );
-        }
-      ),
+    return ListView.builder(
+      itemCount: projectList.length,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: EdgeInsets.all(5),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              ExpansionTile(
+                title: Text(projectList[index]),
+                children: [
+                  TasksDueToday()
+                ],  
+              ),
+            ]
+          )
+        );
+      }
     );
   }
 }
