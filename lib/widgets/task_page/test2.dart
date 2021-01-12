@@ -1,14 +1,15 @@
-class DueTask {
+class DueTaskHeader {
   bool isExpanded;
   String header;
-  BodyModel bodyModel;
+  DueTaskBody dueTaskBody;
 
-  DueTask({this.isExpanded, this.header, this.bodyModel});
+  DueTaskHeader({this.isExpanded, this.header, this.dueTaskBody});
 }
 
-class BodyModel {
-  int price;
-  int quantity;
+class DueTaskBody {
+  String taskName;
+  String projectName;
+  String trackedTime;
 
-  BodyModel({this.price, this.quantity});
+  DueTaskBody({this.taskName, this.projectName, this.trackedTime});
 }
