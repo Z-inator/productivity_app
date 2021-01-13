@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SettingsDrawer extends StatelessWidget {
-  const SettingsDrawer({
-    Key key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,8 @@ class SettingsDrawer extends StatelessWidget {
                           'dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et odio pellentesque ',
                           overflow: TextOverflow.fade,
                           maxLines: 4,
-                        )),
+                        )
+                    ),
                   ),
                   Align(
                     alignment: Alignment.topRight,

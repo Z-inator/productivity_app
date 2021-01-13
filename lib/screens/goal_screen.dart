@@ -4,7 +4,7 @@ import 'package:productivity_app/widgets/time_page/time_log_list.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'base_framework.dart';
 
-class TimeScreen extends StatelessWidget {
+class GoalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseFramework(
@@ -171,6 +171,8 @@ class TimeDashboard extends StatelessWidget {
               ],
             ),
           )
-        ]));
+        ]
+      )
+    );
   }
 }

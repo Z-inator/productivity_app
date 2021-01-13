@@ -36,20 +36,17 @@ class _TimeTileListState extends State<TimeTileList> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 120.0,    // TODO: Check if this height is even needed since you are using flex
-      child: Scrollbar(
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            return ReusableTimeTile(
-              task: list[index],
-              project: list[index],
-            );
-          }
-        ),
-      )
+    return Scrollbar(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return ReusableTimeTile(
+            task: list[index],
+            project: list[index],
+          );
+        }
+      ),
     );
   }
 }
