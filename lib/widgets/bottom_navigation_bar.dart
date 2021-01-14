@@ -19,7 +19,7 @@ class BottomNavigationBarBase extends StatelessWidget {
               icon: Icon(Icons.home_rounded),
               iconSize: 30.0,
               onPressed: () {
-                Navigator.pushNamed(context, '/timepage');
+                Navigator.pushNamed(context, '/homepage');
               },
             ),
           ),

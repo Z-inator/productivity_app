@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+// Brain imports:
+import 'package:productivity_app/models/timer.dart';
+// Widget imports:
 import 'package:productivity_app/widgets/consistent_widgets/cards.dart';
 
 class ReusableTimeTile extends StatelessWidget {
@@ -34,26 +37,39 @@ class ReusableTimeTile extends StatelessWidget {
             ),
           ),
           Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.play_arrow_rounded),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.create_rounded),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.delete_outline_rounded),
-                onPressed: () {},
-              ),
-            ]
-          )
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.play_arrow_rounded),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.stop_rounded),
+                          onPressed: () {},
+                        ),
+                        Text(task),
+                        Text(project),
+                        Timer()
+                      ],
+                    )));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.create_rounded),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete_outline_rounded),
+                  onPressed: () {},
+                ),
+              ])
         ],
       ),
       elevation: 0,
     );
   }
 }
+

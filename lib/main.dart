@@ -27,6 +27,7 @@ class ProductivityApp extends StatelessWidget {
     return MaterialApp(
       home: HomeScreen(),
       routes: <String, WidgetBuilder>{
+        '/homepage': (BuildContext context) => HomeScreen(),
         '/timepage': (BuildContext context) => TimeScreen(),
         '/taskpage': (BuildContext context) => TaskScreen(),
         '/goalpage': (BuildContext context) => GoalScreen(),
