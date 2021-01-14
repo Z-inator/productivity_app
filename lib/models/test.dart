@@ -1,15 +1,13 @@
-// Credit: Diganta Kalita - https://medium.com/analytics-vidhya/build-a-simple-stopwatch-in-flutter-a1f21cfcd7a8
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-class Timer extends StatefulWidget {
+class FlutterStopWatch extends StatefulWidget {
   @override
-  _TimerState createState() => _TimerState();
+  _FlutterStopWatchState createState() => _FlutterStopWatchState();
 }
 
-class _TimerState extends State<Timer> {
+class _FlutterStopWatchState extends State<FlutterStopWatch> {
   bool flag = true;
   Stream<int> timerStream;
   StreamSubscription<int> timerSubscription;
@@ -52,13 +50,6 @@ class _TimerState extends State<Timer> {
     );
 
     return streamController.stream;
-  }
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('$hoursStr:$minutesStr:$secondsStr')
   }
 
   @override

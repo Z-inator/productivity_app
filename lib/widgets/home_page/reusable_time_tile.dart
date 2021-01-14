@@ -43,6 +43,7 @@ class ReusableTimeTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.play_arrow_rounded),
                   onPressed: () {
+                    timerStream = Ticker();
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Row(
                       children: <Widget>[
@@ -52,7 +53,7 @@ class ReusableTimeTile extends StatelessWidget {
                         ),
                         Text(task),
                         Text(project),
-                        Timer()
+                        Text(Ticker.currentDuration.toString()),
                       ],
                     )));
                   },
@@ -73,3 +74,22 @@ class ReusableTimeTile extends StatelessWidget {
   }
 }
 
+
+class TimerButton extends StatefulWidget {
+  @override
+  _TimerButtonState createState() => _TimerButtonState();
+}
+
+class _TimerButtonState extends State<TimerButton> {
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.play_arrow_rounded),
+      onPressed: () {
+
+      },
+    );
+  }
+}
