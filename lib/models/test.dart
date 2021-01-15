@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-class FlutterStopWatch extends StatefulWidget {
+class Ticker extends StatefulWidget {
   @override
-  _FlutterStopWatchState createState() => _FlutterStopWatchState();
+  _TickerState createState() => _TickerState();
 }
 
-class _FlutterStopWatchState extends State<FlutterStopWatch> {
+class _TickerState extends State<Ticker> {
   bool flag = true;
   Stream<int> timerStream;
   StreamSubscription<int> timerSubscription;
