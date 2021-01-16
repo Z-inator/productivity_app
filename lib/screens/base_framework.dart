@@ -56,18 +56,16 @@ class BaseFramework extends StatelessWidget {
             child: FittedBox(
               child: FloatingActionButton(
               onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
+                Scaffold.of(context).showBottomSheet<void>(
+                  (BuildContext context) {
                       return Container(
-                        height: 300,
+                        height: 200,
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               new TimerButton(),
-                              // new TimerText(dependencies: ),
                               IconButton(
                                 icon: Icon(Icons.exit_to_app_rounded),
                                 onPressed: () => Navigator.pop(context),
@@ -76,7 +74,8 @@ class BaseFramework extends StatelessWidget {
                           ),
                         ),
                       );
-                    });
+                    }
+                    );
               },
               child: Icon(
                 Icons.add_rounded,
@@ -87,6 +86,23 @@ class BaseFramework extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           drawer: SettingsDrawer(),
+          bottomSheet: Container(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new TimerButton(),
+                              IconButton(
+                                icon: Icon(Icons.exit_to_app_rounded),
+                                onPressed: () => Navigator.pop(context),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                      )
         ),
       ),
     );

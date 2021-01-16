@@ -43,7 +43,7 @@ class _TimerButtonState extends State<TimerButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         buildPlayStopButton(
