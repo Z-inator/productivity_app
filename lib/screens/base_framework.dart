@@ -86,26 +86,25 @@ class BaseFramework extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           drawer: SettingsDrawer(),
-          bottomSheet: Container(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              new TimerButton(),
-                              IconButton(
-                                icon: Icon(Icons.exit_to_app_rounded),
-                                onPressed: () => Navigator.pop(context),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
+          // bottomSheet: Container(
+          //               height: 200,
+          //               child: Center(
+          //                 child: Column(
+          //                   mainAxisAlignment: MainAxisAlignment.center,
+          //                   mainAxisSize: MainAxisSize.min,
+          //                   children: <Widget>[
+          //                     new TimerButton(),
+          //                     IconButton(
+          //                       icon: Icon(Icons.exit_to_app_rounded),
+          //                       onPressed: () => Navigator.pop(context),
+          //                     )
+          //                   ],
+          //                 ),
+          //               ),
+          //             )
                       )
         ),
-      ),
-    );
+      );
   }
 }
 
