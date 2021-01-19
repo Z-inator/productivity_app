@@ -1,5 +1,27 @@
 import 'package:flutter/cupertino.dart';
 
-class Data extends ChangeNotifier {
-  List<String> task = [];
+
+class User {
+
 }
+
+class Times {
+
+}
+
+class Projects {
+  
+}
+
+class Tasks {
+
+}
+
+class Habits {
+
+}
+
+class Goals {
+
+}
+

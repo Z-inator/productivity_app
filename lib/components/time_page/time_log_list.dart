@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:productivity_app/widgets/time_page/time_log_entry_list_builder.dart';
+import 'package:productivity_app/components/time_page/time_log_entry_list_builder.dart';
 import 'reusable_time_log_row.dart';
 import 'reusable_time_card_header.dart';
 
@@ -26,28 +26,24 @@ class _TimeLogListState extends State<TimeLogList> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: date.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: Container(
-              padding: EdgeInsets.all(5),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  TimeCardHeader(
-                    date: date[index],
-                    dateTime: time[index],
-                  ),
-                  TimeLogEntryBuilder()
-                ]
-              )
-            )
-          );
-        }
-      ),
+          scrollDirection: Axis.vertical,
+          itemCount: date.length,
+          itemBuilder: (context, index) {
+            return Card(
+                child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          TimeCardHeader(
+                            date: date[index],
+                            dateTime: time[index],
+                          ),
+                          TimeLogEntryBuilder()
+                        ])));
+          }),
     );
   }
 }

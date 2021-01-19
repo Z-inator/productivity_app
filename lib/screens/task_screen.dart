@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/widgets/task_page/task_list.dart';
-import 'package:productivity_app/widgets/time_page/time_log_list.dart';
-import 'package:productivity_app/widgets/task_page/due_task_list_builder.dart';
-import 'package:productivity_app/widgets/task_page/reusable_task_expansion_tile.dart';
+import 'package:productivity_app/components/task_page/task_list.dart';
+import 'package:productivity_app/components/time_page/time_log_list.dart';
+import 'package:productivity_app/components/task_page/due_task_list_builder.dart';
+import 'package:productivity_app/components/task_page/reusable_task_expansion_tile.dart';
 import 'base_framework.dart';
 
 class TaskScreen extends StatelessWidget {

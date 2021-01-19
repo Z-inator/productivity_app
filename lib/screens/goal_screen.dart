@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/widgets/time_page/test.dart';
-import 'package:productivity_app/widgets/time_page/time_log_list.dart';
+import 'package:productivity_app/components/time_page/test.dart';
+import 'package:productivity_app/components/time_page/time_log_list.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'base_framework.dart';
 

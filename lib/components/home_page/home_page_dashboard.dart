@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
-import 'package:productivity_app/widgets/settings_drawer_widget.dart';
-import 'package:productivity_app/widgets/consistent_widgets/cards.dart';
+import 'package:productivity_app/components/settings_drawer_widget.dart';
+import 'package:productivity_app/components/consistent_widgets/cards.dart';
 
 class HomeDashboard extends StatelessWidget {
   const HomeDashboard({

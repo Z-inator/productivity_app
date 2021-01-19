@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // Brain imports:
 import 'package:productivity_app/models/timer.dart';
 // Widget imports:
-import 'package:productivity_app/widgets/consistent_widgets/cards.dart';
+import 'package:productivity_app/components/consistent_widgets/cards.dart';
 
 class ReusableTimeTile extends StatelessWidget {
   ReusableTimeTile(
@@ -43,23 +43,19 @@ class ReusableTimeTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.play_arrow_rounded),
                   onPressed: () {
-                    
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.stop_rounded),
-                              onPressed: () {},
-                            ),
-                            Text('task'),
-                            Text('project'),
-                            Text('00:00:00'),
-                          ],
-                        )
-                      )
-                    );
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.stop_rounded),
+                          onPressed: () {},
+                        ),
+                        Text('task'),
+                        Text('project'),
+                        Text('00:00:00'),
+                      ],
+                    )));
                   },
                 ),
                 IconButton(
