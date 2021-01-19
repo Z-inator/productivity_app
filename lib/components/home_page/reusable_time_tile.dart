@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-// Brain imports:
-import 'package:productivity_app/models/timer.dart';
-// Widget imports:
-import 'package:productivity_app/components/consistent_widgets/cards.dart';
 
 class ReusableTimeTile extends StatelessWidget {
   ReusableTimeTile(
@@ -15,8 +11,10 @@ class ReusableTimeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicCard(
-      content: Column(
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+      elevation: 0,
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
@@ -69,7 +67,6 @@ class ReusableTimeTile extends StatelessWidget {
               ])
         ],
       ),
-      elevation: 0,
     );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
-import 'package:productivity_app/components/settings_drawer_widget.dart';
-import 'package:productivity_app/components/consistent_widgets/cards.dart';
 
 class HomeDashboard extends StatelessWidget {
   const HomeDashboard({
@@ -24,8 +22,10 @@ class HomeDashboard extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     flex: 1,
-                    child: BasicCard(
-                      content: ListTile(
+                    child: Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+                      elevation: 10,
+                      child: ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
                               'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
@@ -36,7 +36,6 @@ class HomeDashboard extends StatelessWidget {
                           Scaffold.of(context).openDrawer();
                         },
                       ),
-                      elevation: 10,
                     ),
                   ),
                   Flexible(

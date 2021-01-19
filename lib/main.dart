@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:productivity_app/routes.dart';
 import 'package:productivity_app/screens/home_screen.dart';
-import 'package:productivity_app/screens/task_screen.dart';
-import 'package:productivity_app/screens/time_screen.dart';
-import 'package:productivity_app/screens/goal_screen.dart';
-import 'package:productivity_app/components/home_page/task_tile_list_builder.dart';
-import 'package:productivity_app/components/time_page/time_log_list.dart';
-import 'package:provider/provider.dart';
-import 'package:productivity_app/screens/base_framework.dart';
-import 'package:productivity_app/models/data.dart';
-import 'package:productivity_app/components/home_page/home_page_dashboard.dart';
+import 'routes.dart';
+import 'theme/style.dart';
 
 void main() => runApp(ProductivityApp());
 
@@ -25,13 +19,10 @@ class ProductivityApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'ProductivityApp',
+      // theme: appTheme(),
       home: HomeScreen(),
-      routes: <String, WidgetBuilder>{
-        '/homepage': (BuildContext context) => HomeScreen(),
-        '/timepage': (BuildContext context) => TimeScreen(),
-        '/taskpage': (BuildContext context) => TaskScreen(),
-        '/goalpage': (BuildContext context) => GoalScreen(),
-      },
+      routes: routes,
     );
   }
 }

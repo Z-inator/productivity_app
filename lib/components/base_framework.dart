@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/models/timer.dart';
-import 'package:productivity_app/models/timer.dart';
-import 'package:productivity_app/components/home_page/home_page_dashboard.dart';
-import 'package:productivity_app/components/home_page/task_tile_list_builder.dart';
-import 'package:productivity_app/components/task_page/task_list.dart';
-import 'home_screen.dart';
-import 'time_screen.dart';
-import 'task_screen.dart';
+import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/components/bottom_navigation_bar.dart';
 import 'package:productivity_app/components/settings_drawer_widget.dart';
 
@@ -56,22 +49,6 @@ class BaseFramework extends StatelessWidget {
           child: FittedBox(
               child: FloatingActionButton(
             onPressed: () {
-              return showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Timer'),
-                      content: TimerWidget(),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text('close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    );
-                  });
 
               // Scaffold.of(context).showBottomSheet<void>(
               //   (BuildContext context) {
