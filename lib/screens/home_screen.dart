@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseFramework(
-      dash: HomeDashboard(),
+      dashboard: HomeDashboard(),
       list: TimeTileList(),
     );
     // Column(

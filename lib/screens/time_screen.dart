@@ -8,7 +8,7 @@ class TimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseFramework(
-      dash: TimeDashboard(),
+      dashboard: TimeDashboard(),
       list: TimeLogList(),
     );
     // Column(

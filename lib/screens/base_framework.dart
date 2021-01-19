@@ -10,10 +10,10 @@ import 'package:productivity_app/widgets/bottom_navigation_bar.dart';
 import 'package:productivity_app/widgets/settings_drawer_widget.dart';
 
 class BaseFramework extends StatelessWidget {
-  final Widget dash;
+  final Widget dashboard;
   final Widget list;
 
-  BaseFramework({this.dash, this.list});
+  BaseFramework({this.dashboard, this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class BaseFramework extends StatelessWidget {
                     stretchModes: <StretchMode>[StretchMode.blurBackground],
                     background: Container(
                         margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                        child: dash),
+                        child: dashboard),
                   ),
                   forceElevated: innerBoxIsScrolled,
                   onStretchTrigger: () {

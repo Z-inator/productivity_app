@@ -9,7 +9,7 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseFramework(
-      dash: TaskDashboard(),
+      dashboard: TaskDashboard(),
       list: TaskList(),
     );
     // Column(
