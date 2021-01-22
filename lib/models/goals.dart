@@ -1,4 +1,3 @@
-import 'package:productivity_app/models/times.dart';
 
 class Goals {
   final String goalName;

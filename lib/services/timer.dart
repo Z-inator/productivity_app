@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/services/times_data.dart';
 
 class Ticker {
   Stream<int> stopWatchStream() {
@@ -12,6 +13,7 @@ class Ticker {
       if (timer != null) {
         timer.cancel();
         timer = null;
+        TimeData(counter);
         counter = 0;
         streamController.close();
       }
