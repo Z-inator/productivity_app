@@ -49,7 +49,14 @@ class BaseFramework extends StatelessWidget {
           child: FittedBox(
               child: FloatingActionButton(
             onPressed: () {
-
+              return showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('data'),
+                      content: TimerWidget(),
+                    );
+                  });
               // Scaffold.of(context).showBottomSheet<void>(
               //   (BuildContext context) {
               //       return Container(

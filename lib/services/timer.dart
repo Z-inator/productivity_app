@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/services/times_data.dart';
+import 'package:productivity_app/components/time_to_text.dart';
 
 class Ticker {
+  int count;
+
   Stream<int> stopWatchStream() {
     StreamController<int> streamController;
     Timer timer;
@@ -13,7 +16,6 @@ class Ticker {
       if (timer != null) {
         timer.cancel();
         timer = null;
-        TimeData(counter);
         counter = 0;
         streamController.close();
       }
@@ -50,6 +52,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   String hourStr = '00';
   String minuteStr = '00';
   String secondStr = '00';
+  int count;
   IconButton playStop;
 
   void startTimer() {
@@ -79,6 +82,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  void runningTimer(int tick) {
+    count = tick;
+    List<String> timeList = [];
+    timeList = TimerText(ticks: tick).getTimerText();
+    setState(() {
+      hourStr = timeList[0];
+      minuteStr = timeList[1];
+      secondStr = timeList[2];
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -92,16 +106,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     super.dispose();
   }
 
-  void runningTimer(int tick) {
-    List<String> timeList = [];
-    timeList = TimerText(ticks: tick).getTimerText();
-    setState(() {
-      hourStr = timeList[0];
-      minuteStr = timeList[1];
-      secondStr = timeList[2];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,19 +114,5 @@ class _TimerWidgetState extends State<TimerWidget> {
         Text('$hourStr:$minuteStr:$secondStr'),
       ]),
     );
-  }
-}
-
-class TimerText {
-  final int ticks;
-
-  TimerText({this.ticks});
-
-  List<String> getTimerText() {
-    String hourStr =
-        ((ticks / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
-    String minutesStr = ((ticks / 60) % 60).floor().toString().padLeft(2, '0');
-    String secondsStr = (ticks % 60).floor().toString().padLeft(2, '0');
-    return [hourStr, minutesStr, secondsStr];
   }
 }
