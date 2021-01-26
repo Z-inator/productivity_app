@@ -5,7 +5,11 @@ import 'package:productivity_app/models/subtasks.dart';
 import 'package:productivity_app/models/tasks.dart';
 
 class TaskData {
-  List<Tasks> _tasks = [];
+  List<Tasks> _tasks = [
+    Tasks(taskName: 'test1'),
+    Tasks(taskName: 'test2'),
+    Tasks(taskName: 'test3')
+  ];
   Projects project;
 
   UnmodifiableListView<Tasks> get tasks {
@@ -22,6 +26,10 @@ class TaskData {
       project.taskList.add(newTask);
     } else {
       _tasks.add(newTask);
+    }
+    print(taskCount);
+    for (var task in tasks) {
+      print(task.taskName);
     }
   }
 

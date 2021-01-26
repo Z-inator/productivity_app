@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/components/bottom_navigation_bar.dart';
 import 'package:productivity_app/components/settings_drawer_widget.dart';
@@ -6,6 +7,8 @@ import 'package:productivity_app/components/settings_drawer_widget.dart';
 class BaseFramework extends StatelessWidget {
   final Widget dashboard;
   final Widget list;
+
+  int count = 3;
 
   BaseFramework({this.dashboard, this.list});
 
@@ -49,14 +52,18 @@ class BaseFramework extends StatelessWidget {
           child: FittedBox(
               child: FloatingActionButton(
             onPressed: () {
-              return showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('data'),
-                      content: TimerWidget(),
-                    );
-                  });
+              count += 1;
+              return TaskData().addTask('test$count');
+
+              // showDialog(
+              // context: context,
+              // builder: (BuildContext context) {
+              //   return AlertDialog(
+              //     title: Text('data'),
+              //     content: TimerWidget(),
+              //   );
+              // });
+
               // Scaffold.of(context).showBottomSheet<void>(
               //   (BuildContext context) {
               //       return Container(

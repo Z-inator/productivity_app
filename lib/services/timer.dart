@@ -71,6 +71,12 @@ class _TimerWidgetState extends State<TimerWidget> {
   void stopTimer() {
     timerSubscription.cancel();
     timerStream = null;
+    // print(TimeData().timeLogCount);
+    // TimeData().addTime(count);
+    // for (var item in TimeData().timeLog) {
+    //   print(TimeData().timeLog[item]);
+
+    // }
     setState(() {
       playStop = IconButton(
         icon: Icon(Icons.play_arrow_rounded),
@@ -80,10 +86,14 @@ class _TimerWidgetState extends State<TimerWidget> {
       minuteStr = '00';
       secondStr = '00';
     });
+    print(count);
   }
 
   void runningTimer(int tick) {
     count = tick;
+    print(count);
+    TimeData().addTime(tick);
+    print(TimeData().timeLogCount);
     List<String> timeList = [];
     timeList = TimerText(ticks: tick).getTimerText();
     setState(() {
