@@ -12,6 +12,14 @@ class BaseFramework extends StatelessWidget {
 
   BaseFramework({this.dashboard, this.list});
 
+  // void initState() {
+  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //     statusBarColor: Colors.grey[50],
+  //     statusBarBrightness: Brightness.light,
+  //     statusBarIconBrightness: Brightness.dark,
+  //   ));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(
