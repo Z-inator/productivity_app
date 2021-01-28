@@ -59,19 +59,16 @@ class BaseFramework extends StatelessWidget {
           height: 65.0,
           width: 65.0,
           child: FittedBox(
-              child: FloatingActionButton(
-            onPressed: () {
-              count += 1;
-              return TaskData().addTask('test$count');
-
-              // showDialog(
-              // context: context,
-              // builder: (BuildContext context) {
-              //   return AlertDialog(
-              //     title: Text('data'),
-              //     content: TimerWidget(),
-              //   );
-              // });
+            child: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('data'),
+                    content: TimerWidget(),
+                  );
+                });
 
               // Scaffold.of(context).showBottomSheet<void>(
               //   (BuildContext context) {
@@ -93,12 +90,13 @@ class BaseFramework extends StatelessWidget {
               //       );
               //     }
               //     );
-            },
-            child: Icon(
-              Icons.add_rounded,
-              color: Colors.white,
-            ),
-          )),
+              },
+              child: Icon(
+                Icons.add_rounded,
+                color: Colors.white,
+              ),
+            )
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         drawer: SettingsDrawer(),
