@@ -3,6 +3,7 @@ import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/components/bottom_navigation_bar.dart';
 import 'package:productivity_app/components/settings_drawer_widget.dart';
+import 'package:productivity_app/models/projects.dart';
 
 class BaseFramework extends StatelessWidget {
   final Widget dashboard;
