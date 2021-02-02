@@ -1,91 +1,85 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 
-class Authentification with ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class Authentification {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  // Firebase user one-time fetch
   Future<User> getUser() async {
     try {
       final user = _auth.currentUser;
       if (user != null) {
-        print('User signed in: ${user.email}');
+        print('User sign in: ${user.email}');
       } else {
-        print('User is currently signed out.');
+        print('No user signed in');
       }
-      notifyListeners();
       return user;
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      print(error);
       return null;
     }
   }
 
-  Future signout() async {
-    var result = await FirebaseAuth.instance.signOut();
-    print('Signing out User.');
-    notifyListeners();
-    return result;
-  }
+  // Firebase user realtime stream
+  Stream<User> get user => _auth.authStateChanges();
 
-  Future<User> registerUserWithEmailAndPassword(
-      {String firstName,
-      String lastName,
-      String email,
-      String password}) async {
-    var userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
-
-    var newUser = userCredential.user;
-
-    String newDisplayName = '$firstName $lastName';
-
-    await newUser
-        .updateProfile(displayName: newDisplayName)
-        .catchError((error) => print(error));
-
-    await newUser.reload();
-
-    User updatedUser = FirebaseAuth.instance.currentUser;
-
-    print('new display name: ${updatedUser.displayName}');
-
-    notifyListeners();
-
-    return updatedUser;
-  }
-
-  Future<User> signInUserWithEmailAndPassword(
-      {String email, String password}) async {
+  // sign in with Google
+  Future<User> googleSignIn() async {
     try {
-      var result = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      notifyListeners();
-    } catch (firebaseAuthException) {
-      throw new FirebaseAuthException(
-          message: firebaseAuthException.message,
-          code: firebaseAuthException.code);
+      GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      GoogleSignInAuthentication googleAuth =
+          await googleSignInAccount.authentication;
+
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+      final User user = (await _auth.signInWithCredential(credential)).user;
+
+      return user;
+    } catch (error) {
+      print(error);
+      return null;
     }
   }
 
-  Future<User> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+  Future<User> createUserWithEmailPassword(
+      {String firstName,
+      String lastname,
+      String email,
+      String password}) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: 'email', password: 'password');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The pasword provided is too weak');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+  Future<User> signInWithEmailPassword({String email, String password}) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user');
+      }
+    }
+  }
 
-    final User user = (await _auth.signInWithCredential(credential)).user;
-    print('Successfully signed in user with Google Provider');
-    print('Name: ${user.displayName} | uID; ${user.uid}');
-
-    notifyListeners();
-
-    User firebaseUser = FirebaseAuth.instance.currentUser;
-
-    return firebaseUser;
+  // Sign out
+  Future<void> signOut() {
+    return _auth.signOut();
   }
 }
