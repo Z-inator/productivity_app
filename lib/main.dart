@@ -1,7 +1,3 @@
-import 'dart:js';
-
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +20,17 @@ class ProductivityApp extends StatelessWidget {
   // Create initialization Future outside of build:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return StreamProvider<User>.value(
+  //     value: AuthService().user,
+  //     child: MaterialApp(
+  //       home: HomeScreen(),
+  //       routes: routes,
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -38,21 +45,18 @@ class ProductivityApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return MultiProvider(
               providers: [
-                StreamProvider<User>.value(value: Authentification().user),
+                StreamProvider<User>.value(value: AuthService().user),
               ],
               child: MaterialApp(
                 title: 'ProductivityApp',
                 // theme: appTheme(),
                 home: HomeScreen(),
                 routes: routes,
-                navigatorObservers: [
-                  FirebaseAnalyticsObserver(analytics: FirebaseAnalytics())
-                ],
               ),
             );
           }
           // Show Loading screen while waiting for initialization to complete:
-          return Loading();
+          return Container();
         });
   }
 }

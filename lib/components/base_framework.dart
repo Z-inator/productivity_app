@@ -1,15 +1,21 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/components/bottom_navigation_bar.dart';
 import 'package:productivity_app/components/settings_drawer_widget.dart';
 import 'package:productivity_app/models/projects.dart';
+import 'package:productivity_app/services/authentification.dart';
 
 class BaseFramework extends StatelessWidget {
   final Widget dashboard;
   final Widget list;
 
-  int count = 3;
+  final AuthService _auth = AuthService();
+  String email = 'someone@gmail.com';
+  String password = 'testing123456';
 
   BaseFramework({this.dashboard, this.list});
 
@@ -59,16 +65,19 @@ class BaseFramework extends StatelessWidget {
           height: 65.0,
           width: 65.0,
           child: FittedBox(
-            child: FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('data'),
-                    content: TimerWidget(),
-                  );
-                });
+              child: FloatingActionButton(
+            onPressed: () async {
+              DatabaseService(uid: 'cNB6nEhkv0dJLhGJrvflz4P1jR33')
+                  .addProject('test', 'color');
+
+              // showDialog(
+              // context: context,
+              // builder: (BuildContext context) {
+              //   return AlertDialog(
+              //     title: Text('data'),
+              //     content: TimerWidget(),
+              //   );
+              // });
 
               // Scaffold.of(context).showBottomSheet<void>(
               //   (BuildContext context) {
@@ -90,13 +99,12 @@ class BaseFramework extends StatelessWidget {
               //       );
               //     }
               //     );
-              },
-              child: Icon(
-                Icons.add_rounded,
-                color: Colors.white,
-              ),
-            )
-          ),
+            },
+            child: Icon(
+              Icons.add_rounded,
+              color: Colors.white,
+            ),
+          )),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         drawer: SettingsDrawer(),
