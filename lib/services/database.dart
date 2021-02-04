@@ -25,6 +25,15 @@ class DatabaseService {
 
   /////////////////////////////////////////////////////////////////////////// */
 
+  // Get Project collection reference
+  CollectionReference _getProjectsReference() {
+    final CollectionReference projectCollection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('projects');
+    return projectCollection;
+  }
+
   // Add Project to projects
   Future<void> addProject(String projectName, String projectColor) async {
     await userCollection
@@ -35,23 +44,47 @@ class DatabaseService {
         .catchError((error) => print('Failed to add project: $error'));
   }
 
-  // Get Project collection reference
-  CollectionReference _getProjectsReference() {
-    final CollectionReference projectCollection = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('projects');
-    return projectCollection;
+  // Update Project
+  Future<void> updateProject(
+      String projectID, String projectName, String projectColor) async {
+    final CollectionReference projectCollection = _getProjectsReference();
+    return await projectCollection
+        .doc(projectID)
+        .set({'projectName': projectName, 'projectColor': projectColor});
+  }
+
+  Future getProject(String projectID) async {
+    final CollectionReference projectCollection = _getProjectsReference();
+    return projectCollection.doc(projectID);
+  }
+
+  // Project Model from snapshot
+  Projects _projectModelFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data();
+    return Projects(
+        projectID: data['uid'],
+        projectName: data['projectName'],
+        projectColor: data['projectColor']);
   }
 
   // Project list from snapshot
   List<Projects> _projectListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Projects(
+        projectID: doc['projectID'] ?? '',
         projectName: doc['projectName'] ?? '',
         projectColor: doc['projectColor'] ?? '',
       );
     }).toList();
+  }
+
+  // Get Project Model stream
+  Stream<Projects> get projectModel {
+    final CollectionReference projectCollection = _getProjectsReference();
+    return projectCollection
+        .doc(Projects().projectID)
+        .snapshots()
+        .map(_projectModelFromSnapshot);
   }
 
   // Get Project stream
@@ -61,53 +94,37 @@ class DatabaseService {
   }
 }
 
-
-  /*////////////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////////////
 
         Section: Tasks
 
   /////////////////////////////////////////////////////////////////////////// */
 
-
-
-
-  /*////////////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////////////
 
         Section: Subtasks
 
   /////////////////////////////////////////////////////////////////////////// */
 
-
-
-
-  /*////////////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////////////
 
         Section: Goals
 
   /////////////////////////////////////////////////////////////////////////// */
 
-
-
-
-  /*////////////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////////////
 
         Section: Habits
 
   /////////////////////////////////////////////////////////////////////////// */
 
-
-
-
-  /*////////////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////////////
 
         Section: Statuses
 
   /////////////////////////////////////////////////////////////////////////// */
 
-
-
-
-  /*////////////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////////////
 
         Section: Times
 

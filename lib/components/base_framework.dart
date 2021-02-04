@@ -67,8 +67,8 @@ class BaseFramework extends StatelessWidget {
           child: FittedBox(
               child: FloatingActionButton(
             onPressed: () async {
-              DatabaseService(uid: 'cNB6nEhkv0dJLhGJrvflz4P1jR33')
-                  .addProject('test', 'color');
+              // DatabaseService(uid: 'cNB6nEhkv0dJLhGJrvflz4P1jR33').addProject('test', 'color');
+              AuthService().signInWithEmailAndPassword(email, password);
 
               // showDialog(
               // context: context,
