@@ -5,7 +5,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:productivity_app/models/projects.dart';
+import 'package:productivity_app/services/globals.dart';
 
+class ProjectService {
+  // Collection reference
+  final CollectionReference projectsReference = FirebaseFirestore.instance
+      .collection('users')
+      .doc(Global().userID)
+      .collection('projects');
+
+  // Add Project
+  Future<void> addProject(String projectName, String projectColor) async {
+    return await projectsReference
+        .add({'projectName': projectName, 'projectColor': projectColor})
+        .then((value) => print('Project Added'))
+        .catchError((error) => print('Failed to add project: $error'));
+  }
+
+  // Update Project
+  Future<void> updateProject(
+      String projectID, String projectName, String projectColor) async {
+    return await projectsReference
+        .doc(projectID)
+        .set({'projectName': projectName, 'projectColor': projectColor});
+  }
+
+  // Delete Project
+  Future<void> deleteProject(String projectID) async {
+    return projectsReference
+        .doc(projectID)
+        .delete()
+        .then((value) => print('Project Deleted'))
+        .catchError((error) => print('Failed to delete project: $error'));
+  }
+
+  Stream<QuerySnapshot> get projectsCollection {
+    return projectsReference.snapshots();
+  }
+}
 
 class AddProject extends StatelessWidget {
   final String projectName;
@@ -123,35 +160,3 @@ class ProjectStream extends StatelessWidget {
         });
   }
 }
-
-// class ProjectData {
-//   List<Projects> _projects = [];
-
-//   UnmodifiableListView<Projects> get projects {
-//     return UnmodifiableListView(_projects);
-//   }
-
-//   int get projectCount {
-//     return _projects.length;
-//   }
-
-//   void addProject(String newProjectName, String newProjectColor) {
-//     final newProject =
-//         Projects(projectName: newProjectName, projectColor: newProjectColor);
-//     _projects.add(newProject);
-//   }
-
-//   void updateProject(
-//       Projects project, String updateProjectName, String updateProjectColor) {
-//     project.projectName = updateProjectName;
-//     project.projectColor = updateProjectColor;
-//   }
-
-//   void addTime(Projects project, int time) {
-//     project.projectTime += time;
-//   }
-
-//   void deleteProject(Projects project) {
-//     _projects.remove(project);
-//   }
-// }

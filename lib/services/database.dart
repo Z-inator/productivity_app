@@ -53,11 +53,6 @@ class DatabaseService {
         .set({'projectName': projectName, 'projectColor': projectColor});
   }
 
-  Future getProject(String projectID) async {
-    final CollectionReference projectCollection = _getProjectsReference();
-    return projectCollection.doc(projectID);
-  }
-
   // Project Model from snapshot
   Projects _projectModelFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data();
@@ -85,6 +80,11 @@ class DatabaseService {
         .doc(Projects().projectID)
         .snapshots()
         .map(_projectModelFromSnapshot);
+  }
+
+  Stream get projectCollection {
+    final CollectionReference projectCollection = _getProjectsReference();
+    return projectCollection.snapshots();
   }
 
   // Get Project stream

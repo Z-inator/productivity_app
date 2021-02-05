@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/routes.dart';
 import 'package:productivity_app/screens/home_screen.dart';
+import 'package:productivity_app/screens/test_screen.dart';
 import 'package:productivity_app/services/authentification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:productivity_app/models/projects.dart';
 
 import 'theme/style.dart';
 import 'screens/error_screen.dart';
@@ -46,11 +49,14 @@ class ProductivityApp extends StatelessWidget {
             return MultiProvider(
               providers: [
                 StreamProvider<User>.value(value: AuthService().user),
+                StreamProvider.value(value: DatabaseService().projectCollection,),
+                StreamProvider<Projects>.value(value: DatabaseService().projectModel),
+                StreamProvider<List<Projects>>.value(value: DatabaseService().projects)
               ],
               child: MaterialApp(
                 title: 'ProductivityApp',
                 // theme: appTheme(),
-                home: HomeScreen(),
+                home: TestScreen(),
                 routes: routes,
               ),
             );
