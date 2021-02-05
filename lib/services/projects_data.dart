@@ -1,10 +1,5 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/globals.dart';
 
 class ProjectService {
@@ -39,6 +34,7 @@ class ProjectService {
         .catchError((error) => print('Failed to delete project: $error'));
   }
 
+  // Project Collections Stream
   Stream<QuerySnapshot> get projectsCollection {
     return projectsReference.snapshots();
   }

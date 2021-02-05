@@ -6,48 +6,42 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/models/subtasks.dart';
 import 'package:productivity_app/models/tasks.dart';
+import 'package:productivity_app/services/globals.dart';
 
-// class TaskData {
-//   List<Tasks> _tasks = [
-//     Tasks(taskName: 'test1'),
-//     Tasks(taskName: 'test2'),
-//     Tasks(taskName: 'test3')
-//   ];
-//   tasks task;
+class TaskService {
+  // Collection reference
+  final CollectionReference tasksReference = FirebaseFirestore.instance
+      .collection('users')
+      .doc(Global().userID)
+      .collection('tasks');
 
-//   UnmodifiableListView<Tasks> get tasks {
-//     return UnmodifiableListView(_tasks);
-//   }
+  // Add Task
+  Future<void> addTask(String taskName) async {
+    return await tasksReference
+        .add({'taskName': taskName})
+        .then((value) => print('Task Added'))
+        .catchError((error) => print('Failed to add task: $error'));
+  }
 
-//   int get taskCount {
-//     return _tasks.length;
-//   }
+  // Update Task
+  Future<void> updatetask(String taskID, String taskName) async {
+    return await tasksReference.doc(taskID).set({'taskName': taskName});
+  }
 
-//   void addTask(String newTaskName) {
-//     final newTask = Tasks(taskName: newTaskName);
-//     if (task != null) {
-//       task.taskList.add(newTask);
-//     } else {
-//       _tasks.add(newTask);
-//     }
-//     print(taskCount);
-//     for (var task in tasks) {
-//       print(task.taskName);
-//     }
-//   }
+  // Delete Task
+  Future<void> deleteTask(String taskID) async {
+    return tasksReference
+        .doc(taskID)
+        .delete()
+        .then((value) => print('Task Deleted'))
+        .catchError((error) => print('Failed to delete task: $error'));
+  }
 
-//   void updateTask(Tasks task, String updateTaskName) {
-//     task.taskName = updateTaskName;
-//   }
-
-//   void addTime(Tasks task, int time) {
-//     task.taskTime += time;
-//   }
-
-//   void deleteTask(Tasks task) {
-//     _tasks.remove(task);
-//   }
-// }
+  // Task Collections Stream
+  Stream<QuerySnapshot> get tasksCollection {
+    return tasksReference.snapshots();
+  }
+}
 
 class AddTask extends StatelessWidget {
   final String taskName;
