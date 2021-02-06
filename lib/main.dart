@@ -7,6 +7,7 @@ import 'package:productivity_app/screens/test_screen.dart';
 import 'package:productivity_app/services/authentification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/services/database.dart';
+import 'package:productivity_app/services/projects_data.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/models/projects.dart';
 
@@ -47,18 +48,16 @@ class ProductivityApp extends StatelessWidget {
           // Once complete, show application:
           if (snapshot.connectionState == ConnectionState.done) {
             return MultiProvider(
-              providers: [
-                StreamProvider<User>.value(value: AuthService().user),
-                StreamProvider.value(value: DatabaseService().projectCollection,),
-                StreamProvider<Projects>.value(value: DatabaseService().projectModel),
-                StreamProvider<List<Projects>>.value(value: DatabaseService().projects)
-              ],
-              child: MaterialApp(
-                title: 'ProductivityApp',
-                // theme: appTheme(),
-                home: TestScreen(),
-                routes: routes,
-              ),
+                providers: [
+                  StreamProvider<User>.value(value: AuthService().user),
+                  StreamProvider.value(value: ProjectService().projectsCollection)
+                ],
+                child: MaterialApp(
+                  title: 'ProductivityApp',
+                  // theme: appTheme(),
+                  home: Wrapper(),
+                  routes: routes,
+                ),
             );
           }
           // Show Loading screen while waiting for initialization to complete:

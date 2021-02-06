@@ -5,8 +5,8 @@ class Global {
   // Data Models
 
   // User
-  final String userID = FirebaseAuth.instance.currentUser.uid;
   final user = FirebaseAuth.instance.currentUser;
+  // final String userID = FirebaseAuth.instance.currentUser.uid;
   // Firestore References for writes
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');

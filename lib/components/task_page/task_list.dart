@@ -4,6 +4,7 @@ import 'package:productivity_app/components/task_page/due_task_list_builder.dart
 import 'package:productivity_app/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/models/projects.dart';
+import 'package:productivity_app/services/projects_data.dart';
 
 class TaskList extends StatefulWidget {
   @override
@@ -14,8 +15,8 @@ class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
 
-    return StreamProvider<List<Projects>>.value(
-      value: DatabaseService().projects,
+    return StreamProvider.value(
+      value: ProjectService().projectsCollection,
       child: TaskTest()
     );
   }

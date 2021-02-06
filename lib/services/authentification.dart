@@ -20,7 +20,6 @@ class AuthService {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = userCredential.user;
-      DatabaseService(uid: user.uid);
       return user;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
@@ -38,7 +37,7 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       User user = userCredential.user;
       // Create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).buildUser('Butt', 'Face');
+      await DatabaseService().buildUser(user.uid, 'Butt', 'Face');
       return user;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'weak-password') {
@@ -62,7 +61,7 @@ class AuthService {
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
       final User user = (await _auth.signInWithCredential(credential)).user;
-
+      print(user);
       return user;
     } catch (error) {
       print(error);

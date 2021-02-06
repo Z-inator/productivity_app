@@ -1,17 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/services/globals.dart';
 
 class ProjectService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   // Collection reference
-  final CollectionReference projectsReference = FirebaseFirestore.instance
-      .collection('users')
-      .doc(Global().userID)
-      .collection('projects');
+  CollectionReference _getProjectReference() {
+    if (Global.user == null) {
+      return null;
+    } else {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(Global().user.uid)
+          .collection('projects');
+    }
+  }
+
 
   // Add Project
   Future<void> addProject(String projectName, String projectColor) async {
-    return await projectsReference
+    return await _getProjectReference()
         .add({'projectName': projectName, 'projectColor': projectColor})
         .then((value) => print('Project Added'))
         .catchError((error) => print('Failed to add project: $error'));
@@ -20,14 +30,14 @@ class ProjectService {
   // Update Project
   Future<void> updateProject(
       String projectID, String projectName, String projectColor) async {
-    return await projectsReference
+    return await _getProjectReference()
         .doc(projectID)
         .set({'projectName': projectName, 'projectColor': projectColor});
   }
 
   // Delete Project
   Future<void> deleteProject(String projectID) async {
-    return projectsReference
+    return _getProjectReference()
         .doc(projectID)
         .delete()
         .then((value) => print('Project Deleted'))
@@ -36,7 +46,7 @@ class ProjectService {
 
   // Project Collections Stream
   Stream<QuerySnapshot> get projectsCollection {
-    return projectsReference.snapshots();
+    return _getProjectReference().snapshots();
   }
 }
 
