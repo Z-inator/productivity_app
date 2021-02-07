@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/components/task_page/task_list.dart';
 import 'package:productivity_app/services/authentification.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
@@ -74,12 +75,9 @@ class TestScreen extends StatelessWidget {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
+                      QuerySnapshot projects = Provider.of<QuerySnapshot>(context);
                       return StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('users')
-                              .doc('cNB6nEhkv0dJLhGJrvflz4P1jR33')
-                              .collection('projects')
-                              .snapshots(),
+                          stream: projects,
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
                             return !snapshot.hasData

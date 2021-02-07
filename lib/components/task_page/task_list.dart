@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:productivity_app/components/task_page/due_task_list_builder.dart';
@@ -14,10 +15,15 @@ class TaskList extends StatefulWidget {
 class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
-
-    return StreamProvider.value(
-      value: ProjectService().projectsCollection,
-      child: TaskTest()
+    List projects = Provider.of<List<Projects>>(context);
+    return ListView.builder(
+      itemCount: projects.length,
+      itemBuilder: (BuildContext context, index) {
+        return ListTile(
+          title: Text(projects[index].projectName),
+          subtitle: Text(projects[index].projectColor),
+        );
+      },
     );
   }
 }
@@ -30,7 +36,7 @@ class TaskTest extends StatefulWidget {
 class _TaskTestState extends State<TaskTest> {
   @override
   Widget build(BuildContext context) {
-    final projects = Provider.of<List<Projects>>(context) ?? [];
+    final List projects = Provider.of<QuerySnapshot>(context) ?? [];
     return ListView.builder(
         itemCount: projects.length,
         itemBuilder: (context, index) {

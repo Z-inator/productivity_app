@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,7 +51,7 @@ class ProductivityApp extends StatelessWidget {
             return MultiProvider(
                 providers: [
                   StreamProvider<User>.value(value: AuthService().user),
-                  StreamProvider.value(value: ProjectService().projectsCollection)
+                  StreamProvider<QuerySnapshot>.value(value: ProjectService().projects)
                 ],
                 child: MaterialApp(
                   title: 'ProductivityApp',

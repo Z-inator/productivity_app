@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/globals.dart';
 
 class ProjectService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // Collection reference
   CollectionReference _getProjectReference() {
-    if (Global.user == null) {
+    if (_auth.currentUser == null) {
       return null;
     } else {
       return FirebaseFirestore.instance
@@ -17,7 +18,6 @@ class ProjectService {
           .collection('projects');
     }
   }
-
 
   // Add Project
   Future<void> addProject(String projectName, String projectColor) async {
@@ -45,9 +45,32 @@ class ProjectService {
   }
 
   // Project Collections Stream
-  Stream<QuerySnapshot> get projectsCollection {
+  Stream<QuerySnapshot> get projects {
     return _getProjectReference().snapshots();
   }
+
+  // Projects _projectModelFromSnapshot(DocumentSnapshot snapshot) {
+  //   Map<String, dynamic> data = snapshot.data();
+  //   return Projects(
+  //       projectID: data['uid'],
+  //       projectName: data['projectName'],
+  //       projectColor: data['projectColor']);
+  // }
+
+  // // Project list from snapshot
+  // List<Projects> _projectListFromSnapshot(QuerySnapshot snapshot) {
+  //   return snapshot.docs.map((doc) {
+  //     return Projects(
+  //         projectID: doc.data()['projectID'] ?? '',
+  //         projectName: doc.data()['projectName'] ?? '',
+  //         projectColor: doc.data()['projectColor'] ?? '');
+  //   }).toList();
+  // }
+
+  // Stream<List<Projects>> get projects {
+  //   final CollectionReference projects = _getProjectReference();
+  //   return projects.snapshots().map(_projectListFromSnapshot);
+  // }
 }
 
 class AddProject extends StatelessWidget {
