@@ -32,6 +32,7 @@ class TestScreen extends StatelessWidget {
     // return StreamProvider<List<Projects>>.value(
     //   value: DatabaseService().projects,
     int counter = 0;
+    final user = Provider.of<User>(context);
 
     return Container(
         child: SafeArea(
@@ -75,26 +76,45 @@ class TestScreen extends StatelessWidget {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      QuerySnapshot projects = Provider.of<QuerySnapshot>(context);
+                      CollectionReference projects = FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .collection('projects');
                       return StreamBuilder<QuerySnapshot>(
-                          stream: projects,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            return !snapshot.hasData
-                                ? Text('Please Wait')
-                                : ListView.builder(
-                                    itemCount: snapshot.data.docs.length,
-                                    itemBuilder: (BuildContext context, index) {
-                                      DocumentSnapshot projects =
-                                          snapshot.data.docs[index];
-                                      return ListTile(
-                                        title: Text(projects['projectName']),
-                                        subtitle:
-                                            Text(projects['projectColor']),
-                                      );
-                                    },
-                                  );
-                          });
+                        stream: projects.snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          return !snapshot.hasData
+                              ? Text('Please Wait')
+                              : ListView(
+                                  children: snapshot.data.docs
+                                      .map((DocumentSnapshot document) {
+                                    final String docID = document.id;
+                                    print(document.id);
+                                    return ListTile(
+                                      leading: IconButton(
+                                          icon: Icon(Icons.plus_one),
+                                          onPressed: () {
+                                            ProjectService().updateProject(
+                                                docID,
+                                                'NewprojectNameUpdate',
+                                                'NewprojectColorupdate');
+                                          }),
+                                      title:
+                                          Text(document.data()['projectName']),
+                                      subtitle:
+                                          Text(document.data()['projectColor']),
+                                      trailing: IconButton(
+                                          icon: Icon(Icons.delete),
+                                          onPressed: () {
+                                            ProjectService().deleteProject(
+                                                docID);
+                                          }),
+                                    );
+                                  }).toList(),
+                                );
+                        },
+                      );
                     });
               },
               child: Text('Show Projects')),

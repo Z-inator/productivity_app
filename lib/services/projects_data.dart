@@ -32,7 +32,7 @@ class ProjectService {
       String projectID, String projectName, String projectColor) async {
     return await _getProjectReference()
         .doc(projectID)
-        .set({'projectName': projectName, 'projectColor': projectColor});
+        .update({'projectName': projectName, 'projectColor': projectColor});
   }
 
   // Delete Project

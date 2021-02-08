@@ -48,17 +48,14 @@ class ProductivityApp extends StatelessWidget {
           }
           // Once complete, show application:
           if (snapshot.connectionState == ConnectionState.done) {
-            return MultiProvider(
-                providers: [
-                  StreamProvider<User>.value(value: AuthService().user),
-                  StreamProvider<QuerySnapshot>.value(value: ProjectService().projects)
-                ],
-                child: MaterialApp(
-                  title: 'ProductivityApp',
-                  // theme: appTheme(),
-                  home: Wrapper(),
-                  routes: routes,
-                ),
+            return StreamProvider<User>.value(
+              value: AuthService().user,
+              child: MaterialApp(
+                title: 'ProductivityApp',
+                // theme: appTheme(),
+                home: Wrapper(),
+                routes: routes,
+              ),
             );
           }
           // Show Loading screen while waiting for initialization to complete:
