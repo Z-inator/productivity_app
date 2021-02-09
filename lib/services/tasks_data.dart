@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/services/globals.dart';
 
 class TaskService {
+  final user;
+  TaskService({this.user});
+
   // Collection reference
   CollectionReference _getTaskReference() {
-    if (Global().user == null) {
+    if (user == null) {
       return null;
     } else {
       return FirebaseFirestore.instance
-          .collection(Global().userCollection.toString())
-          .doc(Global().user.uid)
+          .collection('users')
+          .doc(user.uid)
           .collection('tasks');
     }
   }
@@ -65,10 +66,13 @@ class TaskService {
 }
 
 class TasksStream extends StatelessWidget {
+  final user;
+  TasksStream({this.user});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: TaskService().tasks.snapshots(),
+      stream: TaskService(user: user).tasks.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -84,14 +88,14 @@ class TasksStream extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
-                    TaskService().updateTask(
+                    TaskService(user: user).updateTask(
                         taskID: docID, taskName: 'NewTaskNameUpdate');
                   }),
               title: Text(document.data()['taskName']),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    TaskService().deleteTask(taskID: docID);
+                    TaskService(user: user).deleteTask(taskID: docID);
                   }),
             );
           }).toList(),
@@ -102,10 +106,16 @@ class TasksStream extends StatelessWidget {
 }
 
 class TasksTestStream extends StatelessWidget {
+  final user;
+  TasksTestStream({this.user});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: TaskService().tasks.where('projectName', isEqualTo: 'testingProject').snapshots(),
+      stream: TaskService(user: user)
+          .tasks
+          .where('projectName', isEqualTo: 'testingProject4')
+          .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
@@ -144,112 +154,12 @@ class TasksTestStream extends StatelessWidget {
   }
 }
 
-// class AddTask extends StatelessWidget {
-//   final String taskName;
-//   final taskStatus;
-//   final int taskTime = 0;
-
-//   AddTask({this.taskName, this.taskStatus});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     CollectionReference task = FirebaseFirestore.instance.collection('tasks');
-
-//     Future<void> addTask() {
-//       return task
-//           .add({
-//             'taskName': taskName,
-//             'taskStatus': taskStatus,
-//             'taskTime': taskTime
-//           })
-//           .then((value) => print('Task Added'))
-//           .catchError((error) => print('Failed to add task: $error'));
-//     }
-
-//     return FlatButton(onPressed: addTask, child: Text('Add Task'));
-//   }
-// }
-
-// class UpdateTask extends StatelessWidget {
-//   final String documentReference;
-//   final String taskName;
-//   final String taskStatus;
-//   final int taskTime;
-
-//   UpdateTask(
-//       {this.documentReference, this.taskName, this.taskStatus, this.taskTime});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     CollectionReference task = FirebaseFirestore.instance.collection('tasks');
-
-//     Future<void> updateTask() {
-//       return task
-//           .doc(documentReference)
-//           .update({
-//             'taskName': taskName,
-//             'taskStatus': taskStatus,
-//             'taskTime': taskTime
-//           })
-//           .then((value) => print('Task Updated'))
-//           .catchError((error) => print("Failed to update task: $error"));
-//     }
-
-//     return FlatButton(onPressed: updateTask, child: Text('Update Task'));
-//   }
-// }
-
-// class DeleteTask extends StatelessWidget {
-//   final String documentReference;
-
-//   DeleteTask({this.documentReference});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     CollectionReference task = FirebaseFirestore.instance.collection('tasks');
-
-//     Future<void> deleteTask() {
-//       return task
-//           .doc(documentReference)
-//           .delete()
-//           .then((value) => print('Task Deleted'))
-//           .catchError((error) => print('Failed to delete task: $error'));
-//     }
-
-//     // Future<void> deleteField() {
-//     //   return task
-//     //     .doc(documentReference)
-//     //     .delete()
-//     //     .then((value) => print('task Deleted'))
-//     //     .catchError((error) => print('Failed to delete task: $error'));
-//     // }
-
-//     return FlatButton(onPressed: deleteTask, child: Text('Delete Task'));
-//   }
-// }
-
-// class TaskStream extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
-
-//     return StreamBuilder<QuerySnapshot>(
-//         stream: tasks.snapshots(),
-//         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//           if (snapshot.hasError) {
-//             return Text('Something went wrong');
-//           }
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Text('Loading');
-//           }
-//           return new ListView(
-//             children: snapshot.data.docs.map((DocumentSnapshot document) {
-//               return new ListTile(
-//                 title: new Text(document.data()['taskName']),
-//                 subtitle: new Text(document.data()['taskTime'].toString()),
-//               );
-//             }).toList(),
-//           );
-//         });
-//   }
-// }
+// RaisedButton(
+  // onPressed: () {
+  //   TaskService(user: user).addTask(
+  //       taskName: 'taskName$counter',
+  //       dueDate: DateTime.utc(2021, 02, 12),
+  //       projectName: 'testingProject4');
+  //   counter += 1;
+  // },
+  // child: Text('Add Task')),

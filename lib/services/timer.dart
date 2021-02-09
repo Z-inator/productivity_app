@@ -92,14 +92,12 @@ class _TimerWidgetState extends State<TimerWidget> {
   void runningTimer(int tick) {
     count = tick;
     print(count);
-    TimeData().addTime(tick);
-    print(TimeData().timeLogCount);
-    List<String> timeList = [];
-    timeList = TimerText(ticks: tick).getTimerText();
+    List<String> timerTextList = [];
+    timerTextList = TimerText(ticks: tick).getTimerText();
     setState(() {
-      hourStr = timeList[0];
-      minuteStr = timeList[1];
-      secondStr = timeList[2];
+      hourStr = timerTextList[0];
+      minuteStr = timerTextList[1];
+      secondStr = timerTextList[2];
     });
   }
 

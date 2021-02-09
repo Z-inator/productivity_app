@@ -1,9 +1,7 @@
 class Times {
-  int startTime = 0;
-  int timeToAdd = 0;
-  int counter;
-
-  Times({this.counter});
-
-  
+  DateTime startTime;
+  DateTime endTime;
+  int elapsedTime;
+  String logName;
+  String projectName;
 }

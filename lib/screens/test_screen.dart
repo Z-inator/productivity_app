@@ -8,7 +8,6 @@ import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:productivity_app/services/globals.dart';
 
 class Wrapper extends StatelessWidget {
   @override
@@ -37,6 +36,7 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Container(
         child: SafeArea(
             child: Scaffold(
@@ -57,15 +57,16 @@ class _TestScreenState extends State<TestScreen> {
               child: Text('Sign Out')),
           RaisedButton(
               onPressed: () {
-                TaskService().addTask(
+                TaskService(user: user).addTask(
                     taskName: 'taskName$counter',
-                    dueDate: DateTime.now(),
+                    dueDate: DateTime.utc(2021, 02, 12),
                     projectName: 'testingProject4');
                 counter += 1;
               },
               child: Text('Add Task')),
           RaisedButton(
               onPressed: () {
+                print(user.uid);
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
@@ -73,7 +74,9 @@ class _TestScreenState extends State<TestScreen> {
                       //     .collection('users')
                       //     .doc(user.uid)
                       //     .collection('projects');
-                      return TasksStream();
+                      return TasksStream(
+                        user: user,
+                      );
                     });
               },
               child: Text('Show Tasks')),
@@ -101,7 +104,11 @@ class _TestScreenState extends State<TestScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Column(children: [TasksTestStream()]),
+                  Column(children: [
+                    TasksTestStream(
+                      user: user,
+                    )
+                  ]),
                   new IconButton(
                     icon: new Icon(Icons.keyboard_arrow_up),
                     onPressed: () {

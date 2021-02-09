@@ -1,17 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/services/globals.dart';
+
 
 class SubtaskService {
+  final user;
+  SubtaskService({this.user});
+
   // Collection reference
   CollectionReference _getSubtaskReference() {
-    if (Global().user == null) {
+    if (user == null) {
       return null;
     } else {
       return FirebaseFirestore.instance
-          .collection(Global().userCollection.toString())
-          .doc(Global().user.uid)
+          .collection('users')
+          .doc(user.uid)
           .collection('subtasks');
     }
   }
