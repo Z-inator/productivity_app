@@ -1,63 +1,86 @@
-// import 'package:productivity_app/models/subtasks.dart';
-// import 'package:productivity_app/models/tasks.dart';
-// import 'globals.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:productivity_app/services/globals.dart';
 
+class SubtaskService {
+  // Collection reference
+  CollectionReference _getSubtaskReference() {
+    if (Global().user == null) {
+      return null;
+    } else {
+      return FirebaseFirestore.instance
+          .collection(Global().userCollection.toString())
+          .doc(Global().user.uid)
+          .collection('subtasks');
+    }
+  }
 
-// class SubtaskService {
-//   // Collection reference
-//   final CollectionReference subtasksReference = FirebaseFirestore.instance
-//       .collection('users')
-//       .doc(Global().user.uid)
-//       .collection('subtasks');
+  CollectionReference get subtasks {
+    return _getSubtaskReference();
+  }
 
-//   // Add Subtask
-//   Future<void> addSubtask(String subtaskName) async {
-//     return await subtasksReference
-//         .add({'subtaskName': subtaskName, 'isDone': false})
-//         .then((value) => print('Subtask Added'))
-//         .catchError((error) => print('Failed to add subtask: $error'));
-//   }
+  // Add Subtask
+  Future<void> addSubtask({String subtaskName, bool isDone = false, String taskName}) async {
+    return await _getSubtaskReference()
+        .add({'subtaskName': subtaskName, 'isDone': isDone, 'taskName': taskName})
+        .then((value) => print('Subtask Added'))
+        .catchError((error) => print('Failed to add subtask: $error'));
+  }
 
-//   // Update Subtask
-//   Future<void> updateSubtask(
-//       String subtaskID, String subtaskName, bool isDone) async {
-//     return await subtasksReference
-//         .doc(subtaskID)
-//         .set({'subtaskName': subtaskName, 'isDone': isDone});
-//   }
+  // Update Subtask
+  Future<void> updateSubtask(
+      {String subtaskID, String subtaskName, bool isDone}) async {
+    return await _getSubtaskReference()
+        .doc(subtaskID)
+        .update({'subtaskName': subtaskName, 'isDone': isDone})
+        .then((value) => print('Subtask Updated'))
+        .catchError((error) => print('Failed to update subtask: $error'));
+  }
 
-//   // Delete Subtask
-//   Future<void> deleteSubtask(String subtaskID) async {
-//     return subtasksReference
-//         .doc(subtaskID)
-//         .delete()
-//         .then((value) => print('Subtask Deleted'))
-//         .catchError((error) => print('Failed to delete subtask: $error'));
-//   }
+  // Delete Subtask
+  Future<void> deleteSubtask({String subtaskID}) async {
+    return _getSubtaskReference()
+        .doc(subtaskID)
+        .delete()
+        .then((value) => print('Subtask Deleted'))
+        .catchError((error) => print('Failed to delete subtask: $error'));
+  }
+}
 
-//   // subtask Collections Stream
-//   Stream<QuerySnapshot> get subtasksCollection {
-//     return subtasksReference.snapshots();
-//   }
-// }
-
-
-// class SubtaskData {
-//   void addSubtask(Tasks task, String newSubtaskName) {
-//     final newSubtask = Subtasks(subtaskName: newSubtaskName);
-//     task.subtasks.add(newSubtask);
-//   }
-
-//   void updateSubtaskName(Subtasks subtaskName, String updateSubtaskName) {
-//     subtaskName.subtaskName = updateSubtaskName;
-//   }
-
-//   void updateSubtask(Subtasks subtask) {
-//     subtask.toggleDone();
-//   }
-
-//   void deleteSubtask(Tasks task, Subtasks subtask) {
-//     task.subtasks.remove(subtask);
-//   }
-// }
+class SubtaskSStream extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: SubtaskService().subtasks.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text('Loading');
+        }
+        return ListView(
+          children: snapshot.data.docs.map((DocumentSnapshot document) {
+            final String docID = document.id;
+            print(document.id);
+            return ListTile(
+              leading: IconButton(
+                  icon: Icon(Icons.plus_one),
+                  onPressed: () {
+                    SubtaskService()
+                        .updateSubtask(subtaskID: docID, subtaskName: 'NewSubtaskNameUpdate', isDone: true);
+                  }),
+              title: Text(document.data()['SubtaskName']),
+              trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    SubtaskService().deleteSubtask(subtaskID: docID);
+                  }),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+}

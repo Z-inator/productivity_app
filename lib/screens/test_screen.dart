@@ -5,14 +5,15 @@ import 'package:productivity_app/services/authentification.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/projects_data.dart';
+import 'package:productivity_app/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:productivity_app/services/globals.dart';
 
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    print(user);
     if (user == null) {
       return RaisedButton(
           onPressed: () {
@@ -25,15 +26,17 @@ class Wrapper extends StatelessWidget {
   }
 }
 
-class TestScreen extends StatelessWidget {
+class TestScreen extends StatefulWidget {
+  @override
+  _TestScreenState createState() => _TestScreenState();
+}
+
+class _TestScreenState extends State<TestScreen> {
+  int counter = 0;
+  double _bodyHeight = 0.0;
+
   @override
   Widget build(BuildContext context) {
-    // final projects = Provider.of<List<Projects>>(context);
-    // return StreamProvider<List<Projects>>.value(
-    //   value: DatabaseService().projects,
-    int counter = 0;
-    final user = Provider.of<User>(context);
-
     return Container(
         child: SafeArea(
             child: Scaffold(
@@ -47,12 +50,6 @@ class TestScreen extends StatelessWidget {
               child: Text('Sign In')),
           RaisedButton(
               onPressed: () {
-                AuthService().registerWithEmailAndPassword(
-                    'someone@gmail.com', 'testing123456');
-              },
-              child: Text('Register')),
-          RaisedButton(
-              onPressed: () {
                 AuthService()
                     .signOut()
                     .then((value) => print(FirebaseAuth.instance.currentUser));
@@ -60,68 +57,69 @@ class TestScreen extends StatelessWidget {
               child: Text('Sign Out')),
           RaisedButton(
               onPressed: () {
-                ProjectService()
-                    .addProject('projectName$counter', 'projectColor$counter');
+                TaskService().addTask(
+                    taskName: 'taskName$counter',
+                    dueDate: DateTime.now(),
+                    projectName: 'testingProject4');
                 counter += 1;
               },
-              child: Text('Add Project')),
-          RaisedButton(
-              onPressed: () {
-                ProjectService().updateProject('31afg4ei9mKnzpGTcNEp',
-                    'projectNameUpdate', 'projectColorUpdate');
-              },
-              child: Text('Update Project')),
+              child: Text('Add Task')),
           RaisedButton(
               onPressed: () {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      CollectionReference projects = FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(user.uid)
-                          .collection('projects');
-                      return StreamBuilder<QuerySnapshot>(
-                        stream: projects.snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          return !snapshot.hasData
-                              ? Text('Please Wait')
-                              : ListView(
-                                  children: snapshot.data.docs
-                                      .map((DocumentSnapshot document) {
-                                    final String docID = document.id;
-                                    print(document.id);
-                                    return ListTile(
-                                      leading: IconButton(
-                                          icon: Icon(Icons.plus_one),
-                                          onPressed: () {
-                                            ProjectService().updateProject(
-                                                docID,
-                                                'NewprojectNameUpdate',
-                                                'NewprojectColorupdate');
-                                          }),
-                                      title:
-                                          Text(document.data()['projectName']),
-                                      subtitle:
-                                          Text(document.data()['projectColor']),
-                                      trailing: IconButton(
-                                          icon: Icon(Icons.delete),
-                                          onPressed: () {
-                                            ProjectService().deleteProject(
-                                                docID);
-                                          }),
-                                    );
-                                  }).toList(),
-                                );
-                        },
-                      );
+                      // CollectionReference projects = FirebaseFirestore.instance
+                      //     .collection('users')
+                      //     .doc(user.uid)
+                      //     .collection('projects');
+                      return TasksStream();
                     });
               },
-              child: Text('Show Projects')),
+              child: Text('Show Tasks')),
+          Card(
+            child: new Container(
+              height: 50.0,
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  new IconButton(
+                    icon: new Icon(Icons.keyboard_arrow_down),
+                    onPressed: () {
+                      setState(() {
+                        this._bodyHeight = 300.0;
+                      });
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+          Card(
+            child: new AnimatedContainer(
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Column(children: [TasksTestStream()]),
+                  new IconButton(
+                    icon: new Icon(Icons.keyboard_arrow_up),
+                    onPressed: () {
+                      setState(() {
+                        this._bodyHeight = 0.0;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              curve: Curves.easeInOut,
+              duration: const Duration(milliseconds: 500),
+              height: _bodyHeight,
+              // color: Colors.red,
+            ),
+          ),
         ],
       ),
     )));
-    //   ),
-    // );
   }
 }

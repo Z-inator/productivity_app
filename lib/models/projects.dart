@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:productivity_app/models/colors.dart';
-import 'package:productivity_app/models/tasks.dart';
+
 
 class Projects {
   String projectID;
   String projectName;
   // TODO double check what variable type this needs to be
   ProjectColors projectColor;
+  // TODO learn about date/time
   int projectTime = 0;
-  List<Tasks> taskList = [];
+  List<String> taskList = [];
 
   Projects({this.projectID, this.projectName, this.projectColor});
 }
