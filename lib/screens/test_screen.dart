@@ -33,22 +33,56 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  int counter = 0;
+  final _formKey = GlobalKey<FormState>();
+  String _taskName;
+  String _projectName;
+  DateTime _dueDate;
+  String _setDate;
+  String _setTime;
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+  List<dynamic> projectNames;
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    User user = Provider.of<User>(context);
+
+    Future<void> getProjectNames() async {
+      projectNames = await ProjectService(user: user).projects.get().then(
+          (snapshot) =>
+              snapshot.docs.map((doc) => doc.data()['projectName']).toList());
+    }
+
+    Future<void> selectDate(BuildContext context) async {
+      final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime(2020),
+        lastDate: DateTime(2021),
+      );
+      if (picked != null) {
+        setState(() {
+          _setDate = picked.toString();
+        });
+      }
+    }
+
+    Future<void> selectTime(BuildContext context) async {
+      final TimeOfDay picked =
+          await showTimePicker(context: context, initialTime: TimeOfDay.now());
+      if (picked != null) {
+        setState(() {
+          _setTime = picked.toString();
+        });
+      }
+    }
+
     return Container(
         child: SafeArea(
             child: Scaffold(
       body: Column(
         children: [
-          RaisedButton(
-              onPressed: () {
-                AuthService().signInWithEmailAndPassword(
-                    'someone@gmail.com', 'testing123456');
-              },
-              child: Text('Sign In')),
           RaisedButton(
               onPressed: () {
                 AuthService()
@@ -58,11 +92,80 @@ class _TestScreenState extends State<TestScreen> {
               child: Text('Sign Out')),
           RaisedButton(
               onPressed: () {
-                TaskService(user: user).addTask(
-                    taskName: 'taskName$counter',
-                    dueDate: DateTime.utc(2021, 02, 12),
-                    projectName: 'testingProject4');
-                counter += 1;
+                getProjectNames();
+                print(projectNames);
+                return showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Add Task'),
+                        content: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                validator: (value) => value.isEmpty
+                                    ? 'Please enter a task name'
+                                    : null,
+                                onChanged: (value) =>
+                                    setState(() => _taskName = value),
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Task Name'),
+                              ),
+                              PopupMenuButton(onSelected: (value) {
+                                setState(() {
+                                  _projectName = value;
+                                });
+                              }, itemBuilder: (BuildContext context) {
+                                return projectNames
+                                    .map((name) => PopupMenuItem(
+                                        value: name, child: Text(name)))
+                                    .toList();
+                              }),
+                              // DropdownButtonFormField(
+                              //   value: _projectName,
+                              //   decoration: InputDecoration(
+                              //     border: OutlineInputBorder(),
+                              //     labelText: 'Project'
+                              //   ),
+                              //   items: projectNames.forEach((name) {
+                              //     return DropdownMenuItem(
+                              //       value: name,
+                              //       child: Text(name),
+                              //     );
+                              //   }),
+                              //   onChanged: (value) => setState(() => _projectName = value),
+                              // ),
+                              TextFormField(
+                                onTap: () {
+                                  selectDate(context);
+                                },
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Due Date'),
+                              ),
+                              TextFormField(
+                                onTap: () {
+                                  selectTime(context);
+                                },
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Due Time'),
+                              )
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('close'))
+                        ],
+                      );
+                    }
+                );
               },
               child: Text('Add Task')),
           RaisedButton(
@@ -83,12 +186,12 @@ class _TestScreenState extends State<TestScreen> {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return TimerWidget(
+                      return ProjectsStream(
                         user: user,
                       );
                     });
               },
-              child: Text('Show Timer')),
+              child: Text('Show Projects')),
           RaisedButton(
               onPressed: () {
                 print(user.uid);
@@ -99,6 +202,18 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Show Time Entries')),
+          RaisedButton(
+              onPressed: () {
+                print(user.uid);
+                return showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return TimerWidget(
+                        user: user,
+                      );
+                    });
+              },
+              child: Text('Show Timer')),
         ],
       ),
     )));

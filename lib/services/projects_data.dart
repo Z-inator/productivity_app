@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProjectService {
-  final user;
+  final User user;
   ProjectService({this.user});
 
   // Collection reference
@@ -23,9 +24,7 @@ class ProjectService {
 
   // Add Project
   Future<void> addProject(
-      {String projectName,
-      int projectColor,
-      int projectTime = 0}) async {
+      {String projectName, int projectColor, int projectTime = 0}) async {
     return await _getProjectReference()
         .add({
           'projectName': projectName,
@@ -42,11 +41,12 @@ class ProjectService {
   // }
 
   // Update Project
-  Future<void> updateProject(
-      {String projectID, String projectName, int projectColor}) async {
+  Future<void> updateProject({String projectID, Map updateData}) async {
     return await _getProjectReference()
         .doc(projectID)
-        .update({'projectName': projectName, 'projectColor': projectColor});
+        .update(Map<String, dynamic>.from(updateData))
+        .then((value) => print('Project Updated'))
+        .catchError((error) => print('Failed to update project: $error'));
   }
 
   // Delete Project
@@ -82,13 +82,13 @@ class ProjectsStream extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
-                    ProjectService(user: user).updateProject(
-                        projectID: docID,
-                        projectName: 'NewprojectNameUpdate',
-                        projectColor: 0);
+                    ProjectService(user: user).updateProject(projectID: docID, updateData: {
+                        'projectName': 'NewprojectNameUpdate',
+                        'projectColor': 2
+                      });
                   }),
               title: Text(document.data()['projectName']),
-              subtitle: Text(document.data()['projectColor']),
+              subtitle: Text(document.data()['projectColor'].toString()),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {

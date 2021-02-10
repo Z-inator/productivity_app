@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TaskService {
-  final user;
+  final User user;
   TaskService({this.user});
 
   // Collection reference
@@ -41,10 +42,12 @@ class TaskService {
   }
 
   // Update Task
-  Future<void> updateTask({Map updateData}) async {
+  Future<void> updateTask({String taskID, Map updateData}) async {
     return await _getTaskReference()
-        .doc(updateData['taskID'])
-        .update(Map<String, dynamic>.from(updateData));
+        .doc(taskID)
+        .update(Map<String, dynamic>.from(updateData))
+        .then((value) => print('Task Updated'))
+        .catchError((error) => print('Failed to update task: $error'));
   }
 
   // Delete Task
@@ -80,8 +83,10 @@ class TasksStream extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
-                    TaskService(user: user).updateTask(
-                        {'taskID': docID, 'taskName': 'NewTaskNameUpdate'});
+                    TaskService(user: user).updateTask(taskID: docID, updateData: {
+                      'status': 'Done',
+                      'taskName': 'NewTaskNameUpdate'
+                    });
                   }),
               title: Text(document.data()['taskName']),
               subtitle: Text(document.data()['projectName']),
@@ -128,8 +133,10 @@ class TasksTestStream extends StatelessWidget {
                 leading: IconButton(
                     icon: Icon(Icons.plus_one),
                     onPressed: () {
-                      TaskService().updateTask(
-                          taskID: docID, taskName: 'NewTaskNameUpdate');
+                      TaskService().updateTask(updateData: {
+                        'taskID': docID,
+                        'taskName': 'NewTaskNameUpdate'
+                      });
                     }),
                 title: Text(document.data()['taskName']),
                 subtitle: Text(document.data()['projectName']),

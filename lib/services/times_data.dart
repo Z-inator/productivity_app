@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/components/time_to_text.dart';
 
 class TimeService {
-  final user;
+  final User user;
   TimeService({this.user});
 
   // Collection Reference
@@ -42,24 +43,12 @@ class TimeService {
   }
 
   // Update Time Entry
-  Future<void> updateTimeEntry(
-      {String timeEntryID,
-      String entryName,
-      String projectName,
-      DateTime startTime,
-      DateTime endTime,
-      int elapsedTime}) async {
+  Future<void> updateTimeEntry({String timeEntryID, Map updateData}) async {
     return await _getTimeEntryReference()
         .doc(timeEntryID)
-        .update({
-          'entryName': entryName,
-          'projectName': projectName,
-          'startTime': startTime,
-          'endTime': endTime,
-          'elapsedTime': elapsedTime
-        })
-        .then((value) => print('Time Entry Added'))
-        .catchError((error) => print('Failed to add time entry: $error'));
+        .update(Map<String, dynamic>.from(updateData))
+        .then((value) => print('Time Entry Updated'))
+        .catchError((error) => print('Failed to update time entry: $error'));
   }
 
   // Delete Time Entry
@@ -91,7 +80,7 @@ class TimeEntryStream extends StatelessWidget {
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             final String docID = document.id;
             final int elapsedTime = document.data()['elapsedTime'];
-            // final String hoursStr = 
+            // final String hoursStr =
             //     ((elapsedTime / (60 * 60) % 60).floor().toString().padLeft(2, '0'));
             // final String minutesStr =
             //     ((elapsedTime / 60) % 60).floor().toString().padLeft(2, '0');
@@ -102,8 +91,10 @@ class TimeEntryStream extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
-                    TimeService(user: user).updateTimeEntry(
-                        timeEntryID: docID, entryName: 'NewTimeNameUpdate');
+                    TimeService(user: user).updateTimeEntry(timeEntryID: docID, updateData: {
+                      'entryName': 'New Entry Name',
+                      'elapsedTime': 200
+                    });
                   }),
               title: Text(document.data()['entryName']),
               // subtitle: Text('$hoursStr:$minutesStr:$secondsStr'),
