@@ -6,6 +6,8 @@ import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
+import 'package:productivity_app/services/timer.dart';
+import 'package:productivity_app/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -32,7 +34,6 @@ class TestScreen extends StatefulWidget {
 
 class _TestScreenState extends State<TestScreen> {
   int counter = 0;
-  double _bodyHeight = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -70,61 +71,34 @@ class _TestScreenState extends State<TestScreen> {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      // CollectionReference projects = FirebaseFirestore.instance
-                      //     .collection('users')
-                      //     .doc(user.uid)
-                      //     .collection('projects');
                       return TasksStream(
                         user: user,
                       );
                     });
               },
               child: Text('Show Tasks')),
-          Card(
-            child: new Container(
-              height: 50.0,
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  new IconButton(
-                    icon: new Icon(Icons.keyboard_arrow_down),
-                    onPressed: () {
-                      setState(() {
-                        this._bodyHeight = 300.0;
-                      });
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
-          Card(
-            child: new AnimatedContainer(
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Column(children: [
-                    TasksTestStream(
-                      user: user,
-                    )
-                  ]),
-                  new IconButton(
-                    icon: new Icon(Icons.keyboard_arrow_up),
-                    onPressed: () {
-                      setState(() {
-                        this._bodyHeight = 0.0;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              curve: Curves.easeInOut,
-              duration: const Duration(milliseconds: 500),
-              height: _bodyHeight,
-              // color: Colors.red,
-            ),
-          ),
+          RaisedButton(
+              onPressed: () {
+                print(user.uid);
+                return showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return TimerWidget(
+                        user: user,
+                      );
+                    });
+              },
+              child: Text('Show Timer')),
+          RaisedButton(
+              onPressed: () {
+                print(user.uid);
+                return showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return TimeEntryStream(user: user);
+                    });
+              },
+              child: Text('Show Time Entries')),
         ],
       ),
     )));

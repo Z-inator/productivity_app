@@ -23,8 +23,8 @@ class ProjectService {
 
   // Add Project
   Future<void> addProject(
-      {String projectName = '',
-      int projectColor = 0,
+      {String projectName,
+      int projectColor,
       int projectTime = 0}) async {
     return await _getProjectReference()
         .add({
@@ -43,7 +43,7 @@ class ProjectService {
 
   // Update Project
   Future<void> updateProject(
-      {String projectID, String projectName = '', int projectColor = 0}) async {
+      {String projectID, String projectName, int projectColor}) async {
     return await _getProjectReference()
         .doc(projectID)
         .update({'projectName': projectName, 'projectColor': projectColor});

@@ -42,6 +42,8 @@ class Ticker {
 }
 
 class TimerWidget extends StatefulWidget {
+  final user;
+  TimerWidget({this.user});
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
 }
@@ -52,6 +54,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   String hourStr = '00';
   String minuteStr = '00';
   String secondStr = '00';
+  DateTime startTime;
+  DateTime endTime;
   int count;
   IconButton playStop;
 
@@ -66,17 +70,12 @@ class _TimerWidgetState extends State<TimerWidget> {
         onPressed: () => stopTimer(),
       );
     });
+    startTime = DateTime.now();
   }
 
   void stopTimer() {
     timerSubscription.cancel();
     timerStream = null;
-    // print(TimeData().timeLogCount);
-    // TimeData().addTime(count);
-    // for (var item in TimeData().timeLog) {
-    //   print(TimeData().timeLog[item]);
-
-    // }
     setState(() {
       playStop = IconButton(
         icon: Icon(Icons.play_arrow_rounded),
@@ -86,7 +85,13 @@ class _TimerWidgetState extends State<TimerWidget> {
       minuteStr = '00';
       secondStr = '00';
     });
-    print(count);
+    endTime = DateTime.now();
+    TimeService(user: widget.user).addTimeEntry(
+        entryName: 'test$count',
+        projectName: 'project',
+        startTime: startTime,
+        endTime: endTime,
+        elapsedTime: count);
   }
 
   void runningTimer(int tick) {

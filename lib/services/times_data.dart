@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:productivity_app/components/time_to_text.dart';
 
 class TimeService {
   final user;
@@ -90,6 +90,13 @@ class TimeEntryStream extends StatelessWidget {
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             final String docID = document.id;
+            final int elapsedTime = document.data()['elapsedTime'];
+            // final String hoursStr = 
+            //     ((elapsedTime / (60 * 60) % 60).floor().toString().padLeft(2, '0'));
+            // final String minutesStr =
+            //     ((elapsedTime / 60) % 60).floor().toString().padLeft(2, '0');
+            // final String secondsStr =
+            //     (elapsedTime % 60).floor().toString().padLeft(2, '0');
             print(document.id);
             return ListTile(
               leading: IconButton(
@@ -99,6 +106,8 @@ class TimeEntryStream extends StatelessWidget {
                         timeEntryID: docID, entryName: 'NewTimeNameUpdate');
                   }),
               title: Text(document.data()['entryName']),
+              // subtitle: Text('$hoursStr:$minutesStr:$secondsStr'),
+              subtitle: Text(elapsedTime.toString()),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
@@ -112,30 +121,30 @@ class TimeEntryStream extends StatelessWidget {
   }
 }
 
-    // if (project != null && task == null) {
-    //   project.projectTime += time;
-    // } else if (project == null && task != null) {
-    //   task.taskTime += time;
-    // } else {
-    //   timeEntry.add(time);
-    // }
+// if (project != null && task == null) {
+//   project.projectTime += time;
+// } else if (project == null && task != null) {
+//   task.taskTime += time;
+// } else {
+//   timeEntry.add(time);
+// }
 
-  // void updateTime(int time) {
-  //   if (project != null && task == null) {
-  //     project.projectTime += time;
-  //   } else if (project == null && task != null) {
-  //     task.taskTime += time;
-  //   } else {
-  //     timeEntry.add(time);
-  //   }
-  // }
+// void updateTime(int time) {
+//   if (project != null && task == null) {
+//     project.projectTime += time;
+//   } else if (project == null && task != null) {
+//     task.taskTime += time;
+//   } else {
+//     timeEntry.add(time);
+//   }
+// }
 
-  // void removeTime(int time) {
-  //   if (project != null && task == null) {
-  //     project.projectTime -= time;
-  //   } else if (project == null && task != null) {
-  //     task.taskTime -= time;
-  //   } else {
-  //     timeEntry.remove(time);
-  //   }
-  // }
+// void removeTime(int time) {
+//   if (project != null && task == null) {
+//     project.projectTime -= time;
+//   } else if (project == null && task != null) {
+//     task.taskTime -= time;
+//   } else {
+//     timeEntry.remove(time);
+//   }
+// }

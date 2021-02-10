@@ -41,18 +41,10 @@ class TaskService {
   }
 
   // Update Task
-  Future<void> updateTask(
-      {String taskID,
-      String taskName,
-      String status,
-      DateTime dueDate,
-      String projectName}) async {
-    return await _getTaskReference().doc(taskID).update({
-      'taskName': taskName,
-      'status': status,
-      'dueDate': dueDate,
-      'projectName': projectName
-    });
+  Future<void> updateTask({Map updateData}) async {
+    return await _getTaskReference()
+        .doc(updateData['taskID'])
+        .update(Map<String, dynamic>.from(updateData));
   }
 
   // Delete Task
@@ -89,9 +81,10 @@ class TasksStream extends StatelessWidget {
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
                     TaskService(user: user).updateTask(
-                        taskID: docID, taskName: 'NewTaskNameUpdate');
+                        {'taskID': docID, 'taskName': 'NewTaskNameUpdate'});
                   }),
               title: Text(document.data()['taskName']),
+              subtitle: Text(document.data()['projectName']),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
@@ -155,11 +148,11 @@ class TasksTestStream extends StatelessWidget {
 }
 
 // RaisedButton(
-  // onPressed: () {
-  //   TaskService(user: user).addTask(
-  //       taskName: 'taskName$counter',
-  //       dueDate: DateTime.utc(2021, 02, 12),
-  //       projectName: 'testingProject4');
-  //   counter += 1;
-  // },
-  // child: Text('Add Task')),
+// onPressed: () {
+//   TaskService(user: user).addTask(
+//       taskName: 'taskName$counter',
+//       dueDate: DateTime.utc(2021, 02, 12),
+//       projectName: 'testingProject4');
+//   counter += 1;
+// },
+// child: Text('Add Task')),
