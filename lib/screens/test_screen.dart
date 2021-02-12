@@ -56,7 +56,9 @@ class _TestScreenState extends State<TestScreen> {
               return showModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) {
-                    return AddTask(user: user,);
+                    return AddTask(
+                      user: user,
+                    );
                   });
             },
             child: Text('Add Task'),
@@ -210,7 +212,7 @@ class _AddTaskState extends State<AddTask> {
   final _formKey = GlobalKey<FormState>();
   String _taskName;
   String _projectName;
-  List<dynamic> projectNames = ['testing1','testing2','testing3','testing4'];
+  List<dynamic> projectNames;
   DateTime _dueDate;
   TimeOfDay _dueTime;
 
@@ -226,6 +228,7 @@ class _AddTaskState extends State<AddTask> {
     projectNames = await ProjectService(user: widget.user).projects.get().then(
         (snapshot) =>
             snapshot.docs.map((doc) => doc.data()['projectName']).toList());
+    print(projectNames);
   }
 
   selectDate() async {
@@ -271,37 +274,27 @@ class _AddTaskState extends State<AddTask> {
             decoration: InputDecoration(
                 border: OutlineInputBorder(), labelText: 'Task Name'),
           ),
-          // TextButton(
-          //   onPressed: () {
-          //     PopupMenuButton(onSelected: (value) {
-          //       setState(() {
-          //         _projectName = value;
-          //       });
-          //     }, itemBuilder: (BuildContext context) {
-          //       return projectNames
-          //           .map(
-          //               (name) => PopupMenuItem(value: name, child: Text(name)))
-          //           .toList();
-          //     });
-          //   },
-          //   child: Text(_projectName ?? 'Add Project'),
-          // ),
-          DropdownButton(   // TODO: for whatever reason this is breaking
-              value: _projectName,
-              items: projectNames.map((name) {
-                return DropdownMenuItem(
-                  child: Text(name),
-                  value: name,
-                );
-              }).toList(),
-              onChanged: (newValue) => _projectName = newValue),
+          PopupMenuButton(
+            onSelected: (value) {
+              setState(() {
+                _projectName = value;
+              });
+            }, 
+            itemBuilder: (BuildContext context) {
+              return projectNames
+                .map(
+                    (name) => PopupMenuItem(value: name, child: Text(name)))
+                .toList();
+            },
+            child: Text(_projectName ?? 'Select Project')
+          ),
           TextButton(
               onPressed: selectDate,
               child: Text(
                   'Due Date: ${_dueDate.month}/${_dueDate.day}/${_dueDate.year}')),
           TextButton(
               onPressed: selectTime,
-              child: Text('Due Time: ${_dueTime.hour}:${_dueTime.minute}')),
+              child: Text('Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}')),
           RaisedButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
@@ -315,10 +308,11 @@ class _AddTaskState extends State<AddTask> {
                     _dueDate.millisecond,
                     _dueDate.microsecond);
                 print(
-                    '$_taskName : $_projectName : ${_dueDate.toString()} : ${_dueDate.toLocal().toString()}');
+                    '$_taskName : $_projectName : ${_dueDate.toString()}');
                 Navigator.pop(context);
               }
             },
+            child: Text('Submit'),
           )
         ],
       ),
