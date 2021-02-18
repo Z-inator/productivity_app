@@ -32,11 +32,11 @@ dependencies:
   cupertino_icons: ^1.0.1
 
   # Firebase Integration
-  firebase_core: "0.7.0"
-  cloud_firestore: ^0.16.0
-  firebase_auth: ^0.20.0+1
+  firebase_core: ^0.7.0
+  cloud_firestore: ^0.16.0+1
+  firebase_auth: ^0.20.1
   # firebase_analytics: "^7.0.1"
-  google_sign_in: "^4.5.1"
+  google_sign_in: "^4.5.9"
 
   provider: ^4.3.2+3
   

@@ -13,7 +13,6 @@ import 'package:productivity_app/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class TestScreen extends StatefulWidget {
   @override
   _TestScreenState createState() => _TestScreenState();
@@ -48,92 +47,11 @@ class _TestScreenState extends State<TestScreen> {
             },
             child: Text('Add Task'),
           ),
-          //   getProjectNames();
-          //   print(projectNames);
-          //   return showDialog(
-          //       context: context,
-          //       builder: (BuildContext context) {
-          //         return AlertDialog(
-          //           title: Text('Add Task'),
-          //           content: Form(
-          //             key: _formKey,
-          //             child: Column(
-          //               children: <Widget>[
-          //                 TextFormField(
-          //                   validator: (value) => value.isEmpty
-          //                       ? 'Please enter a task name'
-          //                       : null,
-          //                   onChanged: (value) =>
-          //                       setState(() => _taskName = value),
-          //                   decoration: InputDecoration(
-          //                       border: OutlineInputBorder(),
-          //                       labelText: 'Task Name'),
-          //                 ),
-          //                 PopupMenuButton(onSelected: (value) {
-          //                   setState(() {
-          //                     _projectName = value;
-          //                   });
-          //                 }, itemBuilder: (BuildContext context) {
-          //                   return projectNames
-          //                       .map((name) => PopupMenuItem(
-          //                           value: name, child: Text(name)))
-          //                       .toList();
-          //                 }),
-          //                 // DropdownButtonFormField(
-          //                 //   value: _projectName,
-          //                 //   decoration: InputDecoration(
-          //                 //     border: OutlineInputBorder(),
-          //                 //     labelText: 'Project'
-          //                 //   ),
-          //                 //   items: projectNames.forEach((name) {
-          //                 //     return DropdownMenuItem(
-          //                 //       value: name,
-          //                 //       child: Text(name),
-          //                 //     );
-          //                 //   }),
-          //                 //   onChanged: (value) => setState(() => _projectName = value),
-          //                 // ),
-          //                 TextButton(
-          //                     onPressed: selectDate,
-          //                     child: Text(
-          //                         'Due Date: ${_dueDate.month}/${_dueDate.day}/${_dueDate.year}')),
-          //                 ListTile(
-          //                   title: Text(
-          //                       'Due Date: ${_dueDate.month}/${_dueDate.day}/${_dueDate.year}'),
-          //                   trailing: Icon(Icons.keyboard_arrow_down),
-          //                   onTap: selectDate,
-          //                 ),
-          //                 TextButton(
-          //                     onPressed: selectTime,
-          //                     child: Text(
-          //                         'Due Time: ${_dueDate.hour}:${_dueDate.minute}')),
-          //                 ListTile(
-          //                   title: Text(
-          //                       'Due Time: ${_dueDate.hour}:${_dueDate.minute}'),
-          //                   trailing: Icon(Icons.keyboard_arrow_down),
-          //                   onTap: selectTime,
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //           actions: [
-          //             TextButton(
-          //                 onPressed: () {
-          //                   Navigator.pop(context);
-          //                 },
-          //                 child: Text('close')),
-          //             TextButton(
-          //                 onPressed: () => print(_dueDate.toString()),
-          //                 // onPressed: () => TaskService(user: user).addTask(
-          //                 //     taskName: _taskName,
-          //                 //     projectName: _projectName,
-          //                 //     dueDate: _dueDate),
-          //                 child: Text('Submit'))
-          //           ],
-          //         );
-          //       });
-          // },
-          // child: Text('Add Task')),
+          RaisedButton(   // TODO: build list of times ordered by endDate.
+            onPressed: () {
+              return showModalBottomSheet(context: context, builder: (BuildContext context) { return })
+            }
+          ),
           RaisedButton(
               onPressed: () {
                 print(user.uid);
@@ -213,7 +131,6 @@ class _AddTaskState extends State<AddTask> {
     projectNames = await ProjectService(user: widget.user).projects.get().then(
         (snapshot) =>
             snapshot.docs.map((doc) => doc.data()['projectName']).toList());
-    print(projectNames);
   }
 
   selectDate() async {
@@ -248,6 +165,7 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<User>(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -260,26 +178,26 @@ class _AddTaskState extends State<AddTask> {
                 border: OutlineInputBorder(), labelText: 'Task Name'),
           ),
           PopupMenuButton(
-            onSelected: (value) {
-              setState(() {
-                _projectName = value.toString();
-              });
-            }, 
-            itemBuilder: (BuildContext context) {
-              return projectNames
-                .map(
-                    (name) => PopupMenuItem(value: name, child: Text(name.toString())))
-                .toList();
-            },
-            child: Text(_projectName ?? 'Select Project')
-          ),
+              onSelected: (value) {
+                setState(() {
+                  _projectName = value.toString();
+                });
+              },
+              itemBuilder: (BuildContext context) {
+                return projectNames
+                    .map((name) => PopupMenuItem(
+                        value: name, child: Text(name.toString())))
+                    .toList();
+              },
+              child: Text(_projectName ?? 'Select Project')),
           TextButton(
               onPressed: selectDate,
               child: Text(
                   'Due Date: ${_dueDate.month}/${_dueDate.day}/${_dueDate.year}')),
           TextButton(
               onPressed: selectTime,
-              child: Text('Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}')),
+              child: Text(
+                  'Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}')),
           RaisedButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
@@ -292,8 +210,11 @@ class _AddTaskState extends State<AddTask> {
                     _dueDate.second,
                     _dueDate.millisecond,
                     _dueDate.microsecond);
-                print(
-                    '$_taskName : $_projectName : ${_dueDate.toString()}');
+                print('$_taskName : $_projectName : ${_dueDate.toString()}');
+                TaskService(user: user).addTask(
+                    taskName: _taskName,
+                    projectName: _projectName,
+                    dueDate: _dueDate);
                 Navigator.pop(context);
               }
             },

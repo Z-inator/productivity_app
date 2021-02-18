@@ -93,11 +93,11 @@ class _TimerWidgetState extends State<TimerWidget> {
         startTime: startTime,
         endTime: endTime,
         elapsedTime: count);
+    Navigator.pop(context);
   }
 
   void runningTimer(int tick) {
     count = tick;
-    print(count);
     List<String> timerTextList = [];
     timerTextList = TimerText(ticks: tick).getTimerText();
     setState(() {
