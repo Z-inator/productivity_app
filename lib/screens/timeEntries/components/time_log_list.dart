@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:productivity_app/components/time_page/time_log_entry_list_builder.dart';
+import 'package:productivity_app/screens/timeEntries/components/time_log_entry_list_builder.dart';
 import 'reusable_time_log_row.dart';
 import 'reusable_time_card_header.dart';
 

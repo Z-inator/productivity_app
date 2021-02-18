@@ -7,7 +7,7 @@ import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/components/bottom_navigation_bar.dart';
 import 'package:productivity_app/components/settings_drawer_widget.dart';
 import 'package:productivity_app/models/projects.dart';
-import 'package:productivity_app/services/authentification.dart';
+import 'package:productivity_app/services/authentification_data.dart';
 
 class BaseFramework extends StatelessWidget {
   final Widget dashboard;

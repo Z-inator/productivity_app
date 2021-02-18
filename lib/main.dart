@@ -3,14 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/routes.dart';
-import 'package:productivity_app/screens/home_screen.dart';
+import 'package:productivity_app/screens/home/home_screen.dart';
 import 'package:productivity_app/screens/test_screen.dart';
-import 'package:productivity_app/services/authentification.dart';
+import 'package:productivity_app/services/authentification_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/models/projects.dart';
+import 'package:productivity_app/screens/authentification/wrapper.dart';
 
 import 'theme/style.dart';
 import 'screens/error_screen.dart';

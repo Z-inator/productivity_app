@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'screens/home_screen.dart';
-import 'screens/time_screen.dart';
-import 'screens/task_screen.dart';
-import 'screens/goal_screen.dart';
+import 'screens/home/home_screen.dart';
+import 'screens/timeEntries/time_screen.dart';
+import 'screens/tasks/task_screen.dart';
+import 'screens/goals/goal_screen.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/homepage': (BuildContext context) => HomeScreen(),

@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/components/task_page/task_list.dart';
-import 'package:productivity_app/services/authentification.dart';
+import 'package:productivity_app/screens/tasks/components/task_list.dart';
+import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/projects_data.dart';
@@ -13,21 +13,6 @@ import 'package:productivity_app/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Wrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    if (user == null) {
-      return RaisedButton(
-          onPressed: () {
-            AuthService().signInWithEmailAndPassword(
-                'someone@gmail.com', 'testing123456');
-          },
-          child: Text('Sign In'));
-    }
-    return TestScreen();
-  }
-}
 
 class TestScreen extends StatefulWidget {
   @override

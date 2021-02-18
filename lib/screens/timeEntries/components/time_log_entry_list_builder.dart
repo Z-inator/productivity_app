@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'reusable_time_log_row.dart';
-import 'package:productivity_app/components/home_page/reusable_time_tile.dart';
+import 'package:productivity_app/screens/home/components/reusable_time_tile.dart';
 
 class TimeLogEntryBuilder extends StatefulWidget {
   @override
