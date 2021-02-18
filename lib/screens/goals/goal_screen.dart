@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/screens/timeEntries/components/test.dart';
 import 'package:productivity_app/screens/timeEntries/components/time_log_list.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:productivity_app/components/base_framework.dart';
+import 'package:productivity_app/shared_components/base_framework.dart';
 
 class GoalScreen extends StatelessWidget {
   @override

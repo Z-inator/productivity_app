@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
-import 'package:productivity_app/components/bottom_navigation_bar.dart';
-import 'package:productivity_app/components/settings_drawer_widget.dart';
+import 'package:productivity_app/shared_components/bottom_navigation_bar.dart';
+import 'package:productivity_app/shared_components/settings_drawer_widget.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 

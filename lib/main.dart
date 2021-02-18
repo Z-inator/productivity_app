@@ -14,8 +14,8 @@ import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/screens/authentification/wrapper.dart';
 
 import 'theme/style.dart';
-import 'screens/error_screen.dart';
-import 'screens/loading_screen.dart';
+import 'shared_components/error_screen.dart';
+import 'shared_components/loading_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

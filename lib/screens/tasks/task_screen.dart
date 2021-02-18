@@ -3,7 +3,7 @@ import 'package:productivity_app/screens/tasks/components/task_list.dart';
 import 'package:productivity_app/screens/timeEntries/components/time_log_list.dart';
 import 'package:productivity_app/screens/tasks/components/due_task_list_builder.dart';
 import 'package:productivity_app/screens/tasks/components/reusable_task_expansion_tile.dart';
-import 'package:productivity_app/components/base_framework.dart';
+import 'package:productivity_app/shared_components/base_framework.dart';
 
 class TaskScreen extends StatelessWidget {
   @override
