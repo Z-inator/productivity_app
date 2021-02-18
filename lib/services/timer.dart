@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/services/times_data.dart';
-import 'package:productivity_app/components/time_to_text.dart';
+import 'package:productivity_app/shared_components/time_to_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Ticker {
