@@ -1,41 +1,59 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:productivity_app/services/globals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-// class HabitService {
-//   // Collection reference
-//   final CollectionReference habitsReference = FirebaseFirestore.instance
-//       .collection('users')
-//       .doc(Global().user.uid)
-//       .collection('habits');
+class HabitService {
+  final User user;
+  HabitService({this.user});
 
-//   // Add Habit
-//   Future<void> addHabit(String habitName, String habitColor) async {
-//     return await habitsReference
-//         .add({'habitName': habitName, })
-//         .then((value) => print('Habit Added'))
-//         .catchError((error) => print('Failed to add habit: $error'));
-//   }
+  // Collection reference
+  CollectionReference _getHabitReference() {
+    if (user == null) {
+      return null;
+    } else {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('habits');
+    }
+  }
 
-//   // Update Habit
-//   Future<void> updateHabit(
-//       String habitID, String habitName, ) async {
-//     return await habitsReference
-//         .doc(habitID)
-//         .set({'habitName': habitName, });
-//   }
+  CollectionReference get habits {
+    return _getHabitReference();
+  }
 
-//   // Delete Habit
-//   Future<void> deleteHabit(String habitID) async {
-//     return habitsReference
-//         .doc(habitID)
-//         .delete()
-//         .then((value) => print('Habit Deleted'))
-//         .catchError((error) => print('Failed to delete habit: $error'));
-//   }
+  // Add Habit
+  Future<void> addHabit(
+      {String habitName,
+      int habitOccurence,
+      List habitCompletions = [],
+      String habitColor}) async {
+    return _getHabitReference()
+        .add({
+          'habitName': habitName,
+          'habitOccurence': habitOccurence,
+          'habitCompletions': habitCompletions,
+          'habitColor': habitColor
+        })
+        .then((value) => print('Habit Added'))
+        .catchError((error) => print('Failed to add habit: $error'));
+  }
 
-//   // Habit Collections Stream
-//   Stream<QuerySnapshot> get habitsCollection {
-//     return habitsReference.snapshots();
-//   }
-// }
+  // Update Habit
+  Future<void> updateHabit({String habitID, Map updateData}) async {
+    return _getHabitReference()
+        .doc(habitID)
+        .update(Map<String, dynamic>.from(updateData))
+        .then((value) => print('Habit Updated'))
+        .catchError((error) => print('Failed to update habit: $error'));
+  }
+
+  // Delete Habit
+  Future<void> deleteHabit({String habitID}) async {
+    return _getHabitReference()
+        .doc(habitID)
+        .delete()
+        .then((value) => print('Habit Deleted'))
+        .catchError((error) => print('Failed to delete habit: $error'));
+  }
+}
