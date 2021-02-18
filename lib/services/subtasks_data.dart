@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class SubtaskService {
-  final user;
+  final User user;
   SubtaskService({this.user});
 
   // Collection reference
@@ -24,19 +24,23 @@ class SubtaskService {
   }
 
   // Add Subtask
-  Future<void> addSubtask({String subtaskName, bool isDone = false, String taskName}) async {
-    return await _getSubtaskReference()
-        .add({'subtaskName': subtaskName, 'isDone': isDone, 'taskName': taskName})
+  Future<void> addSubtask(
+      {String subtaskName, bool isDone = false, String taskName}) async {
+    return _getSubtaskReference()
+        .add({
+          'subtaskName': subtaskName,
+          'isDone': isDone,
+          'taskName': taskName
+        })
         .then((value) => print('Subtask Added'))
         .catchError((error) => print('Failed to add subtask: $error'));
   }
 
   // Update Subtask
-  Future<void> updateSubtask(
-      {String subtaskID, String subtaskName, bool isDone}) async {
-    return await _getSubtaskReference()
+  Future<void> updateSubtask({String subtaskID, Map updateData}) async {
+    return _getSubtaskReference()
         .doc(subtaskID)
-        .update({'subtaskName': subtaskName, 'isDone': isDone})
+        .update(Map<String, dynamic>.from(updateData))
         .then((value) => print('Subtask Updated'))
         .catchError((error) => print('Failed to update subtask: $error'));
   }
@@ -51,7 +55,10 @@ class SubtaskService {
   }
 }
 
-class SubtaskSStream extends StatelessWidget {
+class SubtaskStream extends StatelessWidget {
+  final User user;
+  SubtaskStream({this.user});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -71,10 +78,13 @@ class SubtaskSStream extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
-                    SubtaskService()
-                        .updateSubtask(subtaskID: docID, subtaskName: 'NewSubtaskNameUpdate', isDone: true);
+                    SubtaskService().updateSubtask(
+                      subtaskID: docID, updateData: {
+                        'subtaskName': 'NewSubtaskNameUpdate',
+                        'isDone': true
+                      });
                   }),
-              title: Text(document.data()['SubtaskName']),
+              title: Text(document.data()['SubtaskName'].toString()),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {

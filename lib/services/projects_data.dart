@@ -25,7 +25,7 @@ class ProjectService {
   // Add Project
   Future<void> addProject(
       {String projectName, int projectColor, int projectTime = 0}) async {
-    return await _getProjectReference()
+    return _getProjectReference()
         .add({
           'projectName': projectName,
           'projectColor': projectColor,
@@ -42,7 +42,7 @@ class ProjectService {
 
   // Update Project
   Future<void> updateProject({String projectID, Map updateData}) async {
-    return await _getProjectReference()
+    return _getProjectReference()
         .doc(projectID)
         .update(Map<String, dynamic>.from(updateData))
         .then((value) => print('Project Updated'))
@@ -60,7 +60,7 @@ class ProjectService {
 }
 
 class ProjectsStream extends StatelessWidget {
-  final user;
+  final User user;
   ProjectsStream({this.user});
 
   @override
@@ -87,7 +87,7 @@ class ProjectsStream extends StatelessWidget {
                         'projectColor': 2
                       });
                   }),
-              title: Text(document.data()['projectName']),
+              title: Text(document.data()['projectName'].toString()),
               subtitle: Text(document.data()['projectColor'].toString()),
               trailing: IconButton(
                   icon: Icon(Icons.delete),

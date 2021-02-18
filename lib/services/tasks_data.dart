@@ -29,7 +29,7 @@ class TaskService {
       int taskTime = 0,
       DateTime dueDate,
       String projectName}) async {
-    return await _getTaskReference()
+    return _getTaskReference()
         .add({
           'taskName': taskName,
           'status': status,
@@ -43,7 +43,7 @@ class TaskService {
 
   // Update Task
   Future<void> updateTask({String taskID, Map updateData}) async {
-    return await _getTaskReference()
+    return _getTaskReference()
         .doc(taskID)
         .update(Map<String, dynamic>.from(updateData))
         .then((value) => print('Task Updated'))
@@ -61,7 +61,7 @@ class TaskService {
 }
 
 class TasksStream extends StatelessWidget {
-  final user;
+  final User user;
   TasksStream({this.user});
 
   @override
@@ -88,8 +88,8 @@ class TasksStream extends StatelessWidget {
                       'taskName': 'NewTaskNameUpdate'
                     });
                   }),
-              title: Text(document.data()['taskName']),
-              subtitle: Text(document.data()['projectName']),
+              title: Text(document.data()['taskName'].toString()),
+              subtitle: Text(document.data()['projectName'].toString()),
               trailing: IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
@@ -104,7 +104,7 @@ class TasksStream extends StatelessWidget {
 }
 
 class TasksTestStream extends StatelessWidget {
-  final user;
+  final User user;
   TasksTestStream({this.user});
 
   @override
@@ -138,8 +138,8 @@ class TasksTestStream extends StatelessWidget {
                         'taskName': 'NewTaskNameUpdate'
                       });
                     }),
-                title: Text(document.data()['taskName']),
-                subtitle: Text(document.data()['projectName']),
+                title: Text(document.data()['taskName'].toString()),
+                subtitle: Text(document.data()['projectName'].toString()),
                 trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {

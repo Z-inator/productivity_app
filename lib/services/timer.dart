@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/services/times_data.dart';
 import 'package:productivity_app/components/time_to_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Ticker {
   int count;
@@ -9,7 +10,7 @@ class Ticker {
   Stream<int> stopWatchStream() {
     StreamController<int> streamController;
     Timer timer;
-    Duration timerInterval = Duration(seconds: 1);
+    const Duration timerInterval = Duration(seconds: 1);
     int counter = 0;
 
     void stopTimer() {
@@ -42,7 +43,7 @@ class Ticker {
 }
 
 class TimerWidget extends StatefulWidget {
-  final user;
+  final User user;
   TimerWidget({this.user});
   @override
   _TimerWidgetState createState() => _TimerWidgetState();

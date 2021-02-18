@@ -15,7 +15,7 @@ class TimeService {
       return FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .collection('timeEntry');
+          .collection('timeEntries');
     }
   }
 
@@ -30,7 +30,7 @@ class TimeService {
       DateTime startTime,
       DateTime endTime,
       int elapsedTime}) async {
-    return await _getTimeEntryReference()
+    return _getTimeEntryReference()
         .add({
           'entryName': entryName,
           'projectName': projectName,
@@ -44,7 +44,7 @@ class TimeService {
 
   // Update Time Entry
   Future<void> updateTimeEntry({String timeEntryID, Map updateData}) async {
-    return await _getTimeEntryReference()
+    return _getTimeEntryReference()
         .doc(timeEntryID)
         .update(Map<String, dynamic>.from(updateData))
         .then((value) => print('Time Entry Updated'))
@@ -62,7 +62,7 @@ class TimeService {
 }
 
 class TimeEntryStream extends StatelessWidget {
-  final user;
+  final User user;
   TimeEntryStream({this.user});
 
   @override
@@ -79,7 +79,7 @@ class TimeEntryStream extends StatelessWidget {
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             final String docID = document.id;
-            final int elapsedTime = document.data()['elapsedTime'];
+            final String elapsedTime = document.data()['elapsedTime'].toString();
             // final String hoursStr =
             //     ((elapsedTime / (60 * 60) % 60).floor().toString().padLeft(2, '0'));
             // final String minutesStr =
@@ -96,7 +96,7 @@ class TimeEntryStream extends StatelessWidget {
                       'elapsedTime': 200
                     });
                   }),
-              title: Text(document.data()['entryName']),
+              title: Text(document.data()['entryName'].toString()),
               // subtitle: Text('$hoursStr:$minutesStr:$secondsStr'),
               subtitle: Text(elapsedTime.toString()),
               trailing: IconButton(

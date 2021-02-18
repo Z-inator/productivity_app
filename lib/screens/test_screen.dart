@@ -37,7 +37,7 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    final User user = Provider.of<User>(context);
 
     return Container(
         child: SafeArea(
@@ -277,13 +277,13 @@ class _AddTaskState extends State<AddTask> {
           PopupMenuButton(
             onSelected: (value) {
               setState(() {
-                _projectName = value;
+                _projectName = value.toString();
               });
             }, 
             itemBuilder: (BuildContext context) {
               return projectNames
                 .map(
-                    (name) => PopupMenuItem(value: name, child: Text(name)))
+                    (name) => PopupMenuItem(value: name, child: Text(name.toString())))
                 .toList();
             },
             child: Text(_projectName ?? 'Select Project')
@@ -298,7 +298,7 @@ class _AddTaskState extends State<AddTask> {
           RaisedButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
-                _dueDate = new DateTime(
+                _dueDate = DateTime(
                     _dueDate.year,
                     _dueDate.month,
                     _dueDate.day,
