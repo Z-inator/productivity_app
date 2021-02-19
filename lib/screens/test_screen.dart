@@ -10,6 +10,8 @@ import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/services/times_data.dart';
+import 'package:productivity_app/test_data/project_to_firebase.dart';
+import 'package:productivity_app/test_data/time_to_firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -47,10 +49,15 @@ class _TestScreenState extends State<TestScreen> {
             },
             child: Text('Add Task'),
           ),
-          RaisedButton(   // TODO: build list of times ordered by endDate.
+          RaisedButton(
             onPressed: () {
-              return showModalBottomSheet(context: context, builder: (BuildContext context) { return })
-            }
+              return showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return TimeEntryStream(user: user,);
+                  });
+            },
+            child: Text('Time List ordered by end time'),
           ),
           RaisedButton(
               onPressed: () {
@@ -98,6 +105,11 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Show Timer')),
+          RaisedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add project data')),
         ],
       ),
     )));

@@ -68,47 +68,38 @@ class TimeEntryStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: TimeService(user: user).timeEntries.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-        return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String docID = document.id;
-            final String elapsedTime = document.data()['elapsedTime'].toString();
-            // final String hoursStr =
-            //     ((elapsedTime / (60 * 60) % 60).floor().toString().padLeft(2, '0'));
-            // final String minutesStr =
-            //     ((elapsedTime / 60) % 60).floor().toString().padLeft(2, '0');
-            // final String secondsStr =
-            //     (elapsedTime % 60).floor().toString().padLeft(2, '0');
-            print(document.id);
-            return ListTile(
-              leading: IconButton(
-                  icon: Icon(Icons.plus_one),
-                  onPressed: () {
-                    TimeService(user: user).updateTimeEntry(timeEntryID: docID, updateData: {
-                      'entryName': 'New Entry Name',
-                      'elapsedTime': 200
-                    });
-                  }),
-              title: Text(document.data()['entryName'].toString()),
-              // subtitle: Text('$hoursStr:$minutesStr:$secondsStr'),
-              subtitle: Text(elapsedTime.toString()),
-              trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    TimeService(user: user).deleteTimeEntry(timeEntryID: docID);
-                  }),
-            );
-          }).toList(),
-        );
-      },
-    );
+        stream: TimeService(user: user)
+            .timeEntries
+            .orderBy('endTime', descending: true)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text('Loading');
+          }
+          return ListView(
+            shrinkWrap: true,
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              final String elapsedTime =
+                  document.data()['elapsedTime'].toString();
+              final String entryName = document.data()['entryName'].toString();
+              final DateTime endDate = document.data()['endTime'].toDate();
+              return ListTile(
+                leading: IconButton(
+                    icon: Icon(Icons.play_arrow_rounded),
+                    onPressed: () {
+                      
+                    }),
+                title: Text(entryName),
+                subtitle: Text(elapsedTime.toString()),
+                trailing: Text(
+                    '${endDate.month}/${endDate.day}/${endDate.year} - ${endDate.hour}:${endDate.minute}'),
+              );
+            }).toList(),
+          );
+        });
   }
 }
 
