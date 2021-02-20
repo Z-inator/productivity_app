@@ -11,6 +11,7 @@ import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/services/times_data.dart';
 import 'package:productivity_app/test_data/project_to_firebase.dart';
+import 'package:productivity_app/test_data/task_to_firebase.dart';
 import 'package:productivity_app/test_data/time_to_firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,9 +108,9 @@ class _TestScreenState extends State<TestScreen> {
               child: Text('Show Timer')),
           RaisedButton(
               onPressed: () {
-                ProjectToFirebase(user: user).uploadExampleData();
+                TaskToFirebase(user: user).uploadExampleData();
               },
-              child: Text('Add project data')),
+              child: Text('Add task data')),
         ],
       ),
     )));

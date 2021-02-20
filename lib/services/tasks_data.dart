@@ -29,7 +29,8 @@ class TaskService {
       int taskTime = 0,
       DateTime dueDate,
       String projectName}) async {
-    return _getTaskReference()
+    DocumentReference taskReference;
+    _getTaskReference()
         .add({
           'taskName': taskName,
           'status': status,
@@ -37,8 +38,10 @@ class TaskService {
           'dueDate': dueDate,
           'projectName': projectName
         })
-        .then((value) => print('Task Added'))
+        .then((value) => taskReference =
+            value) // TODO: look at returning the added document reference to insert as key into project update method's task list
         .catchError((error) => print('Failed to add task: $error'));
+    return taskReference;
   }
 
   // Update Task
@@ -83,10 +86,12 @@ class TasksStream extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.plus_one),
                   onPressed: () {
-                    TaskService(user: user).updateTask(taskID: docID, updateData: {
-                      'status': 'Done',
-                      'taskName': 'NewTaskNameUpdate'
-                    });
+                    TaskService(user: user).updateTask(
+                        taskID: docID,
+                        updateData: {
+                          'status': 'Done',
+                          'taskName': 'NewTaskNameUpdate'
+                        });
                   }),
               title: Text(document.data()['taskName'].toString()),
               subtitle: Text(document.data()['projectName'].toString()),

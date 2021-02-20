@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/services/tasks_data.dart';
@@ -360,13 +361,35 @@ class TaskToFirebase {
   ];
 
   Future<void> uploadExampleData() {
+    String associatedProject;
+    DocumentReference documentReference;
     for (Map<String, dynamic> map in taskData) {
-      TaskService(user: user).addTask(
+      documentReference = TaskService(user: user).addTask(
           taskName: map['taskName'],
           status: map['status'],
           taskTime: map['taskTime'],
           dueDate: DateTime.parse(map['dueDate']),
-          projectName: map['projectName']);
+          projectName: map['projectName'])
+          .then((value) => documentReference = value);
+      print('Added task');
+      ProjectService(user: user)
+          .projects
+          .where('projectName', isEqualTo: map['projectName'])
+          .get()
+          .then((QuerySnapshot querySnapshot) => {
+                querySnapshot.docs.forEach((doc) {
+                  associatedProject = doc.id;
+                })
+              });
+      print('Obtained project ID: $associatedProject');
+      // String documentReference =
+          ProjectService(user: user).projects.doc(associatedProject).path;
+
+      // ProjectService(user: user)
+      //     .updateProject(projectID: associatedProject, updateData: {
+      //   'taskList': FieldValue.arrayUnion([map['projectName']])
+      // });
+      print('added task to project list');
     }
   }
 }
