@@ -360,18 +360,21 @@ class TaskToFirebase {
     }
   ];
 
-  Future<void> uploadExampleData() {
+  Future<void> uploadExampleData() async {
     String associatedProject;
-    DocumentReference documentReference;
+    dynamic documentReference;
     for (Map<String, dynamic> map in taskData) {
-      documentReference = TaskService(user: user).addTask(
-          taskName: map['taskName'],
-          status: map['status'],
-          taskTime: map['taskTime'],
-          dueDate: DateTime.parse(map['dueDate']),
-          projectName: map['projectName'])
-          .then((value) => documentReference = value);
+      documentReference = TaskService(user: user)
+          .addTask(
+              taskName: map['taskName'],
+              status: map['status'],
+              taskTime: map['taskTime'],
+              dueDate: DateTime.parse(map['dueDate']),
+              projectName: map['projectName'])
+          .then((value) => print(value.id));
       print('Added task');
+      print(documentReference.toString());
+      print(map['projectName']);
       ProjectService(user: user)
           .projects
           .where('projectName', isEqualTo: map['projectName'])
@@ -382,14 +385,17 @@ class TaskToFirebase {
                 })
               });
       print('Obtained project ID: $associatedProject');
-      // String documentReference =
-          ProjectService(user: user).projects.doc(associatedProject).path;
+      // String documentReference = ProjectService(user: user).projects.doc(associatedProject).path;
 
-      // ProjectService(user: user)
-      //     .updateProject(projectID: associatedProject, updateData: {
-      //   'taskList': FieldValue.arrayUnion([map['projectName']])
-      // });
+      ProjectService(user: user)
+          .updateProject(projectID: associatedProject, updateData: {
+        'taskList': {documentReference: map['taskName']}
+      });
       print('added task to project list');
     }
+  }
+
+  Future<void> updateProjectData() {
+    
   }
 }

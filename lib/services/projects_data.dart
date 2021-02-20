@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ProjectService {
@@ -30,7 +31,7 @@ class ProjectService {
           'projectName': projectName,
           'projectColor': projectColor,
           'projectTime': projectTime,
-          'taskList': []
+          'taskList': {}
         })
         .then((value) => print('Project Added'))
         .catchError((error) => print('Failed to add project: $error'));

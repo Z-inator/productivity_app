@@ -31,14 +31,14 @@ class _TestScreenState extends State<TestScreen> {
             child: Scaffold(
       body: Column(
         children: [
-          RaisedButton(
+          ElevatedButton(
               onPressed: () {
                 AuthService()
                     .signOut()
                     .then((value) => print(FirebaseAuth.instance.currentUser));
               },
               child: Text('Sign Out')),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               return showModalBottomSheet(
                   context: context,
@@ -50,7 +50,7 @@ class _TestScreenState extends State<TestScreen> {
             },
             child: Text('Add Task'),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               return showModalBottomSheet(
                   context: context,
@@ -60,7 +60,7 @@ class _TestScreenState extends State<TestScreen> {
             },
             child: Text('Time List ordered by end time'),
           ),
-          RaisedButton(
+          ElevatedButton(
               onPressed: () {
                 print(user.uid);
                 return showModalBottomSheet(
@@ -72,7 +72,7 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Show Tasks')),
-          RaisedButton(
+          ElevatedButton(
               onPressed: () {
                 print(user.uid);
                 return showModalBottomSheet(
@@ -84,7 +84,7 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Show Projects')),
-          RaisedButton(
+          ElevatedButton(
               onPressed: () {
                 print(user.uid);
                 return showModalBottomSheet(
@@ -94,7 +94,7 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Show Time Entries')),
-          RaisedButton(
+          ElevatedButton(
               onPressed: () {
                 print(user.uid);
                 return showModalBottomSheet(
@@ -106,11 +106,21 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Show Timer')),
-          RaisedButton(
+          ElevatedButton(
               onPressed: () {
                 TaskToFirebase(user: user).uploadExampleData();
               },
               child: Text('Add task data')),
+          ElevatedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add project data')),
+          ElevatedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add project data')),
         ],
       ),
     )));
@@ -211,7 +221,7 @@ class _AddTaskState extends State<AddTask> {
               onPressed: selectTime,
               child: Text(
                   'Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}')),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 _dueDate = DateTime(
