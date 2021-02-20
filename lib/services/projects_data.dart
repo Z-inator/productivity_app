@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/services/tasks_data.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -60,45 +62,81 @@ class ProjectService {
   }
 }
 
-class ProjectsStream extends StatelessWidget {
-  final User user;
-  ProjectsStream({this.user});
+class ProjectsStream extends StatefulWidget {
+  ProjectsStream({Key key}) : super(key: key);
 
   @override
+  _ProjectsStreamState createState() => _ProjectsStreamState();
+}
+
+class _ProjectsStreamState extends State<ProjectsStream> {
+  @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<User>(context);
+    bool isExpanded = true;
     return StreamBuilder<QuerySnapshot>(
       stream: ProjectService(user: user).projects.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> projectSnapshot) {
+        if (projectSnapshot.hasError) {
           return Text('Something went wrong');
         }
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (projectSnapshot.connectionState == ConnectionState.waiting) {
           return Text('Loading');
         }
-        return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String docID = document.id;
-            print(document.id);
-            return ListTile(
-              leading: IconButton(
-                  icon: Icon(Icons.plus_one),
-                  onPressed: () {
-                    ProjectService(user: user).updateProject(projectID: docID, updateData: {
-                        'projectName': 'NewprojectNameUpdate',
-                        'projectColor': 2
-                      });
-                  }),
-              title: Text(document.data()['projectName'].toString()),
-              subtitle: Text(document.data()['projectColor'].toString()),
-              trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    ProjectService(user: user).deleteProject(projectID: docID);
-                  }),
-            );
-          }).toList(),
+        return SingleChildScrollView(
+          child: Container(
+            child: ExpansionPanelList(
+              expansionCallback: (int index, bool isExpanded) {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              children: projectSnapshot.data.docs.map((DocumentSnapshot document) {
+                final String docID = document.id;
+                return ExpansionPanel(
+                  isExpanded: isExpanded,   // TODO: Fix expanded issue, everything else is working.
+                  headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text(document.data()['projectName'].toString()),
+                      subtitle: Text(document.data()['projectTime'].toString()),
+                    );
+                  },
+                  body: StreamBuilder(
+                    stream: TaskService(user: user).tasks.where('projectName', isEqualTo: document.data()['projectName']).snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> taskSnapshot) {
+                      if (taskSnapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
+                      if (taskSnapshot.connectionState == ConnectionState.waiting) {
+                        return Text('Loading');
+                      }
+                      return ListView(
+                        shrinkWrap: true,
+                        children: taskSnapshot.data.docs.map((DocumentSnapshot taskDocument) {
+                          final String docID = taskDocument.id;
+                          return ListTile(
+                            leading: IconButton(
+                              icon: Icon(Icons.play_arrow_rounded), 
+                              onPressed: () {}
+                            ),
+                            title: Text(taskDocument.data()['taskName'].toString()),
+                            subtitle: Text(taskDocument.data()['dueDate'].toString()),
+                            trailing: IconButton(
+                              icon: Icon(Icons.edit_rounded),
+                              onPressed: () {},
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
         );
       },
     );
   }
 }
+

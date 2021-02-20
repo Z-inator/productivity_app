@@ -23,7 +23,7 @@ class ProjectToFirebase {
   Future<void> uploadExampleData() {
     for (Map<String, dynamic> map in projectData) {
       ProjectService(user: user).addProject(
-        projectName: map['projectName'],
+        projectName: map['projectName'].toString(),
         projectTime: map['projectTime'],
         projectColor: map['projectColor'],
       );
@@ -40,9 +40,6 @@ class ProjectToFirebase {
                 projects[doc.id] = doc['projectName'].toString();
               })
             });
-    // projects.forEach((key, value) {
-    //   print('projectID: $key -- projectName: $value');
-    // });
     projects.forEach((key, value) async {
       Map<String, String> taskInfo = {};
       await TaskService(user: user)

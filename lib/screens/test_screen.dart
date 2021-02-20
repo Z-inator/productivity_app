@@ -50,77 +50,75 @@ class _TestScreenState extends State<TestScreen> {
             },
             child: Text('Add Task'),
           ),
-          ElevatedButton(
-            onPressed: () {
-              return showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return TimeEntryStream(user: user,);
-                  });
-            },
-            child: Text('Time List ordered by end time'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     return showModalBottomSheet(
+          //         context: context,
+          //         builder: (BuildContext context) {
+          //           return TimeEntryStream(user: user,);
+          //         });
+          //   },
+          //   child: Text('Time List ordered by end time'),
+          // ),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       print(user.uid);
+          //       return showModalBottomSheet(
+          //           context: context,
+          //           builder: (BuildContext context) {
+          //             return TasksStream(
+          //               user: user,
+          //             );
+          //           });
+          //     },
+          //     child: Text('Show Tasks')),
           ElevatedButton(
               onPressed: () {
                 print(user.uid);
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return TasksStream(
-                        user: user,
-                      );
-                    });
-              },
-              child: Text('Show Tasks')),
-          ElevatedButton(
-              onPressed: () {
-                print(user.uid);
-                return showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ProjectsStream(
-                        user: user,
-                      );
+                      return ProjectsStream();
                     });
               },
               child: Text('Show Projects')),
-          ElevatedButton(
-              onPressed: () {
-                print(user.uid);
-                return showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return TimeEntryStream(user: user);
-                    });
-              },
-              child: Text('Show Time Entries')),
-          ElevatedButton(
-              onPressed: () {
-                print(user.uid);
-                return showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return TimerWidget(
-                        user: user,
-                      );
-                    });
-              },
-              child: Text('Show Timer')),
-          ElevatedButton(
-              onPressed: () {
-                TaskToFirebase(user: user).uploadExampleData();
-              },
-              child: Text('Add task data')),
-          ElevatedButton(
-              onPressed: () {
-                ProjectToFirebase(user: user).uploadExampleData();
-              },
-              child: Text('Add project data')),
-          ElevatedButton(
-              onPressed: () {
-                ProjectToFirebase(user: user).updateProjectData();
-              },
-              child: Text('Update project data')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       print(user.uid);
+          //       return showModalBottomSheet(
+          //           context: context,
+          //           builder: (BuildContext context) {
+          //             return TimeEntryStream(user: user);
+          //           });
+          //     },
+          //     child: Text('Show Time Entries')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       print(user.uid);
+          //       return showModalBottomSheet(
+          //           context: context,
+          //           builder: (BuildContext context) {
+          //             return TimerWidget(
+          //               user: user,
+          //             );
+          //           });
+          //     },
+          //     child: Text('Show Timer')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       TaskToFirebase(user: user).uploadExampleData();
+          //     },
+          //     child: Text('Add task data')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       ProjectToFirebase(user: user).uploadExampleData();
+          //     },
+          //     child: Text('Add project data')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       ProjectToFirebase(user: user).updateProjectData();
+          //     },
+          //     child: Text('Update project data')),
         ],
       ),
     )));
