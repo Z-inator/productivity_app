@@ -361,10 +361,8 @@ class TaskToFirebase {
   ];
 
   Future<void> uploadExampleData() async {
-    String associatedProject;
-    dynamic documentReference;
     for (Map<String, dynamic> map in taskData) {
-      documentReference = TaskService(user: user)
+      TaskService(user: user)
           .addTask(
               taskName: map['taskName'],
               status: map['status'],
@@ -373,29 +371,7 @@ class TaskToFirebase {
               projectName: map['projectName'])
           .then((value) => print(value.id));
       print('Added task');
-      print(documentReference.toString());
-      print(map['projectName']);
-      ProjectService(user: user)
-          .projects
-          .where('projectName', isEqualTo: map['projectName'])
-          .get()
-          .then((QuerySnapshot querySnapshot) => {
-                querySnapshot.docs.forEach((doc) {
-                  associatedProject = doc.id;
-                })
-              });
-      print('Obtained project ID: $associatedProject');
-      // String documentReference = ProjectService(user: user).projects.doc(associatedProject).path;
-
-      ProjectService(user: user)
-          .updateProject(projectID: associatedProject, updateData: {
-        'taskList': {documentReference: map['taskName']}
-      });
-      print('added task to project list');
     }
   }
-
-  Future<void> updateProjectData() {
-    
-  }
 }
+

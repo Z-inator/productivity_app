@@ -118,9 +118,9 @@ class _TestScreenState extends State<TestScreen> {
               child: Text('Add project data')),
           ElevatedButton(
               onPressed: () {
-                ProjectToFirebase(user: user).uploadExampleData();
+                ProjectToFirebase(user: user).updateProjectData();
               },
-              child: Text('Add project data')),
+              child: Text('Update project data')),
         ],
       ),
     )));

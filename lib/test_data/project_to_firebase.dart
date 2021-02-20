@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/services/tasks_data.dart';
 
 class ProjectToFirebase {
   User user;
@@ -27,5 +29,36 @@ class ProjectToFirebase {
       );
     }
   }
-  
+
+  Future<void> updateProjectData() async {
+    Map<String, String> projects = {};
+    await ProjectService(user: user)
+        .projects
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                projects[doc.id] = doc['projectName'].toString();
+              })
+            });
+    // projects.forEach((key, value) {
+    //   print('projectID: $key -- projectName: $value');
+    // });
+    projects.forEach((key, value) async {
+      Map<String, String> taskInfo = {};
+      await TaskService(user: user)
+          .tasks
+          .where('projectName', isEqualTo: value)
+          .get()
+          .then((QuerySnapshot querySnapshot) => {
+                querySnapshot.docs.forEach((doc) {
+                  taskInfo[doc.id] = doc['taskName'].toString();
+                  print(
+                      'projectID: $key projectname: $value ----- taskID: ${doc.id} name: ${doc['taskName']}');
+                })
+              });
+      ProjectService(user: user).updateProject(projectID: key, updateData: {
+        'taskList': Map.from(taskInfo)
+      }).then((value) => print('project updated'));
+    });
+  }
 }
