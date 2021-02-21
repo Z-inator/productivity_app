@@ -78,7 +78,7 @@ class _TestScreenState extends State<TestScreen> {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return ProjectsStream();
+                      return ProjectStreamTest();
                     });
               },
               child: Text('Show Projects')),
@@ -125,7 +125,7 @@ class _TestScreenState extends State<TestScreen> {
   }
 }
 
-class AddTask extends StatefulWidget {
+class AddTask extends StatefulWidget {    // TODO: update class to add task name and id to project list
   final User user;
   AddTask({this.user});
   @override
@@ -136,7 +136,7 @@ class _AddTaskState extends State<AddTask> {
   final _formKey = GlobalKey<FormState>();
   String _taskName;
   String _projectName;
-  List<dynamic> projectNames;
+  Map<String, String> projectNames;
   DateTime _dueDate;
   TimeOfDay _dueTime;
 
@@ -149,9 +149,8 @@ class _AddTaskState extends State<AddTask> {
   }
 
   Future<void> getProjectNames() async {
-    projectNames = await ProjectService(user: widget.user).projects.get().then(
-        (snapshot) =>
-            snapshot.docs.map((doc) => doc.data()['projectName']).toList());
+    projectNames = await ProjectService(user: widget.user).projects.get();    
+    );
   }
 
   selectDate() async {
@@ -232,10 +231,11 @@ class _AddTaskState extends State<AddTask> {
                     _dueDate.millisecond,
                     _dueDate.microsecond);
                 print('$_taskName : $_projectName : ${_dueDate.toString()}');
-                TaskService(user: user).addTask(
+                await TaskService(user: user).addTask(
                     taskName: _taskName,
                     projectName: _projectName,
                     dueDate: _dueDate);
+                ProjectService(user: user).updateProject()
                 Navigator.pop(context);
               }
             },

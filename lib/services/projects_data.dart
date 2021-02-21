@@ -62,81 +62,170 @@ class ProjectService {
   }
 }
 
-class ProjectsStream extends StatefulWidget {
-  ProjectsStream({Key key}) : super(key: key);
+// class ProjectsStream extends StatefulWidget {
+//   ProjectsStream({Key key}) : super(key: key);
 
+//   @override
+//   _ProjectsStreamState createState() => _ProjectsStreamState();
+// }
+
+// class _ProjectsStreamState extends State<ProjectsStream> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final User user = Provider.of<User>(context);
+//     bool isExpanded = true;
+//     return StreamBuilder<QuerySnapshot>(
+//       stream: ProjectService(user: user).projects.snapshots(),
+//       builder:
+//           (BuildContext context, AsyncSnapshot<QuerySnapshot> projectSnapshot) {
+//         if (projectSnapshot.hasError) {
+//           return Text('Something went wrong');
+//         }
+//         if (projectSnapshot.connectionState == ConnectionState.waiting) {
+//           return Text('Loading');
+//         }
+//         return SingleChildScrollView(
+//           child: Container(
+//             child: ExpansionPanelList(
+//               expansionCallback: (int index, bool isExpanded) {
+//                 setState(() {
+//                   index.isExpanded = !isExpanded;
+//                 });
+//               },
+//               children:
+//                   projectSnapshot.data.docs.map((DocumentSnapshot document) {
+//                 var projectDocuments = projectSnapshot.data.docs
+//                     .map((DocumentSnapshot document) {})
+//                     .toList();
+//                 final String docID = document.id;
+//                 return ExpansionPanel(
+//                   isExpanded:
+//                       isExpanded, // TODO: Fix expanded issue, everything else is working.
+//                   headerBuilder: (BuildContext context, bool isExpanded) {
+//                     return ListTile(
+//                       title: Text(document.data()['projectName'].toString()),
+//                       subtitle: Text(document.data()['projectTime'].toString()),
+//                     );
+//                   },
+//                   body: StreamBuilder(
+//                     stream: TaskService(user: user)
+//                         .tasks
+//                         .where('projectName',
+//                             isEqualTo: document.data()['projectName'])
+//                         .snapshots(),
+//                     builder: (BuildContext context,
+//                         AsyncSnapshot<QuerySnapshot> taskSnapshot) {
+//                       if (taskSnapshot.hasError) {
+//                         return Text('Something went wrong');
+//                       }
+//                       if (taskSnapshot.connectionState ==
+//                           ConnectionState.waiting) {
+//                         return Text('Loading');
+//                       }
+//                       return ListView(
+//                         shrinkWrap: true,
+//                         children: taskSnapshot.data.docs
+//                             .map((DocumentSnapshot taskDocument) {
+//                           final String docID = taskDocument.id;
+//                           return ListTile(
+//                             leading: IconButton(
+//                                 icon: Icon(Icons.play_arrow_rounded),
+//                                 onPressed: () {}),
+//                             title: Text(
+//                                 taskDocument.data()['taskName'].toString()),
+//                             subtitle:
+//                                 Text(taskDocument.data()['dueDate'].toString()),
+//                             trailing: IconButton(
+//                               icon: Icon(Icons.edit_rounded),
+//                               onPressed: () {},
+//                             ),
+//                           );
+//                         }).toList(),
+//                       );
+//                     },
+//                   ),
+//                 );
+//               }).toList(),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
+class ProjectStreamTest extends StatefulWidget {
   @override
-  _ProjectsStreamState createState() => _ProjectsStreamState();
+  _ProjectStreamTestState createState() => _ProjectStreamTestState();
 }
 
-class _ProjectsStreamState extends State<ProjectsStream> {
+class _ProjectStreamTestState extends State<ProjectStreamTest> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
-    bool isExpanded = true;
     return StreamBuilder<QuerySnapshot>(
-      stream: ProjectService(user: user).projects.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> projectSnapshot) {
-        if (projectSnapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (projectSnapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-        return SingleChildScrollView(
-          child: Container(
-            child: ExpansionPanelList(
-              expansionCallback: (int index, bool isExpanded) {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              },
-              children: projectSnapshot.data.docs.map((DocumentSnapshot document) {
-                final String docID = document.id;
-                return ExpansionPanel(
-                  isExpanded: isExpanded,   // TODO: Fix expanded issue, everything else is working.
-                  headerBuilder: (BuildContext context, bool isExpanded) {
-                    return ListTile(
-                      title: Text(document.data()['projectName'].toString()),
-                      subtitle: Text(document.data()['projectTime'].toString()),
+        stream: ProjectService(user: user).projects.snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> projectSnapshot) {
+          if (projectSnapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          if (projectSnapshot.connectionState == ConnectionState.waiting) {
+            return Text('Loading');
+          }
+          return SingleChildScrollView(
+              child: Container(
+            child: ExpansionPanelList.radio(
+                children:
+                    projectSnapshot.data.docs.map((DocumentSnapshot document) {
+              return ExpansionPanelRadio(
+                value: document.id,
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return ListTile(
+                    title: Text(document.data()['projectName'].toString()),
+                    subtitle: Text(document.data()['projectTime'].toString()),
+                  );
+                },
+                body: StreamBuilder(
+                  stream: TaskService(user: user)
+                      .tasks
+                      .where('projectName',
+                          isEqualTo: document.data()['projectName'])
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> taskSnapshot) {
+                    if (taskSnapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
+                    if (taskSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Text('Loading');
+                    }
+                    return ListView(
+                      shrinkWrap: true,
+                      children: taskSnapshot.data.docs
+                          .map((DocumentSnapshot taskDocument) {
+                        final String docID = taskDocument.id;
+                        return ListTile(
+                          leading: IconButton(
+                              icon: Icon(Icons.play_arrow_rounded),
+                              onPressed: () {}),
+                          title:
+                              Text(taskDocument.data()['taskName'].toString()),
+                          subtitle:
+                              Text(taskDocument.data()['dueDate'].toString()),
+                          trailing: IconButton(
+                            icon: Icon(Icons.edit_rounded),
+                            onPressed: () {},
+                          ),
+                        );
+                      }).toList(),
                     );
                   },
-                  body: StreamBuilder(
-                    stream: TaskService(user: user).tasks.where('projectName', isEqualTo: document.data()['projectName']).snapshots(),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> taskSnapshot) {
-                      if (taskSnapshot.hasError) {
-                        return Text('Something went wrong');
-                      }
-                      if (taskSnapshot.connectionState == ConnectionState.waiting) {
-                        return Text('Loading');
-                      }
-                      return ListView(
-                        shrinkWrap: true,
-                        children: taskSnapshot.data.docs.map((DocumentSnapshot taskDocument) {
-                          final String docID = taskDocument.id;
-                          return ListTile(
-                            leading: IconButton(
-                              icon: Icon(Icons.play_arrow_rounded), 
-                              onPressed: () {}
-                            ),
-                            title: Text(taskDocument.data()['taskName'].toString()),
-                            subtitle: Text(taskDocument.data()['dueDate'].toString()),
-                            trailing: IconButton(
-                              icon: Icon(Icons.edit_rounded),
-                              onPressed: () {},
-                            ),
-                          );
-                        }).toList(),
-                      );
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        );
-      },
-    );
+                ),
+              );
+            }).toList()),
+          ));
+        });
   }
 }
-
