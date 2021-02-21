@@ -114,18 +114,18 @@ class _TestScreenState extends State<TestScreen> {
           //       ProjectToFirebase(user: user).uploadExampleData();
           //     },
           //     child: Text('Add project data')),
-          // ElevatedButton(
-          //     onPressed: () {
-          //       ProjectToFirebase(user: user).updateProjectData();
-          //     },
-          //     child: Text('Update project data')),
+          ElevatedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).updateProjectData();
+              },
+              child: Text('Update project data')),
         ],
       ),
     )));
   }
 }
 
-class AddTask extends StatefulWidget {    // TODO: update class to add task name and id to project list
+class AddTask extends StatefulWidget {
   final User user;
   AddTask({this.user});
   @override
@@ -135,8 +135,11 @@ class AddTask extends StatefulWidget {    // TODO: update class to add task name
 class _AddTaskState extends State<AddTask> {
   final _formKey = GlobalKey<FormState>();
   String _taskName;
+  DocumentReference addedTask;
   String _projectName;
-  Map<String, String> projectNames;
+  String _projectID;
+  List<dynamic> projectNames;
+  Map<String, String> taskID;
   DateTime _dueDate;
   TimeOfDay _dueTime;
 
@@ -149,8 +152,9 @@ class _AddTaskState extends State<AddTask> {
   }
 
   Future<void> getProjectNames() async {
-    projectNames = await ProjectService(user: widget.user).projects.get();    
-    );
+    projectNames = await ProjectService(user: widget.user).projects.get().then(
+        (snapshot) =>
+            snapshot.docs.map((doc) => doc.data()['projectName']).toList());
   }
 
   selectDate() async {
@@ -231,11 +235,23 @@ class _AddTaskState extends State<AddTask> {
                     _dueDate.millisecond,
                     _dueDate.microsecond);
                 print('$_taskName : $_projectName : ${_dueDate.toString()}');
-                await TaskService(user: user).addTask(
+                addedTask = await TaskService(user: user).addTask(
                     taskName: _taskName,
                     projectName: _projectName,
                     dueDate: _dueDate);
-                ProjectService(user: user).updateProject()
+                await ProjectService(user: user)
+                    .projects
+                    .where('projectName', isEqualTo: _projectName)
+                    .get()
+                    .then((QuerySnapshot projectSnapshot) => {
+                          projectSnapshot.docs.forEach((element) {
+                            _projectID = element.id;
+                          })
+                        });
+                taskID = {addedTask.id.toString(): _taskName};
+                ProjectService(user: user).updateProject(
+                    projectID: _projectID,
+                    updateData: {'taskList': taskID});    // TODO: add task to project array list
                 Navigator.pop(context);
               }
             },
