@@ -252,7 +252,7 @@ class _AddTaskState extends State<AddTask> {
                 ProjectService(user: user).updateProject(
                     projectID: _projectID,
                     updateData: {'taskList': taskID});    // TODO: add task to project array list
-                Navigator.pop(context);
+                Navigator.pop(context);                   // TODO: change list of task for that project to pop up a modal rather than expansionList - expansion panel is for additional details not a hidden list
               }
             },
             child: Text('Submit'),
