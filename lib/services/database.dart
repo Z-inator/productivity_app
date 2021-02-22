@@ -11,7 +11,7 @@ class DatabaseService {
 
   // Build new user collections
   Future<void> buildUser({String uid, String firstName, String lastName}) async {
-    await userCollection.doc(uid).set({
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'firstName': firstName,
       'lastName': lastName,
       'statuses': ['To Do', 'In Progress', 'Done']

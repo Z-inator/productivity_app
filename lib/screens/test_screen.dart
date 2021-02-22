@@ -104,16 +104,16 @@ class _TestScreenState extends State<TestScreen> {
           //           });
           //     },
           //     child: Text('Show Timer')),
-          // ElevatedButton(
-          //     onPressed: () {
-          //       TaskToFirebase(user: user).uploadExampleData();
-          //     },
-          //     child: Text('Add task data')),
-          // ElevatedButton(
-          //     onPressed: () {
-          //       ProjectToFirebase(user: user).uploadExampleData();
-          //     },
-          //     child: Text('Add project data')),
+          ElevatedButton(
+              onPressed: () {
+                TaskToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add task data')),
+          ElevatedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add project data')),
           ElevatedButton(
               onPressed: () {
                 ProjectToFirebase(user: user).updateProjectData();

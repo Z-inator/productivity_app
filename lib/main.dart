@@ -23,16 +23,10 @@ void main() async {
   await Firebase.initializeApp();
   String host = defaultTargetPlatform == TargetPlatform.android
       ? '10.0.2.2:8000'
-      : 'localhost:8080';
+      : 'localHost:8080';
   FirebaseFirestore.instance.settings = Settings(host: host, sslEnabled: false);
-
-  // await FirebaseFirestore.instance
-  //     .settings(
-  //         host: host,
-  //         sslEnabled: false,
-  //         persistenceEnabled: false,
-  //         timestampsInSnapshotsEnabled: true)
-  //     .catchError((e) => print(e));
+  FirebaseAuth.instance.useEmulator('http://localhost:9099');
+  
 
   runApp(ProductivityApp());
 
@@ -56,7 +50,6 @@ class ProductivityApp extends StatelessWidget {
       ),
     );
   }
-}
 
 // @override
 //   Widget build(BuildContext context) {
@@ -85,3 +78,4 @@ class ProductivityApp extends StatelessWidget {
 //         });
 //   }
 // }
+}

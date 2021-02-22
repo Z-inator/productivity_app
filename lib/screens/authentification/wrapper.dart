@@ -9,12 +9,23 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     if (user == null) {
-      return ElevatedButton(
-          onPressed: () {
-            AuthService().signInWithEmailAndPassword(
-                'someone@gmail.com', 'testing123456');
-          },
-          child: Text('Sign In'));
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              AuthService().signInWithEmailAndPassword(
+                  'someone@gmail.com', 'testing123456');
+            },
+            child: Text('Sign In')),
+          ElevatedButton(
+            onPressed: () {
+              AuthService().registerWithEmailAndPassword('someone@gmail.com', 'testing123456');
+            },
+            child: Text('Register'),
+          )
+        ]
+      );
     }
     return TestScreen();
   }
