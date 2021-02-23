@@ -33,6 +33,11 @@ class _TestScreenState extends State<TestScreen> {
         children: [
           ElevatedButton(
               onPressed: () {
+                print(user.emailVerified);
+              },
+              child: Text('Print user\'s verification')),
+          ElevatedButton(
+              onPressed: () {
                 AuthService()
                     .signOut()
                     .then((value) => print(FirebaseAuth.instance.currentUser));
@@ -78,7 +83,7 @@ class _TestScreenState extends State<TestScreen> {
                 return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return ProjectStreamTest();
+                      return ProjectStream();
                     });
               },
               child: Text('Show Projects')),
@@ -119,6 +124,22 @@ class _TestScreenState extends State<TestScreen> {
                 ProjectToFirebase(user: user).updateProjectData();
               },
               child: Text('Update project data')),
+          ElevatedButton(
+              onPressed: () {
+                TimeToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add time data')),
+          ElevatedButton(
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .update({
+                      'firstName': 'Butt',
+                      'lastName': 'Face',
+                    });
+              },
+              child: Text('Update user profile')),
         ],
       ),
     )));
@@ -251,8 +272,11 @@ class _AddTaskState extends State<AddTask> {
                 taskID = {addedTask.id.toString(): _taskName};
                 ProjectService(user: user).updateProject(
                     projectID: _projectID,
-                    updateData: {'taskList': taskID});    // TODO: add task to project array list
-                Navigator.pop(context);                   // TODO: change list of task for that project to pop up a modal rather than expansionList - expansion panel is for additional details not a hidden list
+                    updateData: {
+                      'taskList': taskID
+                    }); // TODO: add task to project array list
+                Navigator.pop(
+                    context); // TODO: change list of task for that project to pop up a modal rather than expansionList - expansion panel is for additional details not a hidden list
               }
             },
             child: Text('Submit'),

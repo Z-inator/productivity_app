@@ -18,8 +18,8 @@ class AuthService {
   // Sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      final UserCredential userCredential = await _auth
+          .signInWithEmailAndPassword(email: email, password: password);
       final User user = userCredential.user;
       return user;
     } on FirebaseAuthException catch (error) {
@@ -34,14 +34,26 @@ class AuthService {
   // Register with email and password
   Future registerWithEmailAndPassword(String email, String password) async {
     try {
-      final UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      final User user = userCredential.user;
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((UserCredential userCredential) => {
+            userCredential.user.sendEmailVerification(),
+            DatabaseService().buildUser(
+              uid: userCredential.user.uid,
+              firstName: 'Butt',
+              lastName: 'Face'
+            )
+          });
 
-  // Create a new document for the user with the uid
-      await DatabaseService()
-          .buildUser(uid: user.uid, lastName: 'Butt', firstName: 'Face');
-      return user;
+      // // Send verification email
+      // if (!userCredential.user.emailVerified) {
+      //   user.sendEmailVerification();
+      // }
+
+      // // Create a new document for the user with the uid
+      // await DatabaseService()
+      //     .buildUser(uid: user.uid, lastName: 'Face', firstName: 'Butt');
+      // return user;
     } on FirebaseAuthException catch (error) {
       if (error.code == 'weak-password') {
         print('Password is too weak');
@@ -56,7 +68,8 @@ class AuthService {
   // sign in with Google
   Future<User> googleSignIn() async {
     try {
-      final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      final GoogleSignInAccount googleSignInAccount =
+          await _googleSignIn.signIn();
       final GoogleSignInAuthentication googleAuth =
           await googleSignInAccount.authentication;
 

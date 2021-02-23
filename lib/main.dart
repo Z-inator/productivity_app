@@ -35,12 +35,12 @@ class _ProductivityAppState extends State<ProductivityApp> {
   void initializeFlutterFire() async {
     try {
       await Firebase.initializeApp();
-      String host = defaultTargetPlatform == TargetPlatform.android
-          ? '10.0.2.2:8000'
-          : 'localHost:8080';
-      FirebaseFirestore.instance.settings =
-          Settings(host: host, sslEnabled: false);
-      FirebaseAuth.instance.useEmulator('http://localhost:9099');
+      // String host = defaultTargetPlatform == TargetPlatform.android
+      //     ? '10.0.2.2:8000'
+      //     : 'localHost:8080';
+      // FirebaseFirestore.instance.settings =
+      //     Settings(host: host, sslEnabled: false);
+      // FirebaseAuth.instance.useEmulator('http://localhost:9099');
       setState(() {
         _initialized = true;
       });
@@ -52,17 +52,16 @@ class _ProductivityAppState extends State<ProductivityApp> {
   @override
   void initState() {
     initializeFlutterFire();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     if (_error) {
-      return Text('Something went wrong');
+      return Container(child: Text('Something went wrong'));
     }
     if (!_initialized) {
-      return Text('Loading');
+      return Container(child: Text('Loading'));
     }
     return StreamProvider<User>.value(
       value: AuthService().user,
