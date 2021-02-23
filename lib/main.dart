@@ -18,28 +18,52 @@ import 'shared_components/error_screen.dart';
 import 'shared_components/loading_screen.dart';
 import 'package:flutter/foundation.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  String host = defaultTargetPlatform == TargetPlatform.android
-      ? '10.0.2.2:8000'
-      : 'localHost:8080';
-  FirebaseFirestore.instance.settings = Settings(host: host, sslEnabled: false);
-  FirebaseAuth.instance.useEmulator('http://localhost:9099');
-  
-
   runApp(ProductivityApp());
-
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // FirebaseFunctions.instance
-  //     .useFunctionsEmulator(origin: 'http://localhost:5001');
-  // runApp(ProductivityApp());
 }
 
-class ProductivityApp extends StatelessWidget {
+class ProductivityApp extends StatefulWidget {
+  @override
+  _ProductivityAppState createState() => _ProductivityAppState();
+}
+
+class _ProductivityAppState extends State<ProductivityApp> {
+  bool _initialized = false;
+  bool _error = false;
+
+  void initializeFlutterFire() async {
+    try {
+      await Firebase.initializeApp();
+      String host = defaultTargetPlatform == TargetPlatform.android
+          ? '10.0.2.2:8000'
+          : 'localHost:8080';
+      FirebaseFirestore.instance.settings =
+          Settings(host: host, sslEnabled: false);
+      FirebaseAuth.instance.useEmulator('http://localhost:9099');
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      _error = true;
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_error) {
+      return Text('Something went wrong');
+    }
+    if (!_initialized) {
+      return Text('Loading');
+    }
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
@@ -50,32 +74,4 @@ class ProductivityApp extends StatelessWidget {
       ),
     );
   }
-
-// @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder(
-//         // Initialize FlutterFire:
-//         future: _initialization,
-//         builder: (context, snapshot) {
-//           // Check for Errors:
-//           if (snapshot.hasError) {
-//             return SomethingWentWrong();
-//           }
-//           // Once complete, show application:
-//           if (snapshot.connectionState == ConnectionState.done) {
-//             return StreamProvider<User>.value(
-//               value: AuthService().user,
-//               child: MaterialApp(
-//                 title: 'ProductivityApp',
-//                 // theme: appTheme(),
-//                 home: Wrapper(),
-//                 routes: routes,
-//               ),
-//             );
-//           }
-//           // Show Loading screen while waiting for initialization to complete:
-//           return Container();
-//         });
-//   }
-// }
 }
