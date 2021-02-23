@@ -140,6 +140,17 @@ class _TestScreenState extends State<TestScreen> {
                     });
               },
               child: Text('Update user profile')),
+          ElevatedButton(
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('cNB6nEhkv0dJLhGJrvflz4P1jR33')
+                    .update({
+                      'firstName': 'Your',
+                      'lastName': 'Mom',
+                    }).catchError((error) => print(error));
+              },
+              child: Text('Update other user profile')),
         ],
       ),
     )));
