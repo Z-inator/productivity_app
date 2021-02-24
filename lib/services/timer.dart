@@ -52,9 +52,7 @@ class TimerWidget extends StatefulWidget {
 class _TimerWidgetState extends State<TimerWidget> {
   Stream<int> timerStream;
   StreamSubscription<int> timerSubscription;
-  String hourStr = '00';
-  String minuteStr = '00';
-  String secondStr = '00';
+  String time;
   DateTime startTime;
   DateTime endTime;
   int count;
@@ -82,9 +80,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         icon: Icon(Icons.play_arrow_rounded),
         onPressed: () => startTimer(),
       );
-      hourStr = '00';
-      minuteStr = '00';
-      secondStr = '00';
+      time = '00:00:00';
     });
     endTime = DateTime.now();
     TimeService(user: widget.user).addTimeEntry(
@@ -98,12 +94,10 @@ class _TimerWidgetState extends State<TimerWidget> {
   void runningTimer(int tick) {
     count = tick;
     print(count);
-    List<String> timerTextList = [];
-    timerTextList = TimerText(ticks: tick).getTimerText();
+    String timerText;
+    timerText = TimerText(ticks: tick).timeToText();
     setState(() {
-      hourStr = timerTextList[0];
-      minuteStr = timerTextList[1];
-      secondStr = timerTextList[2];
+      time = timerText;
     });
   }
 
@@ -125,7 +119,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     return Container(
       child: Row(children: <Widget>[
         playStop,
-        Text('$hourStr:$minuteStr:$secondStr'),
+        Text(time),
       ]),
     );
   }
