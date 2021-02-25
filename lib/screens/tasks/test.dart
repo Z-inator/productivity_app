@@ -36,17 +36,17 @@ class _ProjectContentPageState extends State<ProjectContentPage> {
             final String docID = document.id;
             final String projectName =
                 document.data()['projectName'].toString();
-            final Color projectColor = ProjectColors(
-                    colorSelector:
-                        int.parse(document.data()['projectColor'].toString()))
-                .getColor();
+            // final Color projectColor = ProjectColors(
+            //         colorSelector:
+            //             int.parse(document.data()['projectColor'].toString()))
+            //     .getColor();
             final String elapsedTime = TimerText(
                     ticks: int.parse(document.data()['elapsedTime'].toString()))
                 .timeToText();
             return ListTile(
                 leading: Icon(
                   Icons.circle,
-                  color: projectColor,
+                  // color: projectColor,
                 ),
                 title: Text(projectName),
                 subtitle: Text(elapsedTime),

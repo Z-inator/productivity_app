@@ -23,13 +23,19 @@ class ProjectContentEx extends StatelessWidget {
           return Text('Loading');
         }
         return ListView(
-            children: snapshot.data.docs.map((DocumentSnapshot document) async{
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
           final String projectName = document.data()['projectName'].toString();
-          final Color projectColor = await ProjectColors(colorSelector: int.parse(document.data()['projectColor'].toString())).getColor();   // TODO: Color function is not working, figure out how to properly use async & futures?
+          final int colorSelector = ProjectColors().getColor(
+              colorSelector: int.parse(document
+                  .data()['projectColor']
+                  .toString())); // TODO: Color function is not working, figure out how to properly use async & futures?
+          print(colorSelector);
+          final Color projectColor = Color(colorSelector);
+          print(projectColor);
           return ListTile(
             leading: Icon(
               Icons.circle,
-              color: projectColor,
+              // color: projectColor,
             ),
             title: Text(projectName),
             subtitle: Text(document.data()['projectTime'].toString()),
