@@ -48,8 +48,25 @@ class ProjectContentPage extends StatelessWidget {
                         onPressed: () {
                           return showModalBottomSheet(
                               context: context,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+                              ),
                               builder: (BuildContext context) {
-                                return TaskStream(projectName: projectName);
+                                return Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(child: TaskStream(projectName: projectName,)),
+                                          TextField(
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              labelText: 'New Task'
+                                            ),
+                                          )
+                                        ],
+                                  ),
+                                );
                               });
                         }));
               }).toList());
@@ -98,6 +115,9 @@ class _TaskStreamState extends State<TaskStream> {
                       int.parse(document.data()['taskTime'].toString()));
               return Card(
                               child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
+                  ),
                   leading: IconButton(
                     icon: Icon(
                       Icons.play_arrow_rounded,
@@ -106,8 +126,8 @@ class _TaskStreamState extends State<TaskStream> {
                     onPressed: () {},
                   ),
                   title: Text(taskName),
-                  subtitle: Text(elapsedTime),
-                  trailing: Text(dueDateString),
+                  subtitle: Text(dueDateString),
+                  trailing: Text(elapsedTime),
                   onTap: () {},
                 ),
               );

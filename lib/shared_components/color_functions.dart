@@ -28,7 +28,6 @@ class ProjectColors {
 
   Color getColor({int colorSelector}) {
     final Color color = Color(colorList[colorSelector]);
-    print('getColor running: $color');
     return color;
   }
 }
