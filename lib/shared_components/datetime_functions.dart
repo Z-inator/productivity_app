@@ -1,9 +1,12 @@
-class DateText {
-  final DateTime date;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  DateText({this.date});
+class DateTimeFunctions {
+  
+  DateTime timeStampToDateTime({Timestamp date}) {
+    return date.toDate();
+  }
 
-  String dateToText() {
+  String dateToText({DateTime date}) {
     String month = date.month.toString().padLeft(2, '0');
     String day = date.day.toString().padLeft(2, '0');
     String year = date.year.toString();

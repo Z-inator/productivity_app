@@ -8,16 +8,16 @@ class ProjectToFirebase {
   ProjectToFirebase({this.user});
 
   List<Map<String, dynamic>> projectData = [
-    {"projectTime": 421, "projectName": "Linkbridge", "projectColor": 1},
-    {"projectTime": 469, "projectName": "Thoughtsphere", "projectColor": 4},
-    {"projectTime": 45, "projectName": "Topicblab", "projectColor": 1},
-    {"projectTime": 97, "projectName": "Skimia", "projectColor": 1},
-    {"projectTime": 390, "projectName": "Aimbu", "projectColor": 1},
-    {"projectTime": 126, "projectName": "Oyondu", "projectColor": 4},
-    {"projectTime": 7, "projectName": "Plambee", "projectColor": 10},
-    {"projectTime": 434, "projectName": "Avamm", "projectColor": 10},
-    {"projectTime": 37, "projectName": "Skiba", "projectColor": 10},
-    {"projectTime": 228, "projectName": "Skyble", "projectColor": 10},
+    {'projectName':'Linkbridge','projectTime':764,'projectColor':13},
+    {'projectName':'Thoughtsphere','projectTime':54,'projectColor':11},
+    {'projectName':'Topicblab','projectTime':676,'projectColor':7},
+    {'projectName':'Skimia','projectTime':146,'projectColor':11},
+    {'projectName':'Aimbu','projectTime':346,'projectColor':11},
+    {'projectName':'Oyondu','projectTime':55,'projectColor':1},
+    {'projectName':'Plambee','projectTime':658,'projectColor':8},
+    {'projectName':'Avamm','projectTime':583,'projectColor':18},
+    {'projectName':'Skiba','projectTime':790,'projectColor':2},
+    {'projectName':'Skyble','projectTime':621,'projectColor':8},
   ];
 
   Future<void> uploadExampleData() {

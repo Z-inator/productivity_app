@@ -1,4 +1,4 @@
-import 'package:productivity_app/models/colors.dart';
+import 'package:productivity_app/shared_components/color_functions.dart';
 
 
 class Projects {

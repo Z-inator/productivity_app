@@ -31,7 +31,7 @@ class _TestScreenState extends State<TestScreen> {
     return Container(
         child: SafeArea(
             child: Scaffold(
-              body: ProjectContentEx(),
+              body: FunctionalityButtonList(user: user),
     )));
   }
 }

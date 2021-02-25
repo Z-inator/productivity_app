@@ -11,5 +11,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/timepage': (BuildContext context) => TimeScreen(),
   '/taskpage': (BuildContext context) => TaskScreen(),
   '/goalpage': (BuildContext context) => GoalScreen(),
-  '/projectContent': (BuildContext context) => ProjectContentEx()
+  '/projectContent': (BuildContext context) => ProjectContentPage()
 };
