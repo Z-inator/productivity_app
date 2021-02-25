@@ -10,11 +10,12 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
 
   // Build new user collections
-  Future<void> buildUser({String uid, String firstName, String lastName}) async {
+  Future<void> buildUser(
+      {String uid, String firstName, String lastName}) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'firstName': firstName,
       'lastName': lastName,
-      'statuses': ['To Do', 'In Progress', 'Done']
+      'statuses': {'toDo': 'To Do', 'inProgress': 'In Progress', 'done': 'Done'}
     });
   }
 }

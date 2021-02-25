@@ -29,7 +29,7 @@ class ProjectColors {
     'BlueGray': 0xFF607D8B,
   };
 
-  Color getColor() {
+  Future<Color> getColor() async {
     final Color color = Color(colorList[colorSelector]);
     return color;
   }

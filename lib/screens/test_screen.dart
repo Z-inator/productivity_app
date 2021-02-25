@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/screens/tasks/components/task_list.dart';
 import 'package:productivity_app/screens/tasks/test.dart';
+import 'package:productivity_app/screens/tasks/test2.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
@@ -30,7 +31,7 @@ class _TestScreenState extends State<TestScreen> {
     return Container(
         child: SafeArea(
             child: Scaffold(
-              body: FunctionalityButtonList(user: user),
+              body: ProjectContentEx(),
     )));
   }
 }

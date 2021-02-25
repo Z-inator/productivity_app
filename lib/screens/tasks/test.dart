@@ -18,56 +18,49 @@ class _ProjectContentPageState extends State<ProjectContentPage> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
-    return SafeArea(
-          child: Scaffold(
-
-        body: StreamBuilder<QuerySnapshot>(
-              stream: ProjectService(user: user).projects.snapshots(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text('Loading'),
-                  ]);
-                }
-                return ListView(
-                    children: snapshot.data.docs.map((DocumentSnapshot document) {
-                  final String docID = document.id;
-                  final String projectName =
-                      document.data()['projectName'].toString();
-                  final Color projectColor = ProjectColors(
-                          colorSelector:
-                              int.parse(document.data()['projectColor'].toString()))
-                      .getColor();
-                  final String elapsedTime = TimerText(
-                          ticks:
-                              int.parse(document.data()['elapsedTime'].toString()))
-                      .timeToText();
-                  return ListTile(
-                      leading: Icon(
-                        Icons.circle,
-                        color: projectColor,
-                      ),
-                      title: Text(projectName),
-                      subtitle: Text(elapsedTime),
-                      trailing: IconButton(
-                          icon: Icon(Icons.playlist_add_rounded),
-                          onPressed: () {
-                            return showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return TaskStream(projectName: projectName);
-                                });
-                          }));
-                }).toList());
-              }),
-      ),
-
-    );
+    return StreamBuilder<QuerySnapshot>(
+        stream: ProjectService(user: user).projects.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Loading'),
+                ]);
+          }
+          return ListView(
+              children: snapshot.data.docs.map((DocumentSnapshot document) {
+            final String docID = document.id;
+            final String projectName =
+                document.data()['projectName'].toString();
+            final Color projectColor = ProjectColors(
+                    colorSelector:
+                        int.parse(document.data()['projectColor'].toString()))
+                .getColor();
+            final String elapsedTime = TimerText(
+                    ticks: int.parse(document.data()['elapsedTime'].toString()))
+                .timeToText();
+            return ListTile(
+                leading: Icon(
+                  Icons.circle,
+                  color: projectColor,
+                ),
+                title: Text(projectName),
+                subtitle: Text(elapsedTime),
+                trailing: IconButton(
+                    icon: Icon(Icons.playlist_add_rounded),
+                    onPressed: () {
+                      return showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return TaskStream(projectName: projectName);
+                          });
+                    }));
+          }).toList());
+        });
   }
 }
 
