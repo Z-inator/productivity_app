@@ -11,13 +11,13 @@ import 'package:productivity_app/services/authentification_data.dart';
 
 class BaseFramework extends StatelessWidget {
   final Widget dashboard;
-  final Widget list;
+  final Widget content;
 
   final AuthService _auth = AuthService();
   String email = 'someone@gmail.com';
   String password = 'testing123456';
 
-  BaseFramework({this.dashboard, this.list});
+  BaseFramework({this.dashboard, this.content});
 
   // void initState() {
   //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -58,7 +58,7 @@ class BaseFramework extends StatelessWidget {
               )
             ];
           },
-          body: list,
+          body: content,
         ),
         bottomNavigationBar: BottomNavigationBarBase(),
         floatingActionButton: Container(

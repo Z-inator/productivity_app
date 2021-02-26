@@ -31,40 +31,10 @@ class _TestScreenState extends State<TestScreen> {
 
     return Container(
         child: SafeArea(
-            child: NotificationListener<ScrollUpdateNotification>(
-      onNotification: (notification) {
-        if (notification.scrollDelta.sign == 1) {
-          setState(() {
-            yTransValue = 100;
-          });
-        } else if (notification.scrollDelta.sign == -1) {
-          setState(() {
-            yTransValue = 0;
-          });
-        }
-      },
       child: Scaffold(
         body: FunctionalityButtonList(user: user),
-        bottomNavigationBar: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          transform: Matrix4.translationValues(0, yTransValue, 0),
-          child: SizedBox(
-            height: 60,
-            child: Card(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.home),
-                  Icon(Icons.search),
-                  Icon(Icons.favorite),
-                  Icon(Icons.person)
-                ],
-              ),
-            ),
-          ),
-        ),
       ),
-    )));
+    ));
   }
 }
 
@@ -92,18 +62,7 @@ class FunctionalityButtonList extends StatelessWidget {
                   .then((value) => print(FirebaseAuth.instance.currentUser));
             },
             child: Text('Sign Out')),
-        ElevatedButton(
-          onPressed: () {
-            return showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return AddTask(
-                    user: user,
-                  );
-                });
-          },
-          child: Text('Add Task'),
-        ),
+        
         // ElevatedButton(
         //   onPressed: () {
         //     return showModalBottomSheet(
@@ -126,16 +85,16 @@ class FunctionalityButtonList extends StatelessWidget {
         //           });
         //     },
         //     child: Text('Show Tasks')),
-        ElevatedButton(
-            onPressed: () {
-              print(user.uid);
-              return showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ProjectStream();
-                  });
-            },
-            child: Text('Show Projects')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       print(user.uid);
+        //       return showModalBottomSheet(
+        //           context: context,
+        //           builder: (BuildContext context) {
+        //             return ProjectStream();
+        //           });
+        //     },
+        //     child: Text('Show Projects')),
         // ElevatedButton(
         //     onPressed: () {
         //       print(user.uid);
@@ -158,53 +117,59 @@ class FunctionalityButtonList extends StatelessWidget {
         //           });
         //     },
         //     child: Text('Show Timer')),
+        Row(
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  TaskToFirebase(user: user).uploadExampleData();
+                },
+                child: Text('Add task data')),
+            ElevatedButton(
+                onPressed: () {
+                  ProjectToFirebase(user: user).uploadExampleData();
+                },
+                child: Text('Add project data')),
+            ElevatedButton(
+                onPressed: () {
+                  ProjectToFirebase(user: user).updateProjectData();
+                },
+                child: Text('Update project data')),
+            ElevatedButton(
+                onPressed: () {
+                  TimeToFirebase(user: user).uploadExampleData();
+                },
+                child: Text('Add time data')),
+            ElevatedButton(
+                onPressed: () {
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(user.uid)
+                      .update({
+                    'firstName': 'Butt',
+                    'lastName': 'Face',
+                  });
+                },
+                child: Text('Update user profile')),
+            
+          ]
+        ),
         ElevatedButton(
-            onPressed: () {
-              TaskToFirebase(user: user).uploadExampleData();
-            },
-            child: Text('Add task data')),
+          onPressed: () {
+            return showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return AddTask(
+                    user: user,
+                  );
+                });
+          },
+          child: Text('Add Task'),
+        ),
         ElevatedButton(
-            onPressed: () {
-              ProjectToFirebase(user: user).uploadExampleData();
-            },
-            child: Text('Add project data')),
-        ElevatedButton(
-            onPressed: () {
-              ProjectToFirebase(user: user).updateProjectData();
-            },
-            child: Text('Update project data')),
-        ElevatedButton(
-            onPressed: () {
-              TimeToFirebase(user: user).uploadExampleData();
-            },
-            child: Text('Add time data')),
-        ElevatedButton(
-            onPressed: () {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(user.uid)
-                  .update({
-                'firstName': 'Butt',
-                'lastName': 'Face',
-              });
-            },
-            child: Text('Update user profile')),
-        ElevatedButton(
-            onPressed: () {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc('cNB6nEhkv0dJLhGJrvflz4P1jR33')
-                  .update({
-                'firstName': 'Your',
-                'lastName': 'Mom',
-              }).catchError((error) => print(error));
-            },
-            child: Text('Update other user profile')),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/projectscreen');
-            },
-            child: Text('show task page')),
+          onPressed: () {
+            Navigator.pushNamed(context, '/projectscreen');
+          },
+          child: Text('show task page')),
       ],
     );
   }

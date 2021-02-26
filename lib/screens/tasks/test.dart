@@ -15,45 +15,11 @@ class ProjectContentPage extends StatefulWidget {
 }
 
 class _ProjectContentPageState extends State<ProjectContentPage> {
-  double yTransValue = 0;
-
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
-    return Container(
-        child: SafeArea(
-            child: NotificationListener<ScrollUpdateNotification>(
-      onNotification: (notification) {
-        if (notification.scrollDelta.sign == 1) {
-          setState(() {
-            yTransValue = 100;
-          });
-        } else if (notification.scrollDelta.sign == -1) {
-          setState(() {
-            yTransValue = 0;
-          });
-        }
-      },
+    return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: AnimatedContainer(
-          color: Colors.transparent,
-          duration: Duration(milliseconds: 300),
-          transform: Matrix4.translationValues(0, yTransValue, 0),
-          child: SizedBox(
-            height: 60,
-            child: Card(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(Icons.home),
-                  Icon(Icons.search),
-                  Icon(Icons.favorite),
-                  Icon(Icons.person)
-                ],
-              ),
-            ),
-          ),
-        ),
         body: StreamBuilder<QuerySnapshot>(
             stream: ProjectService(user: user).projects.snapshots(),
             builder:
@@ -91,7 +57,7 @@ class _ProjectContentPageState extends State<ProjectContentPage> {
               }).toList());
             }),
       ),
-    )));
+    );
   }
 }
 
@@ -108,7 +74,7 @@ class _TaskStreamState extends State<TaskStream> {
     final User user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(),
-          body: Container(
+      body: Container(
         child: StreamBuilder(
             stream: TaskService(user: user)
                 .tasks
@@ -123,36 +89,38 @@ class _TaskStreamState extends State<TaskStream> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: Text('Loading'));
               }
-              return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                final String docID = document.id;
-                final String taskName = document.data()['taskName'].toString();
-                final DateTime dueDate = DateTimeFunctions()
-                    .timeStampToDateTime(date: document.data()['dueDate']);
-                final String dueDateString =
-                    DateTimeFunctions().dateToText(date: dueDate).toString();
-                final String elapsedTime = TimeFunctions().timeToText(
-                    seconds: int.parse(document.data()['taskTime'].toString()));
-                return Card(
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50))),
-                    leading: IconButton(
-                      icon: Icon(
-                        Icons.play_arrow_rounded,
-                        color: Colors.green,
+              return Scrollbar(
+                child: ListView(
+                    children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  final String docID = document.id;
+                  final String taskName = document.data()['taskName'].toString();
+                  final DateTime dueDate = DateTimeFunctions()
+                      .timeStampToDateTime(date: document.data()['dueDate']);
+                  final String dueDateString =
+                      DateTimeFunctions().dateToText(date: dueDate).toString();
+                  final String elapsedTime = TimeFunctions().timeToText(
+                      seconds: int.parse(document.data()['taskTime'].toString()));
+                  return Card(
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50))),
+                      leading: IconButton(
+                        icon: Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.green,
+                        ),
+                        onPressed: () {},
                       ),
-                      onPressed: () {},
+                      title: Text(taskName),
+                      subtitle: Text(dueDateString),
+                      trailing: Text(elapsedTime),
+                      onTap: () {},
                     ),
-                    title: Text(taskName),
-                    subtitle: Text(dueDateString),
-                    trailing: Text(elapsedTime),
-                    onTap: () {},
-                  ),
-                );
-              }).toList());
+                  );
+                }).toList()),
+              );
             }),
       ),
     );
