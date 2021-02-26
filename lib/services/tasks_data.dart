@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -68,10 +66,9 @@ class TasksStream extends StatelessWidget {
     final User user = Provider.of<User>(context);
     return Scaffold(
       bottomNavigationBar: AnimatedContainer(
-        duration: Duration(milliseconds: 600,
-        height: 
-      ),    
-          
+        duration: Duration(milliseconds: 600),
+        height: 60,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: TaskService(user: user).tasks.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

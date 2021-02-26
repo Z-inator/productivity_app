@@ -202,7 +202,7 @@ class FunctionalityButtonList extends StatelessWidget {
             child: Text('Update other user profile')),
         ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/projectContent');
+              Navigator.pushNamed(context, '/projectscreen');
             },
             child: Text('show task page')),
       ],

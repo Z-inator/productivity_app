@@ -14,37 +14,8 @@
 //   Widget build(BuildContext context) {
 //     final User user = Provider.of<User>(context);
 //     return SafeArea(
-//           child: Scaffold(
-//             body: StreamBuilder<QuerySnapshot>(
-//           stream: ProjectService(user: user).projects.snapshots(),
-//           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//             if (snapshot.hasError) {
-//               return Text('Something went wrong');
-//             }
-//             if (snapshot.connectionState == ConnectionState.waiting) {
-//               return Text('Loading');
-//             }
-//             return ListView(
-//                 children: snapshot.data.docs.map((DocumentSnapshot document) {
-//               final String projectName = document.data()['projectName'].toString();
-//               final int colorSelector = ProjectColors().getColor(
-//                   colorSelector: int.parse(document
-//                       .data()['projectColor']
-//                       .toString())); // TODO: Color function is not working, figure out how to properly use async & futures?
-//               print(colorSelector);
-//               final Color projectColor = Color(colorSelector);
-//               print(projectColor);
-//               return ListTile(
-//                 leading: Icon(
-//                   Icons.circle,
-//                   color: projectColor,
-//                 ),
-//                 title: Text(projectName),
-//                 subtitle: Text(document.data()['projectTime'].toString()),
-//               );
-//             }).toList());
-//           },
-//         ),
+//       child: Scaffold(
+
 //       ),
 //     );
 //   }

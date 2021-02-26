@@ -85,35 +85,13 @@ class _ProjectContentPageState extends State<ProjectContentPage> {
                     trailing: IconButton(
                         icon: Icon(Icons.playlist_add_rounded),
                         onPressed: () {
-                          return showModalBottomSheet(
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-                              ),
-                              builder: (BuildContext context) {
-                                return Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(child: TaskStream(projectName: projectName,)),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              labelText: 'New Task'
-                                            ),
-                                          )
-                                        ],
-                                  ),
-                                );
-                              });
+                          Navigator.pushNamed(context, '/taskscreen',
+                              arguments: projectName);
                         }));
               }).toList());
             }),
       ),
-            )
-        )
-    );
+    )));
   }
 }
 
@@ -128,52 +106,55 @@ class _TaskStreamState extends State<TaskStream> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
-    return Container(
-      child: StreamBuilder(
-          stream: TaskService(user: user)
-              .tasks
-              .where('projectName', isEqualTo: widget.projectName)
-              .orderBy('dueDate', descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Something went wrong'));
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text('Loading'));
-            }
-            return ListView(
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
-              final String docID = document.id;
-              final String taskName = document.data()['taskName'].toString();
-              final DateTime dueDate = DateTimeFunctions()
-                  .timeStampToDateTime(date: document.data()['dueDate']);
-              final String dueDateString =
-                  DateTimeFunctions().dateToText(date: dueDate).toString();
-              final String elapsedTime = TimeFunctions().timeToText(
-                  seconds:
-                      int.parse(document.data()['taskTime'].toString()));
-              return Card(
-                              child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))
-                  ),
-                  leading: IconButton(
-                    icon: Icon(
-                      Icons.play_arrow_rounded,
-                      color: Colors.green,
+    return Scaffold(
+      appBar: AppBar(),
+          body: Container(
+        child: StreamBuilder(
+            stream: TaskService(user: user)
+                .tasks
+                .where('projectName', isEqualTo: widget.projectName)
+                .orderBy('dueDate', descending: true)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text('Something went wrong'));
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: Text('Loading'));
+              }
+              return ListView(
+                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                final String docID = document.id;
+                final String taskName = document.data()['taskName'].toString();
+                final DateTime dueDate = DateTimeFunctions()
+                    .timeStampToDateTime(date: document.data()['dueDate']);
+                final String dueDateString =
+                    DateTimeFunctions().dateToText(date: dueDate).toString();
+                final String elapsedTime = TimeFunctions().timeToText(
+                    seconds: int.parse(document.data()['taskTime'].toString()));
+                return Card(
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            topRight: Radius.circular(50))),
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {},
                     ),
-                    onPressed: () {},
+                    title: Text(taskName),
+                    subtitle: Text(dueDateString),
+                    trailing: Text(elapsedTime),
+                    onTap: () {},
                   ),
-                  title: Text(taskName),
-                  subtitle: Text(dueDateString),
-                  trailing: Text(elapsedTime),
-                  onTap: () {},
-                ),
-              );
-            }).toList());
-          }),
+                );
+              }).toList());
+            }),
+      ),
     );
   }
 }

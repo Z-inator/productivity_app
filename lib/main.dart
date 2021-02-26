@@ -68,8 +68,10 @@ class _ProductivityAppState extends State<ProductivityApp> {
       child: MaterialApp(
         title: 'ProductivityApp',
         // theme: appTheme(),
-        home: Wrapper(),
-        routes: routes,
+        // home: Wrapper(),
+        // routes: routes,
+        onGenerateRoute: generateRoute,
+        initialRoute: '/',
       ),
     );
   }
