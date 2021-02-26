@@ -9,12 +9,51 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:provider/provider.dart';
 
-class ProjectContentPage extends StatelessWidget {
+class ProjectContentPage extends StatefulWidget {
+  @override
+  _ProjectContentPageState createState() => _ProjectContentPageState();
+}
+
+class _ProjectContentPageState extends State<ProjectContentPage> {
+  double yTransValue = 0;
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
-    return SafeArea(
+    return Container(
+        child: SafeArea(
+            child: NotificationListener<ScrollUpdateNotification>(
+      onNotification: (notification) {
+        if (notification.scrollDelta.sign == 1) {
+          setState(() {
+            yTransValue = 100;
+          });
+        } else if (notification.scrollDelta.sign == -1) {
+          setState(() {
+            yTransValue = 0;
+          });
+        }
+      },
       child: Scaffold(
+        bottomNavigationBar: AnimatedContainer(
+          color: Colors.transparent,
+          duration: Duration(milliseconds: 300),
+          transform: Matrix4.translationValues(0, yTransValue, 0),
+          child: SizedBox(
+            height: 60,
+            child: Card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.home),
+                  Icon(Icons.search),
+                  Icon(Icons.favorite),
+                  Icon(Icons.person)
+                ],
+              ),
+            ),
+          ),
+        ),
         body: StreamBuilder<QuerySnapshot>(
             stream: ProjectService(user: user).projects.snapshots(),
             builder:
@@ -72,6 +111,8 @@ class ProjectContentPage extends StatelessWidget {
               }).toList());
             }),
       ),
+            )
+        )
     );
   }
 }

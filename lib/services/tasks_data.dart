@@ -1,6 +1,9 @@
+import 'dart:js';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TaskService {
   final User user;
@@ -59,46 +62,39 @@ class TaskService {
 }
 
 class TasksStream extends StatelessWidget {
-  final User user;
-  TasksStream({this.user});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: TaskService(user: user).tasks.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-        return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String docID = document.id;
-            print(document.id);
-            return ListTile(
-              leading: IconButton(
-                  icon: Icon(Icons.plus_one),
-                  onPressed: () {
-                    TaskService(user: user).updateTask(
-                        taskID: docID,
-                        updateData: {
-                          'status': 'Done',
-                          'taskName': 'NewTaskNameUpdate'
-                        });
-                  }),
-              title: Text(document.data()['taskName'].toString()),
-              subtitle: Text(document.data()['projectName'].toString()),
-              trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    TaskService(user: user).deleteTask(taskID: docID);
-                  }),
-            );
-          }).toList(),
-        );
-      },
+    final User user = Provider.of<User>(context);
+    return Scaffold(
+      bottomNavigationBar: AnimatedContainer(
+        duration: Duration(milliseconds: 600,
+        height: 
+      ),    
+          
+      body: StreamBuilder<QuerySnapshot>(
+        stream: TaskService(user: user).tasks.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text('Loading');
+          }
+          return ListView(
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              final String docID = document.id;
+              print(document.id);
+              return ListTile(
+                leading: IconButton(icon: Icon(Icons.plus_one), onPressed: () {}),
+                title: Text(document.data()['taskName'].toString()),
+                subtitle: Text(document.data()['projectName'].toString()),
+                trailing: IconButton(icon: Icon(Icons.delete), onPressed: () {}),
+              );
+            }).toList(),
+          );
+        },
+      ),
     );
   }
 }

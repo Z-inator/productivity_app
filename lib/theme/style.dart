@@ -5,4 +5,5 @@ ThemeData appTheme() {
 }
 
 
-// Radius for items (cards, modal sheets, etc) = 
+// Radius for items (cards, modal sheets, etc) = 20
+// 

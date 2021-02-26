@@ -24,14 +24,46 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
+  double yTransValue = 0;
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
 
     return Container(
         child: SafeArea(
-            child: Scaffold(
-              body: FunctionalityButtonList(user: user),
+            child: NotificationListener<ScrollUpdateNotification>(
+      onNotification: (notification) {
+        if (notification.scrollDelta.sign == 1) {
+          setState(() {
+            yTransValue = 100;
+          });
+        } else if (notification.scrollDelta.sign == -1) {
+          setState(() {
+            yTransValue = 0;
+          });
+        }
+      },
+      child: Scaffold(
+        body: FunctionalityButtonList(user: user),
+        bottomNavigationBar: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          transform: Matrix4.translationValues(0, yTransValue, 0),
+          child: SizedBox(
+            height: 60,
+            child: Card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.home),
+                  Icon(Icons.search),
+                  Icon(Icons.favorite),
+                  Icon(Icons.person)
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     )));
   }
 }
@@ -152,9 +184,9 @@ class FunctionalityButtonList extends StatelessWidget {
                   .collection('users')
                   .doc(user.uid)
                   .update({
-                    'firstName': 'Butt',
-                    'lastName': 'Face',
-                  });
+                'firstName': 'Butt',
+                'lastName': 'Face',
+              });
             },
             child: Text('Update user profile')),
         ElevatedButton(
@@ -163,9 +195,9 @@ class FunctionalityButtonList extends StatelessWidget {
                   .collection('users')
                   .doc('cNB6nEhkv0dJLhGJrvflz4P1jR33')
                   .update({
-                    'firstName': 'Your',
-                    'lastName': 'Mom',
-                  }).catchError((error) => print(error));
+                'firstName': 'Your',
+                'lastName': 'Mom',
+              }).catchError((error) => print(error));
             },
             child: Text('Update other user profile')),
         ElevatedButton(
