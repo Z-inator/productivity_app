@@ -10,7 +10,7 @@ class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseFramework(
       dashboard: TaskDashboard(),
-      list: TaskList(),
+      content: TaskList(),
     );
     // Column(
     //   mainAxisSize: MainAxisSize.max,

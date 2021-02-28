@@ -9,7 +9,7 @@ class GoalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseFramework(
       dashboard: TimeDashboard(),
-      list: TimeLogList(),
+      content: TimeLogList(),
     );
     // Column(
     //   mainAxisSize: MainAxisSize.max,

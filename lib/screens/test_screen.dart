@@ -12,6 +12,7 @@ import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/services/times_data.dart';
+import 'package:productivity_app/shared_components/bottom_navigation_bar2.dart';
 import 'package:productivity_app/test_data/project_to_firebase.dart';
 import 'package:productivity_app/test_data/task_to_firebase.dart';
 import 'package:productivity_app/test_data/time_to_firebase.dart';
@@ -30,11 +31,19 @@ class _TestScreenState extends State<TestScreen> {
     final User user = Provider.of<User>(context);
 
     return Container(
-        child: SafeArea(
+      child: SafeArea(
       child: Scaffold(
+        extendBody: true,
         body: FunctionalityButtonList(user: user),
+        bottomNavigationBar: BottomNavigationBar2(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {}, 
+          child: Icon(Icons.add_rounded),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-    ));
+      ),
+    );
   }
 }
 

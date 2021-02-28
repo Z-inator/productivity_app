@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseFramework(
       dashboard: HomeDashboard(),
-      list: TimeTileList(),
+      content: TimeTileList(),
     );
     // Column(
     //   mainAxisSize: MainAxisSize.min,
