@@ -7,10 +7,16 @@ import 'package:productivity_app/shared_components/base_framework.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BaseFramework(
-      dashboard: HomeDashboard(),
-      content: TimeTileList(),
+    return SizedBox(
+      height: 100,
+      child: Container(
+        color: Colors.green,
+      ),
     );
+    // BaseFramework(
+    //   dashboard: HomeDashboard(),
+    //   content: TimeTileList(),
+    // );
     // Column(
     //   mainAxisSize: MainAxisSize.min,
     //   crossAxisAlignment: CrossAxisAlignment.stretch,

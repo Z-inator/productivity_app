@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/screens/home/home_screen.dart';
 import 'package:productivity_app/services/authentification_data.dart';
+import 'package:productivity_app/shared_components/base_framework2.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/screens/test_screen.dart';
 
@@ -33,6 +35,6 @@ class Wrapper extends StatelessWidget {
       //   url: 'https://www.'
       // )
     }
-    return TestScreen();
+    return BaseFramework2();
   }
 }

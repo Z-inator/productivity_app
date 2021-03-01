@@ -7,10 +7,16 @@ import 'package:productivity_app/shared_components/base_framework.dart';
 class TimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BaseFramework(
-      dashboard: TimeDashboard(),
-      content: TimeLogList(),
+    return SizedBox(
+      height: 400,
+      child: Container(
+        color: Colors.red,
+      ),
     );
+    // BaseFramework(
+    //   dashboard: TimeDashboard(),
+    //   content: TimeLogList(),
+    // );
     // Column(
     //   mainAxisSize: MainAxisSize.max,
     //   crossAxisAlignment: CrossAxisAlignment.stretch,

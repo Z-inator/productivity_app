@@ -9,6 +9,8 @@ import 'package:productivity_app/shared_components/settings_drawer_widget.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 
+import 'bottom_navigation_bar2.dart';
+
 class BaseFramework extends StatelessWidget {
   final Widget dashboard;
   final Widget content;
@@ -60,7 +62,7 @@ class BaseFramework extends StatelessWidget {
           },
           body: content,
         ),
-        bottomNavigationBar: BottomNavigationBarBase(),
+        bottomNavigationBar: BottomNavigationBar2(),
         floatingActionButton: Container(
           height: 65.0,
           width: 65.0,

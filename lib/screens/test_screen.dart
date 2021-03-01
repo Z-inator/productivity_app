@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/screens/home/home_screen.dart';
 import 'package:productivity_app/screens/tasks/components/task_list.dart';
 import 'package:productivity_app/screens/tasks/test.dart';
 import 'package:productivity_app/screens/tasks/test2.dart';
+import 'package:productivity_app/screens/timeEntries/time_screen.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
@@ -12,6 +14,7 @@ import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/services/times_data.dart';
+import 'package:productivity_app/shared_components/base_framework.dart';
 import 'package:productivity_app/shared_components/bottom_navigation_bar2.dart';
 import 'package:productivity_app/test_data/project_to_firebase.dart';
 import 'package:productivity_app/test_data/task_to_firebase.dart';
@@ -19,44 +22,17 @@ import 'package:productivity_app/test_data/time_to_firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class TestScreen extends StatefulWidget {
-  @override
-  _TestScreenState createState() => _TestScreenState();
-}
-
-class _TestScreenState extends State<TestScreen> {
-  double yTransValue = 0;
+class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
-
-    return Container(
-      child: SafeArea(
-      child: Scaffold(
-        extendBody: true,
-        body: FunctionalityButtonList(user: user),
-        bottomNavigationBar: BottomNavigationBar2(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {}, 
-          child: Icon(Icons.add_rounded),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      ),
-      ),
-    );
+    return FunctionalityButtonList();
   }
 }
 
 class FunctionalityButtonList extends StatelessWidget {
-  const FunctionalityButtonList({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
-
-  final User user;
-
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<User>(context);
     return Column(
       children: [
         ElevatedButton(
@@ -71,7 +47,7 @@ class FunctionalityButtonList extends StatelessWidget {
                   .then((value) => print(FirebaseAuth.instance.currentUser));
             },
             child: Text('Sign Out')),
-        
+
         // ElevatedButton(
         //   onPressed: () {
         //     return showModalBottomSheet(
@@ -126,42 +102,39 @@ class FunctionalityButtonList extends StatelessWidget {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        Row(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  TaskToFirebase(user: user).uploadExampleData();
-                },
-                child: Text('Add task data')),
-            ElevatedButton(
-                onPressed: () {
-                  ProjectToFirebase(user: user).uploadExampleData();
-                },
-                child: Text('Add project data')),
-            ElevatedButton(
-                onPressed: () {
-                  ProjectToFirebase(user: user).updateProjectData();
-                },
-                child: Text('Update project data')),
-            ElevatedButton(
-                onPressed: () {
-                  TimeToFirebase(user: user).uploadExampleData();
-                },
-                child: Text('Add time data')),
-            ElevatedButton(
-                onPressed: () {
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(user.uid)
-                      .update({
-                    'firstName': 'Butt',
-                    'lastName': 'Face',
-                  });
-                },
-                child: Text('Update user profile')),
-            
-          ]
-        ),
+        Row(children: [
+          ElevatedButton(
+              onPressed: () {
+                TaskToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add task data')),
+          ElevatedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add project data')),
+          ElevatedButton(
+              onPressed: () {
+                ProjectToFirebase(user: user).updateProjectData();
+              },
+              child: Text('Update project data')),
+          ElevatedButton(
+              onPressed: () {
+                TimeToFirebase(user: user).uploadExampleData();
+              },
+              child: Text('Add time data')),
+          ElevatedButton(
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .update({
+                  'firstName': 'Butt',
+                  'lastName': 'Face',
+                });
+              },
+              child: Text('Update user profile')),
+        ]),
         ElevatedButton(
           onPressed: () {
             return showModalBottomSheet(
@@ -175,10 +148,10 @@ class FunctionalityButtonList extends StatelessWidget {
           child: Text('Add Task'),
         ),
         ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/projectscreen');
-          },
-          child: Text('show task page')),
+            onPressed: () {
+              Navigator.pushNamed(context, '/projectscreen');
+            },
+            child: Text('show task page')),
       ],
     );
   }

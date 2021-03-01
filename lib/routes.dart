@@ -8,33 +8,34 @@ import 'screens/timeEntries/time_screen.dart';
 import 'screens/tasks/task_screen.dart';
 import 'screens/goals/goal_screen.dart';
 import 'screens/authentification/wrapper.dart';
+import 'screens/test_screen.dart';
 
-
-  Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (context) => Wrapper());
-      case '/homescreen':
-        return MaterialPageRoute(builder: (context) => HomeScreen());
-      case '/timescreen':
-        return MaterialPageRoute(builder: (context) => TimeScreen());
-      case '/projectscreen':
-        return MaterialPageRoute(builder: (context) => ProjectContentPage());
-      case '/taskscreen':
-        var selectedProject = settings.arguments as String;
-        return MaterialPageRoute(
-            builder: (context) => TaskStream(
-                  projectName: selectedProject,
-                ));
-      default:
-        return MaterialPageRoute(
-            builder: (_) => Scaffold(
-                  body: Center(
-                      child: Text('No route defined for ${settings.name}')),
-                ));
-    }
+Route<dynamic> generateRoute(RouteSettings settings) {
+  switch (settings.name) {
+    case '/':
+      return MaterialPageRoute(builder: (context) => Wrapper());
+    case '/homescreen':
+      return MaterialPageRoute(builder: (context) => HomeScreen());
+    case '/timescreen':
+      return MaterialPageRoute(builder: (context) => TimeScreen());
+    case '/projectscreen':
+      return MaterialPageRoute(builder: (context) => ProjectContentPage());
+    case '/taskscreen':
+      var selectedProject = settings.arguments as String;
+      return MaterialPageRoute(
+          builder: (context) => TaskStream(
+                projectName: selectedProject,
+              ));
+    case '/functionalityscreen':
+      return MaterialPageRoute(builder: (context) => TestScreen());
+    default:
+      return MaterialPageRoute(
+          builder: (_) => Scaffold(
+                body: Center(
+                    child: Text('No route defined for ${settings.name}')),
+              ));
   }
-
+}
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   '/homepage': (BuildContext context) => HomeScreen(),

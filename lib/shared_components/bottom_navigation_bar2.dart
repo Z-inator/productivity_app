@@ -47,6 +47,20 @@ class BottomNavigationBar2 extends StatefulWidget {
 }
 
 class _BottomNavigationBar2State extends State<BottomNavigationBar2> {
+  List<Widget> icons = [
+    Icon(Icons.home_rounded),
+    Icon(Icons.timer_rounded),
+    Icon(Icons.playlist_add_rounded),
+    Icon(Icons.gavel_rounded)
+  ];
+  int selectedPage = 0;
+
+  void setPage(int index) {
+    setState(() {
+      selectedPage = index;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,32 +76,39 @@ class _BottomNavigationBar2State extends State<BottomNavigationBar2> {
             children: [
               Expanded(
                 child: IconButton(
-                    icon: Icon(Icons.home_rounded),
-                    color: Colors.red,
+                    icon: icons[0],
+                    color: selectedPage == 0 ? Colors.red : Colors.white,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/homescreen');
+                      setPage(0);
+                      Navigator.pushReplacementNamed(context, '/homescreen');
                     }),
               ),
               Expanded(
                 child: IconButton(
-                    icon: Icon(Icons.timer_rounded),
+                    icon: icons[1],
+                    color: selectedPage == 1 ? Colors.red : Colors.white,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/timepage');
+                      setPage(0);
+                      Navigator.pushReplacementNamed(context, '/timepage');
                     }),
               ),
               Spacer(),
               Expanded(
                 child: IconButton(
-                    icon: Icon(Icons.playlist_add_rounded),
+                    icon: icons[2],
+                    color: selectedPage == 2 ? Colors.red : Colors.white,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/projectscreen');
+                      setPage(2);
+                      Navigator.pushReplacementNamed(context, '/projectscreen');
                     }),
               ),
               Expanded(
                 child: IconButton(
-                    icon: Icon(Icons.gavel_rounded),
+                    icon: icons[3],
+                    color: selectedPage == 3 ? Colors.red : Colors.white,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/goalpage');
+                      setPage(3);
+                      Navigator.pushReplacementNamed(context, '/functionalityscreen');
                     }),
               ),
             ],
