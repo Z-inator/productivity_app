@@ -8,7 +8,7 @@ class TimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
+      height: 200,
       child: Container(
         color: Colors.red,
       ),

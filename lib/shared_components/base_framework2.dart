@@ -95,7 +95,7 @@ class _BaseFramework2State extends State<BaseFramework2> {
                           icon: Icon(Icons.timer_rounded),
                           color: selectedPage == 1 ? Colors.red : Colors.white,
                           onPressed: () {
-                            setPage(0);
+                            setPage(1);
                           }),
                     ),
                     Spacer(),
