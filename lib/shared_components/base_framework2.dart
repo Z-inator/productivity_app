@@ -119,7 +119,16 @@ class _BaseFramework2State extends State<BaseFramework2> {
                 ),
               ),
             ),
-          )),
-    ));
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {}, 
+            child: Icon(
+              Icons.add_rounded, color: Colors.white,
+            ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        ),
+      ),
+    );
   }
 }
