@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:productivity_app/screens/tasks/test.dart';
 import 'package:productivity_app/screens/tasks/test2.dart';
 import 'package:productivity_app/services/tasks_data.dart';
+import 'package:productivity_app/shared_components/base_framework2.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/timeEntries/time_screen.dart';
 import 'screens/tasks/task_screen.dart';
@@ -15,7 +16,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/':
       return MaterialPageRoute(builder: (context) => Wrapper());
     case '/homescreen':
-      return MaterialPageRoute(builder: (context) => HomeScreen());
+      return MaterialPageRoute(builder: (context) => BaseFramework2());
     case '/timescreen':
       return MaterialPageRoute(builder: (context) => TimeScreen());
     case '/projectscreen':

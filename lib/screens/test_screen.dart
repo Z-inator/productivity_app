@@ -102,39 +102,37 @@ class FunctionalityButtonList extends StatelessWidget {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        Row(children: [
-          ElevatedButton(
-              onPressed: () {
-                TaskToFirebase(user: user).uploadExampleData();
-              },
-              child: Text('Add task data')),
-          ElevatedButton(
-              onPressed: () {
-                ProjectToFirebase(user: user).uploadExampleData();
-              },
-              child: Text('Add project data')),
-          ElevatedButton(
-              onPressed: () {
-                ProjectToFirebase(user: user).updateProjectData();
-              },
-              child: Text('Update project data')),
-          ElevatedButton(
-              onPressed: () {
-                TimeToFirebase(user: user).uploadExampleData();
-              },
-              child: Text('Add time data')),
-          ElevatedButton(
-              onPressed: () {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(user.uid)
-                    .update({
-                  'firstName': 'Butt',
-                  'lastName': 'Face',
-                });
-              },
-              child: Text('Update user profile')),
-        ]),
+        ElevatedButton(
+            onPressed: () {
+              TaskToFirebase(user: user).uploadExampleData();
+            },
+            child: Text('Add task data')),
+        ElevatedButton(
+            onPressed: () {
+              ProjectToFirebase(user: user).uploadExampleData();
+            },
+            child: Text('Add project data')),
+        ElevatedButton(
+            onPressed: () {
+              ProjectToFirebase(user: user).updateProjectData();
+            },
+            child: Text('Update project data')),
+        ElevatedButton(
+            onPressed: () {
+              TimeToFirebase(user: user).uploadExampleData();
+            },
+            child: Text('Add time data')),
+        ElevatedButton(
+            onPressed: () {
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .update({
+                'firstName': 'Butt',
+                'lastName': 'Face',
+              });
+            },
+            child: Text('Update user profile')),
         ElevatedButton(
           onPressed: () {
             return showModalBottomSheet(

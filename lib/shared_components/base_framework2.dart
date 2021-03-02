@@ -41,92 +41,126 @@ class _BaseFramework2State extends State<BaseFramework2> {
     return Container(
         child: SafeArea(
       child: Scaffold(
-          body: pages[selectedPage],
-          // NestedScrollView(
-          //   floatHeaderSlivers: true,
-          //   headerSliverBuilder:
-          //       (BuildContext context, bool innerBoxIsScrolled) {
-          //     return <Widget>[
-          //       SliverAppBar(
-          //         automaticallyImplyLeading:
-          //             false, // Hides the setting drawer icon
-          //         floating: true,
-          //         snap: true,
-          //         stretch: true,
-          //         expandedHeight: 300.0,
-          //         backgroundColor: Colors.grey[50],
-          //         flexibleSpace: FlexibleSpaceBar(
-          //           stretchModes: <StretchMode>[StretchMode.blurBackground],
-          //           background: Container(
-          //             margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-          //             color: Colors.green,
-          //           ),
-          //         ),
-          //         forceElevated: innerBoxIsScrolled,
-          //         onStretchTrigger: () {
-          //           return;
-          //         },
-          //       )
-          //     ];
-          //   },
-          //   body: pages[selectedPage],
-          // ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(40)),
-              child: BottomAppBar(
-                color: Colors.blue,
-                elevation: 20,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: IconButton(
-                          icon: Icon(Icons.home_rounded),
-                          color: selectedPage == 0 ? Colors.red : Colors.white,
-                          onPressed: () {
-                            setPage(0);
-                          }),
+        extendBodyBehindAppBar: true,
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: [
+                pages[selectedPage],
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.5),
+                          spreadRadius: 2, 
+                          blurRadius: 7, 
+                          offset: Offset(0, 5),
+                        )
+                      ]
                     ),
-                    Expanded(
-                      child: IconButton(
-                          icon: Icon(Icons.timer_rounded),
-                          color: selectedPage == 1 ? Colors.red : Colors.white,
-                          onPressed: () {
-                            setPage(1);
-                          }),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      child: BottomAppBar(
+                        color: Colors.white,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.home_rounded),
+                              color: selectedPage == 0 ? Colors.black : Colors.grey,
+                              onPressed: () {
+                                setPage(0);
+                              }
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.timer_rounded),
+                              color: selectedPage == 1 ? Colors.black : Colors.grey,
+                              onPressed: () {
+                                setPage(1);
+                              }
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue,
+                                  onPrimary: Colors.white,
+                                  shape: CircleBorder(),
+                                  elevation: 10,
+                                ),
+                                onPressed: () {}, 
+                                child: Icon(Icons.add_rounded)
+                              ),
+                            ),
+                            // FloatingActionButton(
+                            //   elevation: 10,
+                            //   mini: true,
+                            //   onPressed: () {},
+                            //   child: Icon(Icons.add_rounded),
+                            // ),
+                            IconButton(
+                              icon: Icon(Icons.playlist_add_rounded),
+                              color: selectedPage == 2 ? Colors.black : Colors.grey,
+                              onPressed: () {
+                                setPage(2);
+                              }
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.gavel_rounded),
+                              color: selectedPage == 3 ? Colors.black : Colors.grey,
+                              onPressed: () {
+                                setPage(3);
+                              }
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Spacer(),
-                    Expanded(
-                      child: IconButton(
-                          icon: Icon(Icons.playlist_add_rounded),
-                          color: selectedPage == 2 ? Colors.red : Colors.white,
-                          onPressed: () {
-                            setPage(2);
-                          }),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                          icon: Icon(Icons.gavel_rounded),
-                          color: selectedPage == 3 ? Colors.red : Colors.white,
-                          onPressed: () {
-                            setPage(3);
-                          }),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                )
+            // NestedScrollView(
+            //   floatHeaderSlivers: true,
+            //   headerSliverBuilder:
+            //       (BuildContext context, bool innerBoxIsScrolled) {
+            //     return <Widget>[
+            //       SliverAppBar(
+            //         automaticallyImplyLeading:
+            //             false, // Hides the setting drawer icon
+            //         floating: true,
+            //         snap: true,
+            //         stretch: true,
+            //         expandedHeight: 300.0,
+            //         backgroundColor: Colors.grey[50],
+            //         flexibleSpace: FlexibleSpaceBar(
+            //           stretchModes: <StretchMode>[StretchMode.blurBackground],
+            //           background: Container(
+            //             margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+            //             color: Colors.green,
+            //           ),
+            //         ),
+            //         forceElevated: innerBoxIsScrolled,
+            //         onStretchTrigger: () {
+            //           return;
+            //         },
+            //       )
+            //     ];
+            //   },
+            //   body: pages[selectedPage],
+            // ),
+
+            
+            
+            
+              ]),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {}, 
-            child: Icon(
-              Icons.add_rounded, color: Colors.white,
-            ),
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         ),
       ),
     );
