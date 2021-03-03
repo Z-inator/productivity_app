@@ -87,7 +87,6 @@ class _TaskStreamState extends State<TaskStream> {
             stream: TaskService(user: user)
                 .tasks
                 .where('projectName', isEqualTo: widget.projectName)
-                .orderBy('dueDate', descending: true)
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

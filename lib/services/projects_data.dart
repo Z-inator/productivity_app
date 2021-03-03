@@ -60,55 +60,68 @@ class ProjectService {
         .then((value) => print('Project Deleted'))
         .catchError((error) => print('Failed to delete project: $error'));
   }
-}
 
-class ProjectStream extends StatefulWidget {
-  ProjectStream({Key key}) : super(key: key);
-
-  @override
-  _ProjectStreamState createState() => _ProjectStreamState();
-}
-
-class _ProjectStreamState extends State<ProjectStream> {
-  @override
-  Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
-    return StreamBuilder<QuerySnapshot>(
-      stream: ProjectService(user: user).projects.snapshots(),
-      builder:
-          (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-        return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String docID = document.id;
-            return ListTile(
-              leading: IconButton(
-                  icon: Icon(Icons.plus_one),
-                  onPressed: () {
-                    ProjectService(user: user).updateProject(projectID: docID, updateData: {
-                        'projectName': 'NewprojectNameUpdate',
-                        'projectColor': 2
-                      });
-                  }),
-              title: Text(document.data()['projectName'].toString()),
-              subtitle: Text(document.data()['projectColor'].toString()),
-              trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    ProjectService(user: user).deleteProject(projectID: docID);
-                  }),
-            );
-          }).toList(),
-        );
-      },
-    );
+  // Get Project Color
+  int getProjectColor({String projectName}) {
+    DocumentSnapshot documentSnapshot;
+    _getProjectReference()
+        .where('projectName', isEqualTo: projectName)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+          documentSnapshot = querySnapshot.docs[0];
+          print(documentSnapshot.data()['projectColor']);
+        });
+    return documentSnapshot.data()['projectColor'];
   }
 }
+
+// class ProjectStream extends StatefulWidget {
+//   ProjectStream({Key key}) : super(key: key);
+
+//   @override
+//   _ProjectStreamState createState() => _ProjectStreamState();
+// }
+
+// class _ProjectStreamState extends State<ProjectStream> {
+//   @override
+//   Widget build(BuildContext context) {
+//     final User user = Provider.of<User>(context);
+//     return StreamBuilder<QuerySnapshot>(
+//       stream: ProjectService(user: user).projects.snapshots(),
+//       builder:
+//           (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//         if (snapshot.hasError) {
+//           return Text('Something went wrong');
+//         }
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Text('Loading');
+//         }
+//         return ListView(
+//           children: snapshot.data.docs.map((DocumentSnapshot document) {
+//             final String docID = document.id;
+//             return ListTile(
+//               leading: IconButton(
+//                   icon: Icon(Icons.plus_one),
+//                   onPressed: () {
+//                     ProjectService(user: user).updateProject(projectID: docID, updateData: {
+//                         'projectName': 'NewprojectNameUpdate',
+//                         'projectColor': 2
+//                       });
+//                   }),
+//               title: Text(document.data()['projectName'].toString()),
+//               subtitle: Text(document.data()['projectColor'].toString()),
+//               trailing: IconButton(
+//                   icon: Icon(Icons.delete),
+//                   onPressed: () {
+//                     ProjectService(user: user).deleteProject(projectID: docID);
+//                   }),
+//             );
+//           }).toList(),
+//         );
+//       },
+//     );
+//   }
+// }
 
 // class ProjectStreamTest extends StatefulWidget {
 //   @override

@@ -34,6 +34,7 @@ class FunctionalityButtonList extends StatelessWidget {
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
             onPressed: () {
