@@ -42,6 +42,26 @@ class TimeService {
         .catchError((error) => print('Failed to add time entry: $error'));
   }
 
+  Future<void> addTimeEntry2({String addToDate, Map addData}) async {
+    DocumentSnapshot documentSnapshot =
+        await _getTimeEntryReference().doc(addToDate).get();
+    if (!documentSnapshot.exists) {
+      await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 0});
+    }
+    dynamic newNumberOfEntries;
+    await _getTimeEntryReference().doc(addToDate).get().then((document) =>
+        {newNumberOfEntries = document.data()['numberOfEntries'] + 1});
+    await _getTimeEntryReference()
+        .doc(addToDate)
+        .set({'numberOfEntries': newNumberOfEntries});
+    return _getTimeEntryReference()
+        .doc(addToDate)
+        .collection('dayEntries')
+        .add(Map<String, dynamic>.from(addData))
+        .then((value) => print('Time Entry Added'))
+        .catchError((error) => print('Failed to add time entry: $error'));
+  }
+
   // Update Time Entry
   Future<void> updateTimeEntry({String timeEntryID, Map updateData}) async {
     return _getTimeEntryReference()
@@ -88,10 +108,7 @@ class TimeEntryStream extends StatelessWidget {
               final DateTime endDate = document.data()['endTime'].toDate();
               return ListTile(
                 leading: IconButton(
-                    icon: Icon(Icons.play_arrow_rounded),
-                    onPressed: () {
-                      
-                    }),
+                    icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
                 title: Text(entryName),
                 subtitle: Text(elapsedTime.toString()),
                 trailing: Text(

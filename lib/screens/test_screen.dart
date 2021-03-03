@@ -109,6 +109,12 @@ class FunctionalityButtonList extends StatelessWidget {
             child: Text('Add task data')),
         ElevatedButton(
             onPressed: () {
+              TimeService(user: user).addTimeEntry2(
+                  addToDate: '03-20-2021', addData: {'testing': 'testing'});
+            },
+            child: Text('Add time entry')),
+        ElevatedButton(
+            onPressed: () {
               ProjectToFirebase(user: user).uploadExampleData();
             },
             child: Text('Add project data')),
