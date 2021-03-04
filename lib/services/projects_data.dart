@@ -61,18 +61,8 @@ class ProjectService {
         .catchError((error) => print('Failed to delete project: $error'));
   }
 
-  // Get Project Color
-  int getProjectColor({String projectName}) {
-    DocumentSnapshot documentSnapshot;
-    _getProjectReference()
-        .where('projectName', isEqualTo: projectName)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-          documentSnapshot = querySnapshot.docs[0];
-          print(documentSnapshot.data()['projectColor']);
-        });
-    return documentSnapshot.data()['projectColor'];
-  }
+  // Get Project Color Number
+  
 }
 
 // class ProjectStream extends StatefulWidget {

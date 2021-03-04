@@ -47,7 +47,7 @@ class _ProjectContentState extends State<ProjectContent> {
             final String projectName =
                 document.data()['projectName'].toString();
             final Color projectColor = ProjectColors().getColor(
-                colorSelector:
+                colorNumber:
                     int.parse(document.data()['projectColor'].toString()));
             final String elapsedTime = TimeFunctions().timeToText(
                 seconds: int.parse(document.data()['projectTime'].toString()));
