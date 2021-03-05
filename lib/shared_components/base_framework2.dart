@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:productivity_app/screens/tasks/task_project_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,10 @@ class BaseFramework2 extends StatefulWidget {
 class _BaseFramework2State extends State<BaseFramework2> {
   int selectedPage = 0;
 
-  List<Widget> pages = [
+  List<Widget> screens = [
     HomeScreen(),
     TimeScreen(),
-    ProjectContentPage(),
+    TaskScreen(),
     TestScreen()
   ];
 
@@ -45,7 +46,7 @@ class _BaseFramework2State extends State<BaseFramework2> {
       child: SafeArea(
         child: Scaffold(
           body: Stack(children: [
-              pages[selectedPage],
+              screens[selectedPage],
               Positioned(
                 bottom: 0,
                 left: 0,
@@ -107,7 +108,7 @@ class _BaseFramework2State extends State<BaseFramework2> {
                           //   child: Icon(Icons.add_rounded),
                           // ),
                           IconButton(
-                              icon: Icon(Icons.playlist_add_rounded),
+                              icon: Icon(Icons.playlist_add_check_rounded),
                               color: selectedPage == 2
                                   ? Colors.black
                                   : Colors.grey,

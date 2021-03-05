@@ -46,7 +46,7 @@ class TimeStream extends StatelessWidget {
                           ),
                         ),
                         Divider(),
-                        Daily(day: day)
+                        DailyEntriesStream(day: day)
                       ],
                     ),
                   ),
@@ -58,76 +58,11 @@ class TimeStream extends StatelessWidget {
   }
 }
 
-class DailyEntriesStream extends StatefulWidget {
-  final String day;
-  DailyEntriesStream({this.day});
 
-  @override
-  _DailyEntriesStreamState createState() => _DailyEntriesStreamState();
-}
-
-class _DailyEntriesStreamState extends State<DailyEntriesStream> {
-  @override
-  Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
-    return Container(
-      child: StreamBuilder<QuerySnapshot>(
-          stream: TimeService(user: user)
-              .timeEntries
-              .doc(widget.day)
-              .collection('dayEntries')
-              .orderBy('endTime', descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('Loading');
-            }
-            return ListBody(
-              children: snapshot.data.docs.map((DocumentSnapshot document) {
-                final String elapsedTime = TimeFunctions()
-                    .timeToText(seconds: document.data()['elapsedTime']);
-                final String entryName =
-                    document.data()['entryName'].toString();
-                final String projectName =
-                    document.data()['projectName'].toString();
-                final DateTime startTime =
-                    DateTime.parse(document.data()['startTime'].toString());
-                final DateTime endTime =
-                    DateTime.parse(document.data()['endTime'].toString());
-                return ListTile(
-                  leading: IconButton(
-                      icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
-                  title: Text(entryName),
-                  subtitle: ProjectColors()
-                      .getProjectColoredText(context, projectName),
-                  trailing: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                          '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - ${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}'),
-                      Text('$elapsedTime')
-                    ],
-                  ),
-                );
-              }).toList(),
-            );
-          }),
-    );
-  }
-}
-
-class Daily extends StatelessWidget {
+class DailyEntriesStream extends StatelessWidget {
   final String day;
   int colorNumber;
-  Daily({this.day});
-
-  // void setColor(User user, String projectName) async {
-  //   colorNumber = await ProjectColors().colorReturn2(user, projectName);
-  // }
+  DailyEntriesStream({this.day});
 
   @override
   Widget build(BuildContext context) {
