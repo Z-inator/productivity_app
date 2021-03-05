@@ -24,6 +24,7 @@ class TimeStream extends StatelessWidget {
               return Text('Loading');
             }
             return ListView(
+              padding: EdgeInsets.only(bottom: 70),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
                 String day = document.id;
                 String numberOfEntries =
@@ -33,7 +34,7 @@ class TimeStream extends StatelessWidget {
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    elevation: 10,
+                    elevation: 5,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

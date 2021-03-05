@@ -21,6 +21,7 @@ class ProjectStream extends StatelessWidget {
             return Center(child: Text('Loading'));
           }
           return ListView(
+            padding: EdgeInsets.only(bottom: 100),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
             final String docID = document.id;
             final String projectName =
@@ -30,19 +31,28 @@ class ProjectStream extends StatelessWidget {
                     int.parse(document.data()['projectColor'].toString()));
             final String elapsedTime = TimeFunctions().timeToText(
                 seconds: int.parse(document.data()['projectTime'].toString()));
-            return ListTile(
-                leading: Icon(
-                  Icons.circle,
-                  color: projectColor,
-                ),
-                title: Text(projectName),
-                subtitle: Text(elapsedTime),
-                trailing: IconButton(
-                    icon: Icon(Icons.playlist_add_rounded),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/taskscreen',
-                          arguments: projectName);
-                    }));
+            return Container(
+              padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                elevation: 5,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.circle,
+                    color: projectColor,
+                  ),
+                  title: Text(projectName),
+                  subtitle: Text(elapsedTime),
+                  trailing: IconButton(
+                      icon: Icon(Icons.playlist_add_rounded),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/taskscreen',
+                            arguments: projectName);
+                      })
+                )
+              )
+            );
           }).toList());
         });
   }

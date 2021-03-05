@@ -21,9 +21,9 @@ class TaskStream extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: Text('Loading'));
           }
-          return Scrollbar(
-            child: ListView(
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
+          return ListView(
+            padding: EdgeInsets.only(bottom: 100),
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
               final String docID = document.id;
               final String taskName = document.data()['taskName'].toString();
               final DateTime dueDate = DateTimeFunctions()
@@ -49,8 +49,7 @@ class TaskStream extends StatelessWidget {
                 trailing: Text(dueDateString),
                 onTap: () {},
               );
-            }).toList()),
-          );
+          }).toList());
         });
   }
 }

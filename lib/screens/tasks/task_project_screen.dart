@@ -11,78 +11,84 @@ class TaskScreen extends StatelessWidget {
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
-      child: Scaffold(
-        appBar: TabBar(
-          unselectedLabelColor: Colors.grey,
-          labelColor: Colors.black,
-            tabs: [
-              Text('Projects'),
-              Text('Tasks')
-              // Tab(icon: Icon(Icons.fact_check_rounded),),
-              // Tab(icon: Icon(Icons.source_rounded),),
-              // Tab(icon: Icon(Icons.toc_rounded),),
-              // Tab(icon: Icon(Icons.view_list_rounded),),
-              // Tab(icon: Icon(Icons.fact_check_rounded),),
-              // Tab(icon: Icon(Icons.list_alt_rounded),),
-              // Tab(icon: Icon(Icons.topic_rounded),),
+      child: Column(
+        children: [
+        Container(
+          padding: EdgeInsets.only(top: 20),
+          width: MediaQuery.of(context).size.width,
+          child: TabBar(
+            unselectedLabelColor: Colors.grey,
+            labelColor: Colors.black,
+            labelPadding: EdgeInsets.only(bottom: 10),
+              tabs: [
+                Text('Projects'),
+                Text('Tasks')
+              ]
+            ),
+        ),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            width: MediaQuery.of(context).size.width,
+            child: TabBarView(
+            children: [
+              NestedScrollView(
+                floatHeaderSlivers: true,
+                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverAppBar(
+                        automaticallyImplyLeading: false, // Hides the setting drawer icon
+                        floating: true,
+                        snap: true,
+                        stretch: true,
+                        expandedHeight: 300.0,
+                        backgroundColor: Colors.grey[50],
+                        flexibleSpace: FlexibleSpaceBar(
+                          stretchModes: <StretchMode>[StretchMode.blurBackground],
+                          background: Container(
+                              margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+                              child: TaskDashboard()),
+                        ),
+                        forceElevated: innerBoxIsScrolled,
+                        onStretchTrigger: () {
+                          return;
+                        },
+                      )
+                    ];
+                },
+                body: ProjectStream()
+              ),
+              NestedScrollView(
+                floatHeaderSlivers: true,
+                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverAppBar(
+                        automaticallyImplyLeading: false, // Hides the setting drawer icon
+                        floating: true,
+                        snap: true,
+                        stretch: true,
+                        expandedHeight: 300.0,
+                        backgroundColor: Colors.grey[50],
+                        flexibleSpace: FlexibleSpaceBar(
+                          stretchModes: <StretchMode>[StretchMode.blurBackground],
+                          background: Container(
+                              margin: EdgeInsets.only(top: 10, left: 5, right: 5),
+                              child: TaskDashboard()),
+                        ),
+                        forceElevated: innerBoxIsScrolled,
+                        onStretchTrigger: () {
+                          return;
+                        },
+                      )
+                    ];
+                },
+                body: TaskStream()
+              ),
             ]
           ),
-        body: TabBarView(
-          children: [
-            NestedScrollView(
-              floatHeaderSlivers: true,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverAppBar(
-                    automaticallyImplyLeading: false, // Hides the setting drawer icon
-                    floating: true,
-                    snap: true,
-                    stretch: true,
-                    expandedHeight: 300.0,
-                    backgroundColor: Colors.grey[50],
-                    flexibleSpace: FlexibleSpaceBar(
-                      stretchModes: <StretchMode>[StretchMode.blurBackground],
-                      background: Container(
-                          margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                          child: TaskDashboard()),
-                    ),
-                    forceElevated: innerBoxIsScrolled,
-                    onStretchTrigger: () {
-                      return;
-                    },
-                  )
-                ];
-              },
-              body: ProjectStream()
-            ),
-            NestedScrollView(
-              floatHeaderSlivers: true,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverAppBar(
-                    automaticallyImplyLeading: false, // Hides the setting drawer icon
-                    floating: true,
-                    snap: true,
-                    stretch: true,
-                    expandedHeight: 300.0,
-                    backgroundColor: Colors.grey[50],
-                    flexibleSpace: FlexibleSpaceBar(
-                      stretchModes: <StretchMode>[StretchMode.blurBackground],
-                      background: Container(
-                          margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                          child: TaskDashboard()),
-                    ),
-                    forceElevated: innerBoxIsScrolled,
-                    onStretchTrigger: () {
-                      return;
-                    },
-                  )
-                ];
-              },
-              body: TaskStream()
-            ),
-          ]
+                  ),
         ),
+        ]
       )
     );
   }
