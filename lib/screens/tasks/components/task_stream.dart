@@ -8,7 +8,17 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TaskStream extends StatelessWidget {
+class TaskStream extends StatefulWidget {
+  @override
+  _TaskStreamState createState() => _TaskStreamState();
+}
+
+class _TaskStreamState extends State<TaskStream>
+    with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
@@ -22,34 +32,34 @@ class TaskStream extends StatelessWidget {
             return Center(child: Text('Loading'));
           }
           return ListView(
-            padding: EdgeInsets.only(bottom: 100),
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
-              final String docID = document.id;
-              final String taskName = document.data()['taskName'].toString();
-              final DateTime dueDate = DateTimeFunctions()
-                  .timeStampToDateTime(date: document.data()['dueDate']);
-              final String dueDateString =
-                  DateTimeFunctions().dateToText(date: dueDate).toString();
-              final String elapsedTime = TimeFunctions().timeToText(
-                  seconds: int.parse(document.data()['taskTime'].toString()));
-              final String status = document.data()['status'].toString();
-              final String projectName =
-                  document.data()['projectName'].toString();
-              return ListTile(
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.play_arrow_rounded,
-                    color: Colors.green,
+              padding: EdgeInsets.only(bottom: 100),
+              children: snapshot.data.docs.map((DocumentSnapshot document) {
+                final String docID = document.id;
+                final String taskName = document.data()['taskName'].toString();
+                final DateTime dueDate = DateTimeFunctions()
+                    .timeStampToDateTime(date: document.data()['dueDate']);
+                final String dueDateString =
+                    DateTimeFunctions().dateToText(date: dueDate).toString();
+                final String elapsedTime = TimeFunctions().timeToText(
+                    seconds: int.parse(document.data()['taskTime'].toString()));
+                final String status = document.data()['status'].toString();
+                final String projectName =
+                    document.data()['projectName'].toString();
+                return ListTile(
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
-                ),
-                title: Text(taskName),
-                subtitle:
-                    ProjectColors().getProjectColoredText(context, projectName),
-                trailing: Text(dueDateString),
-                onTap: () {},
-              );
-          }).toList());
+                  title: Text(taskName),
+                  subtitle: ProjectColors()
+                      .getProjectColoredText(context, projectName),
+                  trailing: Text(dueDateString),
+                  onTap: () {},
+                );
+              }).toList());
         });
   }
 }

@@ -67,7 +67,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
       value: AuthService().user,
       child: MaterialApp(
         title: 'ProductivityApp',
-        // theme: appTheme(),
+        theme: appTheme(),
         // home: Wrapper(),
         // routes: routes,
         onGenerateRoute: generateRoute,

@@ -6,8 +6,17 @@ import 'package:productivity_app/shared_components/color_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
+class ProjectStream extends StatefulWidget {
+  @override
+  _ProjectStreamState createState() => _ProjectStreamState();
+}
 
-class ProjectStream extends StatelessWidget {
+class _ProjectStreamState extends State<ProjectStream>
+    with AutomaticKeepAliveClientMixin {
+  
+  @override
+  bool get wantKeepAlive => true;
+  
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
@@ -21,39 +30,86 @@ class ProjectStream extends StatelessWidget {
             return Center(child: Text('Loading'));
           }
           return ListView(
-            padding: EdgeInsets.only(bottom: 100),
+              padding: EdgeInsets.only(bottom: 100),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String docID = document.id;
-            final String projectName =
-                document.data()['projectName'].toString();
-            final Color projectColor = ProjectColors().getColor(
-                colorNumber:
-                    int.parse(document.data()['projectColor'].toString()));
-            final String elapsedTime = TimeFunctions().timeToText(
-                seconds: int.parse(document.data()['projectTime'].toString()));
-            return Container(
-              padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                elevation: 5,
-                child: ListTile(
-                  leading: Icon(
-                    Icons.circle,
-                    color: projectColor,
-                  ),
-                  title: Text(projectName),
-                  subtitle: Text(elapsedTime),
-                  trailing: IconButton(
-                      icon: Icon(Icons.playlist_add_rounded),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/taskscreen',
-                            arguments: projectName);
-                      })
-                )
-              )
-            );
-          }).toList());
+                final String docID = document.id;
+                final String projectName =
+                    document.data()['projectName'].toString();
+                final Color projectColor = ProjectColors().getColor(
+                    colorNumber:
+                        int.parse(document.data()['projectColor'].toString()));
+                final String elapsedTime = TimeFunctions().timeToText(
+                    seconds:
+                        int.parse(document.data()['projectTime'].toString()));
+                return Container(
+                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        elevation: 5,
+                        child: Theme(
+                          data: Theme.of(context).copyWith(dividerColor: Colors.transparent, accentColor: Theme.of(context).unselectedWidgetColor),
+                          child: ExpansionTile(
+                            initiallyExpanded: false,
+                            
+                            leading: Icon(
+                              Icons.circle,
+                              color: projectColor,
+                            ),
+                            title: Text(
+                              projectName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold
+                                ),
+                            ),
+                            // subtitle: Text(elapsedTime),
+                            trailing: IconButton(
+                                icon: Icon(Icons.playlist_add_check_rounded),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/taskscreen',
+                                      arguments: projectName);
+                                }
+                            ),
+                            children: [
+                              Container(
+                                margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit_rounded),
+                                      onPressed: () {},
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.add_),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'Time: $elapsedTime',
+                                      style: Theme.of(context).textTheme.subtitle1
+                                    ),
+                                    Text(
+                                      'Tasks: 10',
+                                      style: Theme.of(context).textTheme.subtitle1
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    )
+                );
+              }).toList());
         });
   }
 }
