@@ -35,6 +35,25 @@ class ProjectColors {
     return color;
   }
 
+  Widget colorSelector(BuildContext context) {
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        return colorList
+            .map((color) => PopupMenuItem(
+                  child: Icon(
+                    Icons.circle,
+                    color: Color(color),
+                  ),
+                  value: color,
+                ))
+            .toList();
+      },
+      onSelected: (value) {
+        return value;
+      },
+    );
+  }
+
   Widget getProjectColoredText(BuildContext context, String projectName) {
     final User user = Provider.of<User>(context);
     return FutureBuilder(
