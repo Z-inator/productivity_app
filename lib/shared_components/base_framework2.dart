@@ -72,7 +72,7 @@ class _BaseFramework2State extends State<BaseFramework2> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                          icon: Icon(Icons.home_rounded),
+                          icon: Icon(Icons.dashboard_rounded),
                           color: selectedPage == 0
                               ? Colors.black
                               : Theme.of(context).unselectedWidgetColor,
