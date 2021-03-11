@@ -157,6 +157,16 @@ class FunctionalityButtonList extends StatelessWidget {
               Navigator.pushNamed(context, '/projectscreen');
             },
             child: Text('show task page')),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Color(4294937216),
+            
+          ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/projectscreen');
+            },
+            child: Text('testing color')),
+            
       ],
     );
   }

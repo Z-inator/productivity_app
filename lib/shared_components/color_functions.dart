@@ -5,11 +5,10 @@ import 'package:productivity_app/services/projects_data.dart';
 import 'package:provider/provider.dart';
 
 class ProjectColors {
-  final List<int> colorList = [   // 21
+  final List<int> colorList = [   // 20
     0xFFFF8a80, // Light Red
     0xFFD50000, // Red
-    0xFFFF4081, // Pink
-    0xFF880E4F, // Maroon
+    0xFF950000, // Dark Red
     0xFFE040FB, // Purple
     0xFFAA00FF, // Dark Purple
     0xFF1A237E, // Indigo

@@ -71,7 +71,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
         // home: Wrapper(),
         // routes: routes,
         onGenerateRoute: generateRoute,
-        initialRoute: '/homescreen',
+        initialRoute: '/',
       ),
     );
   }
