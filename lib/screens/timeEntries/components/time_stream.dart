@@ -24,13 +24,13 @@ class TimeStream extends StatelessWidget {
               return Text('Loading');
             }
             return ListView(
-              padding: EdgeInsets.only(bottom: 70),
+              padding: EdgeInsets.only(bottom: 100),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
                 String day = document.id;
                 String numberOfEntries =
                     document.data()['numberOfEntries'].toString();
                 return Container(
-                  padding: EdgeInsets.fromLTRB(5, 10, 5, 20),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20))),

@@ -54,7 +54,7 @@ class _BaseFramework2State extends State<BaseFramework2> {
             child: Container(
               margin: EdgeInsets.fromLTRB(40, 0, 40, 20),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),
@@ -64,7 +64,7 @@ class _BaseFramework2State extends State<BaseFramework2> {
                     )
                   ]),
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: BorderRadius.all(Radius.circular(25)),
                 child: BottomAppBar(
                   color: Colors.white,
                   child: Row(
@@ -87,21 +87,25 @@ class _BaseFramework2State extends State<BaseFramework2> {
                           onPressed: () {
                             setPage(1);
                           }),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.blue,
-                              onPrimary: Colors.white,
-                              shape: CircleBorder(),
-                              elevation: 10,
-                            ),
-                            onPressed: () {
-                              print(Theme.of(context)
-                                  .unselectedWidgetColor
-                                  .toString());
-                            },
-                            child: Icon(Icons.add_rounded)),
+                      
+                      // Container(
+                      //   margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      //   child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //         shape: CircleBorder(),
+                      //         elevation: 10,
+                      //       ),
+                      //       onPressed: () {
+                              
+                      //       },
+                      //       child: Icon(Icons.add_rounded)),
+                      // ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder()
+                        ),
+                        child: Icon(Icons.add_rounded),
+                        onPressed: () {},
                       ),
                       // FloatingActionButton(
                       //   elevation: 10,

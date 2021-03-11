@@ -16,8 +16,6 @@ class _ProjectStreamState extends State<ProjectStream>
   @override
   bool get wantKeepAlive => true;
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
@@ -44,7 +42,7 @@ class _ProjectStreamState extends State<ProjectStream>
                     seconds:
                         int.parse(document.data()['projectTime'].toString()));
                 return Container(
-                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius:
