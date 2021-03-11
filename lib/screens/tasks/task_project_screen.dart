@@ -25,86 +25,13 @@ class TaskScreen extends StatelessWidget {
         Expanded(
           child: TabBarView(
           children: [
-            NestedScrollView(
-              floatHeaderSlivers: true,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      automaticallyImplyLeading: false, // Hides the setting drawer icon
-                      floating: true,
-                      snap: true,
-                      stretch: true,
-                      expandedHeight: 300.0,
-                      backgroundColor: Colors.grey[50],
-                      flexibleSpace: FlexibleSpaceBar(
-                        stretchModes: <StretchMode>[StretchMode.blurBackground],
-                        background: Container(
-                            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                            child: TaskDashboard()),
-                      ),
-                      forceElevated: innerBoxIsScrolled,
-                      onStretchTrigger: () {
-                        return;
-                      },
-                    )
-                  ];
-              },
-              body: ProjectStream()
-            ),
-            NestedScrollView(
-              floatHeaderSlivers: true,
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      automaticallyImplyLeading: false, // Hides the setting drawer icon
-                      floating: true,
-                      snap: true,
-                      stretch: true,
-                      expandedHeight: 300.0,
-                      backgroundColor: Colors.grey[50],
-                      flexibleSpace: FlexibleSpaceBar(
-                        stretchModes: <StretchMode>[StretchMode.blurBackground],
-                        background: Container(
-                            margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-                            child: TaskDashboard()),
-                      ),
-                      forceElevated: innerBoxIsScrolled,
-                      onStretchTrigger: () {
-                        return;
-                      },
-                    )
-                  ];
-              },
-              body: TaskStream()
-            ),
+            ProjectStream(),
+            TaskStream()
           ]
           ),
         ),
         ]
       )
-    );
-  }
-}
-
-class TaskDashboard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        ListTile(
-          title: Text('Total Number of Tasks:'),
-          subtitle: Text('40'),
-        ),
-        TaskExpansionTile(
-          day: 'Today',
-          taskCount: 5.toString(),
-        ),
-        TaskExpansionTile(
-          day: 'This Week',
-          taskCount: 10.toString(),
-        ),
-      ],
     );
   }
 }

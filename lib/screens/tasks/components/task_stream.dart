@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/shared_components/color_functions.dart';
@@ -19,9 +20,25 @@ class _TaskStreamState extends State<TaskStream>
   @override
   bool get wantKeepAlive => true;
 
+
+
+  QuerySnapshot groupByStatus(QuerySnapshot snapshot, List statuses) {
+    for (String status in statuses)
+    statuses.map((status) {
+      List status;
+      snapshot.docs.forEach((document) {
+        if (document.data()['status'] == status) {
+
+        }
+      })
+    })
+  }
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
+    Future<DocumentSnapshot> userDocument = AuthService().getUserReference(user.uid).get();
+    final List statuses = userDocument.data()['statuses'];
     return StreamBuilder(
         stream: TaskService(user: user).tasks.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -31,6 +48,7 @@ class _TaskStreamState extends State<TaskStream>
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: Text('Loading'));
           }
+
           return ListView(
               padding: EdgeInsets.only(bottom: 100),
               children: snapshot.data.docs.map((DocumentSnapshot document) {

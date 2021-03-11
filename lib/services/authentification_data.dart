@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
-import 'package:provider/provider.dart';
 
 import 'package:productivity_app/services/database.dart';
 
@@ -13,6 +12,15 @@ class AuthService {
   // Authentification change user stream
   Stream<User> get user {
     return _auth.authStateChanges();
+  }
+
+  // Get user reference
+  DocumentReference getUserReference(String userID) {
+    if (user == null) {
+      return null;
+    } else {
+      return FirebaseFirestore.instance.collection('users').doc(userID);
+    }
   }
 
   // Sign in with email and password
@@ -37,13 +45,12 @@ class AuthService {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((UserCredential userCredential) => {
-            userCredential.user.sendEmailVerification(),
-            DatabaseService().buildUser(
-              uid: userCredential.user.uid,
-              firstName: 'Butt',
-              lastName: 'Face'
-            )
-          });
+                userCredential.user.sendEmailVerification(),
+                DatabaseService().buildUser(
+                    uid: userCredential.user.uid,
+                    firstName: 'Butt',
+                    lastName: 'Face')
+              });
 
       // // Send verification email
       // if (!userCredential.user.emailVerified) {

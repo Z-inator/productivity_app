@@ -1,22 +1,11 @@
-import 'dart:math';
 import 'package:productivity_app/screens/tasks/task_project_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/screens/home/home_screen.dart';
-import 'package:productivity_app/screens/tasks/test.dart';
 import 'package:productivity_app/screens/test_screen.dart';
 import 'package:productivity_app/screens/timeEntries/time_screen.dart';
-import 'package:productivity_app/services/database.dart';
-import 'package:productivity_app/services/tasks_data.dart';
-import 'package:productivity_app/services/timer.dart';
-import 'package:productivity_app/services/times_data.dart';
-import 'package:productivity_app/shared_components/bottom_navigation_bar.dart';
-import 'package:productivity_app/shared_components/settings_drawer_widget.dart';
-import 'package:productivity_app/models/projects.dart';
-import 'package:productivity_app/services/authentification_data.dart';
 
-import 'bottom_navigation_bar2.dart';
 
 class BaseFramework2 extends StatefulWidget {
   @override
@@ -87,19 +76,6 @@ class _BaseFramework2State extends State<BaseFramework2> {
                           onPressed: () {
                             setPage(1);
                           }),
-                      
-                      // Container(
-                      //   margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      //   child: ElevatedButton(
-                      //       style: ElevatedButton.styleFrom(
-                      //         shape: CircleBorder(),
-                      //         elevation: 10,
-                      //       ),
-                      //       onPressed: () {
-                              
-                      //       },
-                      //       child: Icon(Icons.add_rounded)),
-                      // ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: CircleBorder()
@@ -107,12 +83,6 @@ class _BaseFramework2State extends State<BaseFramework2> {
                         child: Icon(Icons.add_rounded),
                         onPressed: () {},
                       ),
-                      // FloatingActionButton(
-                      //   elevation: 10,
-                      //   mini: true,
-                      //   onPressed: () {},
-                      //   child: Icon(Icons.add_rounded),
-                      // ),
                       IconButton(
                           icon: Icon(Icons.playlist_add_check_rounded),
                           color: selectedPage == 2
@@ -135,35 +105,6 @@ class _BaseFramework2State extends State<BaseFramework2> {
               ),
             ),
           )
-          // NestedScrollView(
-          //   floatHeaderSlivers: true,
-          //   headerSliverBuilder:
-          //       (BuildContext context, bool innerBoxIsScrolled) {
-          //     return <Widget>[
-          //       SliverAppBar(
-          //         automaticallyImplyLeading:
-          //             false, // Hides the setting drawer icon
-          //         floating: true,
-          //         snap: true,
-          //         stretch: true,
-          //         expandedHeight: 300.0,
-          //         backgroundColor: Colors.grey[50],
-          //         flexibleSpace: FlexibleSpaceBar(
-          //           stretchModes: <StretchMode>[StretchMode.blurBackground],
-          //           background: Container(
-          //             margin: EdgeInsets.only(top: 10, left: 5, right: 5),
-          //             color: Colors.green,
-          //           ),
-          //         ),
-          //         forceElevated: innerBoxIsScrolled,
-          //         onStretchTrigger: () {
-          //           return;
-          //         },
-          //       )
-          //     ];
-          //   },
-          //   body: pages[selectedPage],
-          // ),
         ]),
       ),
     ));
