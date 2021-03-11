@@ -70,8 +70,7 @@ class _ProjectStreamState extends State<ProjectStream>
                                   onPressed: () {
                                     showModalBottomSheet(
                                         context: context,
-                                        isScrollControlled:
-                                            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+                                        isScrollControlled: true, // Allows the modal to me dynamic and keeps the menu above the keyboard
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(20),
@@ -131,23 +130,15 @@ class _ProjectStreamState extends State<ProjectStream>
   }
 }
 
-class ProjectEditBottomSheet extends StatefulWidget {
-  const ProjectEditBottomSheet({
-    Key key,
-    @required this.projectName,
-    @required this.projectColor,
-    @required this.projectClient,
-  }) : super(key: key);
-
+class ProjectEditBottomSheet extends StatelessWidget {
   final String projectName;
   final Color projectColor;
   final String projectClient;
-
-  @override
-  _ProjectEditBottomSheetState createState() => _ProjectEditBottomSheetState();
-}
-
-class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
+  ProjectEditBottomSheet({
+    this.projectName,
+    this.projectColor,
+    this.projectClient,
+  });
   String newProjectName;
   String newClientName;
   Color newProjectColor;
@@ -161,68 +152,45 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
         children: [
           TextField(
             decoration:
-                InputDecoration(hintText: widget.projectName ?? 'Project Name'),
+                InputDecoration(hintText: projectName ?? 'Project Name'),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               newProjectName = newText;
             },
           ),
           StatefulBuilder(
-              builder: (BuildContext context, StateSetter modalSetState) {      // TODO: Iimplement side scrolling selector
-            return Wrap(
-              direction: Axis.horizontal,
-              children: ProjectColors().colorList.map((color) {
-                return Container(
-                    decoration: BoxDecoration(
-                        border: (newProjectColor ?? widget.projectColor) ==
-                                Color(color)
-                            ? Border.all(
-                                color: Theme.of(context).primaryColor, width: 4)
-                            : Border.all(color: Colors.transparent, width: 4),
-                        borderRadius: BorderRadius.circular(4)),
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.circle,
-                          color: Color(color),
-                        ),
-                        onPressed: () {
-                          modalSetState(() {
-                            newProjectColor = Color(color);
-                            print(newProjectColor);
-                          });
-                        }));
-              }).toList(),
+              builder: (BuildContext context, StateSetter modalSetState) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: ProjectColors().colorList.map((color) {
+                  return IconButton(
+                      icon: (newProjectColor ?? projectColor) ==
+                              Color(color)
+                          ? Icon(
+                              Icons.check_circle_rounded,
+                              color: Color(color),
+                              size: 36,
+                            )
+                          : Icon(
+                              Icons.circle,
+                              color: Color(color),
+                              size: 36,
+                            ),
+                      onPressed: () {
+                        modalSetState(() {
+                          newProjectColor = Color(color);
+                          print(newProjectColor);
+                        });
+                      });
+                }).toList(),
+              ),
             );
-            // return PopupMenuButton(
-            //   padding: EdgeInsets.symmetric(vertical: 20),
-            //   icon: Icon(
-            //     Icons.circle,
-            //     color: newProjectColor ?? Colors.grey,
-            //   ),
-            //   itemBuilder: (context) {
-            //     return ProjectColors()
-            //         .colorList
-            //         .map((color) => PopupMenuItem(
-            //               child: Icon(
-            //                 Icons.circle,
-            //                 color: Color(color),
-            //               ),
-            //               value: color,
-            //             ))
-            //         .toList();
-            //   },
-            //   onSelected: (value) {
-            //     setState(() {
-            //       // print(Color(value));
-            //       newProjectColor = Color(value);
-            //       print(newProjectColor);
-            //     });
-            //   },
-            // );
           }),
           TextField(
             decoration: InputDecoration(
-                hintText: widget.projectClient ?? 'Client Name'),
+                hintText: projectClient ?? 'Client Name'),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               newClientName = newText;
