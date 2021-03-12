@@ -43,7 +43,7 @@ class _ProjectStreamState extends State<ProjectStream>
                     seconds:
                         int.parse(document.data()['projectTime'].toString()));
                 return Container(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    padding: EdgeInsets.all(10),
                     child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius:

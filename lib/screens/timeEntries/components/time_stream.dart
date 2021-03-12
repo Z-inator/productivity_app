@@ -8,6 +8,8 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
+import 'daily_entry_stream.dart';
+
 class TimeStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class TimeStream extends StatelessWidget {
                 String numberOfEntries =
                     document.data()['numberOfEntries'].toString();
                 return Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  padding: EdgeInsets.all(10),
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -55,61 +57,6 @@ class TimeStream extends StatelessWidget {
               }).toList(),
             );
           }),
-    );
-  }
-}
-
-
-class DailyEntriesStream extends StatelessWidget {
-  final String day;
-  int colorNumber;
-  DailyEntriesStream({this.day});
-
-  @override
-  Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
-    return FutureBuilder(
-      future: TimeService(user: user)
-          .timeEntries
-          .doc(day)
-          .collection('dayEntries')
-          .orderBy('endTime', descending: true)
-          .get(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-        return ListBody(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String elapsedTime = TimeFunctions()
-                .timeToText(seconds: document.data()['elapsedTime']);
-            final String entryName = document.data()['entryName'].toString();
-            final String projectName =
-                document.data()['projectName'].toString();
-            final DateTime startTime =
-                DateTime.parse(document.data()['startTime'].toString());
-            final DateTime endTime =
-                DateTime.parse(document.data()['endTime'].toString());
-            return ListTile(
-              leading: IconButton(
-                  icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
-              title: Text(entryName),
-              subtitle: ProjectColors().getProjectColoredText(context, projectName),
-              trailing: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                      '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')} - ${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}'),
-                  Text('$elapsedTime')
-                ],
-              ),
-            );
-          }).toList(),
-        );
-      },
     );
   }
 }
