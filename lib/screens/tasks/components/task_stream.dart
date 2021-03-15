@@ -40,7 +40,7 @@ class _TaskStreamState extends State<TaskStream>
       statuses.add(document.data()['statusName']);
     });
 
-    // print(statuses);
+    print(statuses);
   }
 
   @override

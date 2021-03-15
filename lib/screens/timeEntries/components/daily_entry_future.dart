@@ -8,10 +8,10 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class DailyEntriesStream extends StatelessWidget {
+class DailyEntriesFuture extends StatelessWidget {
   final String day;
   int colorNumber;
-  DailyEntriesStream({this.day});
+  DailyEntriesFuture({this.day});
 
   @override
   Widget build(BuildContext context) {

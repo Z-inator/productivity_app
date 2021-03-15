@@ -8,7 +8,7 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-import 'daily_entry_stream.dart';
+import 'daily_entry_future.dart';
 
 class TimeStream extends StatelessWidget {
   @override
@@ -49,7 +49,7 @@ class TimeStream extends StatelessWidget {
                           ),
                         ),
                         Divider(),
-                        DailyEntriesStream(day: day)
+                        DailyEntriesFuture(day: day)
                       ],
                     ),
                   ),
