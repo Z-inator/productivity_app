@@ -22,7 +22,8 @@ class DatabaseService {
     statuses.map((status) async {
       await userCollection.doc(uid).collection('statuses').doc().set({
         'statusName': status,
-        'statusColor': statusColors.elementAt(counter)
+        'statusColor': statusColors.elementAt(counter),
+        'statusOrder': counter + 1
       });
       counter += 1;
     });

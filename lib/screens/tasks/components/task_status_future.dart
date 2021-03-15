@@ -18,7 +18,7 @@ class TaskStatusesFuture extends StatelessWidget {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
     return FutureBuilder(
-        future: StatusService(user: user).statuses.get(),
+        future: StatusService(user: user).statuses.orderBy('statusOrder').get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
