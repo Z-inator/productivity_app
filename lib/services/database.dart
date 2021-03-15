@@ -12,10 +12,19 @@ class DatabaseService {
   // Build new user collections
   Future<void> buildUser(
       {String uid, String firstName, String lastName}) async {
-    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+    await userCollection.doc(uid).set({
       'firstName': firstName,
       'lastName': lastName,
-      'statuses': {'toDo': 'To Do', 'inProgress': 'In Progress', 'done': 'Done'}
+    });
+    List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
+    List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
+    int counter = 0;
+    statuses.map((status) async {
+      await userCollection.doc(uid).collection('statuses').doc().set({
+        'statusName': status,
+        'statusColor': statusColors.elementAt(counter)
+      });
+      counter += 1;
     });
   }
 }

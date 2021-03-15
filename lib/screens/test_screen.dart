@@ -1,11 +1,7 @@
 import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/screens/home/home_screen.dart';
-import 'package:productivity_app/screens/tasks/components/task_list.dart';
-import 'package:productivity_app/screens/tasks/test.dart';
-import 'package:productivity_app/screens/tasks/test2.dart';
 import 'package:productivity_app/screens/timeEntries/time_screen.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/database.dart';
