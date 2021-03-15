@@ -113,7 +113,7 @@ class _ProjectStreamState extends State<ProjectStream>
                                       OutlinedButton.icon(
                                         icon: Icon(
                                             Icons.playlist_add_check_rounded),
-                                        label: Text('Tasks\n10'),
+                                        label: Text('Tasks\n10'),   // TODO: make this a live number
                                         onPressed: () {
                                           Navigator.pushNamed(
                                               context, '/taskscreen',

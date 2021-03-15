@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:productivity_app/screens/tasks/components/task_from_project_stream.dart';
+import 'package:productivity_app/screens/tasks/components/task_from_project_future.dart';
 // import 'package:productivity_app/screens/tasks/test.dart';
 import 'package:productivity_app/screens/tasks/test2.dart';
 import 'package:productivity_app/services/tasks_data.dart';

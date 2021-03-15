@@ -19,11 +19,11 @@ class AssociatedTaskStream extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        child: StreamBuilder(
-            stream: TaskService(user: user)
+        child: FutureBuilder(
+            future: TaskService(user: user)
                 .tasks
                 .where('projectName', isEqualTo: projectName)
-                .snapshots(),
+                .get(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
