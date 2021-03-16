@@ -58,10 +58,10 @@ class _ProductivityAppState extends State<ProductivityApp> {
   @override
   Widget build(BuildContext context) {
     if (_error) {
-      return Container(child: Text('Something went wrong'));
+      return Center(child: Text('Something went wrong'));
     }
     if (!_initialized) {
-      return Container(child: Text('Loading'));
+      return Center(child: Text('Loading'));
     }
     return StreamProvider<User>.value(
       value: AuthService().user,

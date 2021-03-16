@@ -22,6 +22,18 @@ class _TaskStreamState extends State<TaskStream>
   bool get wantKeepAlive => true;
 
   int isSelected = 1;
+  // TabController _tabController;
+  // final List<Tab> myTabs = [
+  //   Tab(),
+
+  // ]
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _tabController = new TabController(length: myTabs.length, vsync: this);
+  // }
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
@@ -36,109 +48,108 @@ class _TaskStreamState extends State<TaskStream>
           }
           return Container(
             child: DefaultTabController(
-
+              initialIndex: 0,
+              length: 4,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter filterSetState) {
-                      return SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  filterSetState(() {
-                                    isSelected = 1;
-                                  });
-                                },
-                                icon: Icon(Icons.label_rounded),
-                                label: Text('Status'),
-                                style: ElevatedButton.styleFrom(
-                                  primary: isSelected == 1
-                                      ? Theme.of(context).primaryColor
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25))),
-                                  elevation: 1,
-                                ),
+                  StatefulBuilder(builder:
+                      (BuildContext context, StateSetter filterSetState) {
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: TextButton.icon(
+                              onPressed: () {
+                                filterSetState(() {
+                                  isSelected = 1;
+                                });
+                              },
+                              icon: Icon(Icons.label_rounded),
+                              label: Text('Status'),
+                              style: TextButton.styleFrom(
+                                backgroundColor: isSelected == 1
+                                    ? Theme.of(context).primaryColor
+                                    : null,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  filterSetState(() {
-                                    isSelected = 2;
-                                  });
-                                },
-                                icon: Icon(Icons.notification_important_rounded),
-                                label: Text('Due Date'),
-                                style: ElevatedButton.styleFrom(
-                                  primary: isSelected == 2
-                                      ? Theme.of(context).primaryColor
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25))),
-                                  elevation: 1,
-                                ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: TextButton.icon(
+                              onPressed: () {
+                                filterSetState(() {
+                                  isSelected = 2;
+                                });
+                              },
+                              icon: Icon(Icons.notification_important_rounded),
+                              label: Text('Due Date'),
+                              style: TextButton.styleFrom(
+                                backgroundColor: isSelected == 2
+                                    ? Theme.of(context).primaryColor
+                                    : null,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  filterSetState(() {
-                                    isSelected = 3;
-                                  });
-                                },
-                                icon: Icon(Icons.playlist_add_rounded),
-                                label: Text('Create Date'),
-                                style: ElevatedButton.styleFrom(
-                                  primary: isSelected == 3
-                                      ? Theme.of(context).primaryColor
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25))),
-                                  elevation: 1,
-                                ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: TextButton.icon(
+                              onPressed: () {
+                                filterSetState(() {
+                                  isSelected = 3;
+                                });
+                              },
+                              icon: Icon(Icons.playlist_add_rounded),
+                              label: Text('Create Date'),
+                              style: TextButton.styleFrom(
+                                backgroundColor: isSelected == 3
+                                    ? Theme.of(context).primaryColor
+                                    : null,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  filterSetState(() {
-                                    isSelected = 4;
-                                  });
-                                },
-                                icon: Icon(Icons.topic_rounded),
-                                label: Text('Project'),
-                                style: ElevatedButton.styleFrom(
-                                  primary: isSelected == 4
-                                      ? Theme.of(context).primaryColor
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(25))),
-                                  elevation: 1,
-                                ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: TextButton.icon(
+                              onPressed: () {
+                                filterSetState(() {
+                                  isSelected = 4;
+                                });
+                              },
+                              icon: Icon(Icons.topic_rounded),
+                              label: Text('Project'),
+                              style: TextButton.styleFrom(
+                                backgroundColor: isSelected == 4
+                                    ? Theme.of(context).primaryColor
+                                    : null,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
                               ),
                             ),
-                          ],
-                        ),
-                      );
-                    }
-                  ),
-                  Expanded(child: TaskStatusesFuture(querySnapshot: snapshot))
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                  Expanded(
+                      child: TabBarView(children: [
+                    TaskStatusesFuture(querySnapshot: snapshot),
+                  ]))
                 ],
               ),
             ),
