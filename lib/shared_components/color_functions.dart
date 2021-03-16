@@ -67,8 +67,7 @@ class ProjectColors {
           return Text('Loading');
         }
         int colorNumber = snapshot.data.docs[0].data()['projectColor'];
-        final Color projectColor =
-            ProjectColors().getColor(colorNumber: colorNumber);
+        final Color projectColor = Color(colorNumber);
         return Text(projectName, style: TextStyle(color: projectColor));
       },
     );

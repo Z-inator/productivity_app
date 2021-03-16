@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 class DailyEntriesFuture extends StatelessWidget {
   final String day;
-  int colorNumber;
   DailyEntriesFuture({this.day});
 
   @override

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/screens/tasks/components/task_project_future.dart';
 import 'package:productivity_app/screens/tasks/components/task_status_future.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/projects_data.dart';
@@ -21,18 +22,19 @@ class _TaskStreamState extends State<TaskStream>
   @override
   bool get wantKeepAlive => true;
 
-  int isSelected = 1;
-  // TabController _tabController;
-  // final List<Tab> myTabs = [
-  //   Tab(),
+  int selectedPage = 0;
 
-  // ]
+  List<Function> pages = [
+    (querySnapshot) => TaskStatusesFuture(querySnapshot: querySnapshot),    // TODO: fix this function call
+    (querySnapshot) => TaskProjectsFuture(querySnapshot: querySnapshot),
+  ];
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _tabController = new TabController(length: myTabs.length, vsync: this);
-  // }
+  void setPage(int index) {
+    setState(() {
+      selectedPage = index;
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +49,11 @@ class _TaskStreamState extends State<TaskStream>
             return Center(child: Text('Loading'));
           }
           return Container(
-            child: DefaultTabController(
-              initialIndex: 0,
-              length: 4,
-              child: Column(
+            child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  StatefulBuilder(builder:
-                      (BuildContext context, StateSetter filterSetState) {
-                    return SingleChildScrollView(
+                  SingleChildScrollView(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -66,14 +63,13 @@ class _TaskStreamState extends State<TaskStream>
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: TextButton.icon(
                               onPressed: () {
-                                filterSetState(() {
-                                  isSelected = 1;
-                                });
+                                
+                                setPage(0);
                               },
                               icon: Icon(Icons.label_rounded),
                               label: Text('Status'),
                               style: TextButton.styleFrom(
-                                backgroundColor: isSelected == 1
+                                backgroundColor: selectedPage == 0
                                     ? Theme.of(context).primaryColor
                                     : null,
                                 shape: RoundedRectangleBorder(
@@ -86,14 +82,13 @@ class _TaskStreamState extends State<TaskStream>
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: TextButton.icon(
                               onPressed: () {
-                                filterSetState(() {
-                                  isSelected = 2;
-                                });
+                                
+                                setPage(1);
                               },
                               icon: Icon(Icons.notification_important_rounded),
                               label: Text('Due Date'),
                               style: TextButton.styleFrom(
-                                backgroundColor: isSelected == 2
+                                backgroundColor: selectedPage == 1
                                     ? Theme.of(context).primaryColor
                                     : null,
                                 shape: RoundedRectangleBorder(
@@ -106,14 +101,13 @@ class _TaskStreamState extends State<TaskStream>
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: TextButton.icon(
                               onPressed: () {
-                                filterSetState(() {
-                                  isSelected = 3;
-                                });
+                                
+                                setPage(2);
                               },
                               icon: Icon(Icons.playlist_add_rounded),
                               label: Text('Create Date'),
                               style: TextButton.styleFrom(
-                                backgroundColor: isSelected == 3
+                                backgroundColor: selectedPage == 2
                                     ? Theme.of(context).primaryColor
                                     : null,
                                 shape: RoundedRectangleBorder(
@@ -126,14 +120,13 @@ class _TaskStreamState extends State<TaskStream>
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: TextButton.icon(
                               onPressed: () {
-                                filterSetState(() {
-                                  isSelected = 4;
-                                });
+                                
+                                setPage(3);
                               },
                               icon: Icon(Icons.topic_rounded),
                               label: Text('Project'),
                               style: TextButton.styleFrom(
-                                backgroundColor: isSelected == 4
+                                backgroundColor: selectedPage == 3
                                     ? Theme.of(context).primaryColor
                                     : null,
                                 shape: RoundedRectangleBorder(
@@ -144,15 +137,12 @@ class _TaskStreamState extends State<TaskStream>
                           ),
                         ],
                       ),
-                    );
-                  }),
+                    ),
                   Expanded(
-                      child: TabBarView(children: [
-                    TaskStatusesFuture(querySnapshot: snapshot),
-                  ]))
+                      child: pages[selectedPage](querySnapshot: snapshot),
+                  )
                 ],
               ),
-            ),
           );
         });
   }

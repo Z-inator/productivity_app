@@ -36,9 +36,7 @@ class _ProjectStreamState extends State<ProjectStream>
                 final String projectName =
                     document.data()['projectName'].toString();
                 final String projectClient = 'Client';
-                final Color projectColor = ProjectColors().getColor(
-                    colorNumber:
-                        int.parse(document.data()['projectColor'].toString()));
+                final Color projectColor = Color(document.data()['projectColor']);
                 final String elapsedTime = TimeFunctions().timeToText(
                     seconds:
                         int.parse(document.data()['projectTime'].toString()));
