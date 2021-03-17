@@ -133,7 +133,6 @@ class GroupByStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListBody(
       children: filterByStatus(snapshot, status).map((task) {
-        print('building task list');
         return ExpansionTile(
           initiallyExpanded: false,
           leading: Icon(

@@ -165,7 +165,6 @@ class GroupByProject extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListBody(
       children: filterByProject(snapshot, projectName).map((task) {
-        print('building task list');
         return ExpansionTile(
           initiallyExpanded: false,
           leading: Icon(

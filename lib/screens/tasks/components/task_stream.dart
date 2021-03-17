@@ -23,16 +23,30 @@ class _TaskStreamState extends State<TaskStream>
   bool get wantKeepAlive => true;
 
   int selectedPage = 0;
+  Widget body;
 
-  List<Function> pages = [
-    (querySnapshot) => TaskStatusesFuture(querySnapshot: querySnapshot),    // TODO: fix this function call
-    (querySnapshot) => TaskProjectsFuture(querySnapshot: querySnapshot),
+  List<Widget> pages = [
+    TaskStatusesFuture(), // TODO: fix this function call
+    TaskProjectsFuture(),
   ];
 
-  void setPage(int index) {
+  void setPage(int index, AsyncSnapshot<QuerySnapshot> querySnapshot) {
     setState(() {
-      selectedPage = index;
-      
+      switch (selectedPage) {
+        case 0:
+          body = TaskStatusesFuture(querySnapshot: querySnapshot);
+          break;
+        case 1:
+          body = TaskStatusesFuture(querySnapshot: querySnapshot);
+          break;
+        case 2:
+          body = TaskStatusesFuture(querySnapshot: querySnapshot);
+          break;
+        case 3:
+          body = TaskProjectsFuture(querySnapshot: querySnapshot);
+          break;
+        default:
+      }
     });
   }
 
@@ -50,99 +64,113 @@ class _TaskStreamState extends State<TaskStream>
           }
           return Container(
             child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                
-                                setPage(0);
-                              },
-                              icon: Icon(Icons.label_rounded),
-                              label: Text('Status'),
-                              style: TextButton.styleFrom(
-                                backgroundColor: selectedPage == 0
-                                    ? Theme.of(context).primaryColor
-                                    : null,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
-                              ),
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                StatefulBuilder(builder:
+                    (BuildContext context, StateSetter filterSetState) {
+                  return SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              filterSetState(() {
+                                selectedPage = 0;
+                                body = TaskStatusesFuture(querySnapshot: snapshot);
+                              });
+                              // setPage(0, snapshot);
+                            },
+                            icon: Icon(Icons.label_rounded),
+                            label: Text('Status'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: selectedPage == 0
+                                  ? Theme.of(context).primaryColor
+                                  : null,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                
-                                setPage(1);
-                              },
-                              icon: Icon(Icons.notification_important_rounded),
-                              label: Text('Due Date'),
-                              style: TextButton.styleFrom(
-                                backgroundColor: selectedPage == 1
-                                    ? Theme.of(context).primaryColor
-                                    : null,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
-                              ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              filterSetState(() {
+                                selectedPage = 1;
+                                body = TaskStatusesFuture(querySnapshot: snapshot);
+                              });
+                              // setPage(1, snapshot);
+                            },
+                            icon: Icon(Icons.notification_important_rounded),
+                            label: Text('Due Date'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: selectedPage == 1
+                                  ? Theme.of(context).primaryColor
+                                  : null,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                
-                                setPage(2);
-                              },
-                              icon: Icon(Icons.playlist_add_rounded),
-                              label: Text('Create Date'),
-                              style: TextButton.styleFrom(
-                                backgroundColor: selectedPage == 2
-                                    ? Theme.of(context).primaryColor
-                                    : null,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
-                              ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              filterSetState(() {
+                                selectedPage = 2;
+                                body = TaskStatusesFuture(querySnapshot: snapshot);
+                              });
+                              // setPage(2, snapshot);
+                            },
+                            icon: Icon(Icons.playlist_add_rounded),
+                            label: Text('Create Date'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: selectedPage == 2
+                                  ? Theme.of(context).primaryColor
+                                  : null,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                
-                                setPage(3);
-                              },
-                              icon: Icon(Icons.topic_rounded),
-                              label: Text('Project'),
-                              style: TextButton.styleFrom(
-                                backgroundColor: selectedPage == 3
-                                    ? Theme.of(context).primaryColor
-                                    : null,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25))),
-                              ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              filterSetState(() {
+                                selectedPage = 3;
+                                body = TaskProjectsFuture(querySnapshot: snapshot);
+                              });
+                              // setPage(3, snapshot);
+                            },
+                            icon: Icon(Icons.topic_rounded),
+                            label: Text('Project'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: selectedPage == 3
+                                  ? Theme.of(context).primaryColor
+                                  : null,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  Expanded(
-                      child: pages[selectedPage](querySnapshot: snapshot),
-                  )
-                ],
-              ),
+                  );
+                }),
+                Expanded(
+                    child: body ?? TaskStatusesFuture(querySnapshot: snapshot))
+              ],
+            ),
           );
         });
   }
