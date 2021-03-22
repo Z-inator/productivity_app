@@ -23,10 +23,11 @@ class _TaskStreamState extends State<TaskStream>
   @override
   bool get wantKeepAlive => true;
 
-  int selectedPage;
+  int setBody;
   Widget body;
 
-  _updateBody(int index, AsyncSnapshot<QuerySnapshot> querySnapshot) {    // TODO: try using Provider to set a changeNotifier and Listener
+  void _updateBody(int index, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+    // TODO: try using Provider to set a changeNotifier and Listener
     setState(() {
       switch (index) {
         case 0:
@@ -63,13 +64,22 @@ class _TaskStreamState extends State<TaskStream>
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FilterButtonRow(setBody: setBody),
+                FilterButtonRow(setBody: _updateBody(index)),
                 Expanded(
                     child: body ?? TaskStatusesFuture(querySnapshot: snapshot))
               ],
             ),
           );
         });
+  }
+}
+
+class FilterState with ChangeNotifier {
+  int selectedBody;
+
+  set page(int setBody) {
+    selectedBody = setBody;
+    notifyListeners();
   }
 }
 
@@ -83,7 +93,7 @@ class FilterButtonRow extends StatefulWidget {
 }
 
 class _FilterButtonRowState extends State<FilterButtonRow> {
-  int selectedPage;
+  int setBody;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -97,15 +107,15 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             child: TextButton.icon(
               onPressed: () {
                 setState(() {
-                  selectedPage == 0;
+                  setBody == 0;
                 });
-                widget.setBody(selectedPage);
+                widget.setBody(setBody);
               },
               icon: Icon(Icons.label_rounded),
               label: Text('Status'),
               style: TextButton.styleFrom(
                 backgroundColor:
-                    selectedPage == 0 ? Theme.of(context).primaryColor : null,
+                    setBody == 0 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -116,15 +126,14 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             child: TextButton.icon(
               onPressed: () {
                 setState(() {
-                  widget.selectedPage == 1;
+                  widget.setBody == 1;
                 });
               },
               icon: Icon(Icons.notification_important_rounded),
               label: Text('Due Date'),
               style: TextButton.styleFrom(
-                backgroundColor: widget.selectedPage == 1
-                    ? Theme.of(context).primaryColor
-                    : null,
+                backgroundColor:
+                    widget.setBody == 1 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -135,15 +144,14 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             child: TextButton.icon(
               onPressed: () {
                 setState(() {
-                  widget.selectedPage == 2;
+                  widget.setBody == 2;
                 });
               },
               icon: Icon(Icons.playlist_add_rounded),
               label: Text('Create Date'),
               style: TextButton.styleFrom(
-                backgroundColor: widget.selectedPage == 2
-                    ? Theme.of(context).primaryColor
-                    : null,
+                backgroundColor:
+                    widget.setBody == 2 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -154,15 +162,14 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             child: TextButton.icon(
               onPressed: () {
                 setState(() {
-                  widget.selectedPage == 3;
+                  widget.setBody == 3;
                 });
               },
               icon: Icon(Icons.topic_rounded),
               label: Text('Project'),
               style: TextButton.styleFrom(
-                backgroundColor: widget.selectedPage == 3
-                    ? Theme.of(context).primaryColor
-                    : null,
+                backgroundColor:
+                    widget.setBody == 3 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -175,23 +182,23 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
 }
 
 class TaskBodyWidget extends StatelessWidget {
-  void setPage(int index, AsyncSnapshot<QuerySnapshot> querySnapshot) {
-    switch (index) {
-      case 0:
-        body = TaskStatusesFuture(querySnapshot: querySnapshot);
-        break;
-      case 1:
-        body = TaskStatusesFuture(querySnapshot: querySnapshot);
-        break;
-      case 2:
-        body = TaskStatusesFuture(querySnapshot: querySnapshot);
-        break;
-      case 3:
-        body = TaskProjectsFuture(querySnapshot: querySnapshot);
-        break;
-      default:
-    }
-  }
+  // void setPage(int index, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+  //   switch (index) {
+  //     case 0:
+  //       body = TaskStatusesFuture(querySnapshot: querySnapshot);
+  //       break;
+  //     case 1:
+  //       body = TaskStatusesFuture(querySnapshot: querySnapshot);
+  //       break;
+  //     case 2:
+  //       body = TaskStatusesFuture(querySnapshot: querySnapshot);
+  //       break;
+  //     case 3:
+  //       body = TaskProjectsFuture(querySnapshot: querySnapshot);
+  //       break;
+  //     default:
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
