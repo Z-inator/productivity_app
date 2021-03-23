@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class StatusService {
-  final User user;
-  StatusService({this.user});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection reference
   CollectionReference _getStatusReference() {
+    final User user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
@@ -23,6 +24,14 @@ class StatusService {
 
   CollectionReference get statuses {
     return _getStatusReference();
+  }
+
+  // Snapshot Conversion to Status Model and Stream
+  Stream<List<Status>> streamStatuses() {
+    var ref = _getStatusReference();
+    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
+        .map((queryDocument) => Status.fromFirestore(queryDocument))
+        .toList());
   }
 
   // Add Status
@@ -56,7 +65,4 @@ class StatusService {
         .then((value) => print('Status Deleted'))
         .catchError((error) => print('Failed to delete status: $error'));
   }
-  
 }
-
-

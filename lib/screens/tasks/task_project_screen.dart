@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/screens/tasks/components/project_stream.dart';
 import 'package:productivity_app/screens/tasks/components/task_stream.dart';
+import 'package:provider/provider.dart';
 // import 'package:productivity_app/screens/tasks/test.dart';
 
 
@@ -23,10 +24,13 @@ class TaskScreen extends StatelessWidget {
           ),
         Expanded(
           child: TabBarView(
-          children: [
-            ProjectStream(),
-            TaskStream()
-          ]
+            children: [
+              ProjectStream(),
+              ChangeNotifierProvider(
+                create: (context) => TaskBodyState(),
+                child: TaskStream()
+              )
+            ]
           ),
         ),
         ]

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/screens/tasks/components/status_edit_bottomsheet.dart';
 import 'package:productivity_app/services/statuses_data.dart';
@@ -9,128 +10,109 @@ import 'package:productivity_app/shared_components/time_functions.dart';
 
 import 'package:provider/provider.dart';
 
-class TaskStatusesFuture extends StatelessWidget {
+class TasksByStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
-    return FutureBuilder(
-        future: StatusService(user: user).statuses.orderBy('statusOrder').get(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text('Loading');
-          }
-          return ListView(
-            padding: EdgeInsets.only(bottom: 100),
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
-              String statusID = document.id;
-              String statusName = document.data()['statusName'].toString();
-              Color statusColor = Color(document.data()['statusColor']);
-              return Container(
-                padding: EdgeInsets.all(10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  elevation: 5,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Theme(
-                        data: Theme.of(context).copyWith(
-                          dividerColor: Colors.transparent,
-                          accentColor: Theme.of(context).unselectedWidgetColor,
-                        ),
-                        child: ExpansionTile(
-                            initiallyExpanded: false,
-                            leading: Icon(
-                              Icons.circle,
-                              color: statusColor,
-                            ),
-                            title: Text(
-                              statusName,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            trailing: IconButton(
-                                icon: Icon(Icons.edit_rounded),
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled:
-                                          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20),
-                                              topRight: Radius.circular(20))),
-                                      builder: (BuildContext context) {
-                                        return StatusEditBottomSheet(
-                                            statusName: statusName,
-                                            statusColor: statusColor,
-                                            statusID: statusID);
-                                      });
-                                }),
-                            expandedCrossAxisAlignment:
-                                CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                                child: Text('Tasks: 10',
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                  child: Text(
-                                      'Description\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
-                                      overflow: TextOverflow.fade,
-                                      maxLines: 3,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1))
-                            ]),
-                      ),
-                      Divider(),
-                      GroupByStatus(
-                        status: statusName,
-                      )
-                    ],
+    List<Status> statuses = Provider.of<List<Status>>(context);
+    statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
+    return ListView(
+      padding: EdgeInsets.only(bottom: 100),
+      children: statuses.map((status) {
+        String statusID = status.statusID;
+        String statusName = status.statusName;
+        int statusColor = status.statusColor;
+        int statusOrder = status.statusOrder;
+        return Container(
+          padding: EdgeInsets.all(10),
+          child: Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            elevation: 5,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
+                    accentColor: Theme.of(context).unselectedWidgetColor,
                   ),
+                  child: ExpansionTile(
+                      initiallyExpanded: false,
+                      leading: Icon(
+                        Icons.circle,
+                        color: Color(statusColor),
+                      ),
+                      title: Text(
+                        statusName,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      trailing: IconButton(
+                          icon: Icon(Icons.edit_rounded),
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled:
+                                    true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20))),
+                                builder: (BuildContext context) {
+                                  return StatusEditBottomSheet(
+                                      statusID: statusID,
+                                      statusName: statusName,
+                                      statusColor: statusColor,
+                                      statusOrder: statusOrder,);
+                                });
+                          }),
+                      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                          child: Text('Tasks: 10',
+                              style: Theme.of(context).textTheme.subtitle1),
+                        ),
+                        Container(
+                            margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            child: Text(
+                                'Description\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
+                                overflow: TextOverflow.fade,
+                                maxLines: 3,
+                                style: Theme.of(context).textTheme.subtitle1))
+                      ]),
                 ),
-              );
-            }).toList(),
-          );
-        });
+                Divider(),
+                GroupByStatus(
+                  associatedStatus: statusName,
+                )
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 }
 
 class GroupByStatus extends StatelessWidget {
-  final String status;
-  GroupByStatus({this.status});
+  final String associatedStatus;
+  GroupByStatus({this.associatedStatus});
 
-  // Map<String, Iterable<dynamic>> groupByStatus(AsyncSnapshot<QuerySnapshot> snapshot, List statuses) {
-  //   Map<String, Iterable> status = {};
-  //   for (final item in statuses) {
-  //     String temporary = statuses.elementAt(item).toString();
-  //     status[temporary] = filterByStatus(snapshot, temporary);
-  //   }
-  //   return status;
-  // }
-
-  List<Task> filterByStatus(List<Task> tasks, String status) {
-    return tasks.where((status) => status == status).toList();
+  List<Task> filterByStatus(List<Task> tasks, String associatedStatus) {
+    return tasks.where((task) => task.status == associatedStatus).toList();
   }
+
+  // TODO: look at adding an init method to run the .where when the widget is created
 
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
     return ListBody(
-      children: filterByStatus(tasks, status).map((task) {
+      children: filterByStatus(tasks, associatedStatus).map((task) {
         return Theme(
-          data: Theme.of(context).copyWith(
-            accentColor: Theme.of(context).unselectedWidgetColor
-          ),
+          data: Theme.of(context)
+              .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
           child: ExpansionTile(
             initiallyExpanded: false,
             leading: Icon(
@@ -166,7 +148,8 @@ class GroupByStatus extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                    Text(
+                        'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     Text('Project: ${task.projectName}',
                         style: Theme.of(context).textTheme.subtitle1),
@@ -178,7 +161,8 @@ class GroupByStatus extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
+                    Text(
+                        'Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     OutlinedButton.icon(
                       icon: Icon(Icons.playlist_add_check_rounded),

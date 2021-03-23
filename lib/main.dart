@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/routes.dart';
 import 'package:productivity_app/screens/home/home_screen.dart';
 import 'package:productivity_app/screens/test_screen.dart';
@@ -9,6 +10,7 @@ import 'package:productivity_app/services/authentification_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/services/projects_data.dart';
+import 'package:productivity_app/services/statuses_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/models/projects.dart';
@@ -69,7 +71,8 @@ class _ProductivityAppState extends State<ProductivityApp> {
       providers: [
         StreamProvider<User>.value(value: AuthService().user),
         StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
-        StreamProvider<List<Task>>.value(value: TaskService().streamTasks())
+        StreamProvider<List<Task>>.value(value: TaskService().streamTasks()),
+        StreamProvider<List<Status>>.value(value: StatusService().streamStatuses())
       ],
       child: MaterialApp(
         title: 'ProductivityApp',

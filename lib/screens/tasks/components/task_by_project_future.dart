@@ -12,10 +12,9 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TaskProjectsFuture extends StatelessWidget {
+class TasksByProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
@@ -107,7 +106,7 @@ class TaskProjectsFuture extends StatelessWidget {
                     )),
                 Divider(),
                 GroupByProject(
-                  projectName: projectName,
+                  associatedProjectName: projectName,
                 )
               ],
             ),
@@ -119,22 +118,25 @@ class TaskProjectsFuture extends StatelessWidget {
 }
 
 class GroupByProject extends StatelessWidget {
-  final String projectName;
-  GroupByProject({this.projectName});
+  final String associatedProjectName;
+  GroupByProject({this.associatedProjectName});
 
-  List<Task> filterByProject(List<Task> tasks, String projectName) {
-    return tasks.where((projectName) => projectName == projectName).toList();
+  List<Task> filterByProject(List<Task> tasks, String associatedProjectName) {
+    return tasks
+        .where((task) => task.projectName == associatedProjectName)
+        .toList();
   }
+
+  // TODO: look at adding an init method to run the .where when the widget is created
 
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
     return ListBody(
-      children: filterByProject(tasks, projectName).map((task) {
+      children: filterByProject(tasks, associatedProjectName).map((task) {
         return Theme(
-          data: Theme.of(context).copyWith(
-            accentColor: Theme.of(context).unselectedWidgetColor
-          ),
+          data: Theme.of(context)
+              .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
           child: ExpansionTile(
             initiallyExpanded: false,
             leading: Icon(
@@ -170,7 +172,8 @@ class GroupByProject extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                    Text(
+                        'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     Text('Status: ${task.status}',
                         style: Theme.of(context).textTheme.subtitle1),
@@ -182,7 +185,8 @@ class GroupByProject extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
+                    Text(
+                        'Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     OutlinedButton.icon(
                       icon: Icon(Icons.playlist_add_check_rounded),

@@ -7,13 +7,17 @@ import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class StatusEditBottomSheet extends StatefulWidget {
-  final String statusName;
-  final Color statusColor;
   final String statusID;
-  StatusEditBottomSheet(
-      {this.statusName,
-      this.statusColor,
-      this.statusID});
+  final String statusName;
+  final int statusColor;
+  final int statusOrder;
+
+  StatusEditBottomSheet({
+    this.statusID,
+    this.statusName,
+    this.statusColor,
+    this.statusOrder
+  });
 
   @override
   _StatusEditBottomSheetState createState() => _StatusEditBottomSheetState();
@@ -26,7 +30,6 @@ class _StatusEditBottomSheetState extends State<StatusEditBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
     return Container(
       margin: EdgeInsets.all(20),
       child: Column(
@@ -48,17 +51,18 @@ class _StatusEditBottomSheetState extends State<StatusEditBottomSheet> {
               child: Row(
                 children: ProjectColors().colorList.map((color) {
                   return IconButton(
-                      icon: (newStatusColor ?? widget.statusColor) == Color(color)
-                          ? Icon(
-                              Icons.check_circle_rounded,
-                              color: Color(color),
-                              size: 36,
-                            )
-                          : Icon(
-                              Icons.circle,
-                              color: Color(color),
-                              size: 36,
-                            ),
+                      icon:
+                          (newStatusColor ?? Color(widget.statusColor)) == Color(color)
+                              ? Icon(
+                                  Icons.check_circle_rounded,
+                                  color: Color(color),
+                                  size: 36,
+                                )
+                              : Icon(
+                                  Icons.circle,
+                                  color: Color(color),
+                                  size: 36,
+                                ),
                       onPressed: () {
                         modalSetState(() {
                           newStatusColor = Color(color);
@@ -74,14 +78,15 @@ class _StatusEditBottomSheetState extends State<StatusEditBottomSheet> {
                 icon: Icon(Icons.check_circle_outline_rounded),
                 label: Text('Submit'),
                 onPressed: () {
-                  StatusService(user: user)
-                      .updateStatus(statusID: widget.statusID, updateData: {
-                    'statusName': newStatusName ?? widget.statusName,
-                    'statusColor':
-                        int.parse('0x${newStatusColor.value.toRadixString(16).toUpperCase().toString()}')
-                        ??
-                        int.parse('0x${widget.statusColor.value.toRadixString(16).toUpperCase().toString()}')
-                  });
+                  StatusService().updateStatus(
+                      statusID: widget.statusID,
+                      updateData: {
+                        'statusName': newStatusName ?? widget.statusName,
+                        'statusColor': int.parse(
+                                '0x${newStatusColor.value.toRadixString(16).toUpperCase().toString()}') ??
+                            int.parse(
+                                '0x${widget.statusColor.toString()}')
+                      });
                   Navigator.pop(context);
                 },
               ))

@@ -20,7 +20,7 @@ class Project {
     Map data = snapshot.data();
 
     return Project(
-        projectID: snapshot.id,
+        projectID: snapshot.id ?? '',
         projectName: data['projectName'].toString() ?? '',
         projectClient: data['projectClient'].toString() ?? '',
         projectColor: data['projectColor'] ?? 4285887861,

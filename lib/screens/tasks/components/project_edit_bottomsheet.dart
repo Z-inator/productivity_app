@@ -89,14 +89,17 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                 label: Text('Submit'),
                 onPressed: () {
                   ProjectService()
-                      .updateProject(projectID: widget.projectID, updateData: {
-                    'projectName': newProjectName ?? widget.projectName,
-                    'projectClient': newClientName ?? widget.projectClient,
-                    'projectColor':
-                        int.parse('0x${newProjectColor.value.toRadixString(16).toUpperCase().toString()}')
-                        ??
-                        int.parse('0x${widget.projectColor.value.toRadixString(16).toUpperCase().toString()}')
-                  });
+                      .updateProject(
+                        projectID: widget.projectID, 
+                        updateData: {
+                          'projectName': newProjectName ?? widget.projectName,
+                          'projectClient': newClientName ?? widget.projectClient,
+                          'projectColor':
+                              int.parse('0x${newProjectColor.value.toRadixString(16).toUpperCase().toString()}')
+                              ??
+                              int.parse('0x${widget.projectColor.value.toRadixString(16).toUpperCase().toString()}')
+                        }
+                      );
                   Navigator.pop(context);
                 },
               ))
