@@ -63,8 +63,11 @@ class _ProductivityAppState extends State<ProductivityApp> {
     if (!_initialized) {
       return Center(child: Text('Loading'));
     }
-    return StreamProvider<User>.value(
-      value: AuthService().user,
+    return MultiProvider(
+      providers: [
+        StreamProvider<User>.value(value: AuthService().user),
+        StreamProvider<List<Project>>.value(value: ProjectService().streamProjects())
+      ],
       child: MaterialApp(
         title: 'ProductivityApp',
         theme: appTheme(),
@@ -73,6 +76,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
         onGenerateRoute: generateRoute,
         initialRoute: '/',
       ),
+
     );
   }
 }

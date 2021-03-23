@@ -1,14 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/shared_components/color_functions.dart';
 
-
-class Projects {
+class Project {
   String projectID;
   String projectName;
-  // TODO double check what variable type this needs to be
-  ProjectColors projectColor;
-  // TODO learn about date/time
+  String projectClient;
+  int projectColor;
   int projectTime = 0;
-  List<String> taskList = [];
+  // List<String> taskList = [];
 
-  Projects({this.projectID, this.projectName, this.projectColor});
+  Project(
+      {this.projectID,
+      this.projectName,
+      this.projectColor,
+      this.projectClient,
+      this.projectTime});
+
+  factory Project.fromFirestore(DocumentSnapshot snapshot) {
+    Map data = snapshot.data();
+
+    return Project(
+        projectID: snapshot.id,
+        projectName: data['projectName'].toString() ?? '',
+        projectClient: data['projectClient'].toString() ?? '',
+        projectColor: data['projectColor'] ?? 4285887861,
+        projectTime: data['projectTime'] ?? 0);
+  }
 }
