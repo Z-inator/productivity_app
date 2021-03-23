@@ -9,10 +9,12 @@ import 'package:productivity_app/services/authentification_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/services/projects_data.dart';
+import 'package:productivity_app/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/screens/authentification/wrapper.dart';
 import 'dart:io' show Platform;
+import 'package:productivity_app/models/tasks.dart';
 import 'theme/style.dart';
 import 'shared_components/error_screen.dart';
 import 'shared_components/loading_screen.dart';
@@ -66,7 +68,8 @@ class _ProductivityAppState extends State<ProductivityApp> {
     return MultiProvider(
       providers: [
         StreamProvider<User>.value(value: AuthService().user),
-        StreamProvider<List<Project>>.value(value: ProjectService().streamProjects())
+        StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
+        StreamProvider<List<Task>>.value(value: TaskService().streamTasks())
       ],
       child: MaterialApp(
         title: 'ProductivityApp',

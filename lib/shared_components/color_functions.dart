@@ -55,7 +55,7 @@ class ProjectColors {
   Widget getProjectColoredText(BuildContext context, String projectName) {
     final User user = Provider.of<User>(context);
     return FutureBuilder(
-      future: ProjectService(user: user)
+      future: ProjectService()
           .projects
           .where('projectName', isEqualTo: projectName)
           .get(),

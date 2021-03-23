@@ -99,27 +99,27 @@ class FunctionalityButtonList extends StatelessWidget {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        ElevatedButton(
-            onPressed: () {
-              TaskToFirebase(user: user).uploadExampleData();
-            },
-            child: Text('Add task data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       TaskToFirebase(user: user).uploadExampleData();
+        //     },
+        //     child: Text('Add task data')),
         ElevatedButton(
             onPressed: () {
               TimeService(user: user).addTimeEntry2(
                   addToDate: '03-20-2021', addData: {'testing': 'testing'});
             },
             child: Text('Add time entry')),
-        ElevatedButton(
-            onPressed: () {
-              ProjectToFirebase(user: user).uploadExampleData();
-            },
-            child: Text('Add project data')),
-        ElevatedButton(
-            onPressed: () {
-              ProjectToFirebase(user: user).updateProjectData();
-            },
-            child: Text('Update project data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       ProjectToFirebase(user: user).uploadExampleData();
+        //     },
+        //     child: Text('Add project data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       ProjectToFirebase(user: user).updateProjectData();
+        //     },
+        //     child: Text('Update project data')),
         ElevatedButton(
             onPressed: () {
               TimeToFirebase(user: user).uploadExampleData();
@@ -195,7 +195,7 @@ class _AddTaskState extends State<AddTask> {
   }
 
   Future<void> getProjectNames() async {
-    projectNames = await ProjectService(user: widget.user).projects.get().then(
+    projectNames = await ProjectService().projects.get().then(
         (snapshot) =>
             snapshot.docs.map((doc) => doc.data()['projectName']).toList());
   }
@@ -278,11 +278,11 @@ class _AddTaskState extends State<AddTask> {
                     _dueDate.millisecond,
                     _dueDate.microsecond);
                 print('$_taskName : $_projectName : ${_dueDate.toString()}');
-                addedTask = await TaskService(user: user).addTask(
+                addedTask = await TaskService().addTask(
                     taskName: _taskName,
                     projectName: _projectName,
                     dueDate: _dueDate);
-                await ProjectService(user: user)
+                await ProjectService()
                     .projects
                     .where('projectName', isEqualTo: _projectName)
                     .get()
@@ -292,7 +292,7 @@ class _AddTaskState extends State<AddTask> {
                           })
                         });
                 taskID = {addedTask.id.toString(): _taskName};
-                ProjectService(user: user).updateProject(
+                ProjectService().updateProject(
                     projectID: _projectID,
                     updateData: {
                       'taskList': taskID

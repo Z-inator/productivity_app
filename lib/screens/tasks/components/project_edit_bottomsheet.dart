@@ -47,7 +47,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
             },
           ),
           StatefulBuilder(
-              builder: (BuildContext context, StateSetter modalSetState) {
+              builder: (BuildContext context, StateSetter colorSetState) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(vertical: 20),
               scrollDirection: Axis.horizontal,
@@ -66,7 +66,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                               size: 36,
                             ),
                       onPressed: () {
-                        modalSetState(() {
+                        colorSetState(() {
                           newProjectColor = Color(color);
                         });
                       });
@@ -88,7 +88,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                 icon: Icon(Icons.check_circle_outline_rounded),
                 label: Text('Submit'),
                 onPressed: () {
-                  ProjectService(user: user)
+                  ProjectService()
                       .updateProject(projectID: widget.projectID, updateData: {
                     'projectName': newProjectName ?? widget.projectName,
                     'projectClient': newClientName ?? widget.projectClient,
