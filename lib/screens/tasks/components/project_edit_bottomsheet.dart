@@ -1,21 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/shared_components/color_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class ProjectEditBottomSheet extends StatefulWidget {
-  final String projectName;
-  final Color projectColor;
-  final String projectClient;
-  final String projectID;
-  ProjectEditBottomSheet(
-      {this.projectName,
-      this.projectColor,
-      this.projectClient,
-      this.projectID});
+  final Project project;
+  ProjectEditBottomSheet({this.project});
 
   @override
   _ProjectEditBottomSheetState createState() => _ProjectEditBottomSheetState();
@@ -23,16 +17,11 @@ class ProjectEditBottomSheet extends StatefulWidget {
 
 class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
   String newProjectName;
-
   String newClientName;
-
   Color newProjectColor;
-
-  int newProjectColorValue;
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
     return Container(
       margin: EdgeInsets.all(20),
       child: Column(
@@ -40,7 +29,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
         children: [
           TextField(
             decoration:
-                InputDecoration(hintText: widget.projectName ?? 'Project Name'),
+                InputDecoration(hintText: widget.project.projectName ?? 'Project Name'),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               newProjectName = newText;
@@ -54,7 +43,8 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
               child: Row(
                 children: ProjectColors().colorList.map((color) {
                   return IconButton(
-                      icon: (newProjectColor ?? widget.projectColor) == Color(color)
+                      icon: (newProjectColor ?? Color(widget.project.projectColor)) ==
+                              Color(color)
                           ? Icon(
                               Icons.check_circle_rounded,
                               color: Color(color),
@@ -75,8 +65,8 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
             );
           }),
           TextField(
-            decoration:
-                InputDecoration(hintText: widget.projectClient ?? 'Client Name'),
+            decoration: InputDecoration(
+                hintText: widget.project.projectClient ?? 'Client Name'),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               newClientName = newText;
@@ -89,17 +79,14 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                 label: Text('Submit'),
                 onPressed: () {
                   ProjectService()
-                      .updateProject(
-                        projectID: widget.projectID, 
-                        updateData: {
-                          'projectName': newProjectName ?? widget.projectName,
-                          'projectClient': newClientName ?? widget.projectClient,
-                          'projectColor':
-                              int.parse('0x${newProjectColor.value.toRadixString(16).toUpperCase().toString()}')
-                              ??
-                              int.parse('0x${widget.projectColor.value.toRadixString(16).toUpperCase().toString()}')
-                        }
-                      );
+                      .updateProject(projectID: widget.project.projectID, updateData: {
+                    'projectName': newProjectName ?? widget.project.projectName,
+                    'projectClient': newClientName ?? widget.project.projectClient,
+                    'projectColor': int.parse(
+                            '0x${newProjectColor.value.toRadixString(16).toUpperCase().toString()}') ??
+                        int.parse(
+                            '0x${widget.project.projectColor.toString()}')
+                  });
                   Navigator.pop(context);
                 },
               ))

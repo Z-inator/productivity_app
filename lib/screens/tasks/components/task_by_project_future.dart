@@ -1,13 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/screens/tasks/components/project_edit_bottomsheet.dart';
-import 'package:productivity_app/services/projects_data.dart';
-import 'package:productivity_app/services/projects_data.dart';
-import 'package:productivity_app/services/times_data.dart';
-import 'package:productivity_app/shared_components/color_functions.dart';
+import 'package:productivity_app/screens/tasks/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +13,7 @@ class TasksByProject extends StatelessWidget {
     List<Project> projects = Provider.of<List<Project>>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
-      children: projects.map((project) {
+      children: projects.map((Project project) {
         String projectID = project.projectID;
         String projectName = project.projectName;
         Color projectColor = Color(project.projectColor);
@@ -62,12 +57,7 @@ class TasksByProject extends StatelessWidget {
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
                                 builder: (BuildContext context) {
-                                  return ProjectEditBottomSheet(
-                                    projectName: projectName,
-                                    projectColor: projectColor,
-                                    projectClient: projectClient,
-                                    projectID: projectID,
-                                  );
+                                  return ProjectEditBottomSheet(project: project);
                                 });
                           }),
                       children: [
@@ -76,7 +66,7 @@ class TasksByProject extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Client: ClientName',
+                              Text('Client: $projectClient',
                                   style: Theme.of(context).textTheme.subtitle1),
                               Text('Tasks: 10',
                                   style: Theme.of(context).textTheme.subtitle1),
@@ -107,6 +97,7 @@ class TasksByProject extends StatelessWidget {
                 Divider(),
                 GroupByProject(
                   associatedProjectName: projectName,
+                  associatedProjectID: projectID,
                 )
               ],
             ),
@@ -119,7 +110,8 @@ class TasksByProject extends StatelessWidget {
 
 class GroupByProject extends StatelessWidget {
   final String associatedProjectName;
-  GroupByProject({this.associatedProjectName});
+  final String associatedProjectID;
+  GroupByProject({this.associatedProjectName, this.associatedProjectID});
 
   List<Task> filterByProject(List<Task> tasks, String associatedProjectName) {
     return tasks
@@ -133,7 +125,7 @@ class GroupByProject extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
     return ListBody(
-      children: filterByProject(tasks, associatedProjectName).map((task) {
+      children: filterByProject(tasks, associatedProjectName).map((Task task) {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
@@ -149,22 +141,17 @@ class GroupByProject extends StatelessWidget {
             trailing: IconButton(
                 icon: Icon(Icons.edit_rounded),
                 onPressed: () {
-                  // showModalBottomSheet(
-                  //     context: context,
-                  //     isScrollControlled:
-                  //         true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                  //     shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.only(
-                  //             topLeft: Radius.circular(20),
-                  //             topRight: Radius.circular(20))),
-                  //     builder: (BuildContext context) {
-                  //       return ProjectEditBottomSheet(
-                  //         projectName: projectName,
-                  //         projectColor: projectColor,
-                  //         projectClient: projectClient,
-                  //         projectID: docID,
-                  //       );
-                  //     });
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled:
+                          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      builder: (BuildContext context) {
+                        return TaskEditBottomSheet(task: task);
+                      });
                 }),
             children: [
               Container(

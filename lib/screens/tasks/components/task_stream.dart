@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/screens/tasks/components/task_by_project_future.dart';
-import 'package:productivity_app/screens/tasks/components/task_by_status_future.dart';
+import 'package:productivity_app/screens/tasks/components/task_by_status.dart';
 import 'package:productivity_app/screens/tasks/components/task_filter_buttons.dart';
 import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/projects_data.dart';
