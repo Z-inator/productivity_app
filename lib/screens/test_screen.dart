@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/screens/home/home_screen.dart';
 import 'package:productivity_app/screens/timeEntries/time_screen.dart';
 import 'package:productivity_app/services/authentification_data.dart';
@@ -29,6 +30,7 @@ class FunctionalityButtonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
+    final List<Task> tasks = Provider.of<List<Task>>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -99,11 +101,11 @@ class FunctionalityButtonList extends StatelessWidget {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        // ElevatedButton(
-        //     onPressed: () {
-        //       TaskToFirebase(user: user).uploadExampleData();
-        //     },
-        //     child: Text('Add task data')),
+        ElevatedButton(
+            onPressed: () {
+              TaskToFirebase(user: user).uploadExampleData();
+            },
+            child: Text('Add task data')),
         ElevatedButton(
             onPressed: () {
               TimeService(user: user).addTimeEntry2(
@@ -154,15 +156,34 @@ class FunctionalityButtonList extends StatelessWidget {
             },
             child: Text('show task page')),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Color(4294937216),
-            
-          ),
+            style: ElevatedButton.styleFrom(
+              primary: Color(4294937216),
+            ),
             onPressed: () {
               Navigator.pushNamed(context, '/projectscreen');
             },
             child: Text('testing color')),
-            
+        // ElevatedButton(
+        //   onPressed: () {
+        //     DateTime createDate = DateTime(2021, 03, 24);
+        //     for (Task task in tasks) {
+        //       FirebaseFirestore.instance
+        //         .collection('users')
+        //         .doc(user.uid)
+        //         .collection('tasks')
+        //         .doc(task.taskID)
+        //         .update({'createDate': createDate})
+        //         .then((value) {
+        //           print('${task.taskID} updated with create date: $createDate');
+        //           DateTime newDate =
+        //               DateTime(createDate.year, createDate.month, createDate.day + 1);
+        //           createDate = newDate;
+        //           return print('new create date$createDate');
+        //       });
+        //     }
+        //   },
+        //   child: Text('Update tasks with create dates'),
+        // )
       ],
     );
   }
@@ -195,9 +216,8 @@ class _AddTaskState extends State<AddTask> {
   }
 
   Future<void> getProjectNames() async {
-    projectNames = await ProjectService().projects.get().then(
-        (snapshot) =>
-            snapshot.docs.map((doc) => doc.data()['projectName']).toList());
+    projectNames = await ProjectService().projects.get().then((snapshot) =>
+        snapshot.docs.map((doc) => doc.data()['projectName']).toList());
   }
 
   selectDate() async {

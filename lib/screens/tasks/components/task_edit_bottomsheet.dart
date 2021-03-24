@@ -26,6 +26,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
   @override
   Widget build(BuildContext context) {
     List<Status> statuses = Provider.of<List<Status>>(context);
+    statuses.sort((a,b) => a.statusOrder.compareTo(b.statusOrder));
     return Container(
       margin: EdgeInsets.all(20),
       child: Column(
@@ -56,7 +57,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                 children: statuses.map((status) {
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: TextButton.icon(
+                    child: OutlinedButton.icon(
                       onPressed: () {
                         statusSetState(() {
                           newStatus = status.statusName;
@@ -70,6 +71,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                                   color: Color(status.statusColor)),
                       label: Text(status.statusName),
                       style: TextButton.styleFrom(
+
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(25))),

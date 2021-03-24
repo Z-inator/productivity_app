@@ -13,11 +13,11 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TasksByDueDate extends StatelessWidget {
+class TasksByCreateDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
-    tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+    tasks.sort((a, b) => a.createDate.compareTo(b.createDate));
     return ListView(
       children: tasks.map((task) {
         return Theme(
@@ -55,7 +55,7 @@ class TasksByDueDate extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                        'Project: ${task.projectName}',
                         style: Theme.of(context).textTheme.subtitle1),
                     Text('Status: ${task.status}',
                         style: Theme.of(context).textTheme.subtitle1),
@@ -83,9 +83,16 @@ class TasksByDueDate extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Text(
-                  'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
-                  style: Theme.of(context).textTheme.subtitle1),
+                child: Row(
+                  children: [
+                    Text(
+                        'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                        style: Theme.of(context).textTheme.subtitle1),
+                    Text(
+                      'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                      style: Theme.of(context).textTheme.subtitle1),
+                  ],
+                ),
               ),
             ],
           ),

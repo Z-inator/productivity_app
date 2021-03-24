@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/models/tasks.dart';
+import 'package:productivity_app/screens/tasks/components/task_by_create_date.dart';
+import 'package:productivity_app/screens/tasks/components/task_by_due_date.dart';
 import 'package:productivity_app/screens/tasks/components/task_by_project_future.dart';
 import 'package:productivity_app/screens/tasks/components/task_by_status.dart';
 import 'package:productivity_app/screens/tasks/components/task_filter_buttons.dart';
@@ -62,22 +64,17 @@ class TaskBodyState extends ChangeNotifier {
   List<Widget> taskBodyContent = [
     TasksByStatus(),
     TasksByProject(),
-    TasksByProject(),
-    TasksByProject(),
+    TasksByDueDate(),
+    TasksByCreateDate()
   ];
 
   Widget get widget {
     return _widget;
   }
 
-  // int get page {
-  //   return _page;
-  // }
-
-  // set page(int newPage) {
-  //   page = newPage;
-  //   notifyListeners();
-  // }
+  int get page {
+    return _page;
+  }
 
   void changePage(int newPage) {
     _page = newPage;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/screens/tasks/components/status_edit_bottomsheet.dart';
+import 'package:productivity_app/screens/tasks/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/services/statuses_data.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
@@ -18,10 +19,6 @@ class TasksByStatus extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: statuses.map((status) {
-        String statusID = status.statusID;
-        String statusName = status.statusName;
-        int statusColor = status.statusColor;
-        int statusOrder = status.statusOrder;
         return Container(
           padding: EdgeInsets.all(10),
           child: Card(
@@ -41,10 +38,10 @@ class TasksByStatus extends StatelessWidget {
                       initiallyExpanded: false,
                       leading: Icon(
                         Icons.circle,
-                        color: Color(statusColor),
+                        color: Color(status.statusColor),
                       ),
                       title: Text(
-                        statusName,
+                        status.statusName,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       trailing: IconButton(
@@ -59,11 +56,7 @@ class TasksByStatus extends StatelessWidget {
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
                                 builder: (BuildContext context) {
-                                  return StatusEditBottomSheet(
-                                      statusID: statusID,
-                                      statusName: statusName,
-                                      statusColor: statusColor,
-                                      statusOrder: statusOrder,);
+                                  return StatusEditBottomSheet(status: status,);
                                 });
                           }),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +77,7 @@ class TasksByStatus extends StatelessWidget {
                 ),
                 Divider(),
                 GroupByStatus(
-                  associatedStatus: statusName,
+                  associatedStatus: status.statusName,
                 )
               ],
             ),
@@ -125,22 +118,17 @@ class GroupByStatus extends StatelessWidget {
             trailing: IconButton(
                 icon: Icon(Icons.edit_rounded),
                 onPressed: () {
-                  // showModalBottomSheet(
-                  //     context: context,
-                  //     isScrollControlled:
-                  //         true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                  //     shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.only(
-                  //             topLeft: Radius.circular(20),
-                  //             topRight: Radius.circular(20))),
-                  //     builder: (BuildContext context) {
-                  //       return ProjectEditBottomSheet(
-                  //         projectName: projectName,
-                  //         projectColor: projectColor,
-                  //         projectClient: projectClient,
-                  //         projectID: docID,
-                  //       );
-                  //     });
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled:
+                          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      builder: (BuildContext context) {
+                        return TaskEditBottomSheet(task: task);
+                      });
                 }),
             children: [
               Container(
@@ -174,6 +162,12 @@ class GroupByStatus extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Text(
+                  'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                  style: Theme.of(context).textTheme.subtitle1),
               ),
             ],
           ),

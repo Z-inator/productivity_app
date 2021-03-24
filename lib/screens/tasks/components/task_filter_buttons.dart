@@ -27,10 +27,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextButton.icon(
               onPressed: () {
-                // _changePage(context, 0);
                 _taskBodyState.changePage(0);
                 setState(() {
-                  setBody = 0;
+                  setBody = _taskBodyState.page;
                 });
               },
               icon: Icon(Icons.label_rounded),
@@ -47,10 +46,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextButton.icon(
               onPressed: () {
-                // _changePage(context, 1);
                 _taskBodyState.changePage(1);
                 setState(() {
-                  setBody = 1;
+                  setBody = _taskBodyState.page;
                 });
               },
               icon: Icon(Icons.topic_rounded),
@@ -67,10 +65,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextButton.icon(
               onPressed: () {
-                // _changePage(context, 2);
                 _taskBodyState.changePage(2);
                 setState(() {
-                  setBody = 2;
+                  setBody = _taskBodyState.page;
                 });
               },
               icon: Icon(Icons.notification_important_rounded),
@@ -87,10 +84,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextButton.icon(
               onPressed: () {
-                // _changePage(context, 3);
                 _taskBodyState.changePage(3);
                 setState(() {
-                  setBody = 3;
+                  setBody = _taskBodyState.page;
                 });
               },
               icon: Icon(Icons.playlist_add_rounded),

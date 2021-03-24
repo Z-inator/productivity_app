@@ -35,11 +35,11 @@ class _ProjectStreamState extends State<ProjectStream>
           return ListView(
               padding: EdgeInsets.only(bottom: 100),
               children:  projects.map((project) {
-                final String projectID = project.projectID;
-                final String projectName = project.projectName;
-                final String projectClient = project.projectClient;
-                final Color projectColor = Color(project.projectColor);
-                final String projectTime = TimeFunctions().timeToText(seconds: project.projectTime);
+                // final String projectID = project.projectID;
+                // final String projectName = project.projectName;
+                // final String projectClient = project.projectClient;
+                // final Color projectColor = Color(project.projectColor);
+                // final String projectTime = TimeFunctions().timeToText(seconds: project.projectTime);
                 return Container(
                     padding: EdgeInsets.all(10),
                     child: Card(
@@ -56,10 +56,10 @@ class _ProjectStreamState extends State<ProjectStream>
                               initiallyExpanded: false,
                               leading: Icon(
                                 Icons.circle,
-                                color: projectColor,
+                                color: Color(project.projectColor),
                               ),
                               title: Text(
-                                projectName,
+                                project.projectName,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               trailing: IconButton(
@@ -73,11 +73,7 @@ class _ProjectStreamState extends State<ProjectStream>
                                                 topLeft: Radius.circular(20),
                                                 topRight: Radius.circular(20))),
                                         builder: (BuildContext context) {
-                                          return ProjectEditBottomSheet(
-                                              projectName: projectName,
-                                              projectColor: projectColor,
-                                              projectClient: projectClient,
-                                              projectID: projectID,);
+                                          return ProjectEditBottomSheet(project: project,);
                                         });
                                   }),
                               children: [
@@ -87,7 +83,7 @@ class _ProjectStreamState extends State<ProjectStream>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Client: ClientName',
+                                      Text('Client: ${project.projectClient}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle1),
@@ -104,7 +100,7 @@ class _ProjectStreamState extends State<ProjectStream>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Time: $projectTime',
+                                      Text('Time: ${TimeFunctions().timeToText(seconds: project.projectTime)}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .subtitle1),
@@ -115,7 +111,7 @@ class _ProjectStreamState extends State<ProjectStream>
                                         onPressed: () {
                                           Navigator.pushNamed(
                                               context, '/taskscreen',
-                                              arguments: projectName);
+                                              arguments: project.projectName);
                                         },
                                       ),
                                     ],

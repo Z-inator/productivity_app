@@ -11,6 +11,7 @@ class Task {
   String status;
   int taskTime;
   DateTime dueDate;
+  DateTime createDate;
   // List<String> subtasks = [];
 
   Task(
@@ -19,17 +20,22 @@ class Task {
       this.projectName,
       this.status,
       this.taskTime,
-      this.dueDate});
+      this.dueDate,
+      this.createDate});
 
   factory Task.fromFirestore(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
     return Task(
-      taskID: snapshot.id ?? '',
-      taskName: data['taskName'].toString() ?? '',
-      projectName: data['projectName'].toString() ?? '',
-      status: data['status'].toString() ?? '',
-      taskTime: data['taskTime'] ?? 0,
-      dueDate: DateTimeFunctions().timeStampToDateTime(date: data['dueDate']) ?? DateTime.now()
-    );
+        taskID: snapshot.id ?? '',
+        taskName: data['taskName'].toString() ?? '',
+        projectName: data['projectName'].toString() ?? '',
+        status: data['status'].toString() ?? '',
+        taskTime: data['taskTime'] ?? 0,
+        dueDate:
+            DateTimeFunctions().timeStampToDateTime(date: data['dueDate']) ??
+                DateTime.now(),
+        createDate:
+            DateTimeFunctions().timeStampToDateTime(date: data['createDate']) ??
+                DateTime.now());
   }
 }

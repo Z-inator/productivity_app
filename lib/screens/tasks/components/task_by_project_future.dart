@@ -186,6 +186,12 @@ class GroupByProject extends StatelessWidget {
                   ],
                 ),
               ),
+              Container(
+                margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Text(
+                  'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                  style: Theme.of(context).textTheme.subtitle1),
+              ),
             ],
           ),
         );
