@@ -70,7 +70,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                               : Icon(Icons.circle,
                                   color: Color(status.statusColor)),
                       label: Text(status.statusName),
-                      style: TextButton.styleFrom(
+                      style: OutlinedButton.styleFrom(
 
                         shape: RoundedRectangleBorder(
                             borderRadius:

@@ -25,7 +25,7 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextButton.icon(
+            child: OutlinedButton.icon(
               onPressed: () {
                 _taskBodyState.changePage(0);
                 setState(() {
@@ -34,7 +34,8 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               },
               icon: Icon(Icons.label_rounded),
               label: Text('Status'),
-              style: TextButton.styleFrom(
+              style: OutlinedButton.styleFrom(
+                primary: setBody == 0 ? Colors.white : null,
                 backgroundColor:
                     setBody == 0 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
@@ -44,7 +45,7 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextButton.icon(
+            child: OutlinedButton.icon(
               onPressed: () {
                 _taskBodyState.changePage(1);
                 setState(() {
@@ -53,7 +54,8 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               },
               icon: Icon(Icons.topic_rounded),
               label: Text('Project'),
-              style: TextButton.styleFrom(
+              style: OutlinedButton.styleFrom(
+                primary: setBody == 1 ? Colors.white : null,
                 backgroundColor:
                     setBody == 1 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
@@ -63,7 +65,7 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextButton.icon(
+            child: OutlinedButton.icon(
               onPressed: () {
                 _taskBodyState.changePage(2);
                 setState(() {
@@ -72,7 +74,8 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               },
               icon: Icon(Icons.notification_important_rounded),
               label: Text('Due Date'),
-              style: TextButton.styleFrom(
+              style: OutlinedButton.styleFrom(
+                primary: setBody == 2 ? Colors.white : null,
                 backgroundColor:
                     setBody == 2 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
@@ -82,7 +85,7 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextButton.icon(
+            child: OutlinedButton.icon(
               onPressed: () {
                 _taskBodyState.changePage(3);
                 setState(() {
@@ -91,7 +94,8 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               },
               icon: Icon(Icons.playlist_add_rounded),
               label: Text('Create Date'),
-              style: TextButton.styleFrom(
+              style: OutlinedButton.styleFrom(
+                primary: setBody == 3 ? Colors.white : null,
                 backgroundColor:
                     setBody == 3 ? Theme.of(context).primaryColor : null,
                 shape: RoundedRectangleBorder(
