@@ -14,12 +14,12 @@ class TasksByProject extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: projects.map((Project project) {
-        String projectID = project.projectID;
-        String projectName = project.projectName;
-        Color projectColor = Color(project.projectColor);
-        String projectClient = project.projectClient;
-        final String projectTime =
-            TimeFunctions().timeToText(seconds: project.projectTime);
+        // String projectID = project.projectID;
+        // String projectName = project.projectName;
+        // Color projectColor = Color(project.projectColor);
+        // String projectClient = project.projectClient;
+        // final String projectTime =
+        //     TimeFunctions().timeToText(seconds: project.projectTime);
         return Container(
           padding: EdgeInsets.all(10),
           child: Card(
@@ -39,10 +39,10 @@ class TasksByProject extends StatelessWidget {
                       initiallyExpanded: false,
                       leading: Icon(
                         Icons.circle,
-                        color: projectColor,
+                        color: Color(project.projectColor),
                       ),
                       title: Text(
-                        projectName,
+                        project.projectName,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       trailing: IconButton(
@@ -57,7 +57,8 @@ class TasksByProject extends StatelessWidget {
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20))),
                                 builder: (BuildContext context) {
-                                  return ProjectEditBottomSheet(project: project);
+                                  return ProjectEditBottomSheet(
+                                      project: project);
                                 });
                           }),
                       children: [
@@ -66,7 +67,7 @@ class TasksByProject extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Client: $projectClient',
+                              Text('Client: ${project.projectClient}',
                                   style: Theme.of(context).textTheme.subtitle1),
                               Text('Tasks: 10',
                                   style: Theme.of(context).textTheme.subtitle1),
@@ -78,7 +79,7 @@ class TasksByProject extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Time: $projectTime',
+                              Text('Time: ${project.projectTime}',
                                   style: Theme.of(context).textTheme.subtitle1),
                               OutlinedButton.icon(
                                 icon: Icon(Icons.playlist_add_check_rounded),
@@ -86,7 +87,7 @@ class TasksByProject extends StatelessWidget {
                                     'Tasks\n10'), // TODO: make this a live number
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/taskscreen',
-                                      arguments: projectName);
+                                      arguments: project.projectName);
                                 },
                               ),
                             ],
@@ -95,10 +96,7 @@ class TasksByProject extends StatelessWidget {
                       ],
                     )),
                 Divider(),
-                GroupByProject(
-                  associatedProjectName: projectName,
-                  associatedProjectID: projectID,
-                )
+                GroupByProject(associatedProject: project)
               ],
             ),
           ),
@@ -109,9 +107,8 @@ class TasksByProject extends StatelessWidget {
 }
 
 class GroupByProject extends StatelessWidget {
-  final String associatedProjectName;
-  final String associatedProjectID;
-  GroupByProject({this.associatedProjectName, this.associatedProjectID});
+  final Project associatedProject;
+  GroupByProject({this.associatedProject});
 
   List<Task> filterByProject(List<Task> tasks, String associatedProjectName) {
     return tasks
@@ -125,7 +122,8 @@ class GroupByProject extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
     return ListBody(
-      children: filterByProject(tasks, associatedProjectName).map((Task task) {
+      children: filterByProject(tasks, associatedProject.projectName)
+          .map((Task task) {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
@@ -150,7 +148,8 @@ class GroupByProject extends StatelessWidget {
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
                       builder: (BuildContext context) {
-                        return TaskEditBottomSheet(task: task);
+                        return TaskEditBottomSheet(
+                            task: task, associatedProject: associatedProject);
                       });
                 }),
             children: [
@@ -189,8 +188,8 @@ class GroupByProject extends StatelessWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: Text(
-                  'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
-                  style: Theme.of(context).textTheme.subtitle1),
+                    'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                    style: Theme.of(context).textTheme.subtitle1),
               ),
             ],
           ),

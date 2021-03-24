@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/screens/tasks/components/status_edit_bottomsheet.dart';
@@ -77,7 +78,7 @@ class TasksByStatus extends StatelessWidget {
                 ),
                 Divider(),
                 GroupByStatus(
-                  associatedStatus: status.statusName,
+                  associatedStatus: status,
                 )
               ],
             ),
@@ -89,7 +90,7 @@ class TasksByStatus extends StatelessWidget {
 }
 
 class GroupByStatus extends StatelessWidget {
-  final String associatedStatus;
+  final Status associatedStatus;
   GroupByStatus({this.associatedStatus});
 
   List<Task> filterByStatus(List<Task> tasks, String associatedStatus) {
@@ -101,8 +102,10 @@ class GroupByStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
+    final List<Project> projects = Provider.of<List<Project>>(context);
     return ListBody(
-      children: filterByStatus(tasks, associatedStatus).map((task) {
+      children: filterByStatus(tasks, associatedStatus.statusName).map((task) {
+        Project associatedProject = projects.firstWhere((project) => project.projectName == task.projectName);
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
@@ -127,7 +130,7 @@ class GroupByStatus extends StatelessWidget {
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
                       builder: (BuildContext context) {
-                        return TaskEditBottomSheet(task: task);
+                        return TaskEditBottomSheet(task: task, associatedProject: associatedProject,);
                       });
                 }),
             children: [

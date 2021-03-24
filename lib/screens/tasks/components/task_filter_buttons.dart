@@ -14,6 +14,7 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
   //   Provider.of<TaskBodyState>(context, listen: false).changePage(newPage);
   // }
 
+
   @override
   Widget build(BuildContext context) {
     TaskBodyState _taskBodyState = Provider.of<TaskBodyState>(context);
@@ -35,9 +36,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               icon: Icon(Icons.label_rounded),
               label: Text('Status'),
               style: OutlinedButton.styleFrom(
-                primary: setBody == 0 ? Colors.white : null,
+                primary: setBody == 0 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    setBody == 0 ? Theme.of(context).primaryColor : null,
+                    setBody == 0 ? Theme.of(context).accentColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -55,9 +56,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               icon: Icon(Icons.topic_rounded),
               label: Text('Project'),
               style: OutlinedButton.styleFrom(
-                primary: setBody == 1 ? Colors.white : null,
+                primary: setBody == 1 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    setBody == 1 ? Theme.of(context).primaryColor : null,
+                    setBody == 1 ? Theme.of(context).accentColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -75,9 +76,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               icon: Icon(Icons.notification_important_rounded),
               label: Text('Due Date'),
               style: OutlinedButton.styleFrom(
-                primary: setBody == 2 ? Colors.white : null,
+                primary: setBody == 2 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    setBody == 2 ? Theme.of(context).primaryColor : null,
+                    setBody == 2 ? Theme.of(context).accentColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
@@ -95,9 +96,9 @@ class _FilterButtonRowState extends State<FilterButtonRow> {
               icon: Icon(Icons.playlist_add_rounded),
               label: Text('Create Date'),
               style: OutlinedButton.styleFrom(
-                primary: setBody == 3 ? Colors.white : null,
+                primary: setBody == 3 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    setBody == 3 ? Theme.of(context).primaryColor : null,
+                    setBody == 3 ? Theme.of(context).accentColor : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25))),
               ),

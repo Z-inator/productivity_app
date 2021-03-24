@@ -67,20 +67,22 @@ class _ProductivityAppState extends State<ProductivityApp> {
     if (!_initialized) {
       return Center(child: Text('Loading'));
     }
-    return MultiProvider(
-      providers: [
-        StreamProvider<User>.value(value: AuthService().user),
-        StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
-        StreamProvider<List<Task>>.value(value: TaskService().streamTasks()),
-        StreamProvider<List<Status>>.value(value: StatusService().streamStatuses())
-      ],
-      child: MaterialApp(
-        title: 'ProductivityApp',
-        theme: appTheme(),
-        // home: Wrapper(),
-        // routes: routes,
-        onGenerateRoute: generateRoute,
-        initialRoute: '/',
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: MultiProvider(
+        providers: [
+          StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
+          StreamProvider<List<Task>>.value(value: TaskService().streamTasks()),
+          StreamProvider<List<Status>>.value(value: StatusService().streamStatuses())
+        ],
+          child: MaterialApp(
+            title: 'ProductivityApp',
+            theme: appTheme(),
+            // home: Wrapper(),
+            // routes: routes,
+            onGenerateRoute: generateRoute,
+            initialRoute: '/',
+          ),
       ),
 
     );

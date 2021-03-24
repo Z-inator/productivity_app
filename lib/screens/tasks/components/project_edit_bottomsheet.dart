@@ -18,7 +18,7 @@ class ProjectEditBottomSheet extends StatefulWidget {
 class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
   String newProjectName;
   String newClientName;
-  Color newProjectColor;
+  int newProjectColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
               newProjectName = newText;
             },
           ),
+          // TODO: this widget is causing errors
           StatefulBuilder(
               builder: (BuildContext context, StateSetter colorSetState) {
             return SingleChildScrollView(
@@ -43,7 +44,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
               child: Row(
                 children: ProjectColors().colorList.map((color) {
                   return IconButton(
-                      icon: (newProjectColor ?? Color(widget.project.projectColor)) ==
+                      icon: (Color(newProjectColor) ?? Color(widget.project.projectColor)) ==
                               Color(color)
                           ? Icon(
                               Icons.check_circle_rounded,
@@ -57,7 +58,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                             ),
                       onPressed: () {
                         colorSetState(() {
-                          newProjectColor = Color(color);
+                          newProjectColor = color;
                         });
                       });
                 }).toList(),
@@ -82,10 +83,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                       .updateProject(projectID: widget.project.projectID, updateData: {
                     'projectName': newProjectName ?? widget.project.projectName,
                     'projectClient': newClientName ?? widget.project.projectClient,
-                    'projectColor': int.parse(
-                            '0x${newProjectColor.value.toRadixString(16).toUpperCase().toString()}') ??
-                        int.parse(
-                            '0x${widget.project.projectColor.toString()}')
+                    'projectColor': newProjectColor ?? widget.project.projectColor
                   });
                   Navigator.pop(context);
                 },

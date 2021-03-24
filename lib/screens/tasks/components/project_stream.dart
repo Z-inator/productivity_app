@@ -35,11 +35,6 @@ class _ProjectStreamState extends State<ProjectStream>
           return ListView(
               padding: EdgeInsets.only(bottom: 100),
               children:  projects.map((project) {
-                // final String projectID = project.projectID;
-                // final String projectName = project.projectName;
-                // final String projectClient = project.projectClient;
-                // final Color projectColor = Color(project.projectColor);
-                // final String projectTime = TimeFunctions().timeToText(seconds: project.projectTime);
                 return Container(
                     padding: EdgeInsets.all(10),
                     child: Card(

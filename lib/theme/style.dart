@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
+    primaryColor: Colors.white,
+    accentColor: Colors.blue,
+    
     textTheme: TextTheme(
       subtitle1: TextStyle(color: Color(0x8a000000)),
     ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        backgroundColor: Colors.grey[600],
-        primary: Colors.white,
-
-      )
-    )
   );
 }
 
