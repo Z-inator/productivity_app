@@ -66,7 +66,7 @@ class TasksByCreateDate extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        'Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
+                        'Time: ${TimeFunctions().timeToTextWithoutSeconds(seconds: task.taskTime)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     OutlinedButton.icon(
                       icon: Icon(Icons.playlist_add_check_rounded),

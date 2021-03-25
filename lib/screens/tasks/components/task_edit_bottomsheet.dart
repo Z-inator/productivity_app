@@ -26,13 +26,6 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
   TimeOfDay _dueTime;
   Duration _addedTime;
 
-  @override
-  void initState() {
-    _dueDate = DateTime.now();
-    _dueTime = TimeOfDay.now();
-    super.initState();
-  }
-
   Future selectDate() async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -41,7 +34,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
         lastDate: DateTime(2100));
     if (picked != null) {
       setState(() {
-        _dueDate = picked;
+        newTask.dueDate = picked;
       });
     }
   }
@@ -51,7 +44,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
         await showTimePicker(context: context, initialTime: _dueTime);
     if (pickedTime != null) {
       setState(() {
-        _dueTime = pickedTime;
+        newTask.dueDate = DateTime(newTask.dueDate.year, newTask.dueDate.month, newTask.dueDate.day, pickedTime.hour, pickedTime.minute);
       });
     }
   }
@@ -135,14 +128,17 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
-            decoration: InputDecoration(
-                hintText:
-                    newTask.taskName ?? widget.task.taskName ?? 'Task Name'),
-            textAlign: TextAlign.center,
-            onChanged: (newText) {
-              newTask.taskName = newText;
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: TextField(
+              decoration: InputDecoration(
+                  hintText:
+                      newTask.taskName ?? widget.task.taskName ?? 'Task Name'),
+              textAlign: TextAlign.center,
+              onChanged: (newText) {
+                newTask.taskName = newText;
+              },
+            ),
           ),
           PopupMenuButton(
             child: ListTile(
@@ -234,16 +230,15 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                 onPressed: selectDate,
                 icon: Icon(Icons.today_rounded),
                 label: Text(
-                    'Due Date: ${_dueDate.month}/${_dueDate.day}/${_dueDate.year}'),
+                    'Due Date: ${widget.task.dueDate.month}/${widget.task.dueDate.day}/${widget.task.dueDate.year}'),
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25)))),
               ),
               OutlinedButton.icon(
                 onPressed: selectTime,
-                icon: Icon(Icons.access_time_rounded),
-                label: Text(
-                    'Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}'),
+                icon: (newTask.dueDate == null || widget.task.dueDate.hour == 0) ?  Icon(Icons.more_time_rounded) : Icon(Icons.schedule_rounded),
+                label: (newTask.dueDate == null || widget.task.dueDate.hour == 0) ? Text('Add Due Time') : Text('Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}'),
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25)))),

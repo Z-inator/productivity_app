@@ -13,24 +13,49 @@ import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/services/times_data.dart';
 import 'package:productivity_app/shared_components/base_framework.dart';
 import 'package:productivity_app/shared_components/bottom_navigation_bar2.dart';
+import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:productivity_app/test_data/project_to_firebase.dart';
 import 'package:productivity_app/test_data/task_to_firebase.dart';
 import 'package:productivity_app/test_data/time_to_firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FunctionalityButtonList();
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    final Task task =
+        tasks.firstWhere((task) => task.taskID == '2HzAhm2vMw9q0ZrBr1nJ');
+    return FunctionalityButtonList(task: task);
   }
 }
 
-class FunctionalityButtonList extends StatelessWidget {
+class FunctionalityButtonList extends StatefulWidget {
+  Task task;
+  FunctionalityButtonList({this.task});
+  @override
+  _FunctionalityButtonListState createState() =>
+      _FunctionalityButtonListState();
+}
+
+class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
+  Task newTask = Task();
+  Project newProject;
+  DateTime _dueDate;
+  TimeOfDay _dueTime;
+  Duration _addedTime;
+
+  @override
+  void initState() {
+    _dueDate = DateTime.now();
+    _dueTime = TimeOfDay.now();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
-    final List<Task> tasks = Provider.of<List<Task>>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -139,18 +164,6 @@ class FunctionalityButtonList extends StatelessWidget {
             },
             child: Text('Update user profile')),
         ElevatedButton(
-          onPressed: () {
-            return showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return AddTask(
-                    user: user,
-                  );
-                });
-          },
-          child: Text('Add Task'),
-        ),
-        ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/projectscreen');
             },
@@ -184,147 +197,172 @@ class FunctionalityButtonList extends StatelessWidget {
         //   },
         //   child: Text('Update tasks with create dates'),
         // )
+        ElevatedButton(
+            onPressed: addTime, child: Text('show elapsed time dialog')),
+        ElevatedButton(
+            onPressed: () {
+              DateTime newDate = DateTime(2021, 3, 26);
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection('tasks')
+                  .doc(widget.task.taskID)
+                  .update({'dueDate': newDate});
+            },
+            child: Text('update due date without time')),
       ],
     );
   }
-}
 
-class AddTask extends StatefulWidget {
-  final User user;
-  AddTask({this.user});
-  @override
-  _AddTaskState createState() => _AddTaskState();
-}
-
-class _AddTaskState extends State<AddTask> {
-  final _formKey = GlobalKey<FormState>();
-  String _taskName;
-  DocumentReference addedTask;
-  String _projectName;
-  String _projectID;
-  List<dynamic> projectNames;
-  Map<String, String> taskID;
-  DateTime _dueDate;
-  TimeOfDay _dueTime;
-
-  @override
-  void initState() {
-    super.initState();
-    _dueDate = DateTime.now();
-    _dueTime = TimeOfDay.now();
-    getProjectNames();
-  }
-
-  Future<void> getProjectNames() async {
-    projectNames = await ProjectService().projects.get().then((snapshot) =>
-        snapshot.docs.map((doc) => doc.data()['projectName']).toList());
-  }
-
-  selectDate() async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: _dueDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        _dueDate = picked;
-        // year = _dueDate.year.toString();
-        // month = _dueDate.month.toString();
-        // day = _dueDate.day.toString();
-      });
+  Future addTime() async {
+    // FocusNode _focusNode;
+    TextEditingController _textEditingControllerHour;
+    TextEditingController _textEditingControllerMinute;
+    String hintText =
+        TimeFunctions().timeToTextHours(seconds: widget.task.taskTime);
+    @override
+    void initState() {
+      // _focusNode = FocusNode();
+      _textEditingControllerHour = TextEditingController();
+      _textEditingControllerMinute = TextEditingController();
+      // _focusNode.addListener(() {
+      //   if (_focusNode.hasFocus) {
+      //     hintText = '';
+      //   } else {
+      //     hintText = TimeFunctions().timeToTextHours(seconds: widget.task.taskTime);
+      //   }
+      // });
+      super.initState();
     }
-  }
 
-  selectTime() async {
-    final TimeOfDay pickedTime =
-        await showTimePicker(context: context, initialTime: _dueTime);
-    if (pickedTime != null) {
-      setState(() {
-        _dueTime = pickedTime;
-        // hour = _dueTime.hour.toString();
-        // minute = _dueTime.minute.toString();
-        // _dueDate = DateTime.parse('$year-$month-$day $hour:$minute:00Z');
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-            validator: (value) =>
-                value.isEmpty ? 'Please enter a task name' : null,
-            onChanged: (value) => setState(() => _taskName = value),
-            decoration: InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Task Name'),
-          ),
-          PopupMenuButton(
-              onSelected: (value) {
-                setState(() {
-                  _projectName = value.toString();
-                });
-              },
-              itemBuilder: (BuildContext context) {
-                return projectNames
-                    .map((name) => PopupMenuItem(
-                        value: name, child: Text(name.toString())))
-                    .toList();
-              },
-              child: Text(_projectName ?? 'Select Project')),
-          TextButton(
-              onPressed: selectDate,
-              child: Text(
-                  'Due Date: ${_dueDate.month}/${_dueDate.day}/${_dueDate.year}')),
-          TextButton(
-              onPressed: selectTime,
-              child: Text(
-                  'Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}')),
-          ElevatedButton(
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                _dueDate = DateTime(
-                    _dueDate.year,
-                    _dueDate.month,
-                    _dueDate.day,
-                    _dueTime.hour,
-                    _dueTime.minute,
-                    _dueDate.second,
-                    _dueDate.millisecond,
-                    _dueDate.microsecond);
-                print('$_taskName : $_projectName : ${_dueDate.toString()}');
-                addedTask = await TaskService().addTask(
-                    taskName: _taskName,
-                    projectName: _projectName,
-                    dueDate: _dueDate);
-                await ProjectService()
-                    .projects
-                    .where('projectName', isEqualTo: _projectName)
-                    .get()
-                    .then((QuerySnapshot projectSnapshot) => {
-                          projectSnapshot.docs.forEach((element) {
-                            _projectID = element.id;
-                          })
-                        });
-                taskID = {addedTask.id.toString(): _taskName};
-                ProjectService().updateProject(
-                    projectID: _projectID,
-                    updateData: {
-                      'taskList': taskID
-                    }); // TODO: add task to project array list
-                Navigator.pop(
-                    context); // TODO: change list of task for that project to pop up a modal rather than expansionList - expansion panel is for additional details not a hidden list
-              }
-            },
-            child: Text('Submit'),
-          )
-        ],
-      ),
-    );
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Enter Time',
+                style:
+                    TextStyle(color: Theme.of(context).unselectedWidgetColor)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: TextField(
+                    // focusNode: _focusNode,
+                    controller: _textEditingControllerHour,
+                    style: Theme.of(context).textTheme.headline3.copyWith(
+                        color: Theme.of(context).unselectedWidgetColor),
+                    decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).accentColor)),
+                        border: OutlineInputBorder(),
+                        hintText: _addedTime == null
+                            ? TimeFunctions()
+                                .timeToTextHours(seconds: widget.task.taskTime)
+                            : TimeFunctions().timeToTextHours(
+                                seconds: _addedTime.inSeconds)),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (value) {
+                      setState(() {
+                        _addedTime == null
+                            ? _addedTime = Duration(hours: int.parse(value))
+                            : _addedTime =
+                                _addedTime + Duration(hours: int.parse(value));
+                      });
+                    },
+                    onEditingComplete: () {
+                      _textEditingControllerHour.text = _addedTime == null
+                          ? TimeFunctions()
+                              .timeToTextHours(seconds: widget.task.taskTime)
+                          : TimeFunctions()
+                              .timeToTextHours(seconds: _addedTime.inSeconds);
+                    },
+                  ),
+                ),
+                Expanded(
+                    child: Text(
+                  ':',
+                  style: Theme.of(context).textTheme.headline3,
+                )),
+                Expanded(
+                  child: TextField(
+                    // focusNode: _focusNode,
+                    controller: _textEditingControllerMinute,
+                    style: Theme.of(context).textTheme.headline3.copyWith(
+                        color: Theme.of(context).unselectedWidgetColor),
+                    decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context).accentColor)),
+                        border: OutlineInputBorder(),
+                        hintText: _addedTime == null
+                            ? TimeFunctions().timeToTextMinutes(
+                                seconds: widget.task.taskTime)
+                            : TimeFunctions().timeToTextMinutes(
+                                seconds: _addedTime.inSeconds)),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: (value) {
+                      setState(() {
+                        _addedTime == null
+                            ? _addedTime = Duration(minutes: int.parse(value))
+                            : _addedTime =
+                                _addedTime + Duration(hours: int.parse(value));
+                      });
+                    },
+                    onEditingComplete: () {
+                      _textEditingControllerMinute.text = _addedTime == null
+                          ? TimeFunctions()
+                              .timeToTextMinutes(seconds: widget.task.taskTime)
+                          : TimeFunctions()
+                              .timeToTextMinutes(seconds: _addedTime.inSeconds);
+                    },
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.access_time_rounded,
+                          color: Theme.of(context).unselectedWidgetColor,
+                        )),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Cancel')),
+                        TextButton(
+                            onPressed: () {
+                              if (_addedTime.inSeconds != 0) {
+                                newTask.taskTime = _addedTime.inSeconds;
+                              }
+                              Navigator.pop(context);
+                            },
+                            child: Text('Ok')),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
+          );
+        });
   }
 }
