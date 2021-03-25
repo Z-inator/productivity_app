@@ -35,7 +35,7 @@ class TimeStream extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   child: Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
                     elevation: 5,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

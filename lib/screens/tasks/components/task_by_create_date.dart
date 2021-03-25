@@ -41,12 +41,11 @@ class TasksByCreateDate extends StatelessWidget {
                           true, // Allows the modal to me dynamic and keeps the menu above the keyboard
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
+                              topLeft: Radius.circular(25),
+                              topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return TaskEditBottomSheet(task: task);
-                      }
-                  );
+                      });
                 }),
             children: [
               Container(
@@ -54,8 +53,7 @@ class TasksByCreateDate extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                        'Project: ${task.projectName}',
+                    Text('Project: ${task.projectName}',
                         style: Theme.of(context).textTheme.subtitle1),
                     Text('Status: ${task.status}',
                         style: Theme.of(context).textTheme.subtitle1),
@@ -89,8 +87,8 @@ class TasksByCreateDate extends StatelessWidget {
                         'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     Text(
-                      'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
-                      style: Theme.of(context).textTheme.subtitle1),
+                        'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                        style: Theme.of(context).textTheme.subtitle1),
                   ],
                 ),
               ),

@@ -14,17 +14,11 @@ class TasksByProject extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: projects.map((Project project) {
-        // String projectID = project.projectID;
-        // String projectName = project.projectName;
-        // Color projectColor = Color(project.projectColor);
-        // String projectClient = project.projectClient;
-        // final String projectTime =
-        //     TimeFunctions().timeToText(seconds: project.projectTime);
         return Container(
           padding: EdgeInsets.all(10),
           child: Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                borderRadius: BorderRadius.all(Radius.circular(25))),
             elevation: 5,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -54,8 +48,8 @@ class TasksByProject extends StatelessWidget {
                                     true, // Allows the modal to me dynamic and keeps the menu above the keyboard
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20))),
+                                        topLeft: Radius.circular(25),
+                                        topRight: Radius.circular(25))),
                                 builder: (BuildContext context) {
                                   return ProjectEditBottomSheet(
                                       project: project);
@@ -145,8 +139,8 @@ class GroupByProject extends StatelessWidget {
                           true, // Allows the modal to me dynamic and keeps the menu above the keyboard
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
+                              topLeft: Radius.circular(25),
+                              topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return TaskEditBottomSheet(
                             task: task, associatedProject: associatedProject);

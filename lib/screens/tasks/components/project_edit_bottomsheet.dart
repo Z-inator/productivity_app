@@ -16,9 +16,7 @@ class ProjectEditBottomSheet extends StatefulWidget {
 }
 
 class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
-  String newProjectName;
-  String newClientName;
-  int newProjectColor;
+  Project newProject = Project();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +26,14 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            decoration:
-                InputDecoration(hintText: widget.project.projectName ?? 'Project Name'),
+            decoration: InputDecoration(
+              hintText: (newProject.projectName == null)
+                  ? (widget.project.projectName ?? 'Select Project')
+                  : newProject.projectName,
+            ),
             textAlign: TextAlign.center,
             onChanged: (newText) {
-              newProjectName = newText;
+              newProject.projectName = newText;
             },
           ),
           // TODO: this widget is causing errors
@@ -44,21 +45,13 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
               child: Row(
                 children: ProjectColors().colorList.map((color) {
                   return IconButton(
-                      icon: (Color(newProjectColor) ?? Color(widget.project.projectColor)) ==
-                              Color(color)
-                          ? Icon(
-                              Icons.check_circle_rounded,
-                              color: Color(color),
-                              size: 36,
-                            )
-                          : Icon(
-                              Icons.circle,
-                              color: Color(color),
-                              size: 36,
-                            ),
+                      icon: (newProject.projectColor == null) ? 
+                          (widget.project.projectColor == color ? Icon(Icons.check_circle_rounded, color: Color(color), size: 36) : Icon(Icons.circle, color: Color(color), size: 36))
+                          :
+                          (newProject.projectColor == color ? Icon(Icons.check_circle_rounded, color: Color(color), size: 36) : Icon(Icons.circle, color: Color(color), size: 36)),
                       onPressed: () {
                         colorSetState(() {
-                          newProjectColor = color;
+                          newProject.projectColor = color;
                         });
                       });
                 }).toList(),
@@ -70,7 +63,7 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                 hintText: widget.project.projectClient ?? 'Client Name'),
             textAlign: TextAlign.center,
             onChanged: (newText) {
-              newClientName = newText;
+              newProject.projectClient = newText;
             },
           ),
           Container(
@@ -79,12 +72,16 @@ class _ProjectEditBottomSheetState extends State<ProjectEditBottomSheet> {
                 icon: Icon(Icons.check_circle_outline_rounded),
                 label: Text('Submit'),
                 onPressed: () {
-                  ProjectService()
-                      .updateProject(projectID: widget.project.projectID, updateData: {
-                    'projectName': newProjectName ?? widget.project.projectName,
-                    'projectClient': newClientName ?? widget.project.projectClient,
-                    'projectColor': newProjectColor ?? widget.project.projectColor
-                  });
+                  ProjectService().updateProject(
+                      projectID: widget.project.projectID,
+                      updateData: {
+                        'projectName':
+                            newProject.projectName ?? widget.project.projectName,
+                        'projectClient':
+                            newProject.projectClient ?? widget.project.projectClient,
+                        'projectColor':
+                            newProject.projectColor ?? widget.project.projectColor
+                      });
                   Navigator.pop(context);
                 },
               ))

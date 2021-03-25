@@ -24,7 +24,7 @@ class TasksByStatus extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                borderRadius: BorderRadius.all(Radius.circular(25))),
             elevation: 5,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -54,10 +54,12 @@ class TasksByStatus extends StatelessWidget {
                                     true, // Allows the modal to me dynamic and keeps the menu above the keyboard
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20))),
+                                        topLeft: Radius.circular(25),
+                                        topRight: Radius.circular(25))),
                                 builder: (BuildContext context) {
-                                  return StatusEditBottomSheet(status: status,);
+                                  return StatusEditBottomSheet(
+                                    status: status,
+                                  );
                                 });
                           }),
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +107,8 @@ class GroupByStatus extends StatelessWidget {
     final List<Project> projects = Provider.of<List<Project>>(context);
     return ListBody(
       children: filterByStatus(tasks, associatedStatus.statusName).map((task) {
-        Project associatedProject = projects.firstWhere((project) => project.projectName == task.projectName);
+        Project associatedProject = projects
+            .firstWhere((project) => project.projectName == task.projectName);
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
@@ -127,10 +130,13 @@ class GroupByStatus extends StatelessWidget {
                           true, // Allows the modal to me dynamic and keeps the menu above the keyboard
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
+                              topLeft: Radius.circular(25),
+                              topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
-                        return TaskEditBottomSheet(task: task, associatedProject: associatedProject,);
+                        return TaskEditBottomSheet(
+                          task: task,
+                          associatedProject: associatedProject,
+                        );
                       });
                 }),
             children: [
@@ -169,8 +175,8 @@ class GroupByStatus extends StatelessWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: Text(
-                  'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
-                  style: Theme.of(context).textTheme.subtitle1),
+                    'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                    style: Theme.of(context).textTheme.subtitle1),
               ),
             ],
           ),

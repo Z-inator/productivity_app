@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/screens/tasks/components/project_stream.dart';
 import 'package:productivity_app/screens/tasks/components/task_stream.dart';
 import 'package:provider/provider.dart';
-// import 'package:productivity_app/screens/tasks/test.dart';
 
-
+// TODO: look at using an Animated Switcher instead of Provider
 class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
