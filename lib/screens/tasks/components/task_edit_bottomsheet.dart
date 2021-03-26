@@ -7,6 +7,7 @@ import 'package:productivity_app/models/tasks.dart';
 import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/services/Tasks_data.dart';
 import 'package:productivity_app/shared_components/color_functions.dart';
+import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
@@ -29,22 +30,26 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
   Future selectDate() async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: _dueDate,
+        initialDate: _dueDate ?? widget.task.dueDate ?? DateTime.now(),
         firstDate: DateTime(2020),
         lastDate: DateTime(2100));
     if (picked != null) {
       setState(() {
-        newTask.dueDate = picked;
+        _dueDate = picked;
       });
     }
   }
 
   Future selectTime() async {
-    final TimeOfDay pickedTime =
-        await showTimePicker(context: context, initialTime: _dueTime);
+    final TimeOfDay pickedTime = await showTimePicker(
+        context: context,
+        initialTime: _dueTime ??
+            (widget.task.dueDate.hour == 0
+                ? TimeOfDay.now()
+                : TimeOfDay.fromDateTime(widget.task.dueDate)));
     if (pickedTime != null) {
       setState(() {
-        newTask.dueDate = DateTime(newTask.dueDate.year, newTask.dueDate.month, newTask.dueDate.day, pickedTime.hour, pickedTime.minute);
+        _dueTime = pickedTime;
       });
     }
   }
@@ -86,8 +91,8 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: _addedTime == null
-                            ? TimeFunctions()
-                                .timeToTextMinutes(seconds: widget.task.taskTime)
+                            ? TimeFunctions().timeToTextMinutes(
+                                seconds: widget.task.taskTime)
                             : _addedTime.inMinutes.toString()),
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -132,6 +137,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
             padding: EdgeInsets.symmetric(vertical: 20),
             child: TextField(
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(10),
                   hintText:
                       newTask.taskName ?? widget.task.taskName ?? 'Task Name'),
               textAlign: TextAlign.center,
@@ -226,19 +232,28 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
             children: [
+              Text('Due:', style: Theme.of(context).textTheme.subtitle1,),
               OutlinedButton.icon(
                 onPressed: selectDate,
                 icon: Icon(Icons.today_rounded),
-                label: Text(
-                    'Due Date: ${widget.task.dueDate.month}/${widget.task.dueDate.day}/${widget.task.dueDate.year}'),
+                label: Text(_dueDate == null
+                    ? DateTimeFunctions().dateTimeToTextDate(date: widget.task.dueDate)
+                    : DateTimeFunctions().dateTimeToTextDate(date: _dueDate)),
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25)))),
               ),
               OutlinedButton.icon(
                 onPressed: selectTime,
-                icon: (newTask.dueDate == null || widget.task.dueDate.hour == 0) ?  Icon(Icons.more_time_rounded) : Icon(Icons.schedule_rounded),
-                label: (newTask.dueDate == null || widget.task.dueDate.hour == 0) ? Text('Add Due Time') : Text('Due Time: ${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}'),
+                icon: Icon(
+                    newTask.dueDate == null && widget.task.dueDate.hour == 0
+                        ? Icons.more_time_rounded
+                        : Icons.schedule_rounded),
+                label: Text((_dueTime == null && widget.task.dueDate.hour == 0)
+                    ? 'Add Due Time'
+                    : (_dueTime == null
+                        ? DateTimeFunctions().dateTimeToTextTime(date: widget.task.dueDate)
+                        : _dueTime.format(context))),
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25)))),
@@ -247,25 +262,28 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
           ),
           // TODO: time input for taskTime
           OutlinedButton(
-            onPressed: addTime, 
-            child: Text(newTask.taskTime == null ? 'Total Tracked Time: ${TimeFunctions().timeToText(seconds: widget.task.taskTime)}' : 'Total Tracked Time: ${TimeFunctions().timeToText(seconds: newTask.taskTime)}')),
+              onPressed: addTime,
+              child: Text(newTask.taskTime == null
+                  ? 'Total Tracked Time: ${TimeFunctions().timeToText(seconds: widget.task.taskTime)}'
+                  : 'Total Tracked Time: ${TimeFunctions().timeToText(seconds: newTask.taskTime)}')),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
                 icon: Icon(Icons.check_circle_outline_rounded),
                 label: Text('Submit'),
                 onPressed: () {
-                  TaskService()
-                      .updateTask(taskID: widget.task.taskID, updateData: {
-                    'taskName': newTask.taskName ?? widget.task.taskName,
-                    'projectName':
-                        newTask.projectName ?? widget.task.projectName,
-                    'status': newTask.status ?? widget.task.status,
-                    'dueDate': newTask.dueDate ?? widget.task.dueDate,
-                    'createDate': newTask.createDate ?? widget.task.createDate,
-                    'taskTime': newTask.taskTime ?? widget.task.taskTime
-                  });
-                  Navigator.pop(context);
+                  // TaskService()
+                  //     .updateTask(taskID: widget.task.taskID, updateData: {
+                  //   'taskName': newTask.taskName ?? widget.task.taskName,
+                  //   'projectName':
+                  //       newTask.projectName ?? widget.task.projectName,
+                  //   'status': newTask.status ?? widget.task.status,
+                  //   'dueDate': newTask.dueDate ?? widget.task.dueDate,
+                  //   'createDate': newTask.createDate ?? widget.task.createDate,
+                  //   'taskTime': newTask.taskTime ?? widget.task.taskTime
+                  // });
+                  // Navigator.pop(context);
+                  print(newTask.dueDate);
                 },
               ))
         ],

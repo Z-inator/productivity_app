@@ -45,6 +45,8 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
   DateTime _dueDate;
   TimeOfDay _dueTime;
   Duration _addedTime;
+  FocusNode minuteFocusNode;
+  FocusNode hourFocusNode;
 
   @override
   void initState() {
@@ -222,9 +224,10 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         TimeFunctions().timeToTextHours(seconds: widget.task.taskTime);
     @override
     void initState() {
-      // _focusNode = FocusNode();
-      _textEditingControllerHour = TextEditingController();
+      // _textEditingControllerHour = TextEditingController();
       _textEditingControllerMinute = TextEditingController();
+      minuteFocusNode = FocusNode();
+      hourFocusNode = FocusNode();
       // _focusNode.addListener(() {
       //   if (_focusNode.hasFocus) {
       //     hintText = '';
@@ -246,27 +249,30 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25))),
             content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(
                   child: TextField(
-                    // focusNode: _focusNode,
-                    controller: _textEditingControllerHour,
-                    style: Theme.of(context).textTheme.headline3.copyWith(
-                        color: Theme.of(context).unselectedWidgetColor),
+                    focusNode: hourFocusNode,
+                    textAlign: TextAlign.center,
+                    // controller: _textEditingControllerHour,
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Theme.of(context).unselectedWidgetColor,
+                    ),
                     decoration: InputDecoration(
+                        counterText: '',
+                        contentPadding: EdgeInsets.all(5),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).accentColor)),
-                        border: OutlineInputBorder(),
-                        hintText: _addedTime == null
-                            ? TimeFunctions()
-                                .timeToTextHours(seconds: widget.task.taskTime)
-                            : TimeFunctions().timeToTextHours(
-                                seconds: _addedTime.inSeconds)),
+                        border: OutlineInputBorder()),
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(4),
+                    ],
                     onChanged: (value) {
                       setState(() {
                         _addedTime == null
@@ -284,43 +290,54 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
                     },
                   ),
                 ),
-                Expanded(
+                Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                  ':',
-                  style: Theme.of(context).textTheme.headline3,
-                )),
+                      ':',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline3,
+                    )),
                 Expanded(
                   child: TextField(
-                    // focusNode: _focusNode,
+                    focusNode: hourFocusNode,
+                    textAlign: TextAlign.center,
                     controller: _textEditingControllerMinute,
-                    style: Theme.of(context).textTheme.headline3.copyWith(
-                        color: Theme.of(context).unselectedWidgetColor),
+                    style: TextStyle(
+                      fontSize: 50,
+                      color: Theme.of(context).unselectedWidgetColor,
+                    ),
                     decoration: InputDecoration(
+                        counterText: '',
+                        contentPadding: EdgeInsets.all(5),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).accentColor)),
-                        border: OutlineInputBorder(),
-                        hintText: _addedTime == null
-                            ? TimeFunctions().timeToTextMinutes(
-                                seconds: widget.task.taskTime)
-                            : TimeFunctions().timeToTextMinutes(
-                                seconds: _addedTime.inSeconds)),
+                        border: OutlineInputBorder()),
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(2),
+                    ],
                     onChanged: (value) {
                       setState(() {
-                        _addedTime == null
-                            ? _addedTime = Duration(minutes: int.parse(value))
-                            : _addedTime =
-                                _addedTime + Duration(hours: int.parse(value));
+                        _textEditingControllerMinute.text = value;
+                        // _addedTime == null
+                        //     ? _addedTime = Duration(minutes: int.parse(value))
+                        //     : _addedTime =
+                        //         _addedTime + Duration(hours: int.parse(value));
                       });
                     },
                     onEditingComplete: () {
-                      _textEditingControllerMinute.text = _addedTime == null
-                          ? TimeFunctions()
-                              .timeToTextMinutes(seconds: widget.task.taskTime)
-                          : TimeFunctions()
-                              .timeToTextMinutes(seconds: _addedTime.inSeconds);
+                      if (_textEditingControllerMinute.text.length == 1) {
+                        _textEditingControllerMinute.text.padLeft(2, '0');
+                      } else if (_textEditingControllerMinute == 0) {
+                        _textEditingControllerMinute.text = '00';
+                      }
+                      // _textEditingControllerMinute.text = _addedTime == null
+                      //     ? TimeFunctions()
+                      //         .timeToTextMinutes(seconds: widget.task.taskTime)
+                      //     : TimeFunctions()
+                      //         .timeToTextMinutes(seconds: _addedTime.inSeconds);
                     },
                   ),
                 ),
@@ -366,3 +383,62 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         });
   }
 }
+
+// class MinuteRangeTextInputFormatter extends TextInputFormatter {
+//   int maxValue = 59;
+
+//   @override
+//   TextEditingValue formatEditUpdate(
+//       TextEditingValue oldValue, TextEditingValue newValue) {
+//     if (newValue.text.length > 2) {
+//       return oldValue;
+//     } else if (newValue.text.length == 1) {
+//       return TextEditingValue(text: '0${newValue.text}');
+//     } else if (int.parse(newValue.text) > 59) {
+//       return TextEditingValue(text: 59.toString());
+//     }
+
+//     return newValue;
+//   }
+// }
+
+// class HourRangeTextInputFormatter extends TextInputFormatter {
+//   @override
+//   TextEditingValue formatEditUpdate(
+//       TextEditingValue oldValue, TextEditingValue newValue) {
+//     if (newValue.text.length == 1) {
+//       return TextEditingValue(text: '0${newValue.text}');
+//     }
+//     return newValue;
+//   }
+// }
+
+// class MinuteFieldNavigator extends TextInputFormatter {
+//   final FocusNode focusNodeNext;
+//   final BuildContext context;
+
+//   MinuteFieldNavigator({this.context, this.focusNodeNext});
+
+//   TextEditingValue formatEditUpdate(
+//       TextEditingValue oldValue, TextEditingValue newValue) {
+//     if (oldValue.text.length == 1 && newValue.text.length == 2) {
+//       FocusScope.of(context).requestFocus(focusNodeNext);
+//     }
+//     return newValue;
+//   }
+// }
+
+// class HourFieldNavigator extends TextInputFormatter {
+//   final FocusNode focusNodeNext;
+//   final BuildContext context;
+
+//   HourFieldNavigator({this.context, this.focusNodeNext});
+
+//   TextEditingValue formatEditUpdate(
+//       TextEditingValue oldValue, TextEditingValue newValue) {
+//     if (oldValue.text.length == 3 && newValue.text.length == 4) {
+//       FocusScope.of(context).requestFocus(focusNodeNext);
+//     }
+//     return newValue;
+//   }
+// }
