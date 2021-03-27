@@ -64,19 +64,25 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25))),
             content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(
                   child: TextField(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 50),
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: _addedTime == null
-                            ? TimeFunctions()
-                                .timeToTextHours(seconds: widget.task.taskTime)
-                            : _addedTime.inHours.toString()),
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.all(5),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Theme.of(context).accentColor)),
+                    ),
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3)
+                    ],
                     onChanged: (value) {
                       setState(() {
                         _addedTime =
@@ -85,17 +91,30 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                     },
                   ),
                 ),
-                Text(':'),
+                Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      ':',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 50),
+                    )),
                 Expanded(
-                  child: TextField(
+                  child: TextField(               // TODO: add forced 0 to left if only 1 digit
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 50),
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: _addedTime == null
-                            ? TimeFunctions().timeToTextMinutes(
-                                seconds: widget.task.taskTime)
-                            : _addedTime.inMinutes.toString()),
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.all(5),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Theme.of(context).accentColor)),
+                    ),
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(2),
+                      MinuteRangeTextInputFormatter()
+                    ],
                     onChanged: (value) {
                       setState(() {
                         _addedTime =
@@ -107,17 +126,42 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
               ],
             ),
             actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Cancel')),
-              TextButton(
-                  onPressed: () {
-                    newTask.taskTime = _addedTime.inSeconds;
-                    Navigator.pop(context);
-                  },
-                  child: Text('Ok'))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.access_time_rounded,
+                          color: Theme.of(context).unselectedWidgetColor,
+                        )),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('Cancel')),
+                        TextButton(
+                            onPressed: () {
+                              if (_addedTime.inSeconds != 0) {
+                                setState(() {
+                                  newTask.taskTime += _addedTime.inSeconds;
+                                });
+                              }
+                              Navigator.pop(context);
+                            },
+                            child: Text('Ok')),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ],
           );
         });
@@ -137,7 +181,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
             padding: EdgeInsets.symmetric(vertical: 20),
             child: TextField(
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
+                  contentPadding: EdgeInsets.all(10),
                   hintText:
                       newTask.taskName ?? widget.task.taskName ?? 'Task Name'),
               textAlign: TextAlign.center,
@@ -232,12 +276,16 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text('Due:', style: Theme.of(context).textTheme.subtitle1,),
+              Text(
+                'Due:',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
               OutlinedButton.icon(
                 onPressed: selectDate,
                 icon: Icon(Icons.today_rounded),
                 label: Text(_dueDate == null
-                    ? DateTimeFunctions().dateTimeToTextDate(date: widget.task.dueDate)
+                    ? DateTimeFunctions()
+                        .dateTimeToTextDate(date: widget.task.dueDate)
                     : DateTimeFunctions().dateTimeToTextDate(date: _dueDate)),
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -252,7 +300,8 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                 label: Text((_dueTime == null && widget.task.dueDate.hour == 0)
                     ? 'Add Due Time'
                     : (_dueTime == null
-                        ? DateTimeFunctions().dateTimeToTextTime(date: widget.task.dueDate)
+                        ? DateTimeFunctions()
+                            .dateTimeToTextTime(date: widget.task.dueDate)
                         : _dueTime.format(context))),
                 style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -270,7 +319,7 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
                 icon: Icon(Icons.check_circle_outline_rounded),
-                label: Text('Submit'),
+                label: Text('Update'),
                 onPressed: () {
                   // TaskService()
                   //     .updateTask(taskID: widget.task.taskID, updateData: {
@@ -289,5 +338,20 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
         ],
       ),
     );
+  }
+}
+
+class MinuteRangeTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue == '') {
+      return TextEditingValue();
+    } else if (int.parse(newValue.text) < 1) {
+      return TextEditingValue().copyWith(text: '1');
+    }
+    return int.parse(newValue.text) > 59
+        ? TextEditingValue().copyWith(text: '59')
+        : newValue;
   }
 }

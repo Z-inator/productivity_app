@@ -69,7 +69,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
     }
     return StreamProvider<User>.value(
       value: AuthService().user,
-      child: MultiProvider(
+      child: MultiProvider(   // TODO: fix the issue for user to be logged in for the first time
         providers: [
           StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
           StreamProvider<List<Task>>.value(value: TaskService().streamTasks()),

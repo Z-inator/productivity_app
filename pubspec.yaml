@@ -38,11 +38,15 @@ dependencies:
   # firebase_analytics: "^7.0.1"
   google_sign_in: "^4.5.9"
 
+  # Provider: https://pub.dev/packages/provider
   provider: ^4.3.2+3
   
+  # Widgets:
+  # Data Visualization Tools
   percent_indicator: "^2.1.7+2"
   flutter_animation_progress_bar: ^1.0.6
   fl_chart: ^0.12.2
+
 
 dev_dependencies:
   flutter_test:
