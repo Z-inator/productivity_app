@@ -9,6 +9,7 @@ import 'package:productivity_app/services/Tasks_data.dart';
 import 'package:productivity_app/shared_components/color_functions.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
+import 'package:productivity_app/shared_components/time_range_picker.dart';
 import 'package:provider/provider.dart';
 
 class TaskEditBottomSheet extends StatefulWidget {
@@ -21,11 +22,12 @@ class TaskEditBottomSheet extends StatefulWidget {
 }
 
 class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
-  Task newTask = Task();
+  Task newTask;
   Project newProject;
   DateTime _dueDate;
   TimeOfDay _dueTime;
-  Duration _addedTime;
+  Duration _addedTime = Duration(seconds: 0);
+  bool pickRange = false;
 
   Future selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -60,71 +62,10 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
         barrierDismissible: true,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Add Time Worked'),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25))),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 50),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.all(5),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).accentColor)),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(3)
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _addedTime =
-                            _addedTime + Duration(hours: int.parse(value));
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      ':',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 50),
-                    )),
-                Expanded(
-                  child: TextField(               // TODO: add forced 0 to left if only 1 digit
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 50),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.all(5),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).accentColor)),
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(2),
-                      MinuteRangeTextInputFormatter()
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _addedTime =
-                            _addedTime + Duration(minutes: int.parse(value));
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
+            title: Text(pickRange ? 'Select Range' : 'Add Time'),
+            content: pickRange
+                ? TimeRangePicker(newTask: newTask)
+                : HourMinutePicker(newTask: newTask),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,9 +73,15 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
                 children: [
                   Container(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            pickRange = !pickRange;
+                          });
+                        },
                         icon: Icon(
-                          Icons.access_time_rounded,
+                          pickRange
+                              ? Icons.access_time_rounded
+                              : Icons.keyboard_rounded,
                           color: Theme.of(context).unselectedWidgetColor,
                         )),
                   ),
@@ -165,6 +112,12 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
             ],
           );
         });
+  }
+
+  @override
+  void initState() {
+    newTask = widget.task ?? Task();
+    super.initState();
   }
 
   @override
@@ -312,9 +265,8 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
           // TODO: time input for taskTime
           OutlinedButton(
               onPressed: addTime,
-              child: Text(newTask.taskTime == null
-                  ? 'Total Tracked Time: ${TimeFunctions().timeToText(seconds: widget.task.taskTime)}'
-                  : 'Total Tracked Time: ${TimeFunctions().timeToText(seconds: newTask.taskTime)}')),
+              child: Text(
+                  'Total Tracked Time: ${TimeFunctions().timeToText(seconds: newTask.taskTime)}')),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
@@ -339,19 +291,12 @@ class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
       ),
     );
   }
-}
 
-class MinuteRangeTextInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue == '') {
-      return TextEditingValue();
-    } else if (int.parse(newValue.text) < 1) {
-      return TextEditingValue().copyWith(text: '1');
-    }
-    return int.parse(newValue.text) > 59
-        ? TextEditingValue().copyWith(text: '59')
-        : newValue;
-  }
+  // Widget _hourMinutePicker() {
+  //   return HourMinutePicker(newTask: newTask);
+  // }
+
+  // Widget _timeRangePicker() {
+  //   return TimeRangePicker(newTask: newTask);
+  // }
 }
