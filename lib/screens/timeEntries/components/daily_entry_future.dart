@@ -16,7 +16,7 @@ class DailyEntriesFuture extends StatelessWidget {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
     return FutureBuilder(
-      future: TimeService(user: user)
+      future: TimeService()
           .timeEntries
           .doc(day)
           .collection('dayEntries')

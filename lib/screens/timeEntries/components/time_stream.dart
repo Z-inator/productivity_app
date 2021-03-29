@@ -16,7 +16,7 @@ class TimeStream extends StatelessWidget {
     final User user = Provider.of<User>(context);
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-          stream: TimeService(user: user).timeEntries.snapshots(),
+          stream: TimeService().timeEntries.snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {

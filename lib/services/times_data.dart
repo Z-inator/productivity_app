@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/models/times.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 
 class TimeService {
-  final User user;
-  TimeService({this.user});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection Reference
   CollectionReference _getTimeEntryReference() {
+    final User user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
@@ -23,21 +24,18 @@ class TimeService {
     return _getTimeEntryReference();
   }
 
+  // Snapshot Conversion to Time Model and Stream
+  Stream<List<TimeEntry>> streamTimeEntries() {
+    var ref = _getTimeEntryReference();
+    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
+        .map((queryDocument) => TimeEntry.fromFirestore(queryDocument))
+        .toList());
+  }
+
   // Add Time Entry
-  Future<void> addTimeEntry(
-      {String entryName,
-      String projectName,
-      DateTime startTime,
-      DateTime endTime,
-      int elapsedTime}) async {
+  Future<void> addTimeEntry({Map addData}) async {
     return _getTimeEntryReference()
-        .add({
-          'entryName': entryName,
-          'projectName': projectName,
-          'startTime': startTime,
-          'endTime': endTime,
-          'elapsedTime': elapsedTime
-        })
+        .add(Map<String, dynamic>.from(addData))
         .then((value) => print('Time Entry Added'))
         .catchError((error) => print('Failed to add time entry: $error'));
   }
@@ -46,14 +44,14 @@ class TimeService {
     DocumentSnapshot documentSnapshot =
         await _getTimeEntryReference().doc(addToDate).get();
     if (!documentSnapshot.exists) {
-      await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 0});
+      await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 1});
+    } else {
+      dynamic newNumberOfEntries =
+          documentSnapshot.data()['numberOfEntries'] + 1;
+      await _getTimeEntryReference()
+          .doc(addToDate)
+          .set({'numberOfEntries': newNumberOfEntries});
     }
-    dynamic newNumberOfEntries;
-    await _getTimeEntryReference().doc(addToDate).get().then((document) =>
-        {newNumberOfEntries = document.data()['numberOfEntries'] + 1});
-    await _getTimeEntryReference()
-        .doc(addToDate)
-        .set({'numberOfEntries': newNumberOfEntries});
     return _getTimeEntryReference()
         .doc(addToDate)
         .collection('dayEntries')
@@ -81,44 +79,44 @@ class TimeService {
   }
 }
 
-class TimeEntryStream extends StatelessWidget {
-  final User user;
-  TimeEntryStream({this.user});
+// class TimeEntryStream extends StatelessWidget {
+//   final User user;
+//   TimeEntryStream({this.user});
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: TimeService(user: user)
-            .timeEntries
-            .orderBy('endTime', descending: true)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text('Loading');
-          }
-          return ListView(
-            shrinkWrap: true,
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
-              final String elapsedTime =
-                  document.data()['elapsedTime'].toString();
-              final String entryName = document.data()['entryName'].toString();
-              final DateTime endDate = document.data()['endTime'].toDate();
-              return ListTile(
-                leading: IconButton(
-                    icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
-                title: Text(entryName),
-                subtitle: Text(elapsedTime.toString()),
-                trailing: Text(
-                    '${endDate.month}/${endDate.day}/${endDate.year} - ${endDate.hour}:${endDate.minute}'),
-              );
-            }).toList(),
-          );
-        });
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<QuerySnapshot>(
+//         stream: TimeService(user: user)
+//             .timeEntries
+//             .orderBy('endTime', descending: true)
+//             .snapshots(),
+//         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//           if (snapshot.hasError) {
+//             return Text('Something went wrong');
+//           }
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return Text('Loading');
+//           }
+//           return ListView(
+//             shrinkWrap: true,
+//             children: snapshot.data.docs.map((DocumentSnapshot document) {
+//               final String elapsedTime =
+//                   document.data()['elapsedTime'].toString();
+//               final String entryName = document.data()['entryName'].toString();
+//               final DateTime endDate = document.data()['endTime'].toDate();
+//               return ListTile(
+//                 leading: IconButton(
+//                     icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
+//                 title: Text(entryName),
+//                 subtitle: Text(elapsedTime.toString()),
+//                 trailing: Text(
+//                     '${endDate.month}/${endDate.day}/${endDate.year} - ${endDate.hour}:${endDate.minute}'),
+//               );
+//             }).toList(),
+//           );
+//         });
+//   }
+// }
 
 // if (project != null && task == null) {
 //   project.projectTime += time;

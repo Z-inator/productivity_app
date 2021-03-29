@@ -83,12 +83,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       time = '00:00:00';
     });
     endTime = DateTime.now();
-    TimeService(user: widget.user).addTimeEntry(
-        entryName: 'test$count',
-        projectName: 'project',
-        startTime: startTime,
-        endTime: endTime,
-        elapsedTime: count);
+    TimeService().addTimeEntry();
   }
 
   void runningTimer(int tick) {

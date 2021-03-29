@@ -135,7 +135,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
             child: Text('Add task data')),
         ElevatedButton(
             onPressed: () {
-              TimeService(user: user).addTimeEntry2(
+              TimeService().addTimeEntry2(
                   addToDate: '03-20-2021', addData: {'testing': 'testing'});
             },
             child: Text('Add time entry')),
@@ -151,7 +151,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //     child: Text('Update project data')),
         ElevatedButton(
             onPressed: () {
-              TimeToFirebase(user: user).uploadExampleData();
+              TimeToFirebase().uploadExampleData();
             },
             child: Text('Add time data')),
         ElevatedButton(
@@ -212,9 +212,9 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //     child: Text('update due date without time')),
         ElevatedButton(
             onPressed: () {
-              print(tasks);
+              Navigator.pushNamed(context, '/testtime');
             },
-            child: Text('print task stream')),
+            child: Text('time screen')),
       ],
     );
   }
