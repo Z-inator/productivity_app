@@ -25,10 +25,10 @@ class TaskService {
   }
 
   // Snapshot Conversion to Task Model and Stream
-  Stream<List<Task>> streamTasks() {
+  Stream<List<Task>> streamTasks(BuildContext context) {
     var ref = _getTaskReference();
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => Task.fromFirestore(queryDocument))
+        .map((queryDocument) => Task.fromFirestore(queryDocument, context))
         .toList());
   }
 

@@ -5,7 +5,7 @@ class Project {
   String projectID;
   String projectName;
   String projectClient;
-  int projectColor;
+  int projectColor = 4285887861;
   int projectTime = 0;
   // List<String> taskList = [];
 

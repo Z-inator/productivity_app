@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/models/tasks.dart';
-import 'package:productivity_app/screens/tasks/components/project_edit_bottomsheet.dart';
-import 'package:productivity_app/screens/tasks/components/task_edit_bottomsheet.dart';
+import 'package:productivity_app/shared_components/project_related/project_edit_bottomsheet.dart';
+import 'package:productivity_app/shared_components/task_related/task_edit_bottomsheet.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/times_data.dart';
@@ -13,11 +13,11 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TasksByDueDate extends StatelessWidget {
+class TasksByCreateDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
-    tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+    tasks.sort((a, b) => a.createDate.compareTo(b.createDate));
     return ListView(
       children: tasks.map((task) {
         return Theme(
@@ -53,10 +53,9 @@ class TasksByDueDate extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                        'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                    Text('Project: ${task.project.projectName}',
                         style: Theme.of(context).textTheme.subtitle1),
-                    Text('Status: ${task.status}',
+                    Text('Status: ${task.status.statusName}',
                         style: Theme.of(context).textTheme.subtitle1),
                   ],
                 ),
@@ -67,7 +66,7 @@ class TasksByDueDate extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        'Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
+                        'Time: ${TimeFunctions().timeToTextWithoutSeconds(seconds: task.taskTime)}',
                         style: Theme.of(context).textTheme.subtitle1),
                     OutlinedButton.icon(
                       icon: Icon(Icons.playlist_add_check_rounded),
@@ -82,9 +81,16 @@ class TasksByDueDate extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Text(
-                    'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
-                    style: Theme.of(context).textTheme.subtitle1),
+                child: Row(
+                  children: [
+                    Text(
+                        'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                        style: Theme.of(context).textTheme.subtitle1),
+                    Text(
+                        'Create Date: ${DateTimeFunctions().dateToText(date: task.createDate)}',
+                        style: Theme.of(context).textTheme.subtitle1),
+                  ],
+                ),
               ),
             ],
           ),

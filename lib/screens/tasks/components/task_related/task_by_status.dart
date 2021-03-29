@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/models/tasks.dart';
-import 'package:productivity_app/screens/tasks/components/status_edit_bottomsheet.dart';
-import 'package:productivity_app/screens/tasks/components/task_edit_bottomsheet.dart';
+import 'package:productivity_app/shared_components/status_related/status_edit_bottomsheet.dart';
+import 'package:productivity_app/shared_components/task_related/task_edit_bottomsheet.dart';
 import 'package:productivity_app/services/statuses_data.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
@@ -17,7 +17,7 @@ class TasksByStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Status> statuses = Provider.of<List<Status>>(context);
     statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
-    return ListView(
+    return ListView.builder(
       padding: EdgeInsets.only(bottom: 100),
       children: statuses.map((status) {
         return Container(
@@ -96,7 +96,7 @@ class GroupByStatus extends StatelessWidget {
   GroupByStatus({this.associatedStatus});
 
   List<Task> filterByStatus(List<Task> tasks, String associatedStatus) {
-    return tasks.where((task) => task.status == associatedStatus).toList();
+    return tasks.where((task) => task.status.statusName == associatedStatus).toList();
   }
 
   // TODO: look at adding an init method to run the .where when the widget is created
@@ -108,7 +108,7 @@ class GroupByStatus extends StatelessWidget {
     return ListBody(
       children: filterByStatus(tasks, associatedStatus.statusName).map((task) {
         Project associatedProject = projects
-            .firstWhere((project) => project.projectName == task.projectName);
+            .firstWhere((project) => project.projectName == task.project.projectName);
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
@@ -133,9 +133,12 @@ class GroupByStatus extends StatelessWidget {
                               topLeft: Radius.circular(25),
                               topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
-                        return TaskEditBottomSheet(
-                          task: task,
-                          associatedProject: associatedProject,
+                        return ChangeNotifierProvider(
+                          create: (_) => TaskEditState(),
+                          child: TaskEditBottomSheet(
+                            task: task,
+                            isUpdate: true,
+                          )
                         );
                       });
                 }),
@@ -148,7 +151,7 @@ class GroupByStatus extends StatelessWidget {
                     Text(
                         'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
                         style: Theme.of(context).textTheme.subtitle1),
-                    Text('Project: ${task.projectName}',
+                    Text('Project: ${task.project.projectName}',
                         style: Theme.of(context).textTheme.subtitle1),
                   ],
                 ),

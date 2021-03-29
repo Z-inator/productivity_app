@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,73 +13,73 @@ import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
-class TimeRangePicker extends StatefulWidget {
-  TimeRangePicker({this.newTask});
+// class TimeRangePicker extends StatefulWidget {
+//   TimeRangePicker({this.newTask});
 
-  final Task newTask;
+//   final Task newTask;
 
-  @override
-  _TimeRangePickerState createState() => _TimeRangePickerState();
-}
+//   @override
+//   _TimeRangePickerState createState() => _TimeRangePickerState();
+// }
 
-class _TimeRangePickerState extends State<TimeRangePicker> {
-  TimeOfDay _startingTime;
-  TimeOfDay _endingTime;
+// class _TimeRangePickerState extends State<TimeRangePicker> {
+//   TimeOfDay _startingTime;
+//   TimeOfDay _endingTime;
 
-  Future selectStartTime() async {
-    final TimeOfDay pickedTime =
-        await showTimePicker(context: context, initialTime: _startingTime);
-    if (pickedTime != null) {
-      setState(() {
-        _startingTime = pickedTime;
-      });
-    }
-  }
+//   Future selectStartTime() async {
+//     final TimeOfDay pickedTime =
+//         await showTimePicker(context: context, initialTime: _startingTime);
+//     if (pickedTime != null) {
+//       setState(() {
+//         _startingTime = pickedTime;
+//       });
+//     }
+//   }
 
-  Future selectEndTime() async {
-    final TimeOfDay pickedTime =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (pickedTime != null) {
-      setState(() {
-        _endingTime = pickedTime;
-      });
-    }
-  }
+//   Future selectEndTime() async {
+//     final TimeOfDay pickedTime =
+//         await showTimePicker(context: context, initialTime: TimeOfDay.now());
+//     if (pickedTime != null) {
+//       setState(() {
+//         _endingTime = pickedTime;
+//       });
+//     }
+//   }
 
-  @override
-  void initState() {
-    _startingTime = TimeOfDay.now();
-    _endingTime = TimeOfDay.now().replacing(hour: _startingTime.hour + 1);
-    super.initState();
-  }
+//   @override
+//   void initState() {
+//     _startingTime = TimeOfDay.now();
+//     _endingTime = TimeOfDay.now().replacing(hour: _startingTime.hour + 1);
+//     super.initState();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text('Start Time: '),
-        OutlinedButton.icon(
-          onPressed: selectStartTime,
-          icon: Icon(Icons.schedule_rounded),
-          label: Text(_startingTime.format(context)),
-          style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25)))),
-        ),
-        Text('End Time: '),
-        OutlinedButton.icon(
-          onPressed: selectEndTime,
-          icon: Icon(Icons.schedule_rounded),
-          label: Text(_startingTime.format(context)),
-          style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25)))),
-        )
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Text('Start Time: '),
+//         OutlinedButton.icon(
+//           onPressed: selectStartTime,
+//           icon: Icon(Icons.schedule_rounded),
+//           label: Text(_startingTime.format(context)),
+//           style: OutlinedButton.styleFrom(
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.all(Radius.circular(25)))),
+//         ),
+//         Text('End Time: '),
+//         OutlinedButton.icon(
+//           onPressed: selectEndTime,
+//           icon: Icon(Icons.schedule_rounded),
+//           label: Text(_startingTime.format(context)),
+//           style: OutlinedButton.styleFrom(
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.all(Radius.circular(25)))),
+//         )
+//       ],
+//     );
+//   }
+// }
 
 class HourMinutePicker extends StatefulWidget {
   HourMinutePicker({

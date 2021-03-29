@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/models/tasks.dart';
-import 'package:productivity_app/screens/tasks/components/project_edit_bottomsheet.dart';
-import 'package:productivity_app/screens/tasks/components/task_edit_bottomsheet.dart';
+import 'package:productivity_app/shared_components/project_related/project_edit_bottomsheet.dart';
+import 'package:productivity_app/shared_components/task_related/task_edit_bottomsheet.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
@@ -106,7 +106,7 @@ class GroupByProject extends StatelessWidget {
 
   List<Task> filterByProject(List<Task> tasks, String associatedProjectName) {
     return tasks
-        .where((task) => task.projectName == associatedProjectName)
+        .where((task) => task.project.projectName == associatedProjectName)
         .toList();
   }
 
@@ -143,7 +143,7 @@ class GroupByProject extends StatelessWidget {
                               topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return TaskEditBottomSheet(
-                            task: task, associatedProject: associatedProject);
+                            task: task, isUpdate: true,);
                       });
                 }),
             children: [
@@ -155,7 +155,7 @@ class GroupByProject extends StatelessWidget {
                     Text(
                         'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
                         style: Theme.of(context).textTheme.subtitle1),
-                    Text('Status: ${task.status}',
+                    Text('Status: ${task.status.statusName}',
                         style: Theme.of(context).textTheme.subtitle1),
                   ],
                 ),

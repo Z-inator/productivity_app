@@ -26,8 +26,8 @@ class AssociatedTasks extends StatelessWidget {
             children: tasks.map((task) {
           final String taskID = task.taskID;
           final String taskName = task.taskName;
-          final String projectName = task.projectName;
-          final String status = task.status;
+          final String projectName = task.project.projectName;
+          final String status = task.status.statusName;
           final DateTime dueDate = task.dueDate;
           final String dueDateString =
               DateTimeFunctions().dateToText(date: dueDate).toString();
