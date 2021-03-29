@@ -25,6 +25,8 @@ class Task {
       this.dueDate,
       this.createDate});
 
+
+
   factory Task.fromFirestore(DocumentSnapshot snapshot, BuildContext context) {
     List<Project> projects = Provider.of<List<Project>>(context);
     List<Status> statuses = Provider.of<List<Status>>(context);

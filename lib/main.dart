@@ -39,12 +39,6 @@ class _ProductivityAppState extends State<ProductivityApp> {
   void initializeFlutterFire() async {
     try {
       await Firebase.initializeApp();
-      // String host = defaultTargetPlatform == TargetPlatform.android
-      //     ? '10.0.2.2:8000'
-      //     : 'localHost:8080';
-      // FirebaseFirestore.instance.settings =
-      //     Settings(host: host, sslEnabled: false);
-      // FirebaseAuth.instance.useEmulator('http://localhost:9099');
       setState(() {
         _initialized = true;
       });

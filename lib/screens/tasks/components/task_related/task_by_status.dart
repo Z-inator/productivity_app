@@ -17,7 +17,7 @@ class TasksByStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Status> statuses = Provider.of<List<Status>>(context);
     statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
-    return ListView.builder(
+    return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: statuses.map((status) {
         return Container(
@@ -104,11 +104,11 @@ class GroupByStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
-    final List<Project> projects = Provider.of<List<Project>>(context);
+    // final List<Project> projects = Provider.of<List<Project>>(context);
     return ListBody(
       children: filterByStatus(tasks, associatedStatus.statusName).map((task) {
-        Project associatedProject = projects
-            .firstWhere((project) => project.projectName == task.project.projectName);
+        // Project associatedProject = projects
+        //     .firstWhere((project) => project.projectName == task.project.projectName);
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),

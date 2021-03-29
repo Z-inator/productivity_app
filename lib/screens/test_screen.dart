@@ -25,15 +25,14 @@ class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Task> tasks = Provider.of<List<Task>>(context);
-    final Task task =
-        tasks.firstWhere((task) => task.taskID == '2HzAhm2vMw9q0ZrBr1nJ');
-    return FunctionalityButtonList(task: task);
+    // final Task task =
+    //     tasks.firstWhere((task) => task.taskID == '2HzAhm2vMw9q0ZrBr1nJ');
+    return FunctionalityButtonList();
   }
 }
 
 class FunctionalityButtonList extends StatefulWidget {
-  Task task;
-  FunctionalityButtonList({this.task});
+  
   @override
   _FunctionalityButtonListState createState() =>
       _FunctionalityButtonListState();
@@ -58,6 +57,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
+    List<Task> tasks = Provider.of<List<Task>>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -199,17 +199,22 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //   },
         //   child: Text('Update tasks with create dates'),
         // )
+        // ElevatedButton(
+        //     onPressed: () {
+        //       DateTime newDate = DateTime(2021, 3, 26);
+        //       FirebaseFirestore.instance
+        //           .collection('users')
+        //           .doc(user.uid)
+        //           .collection('tasks')
+        //           .doc(widget.task.taskID)
+        //           .update({'dueDate': newDate});
+        //     },
+        //     child: Text('update due date without time')),
         ElevatedButton(
             onPressed: () {
-              DateTime newDate = DateTime(2021, 3, 26);
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(user.uid)
-                  .collection('tasks')
-                  .doc(widget.task.taskID)
-                  .update({'dueDate': newDate});
+              print(tasks);
             },
-            child: Text('update due date without time')),
+            child: Text('print task stream')),
       ],
     );
   }
