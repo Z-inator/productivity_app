@@ -68,9 +68,9 @@ class _ProductivityAppState extends State<ProductivityApp> {
       child: MultiProvider(   // TODO: fix the issue for user to be logged in for the first time
         providers: [
           StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
+          StreamProvider<List<TimeEntry>>.value(value: TimeService().streamTimeEntries()),
           StreamProvider<List<Task>>.value(value: TaskService().streamTasks(context)),
           StreamProvider<List<Status>>.value(value: StatusService().streamStatuses()),
-          StreamProvider<List<TimeEntry>>.value(value: TimeService().streamTimeEntries())
         ],
           child: MaterialApp(
             title: 'ProductivityApp',

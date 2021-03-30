@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/services/times_data.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
@@ -21,12 +22,13 @@ class TimeEntry {
   // TODO: Entertain the idea of converting the timeEntries to a filtered distinct list instead of subCollections
   factory TimeEntry.fromFirestore(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
+    print(data['entryName']);
     return TimeEntry(
         entryID: snapshot.id ?? '',
         entryName: data['entryName'].toString() ?? '',
         projectName: data['projectName'].toString() ?? '',
-        startTime: DateTimeFunctions().timeStampToDateTime(date: data['startTime']) ?? DateTime.now(),
-        endTime: DateTimeFunctions().timeStampToDateTime(date: data['endTime']) ?? DateTime.now(),
-        elapsedTime: data['elapsedTime'] ?? 0);
+        startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),
+        endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now(),
+        elapsedTime: (data['elapsedTime'] as int) ?? 0);
   }
 }

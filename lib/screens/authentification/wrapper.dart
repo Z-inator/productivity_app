@@ -23,13 +23,13 @@ class Wrapper extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   AuthService().signInWithEmailAndPassword(
-                      'someone@gmail.com', 'testing123456');
+                      'zaw1593@yahoo.com', 'testing123456');
                 },
                 child: Text('Sign In')),
             ElevatedButton(
               onPressed: () {
                 AuthService().registerWithEmailAndPassword(
-                    'someone@gmail.com', 'testing123456');
+                    'zaw1593@yahoo.com', 'testing123456');
               },
               child: Text('Register'),
             )

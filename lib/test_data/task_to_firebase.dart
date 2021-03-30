@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 
 class TaskToFirebase {
-  User user;
-  TaskToFirebase({this.user});
 
   List<Map<String, dynamic>> taskData = [
     {

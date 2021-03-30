@@ -27,9 +27,14 @@ class TimeService {
   // Snapshot Conversion to Time Model and Stream
   Stream<List<TimeEntry>> streamTimeEntries() {
     var ref = _getTimeEntryReference();
-    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => TimeEntry.fromFirestore(queryDocument))
-        .toList());
+    print(ref);
+    return ref.snapshots().map((querySnapshot) {
+      print(querySnapshot);
+      return querySnapshot.docs.map((queryDocument) {
+        print(queryDocument.data()['entryName']);
+        return TimeEntry.fromFirestore(queryDocument);
+      }).toList();
+    });
   }
 
   // Add Time Entry

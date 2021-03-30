@@ -8,6 +8,7 @@ import 'package:productivity_app/services/authentification_data.dart';
 import 'package:productivity_app/services/database.dart';
 import 'package:productivity_app/models/projects.dart';
 import 'package:productivity_app/services/projects_data.dart';
+import 'package:productivity_app/services/statuses_data.dart';
 import 'package:productivity_app/services/tasks_data.dart';
 import 'package:productivity_app/services/timer.dart';
 import 'package:productivity_app/services/times_data.dart';
@@ -130,20 +131,20 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //     child: Text('Show Timer')),
         ElevatedButton(
             onPressed: () {
-              TaskToFirebase(user: user).uploadExampleData();
+              TaskToFirebase().uploadExampleData();
             },
             child: Text('Add task data')),
-        ElevatedButton(
-            onPressed: () {
-              TimeService().addTimeEntry2(
-                  addToDate: '03-20-2021', addData: {'testing': 'testing'});
-            },
-            child: Text('Add time entry')),
         // ElevatedButton(
         //     onPressed: () {
-        //       ProjectToFirebase(user: user).uploadExampleData();
+        //       TimeService().addTimeEntry2(
+        //           addToDate: '03-20-2021', addData: {'testing': 'testing'});
         //     },
-        //     child: Text('Add project data')),
+        //     child: Text('Add time entry')),
+        ElevatedButton(
+            onPressed: () {
+              ProjectToFirebase(user: user).uploadExampleData();
+            },
+            child: Text('Add project data')),
         // ElevatedButton(
         //     onPressed: () {
         //       ProjectToFirebase(user: user).updateProjectData();
@@ -154,6 +155,21 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
               TimeToFirebase().uploadExampleData();
             },
             child: Text('Add time data')),
+        ElevatedButton(
+            onPressed: () {
+              List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
+              List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
+              int counter = 0;
+              statuses.map((status) async {
+                await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('statuses').doc().set({
+                  'statusName': status,
+                  'statusColor': statusColors.elementAt(counter),
+                  'statusOrder': counter + 1
+                });
+                counter += 1;
+              });
+            },
+            child: Text('Add status data')),
         ElevatedButton(
             onPressed: () {
               FirebaseFirestore.instance

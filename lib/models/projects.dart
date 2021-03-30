@@ -18,12 +18,11 @@ class Project {
 
   factory Project.fromFirestore(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
-
     return Project(
         projectID: snapshot.id ?? '',
         projectName: data['projectName'].toString() ?? '',
         projectClient: data['projectClient'].toString() ?? '',
-        projectColor: data['projectColor'] ?? 4285887861,
-        projectTime: data['projectTime'] ?? 0);
+        projectColor: (data['projectColor'] as int) ?? 4285887861,
+        projectTime: (data['projectTime'] as int) ?? 0);
   }
 }

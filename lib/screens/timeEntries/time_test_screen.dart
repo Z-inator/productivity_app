@@ -9,103 +9,102 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-
-// class TimeStream extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final User user = Provider.of<User>(context);
-//     return Container(
-//       child: StreamBuilder<List<TimeEntry>>(
-//           stream: TimeService().streamTimeEntries(),
-//           builder:
-//               (BuildContext context, snapshot) {
-//             if (snapshot.hasError) {
-//               return Text('Something went wrong');
-//             }
-//             if (snapshot.connectionState == ConnectionState.waiting) {
-//               return Text('Loading');
-//             }
-//             return ListView(
-//               padding: EdgeInsets.only(bottom: 100),
-//               children: snapshot.data.docs.map((DocumentSnapshot document) {
-                
-//                 return Container(
-//                   padding: EdgeInsets.all(10),
-//                   child: Card(
-//                     shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.all(Radius.circular(25))),
-//                     elevation: 5,
-//                     child: Column(
-//                       mainAxisSize: MainAxisSize.min,
-//                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                       children: [
-//                         Container(
-//                           padding: EdgeInsets.all(20),
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                             children: [Text(day), Text(numberOfEntries)],
-//                           ),
-//                         ),
-//                         Divider(),
-//                         GroupByDay(day: day)
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//               }).toList(),
-//             );
-//           }),
-//     );
-//   }
-// }
-
 class TimeStreamTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    print(timeEntries);
-    List<DateTime> days;
-    for (var i = 0; i < timeEntries.length; i++) {
-      TimeEntry entry = timeEntries[i];
-      if (!days.contains(entry.endTime)) {
-        days.add(entry.endTime);
-      }
-    }
-    return ListView.builder(
-      padding: EdgeInsets.only(bottom: 100),
-      itemCount: days.length,
-      itemBuilder: (context, index) {
-        DateTime day = days[index];
-        return Container(
-          padding: EdgeInsets.all(10),
-          child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25))),
-            elevation: 5,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(DateTimeFunctions().dateTimeToTextDate(
-                          date: day)), // TODO: implement total time for the day
-                    ],
-                  ),
-                ),
-                Divider(),
-                GroupByDay(day: day)
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    return Container(
+        child: StreamBuilder<List<TimeEntry>>(
+            stream: TimeService().streamTimeEntries(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<TimeEntry>> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text('Loading');
+              }
+              return ListView(
+                  // padding: EdgeInsets.only(bottom: 100),
+                  children: snapshot.data.map((entry) {
+                return ListTile(
+                  leading: Text(entry.elapsedTime.toString()),
+                  title: Text(entry.entryName),
+                  subtitle: Text(entry.projectName),
+                  // trailing:
+                  //     Text('${document.data()['startTime']} - ${document.data()['endTime']}'),
+                );
+              }).toList());
+            }));
   }
 }
+
+// class TimeStreamTest extends StatelessWidget {
+//   const TimeStreamTest({Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+//     print(timeEntries);
+//     return ListView(
+//       padding: EdgeInsets.only(bottom: 100),
+//       children: timeEntries.map((entry) {
+//         return Container(
+//           padding: EdgeInsets.all(10),
+//           child: Card(
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.all(Radius.circular(25))),
+//               elevation: 5,
+//               child: ListTile(
+//                 title: Text(entry.entryName),
+//                 subtitle: Text('${entry.startTime} - ${entry.endTime}'),
+//                 trailing: Text(entry.projectName),
+//               )),
+//         );
+//       }).toList(),
+//     );
+// List<DateTime> days;
+// for (var i = 0; i < timeEntries.length; i++) {
+//   TimeEntry entry = timeEntries[i];
+//   if (!days.contains(entry.endTime)) {
+//     days.add(entry.endTime);
+//   }
+// }
+
+// return ListView.builder(
+//   padding: EdgeInsets.only(bottom: 100),
+//   itemCount: days.length,
+//   itemBuilder: (context, index) {
+//     DateTime day = days[index];
+//     return Container(
+//       padding: EdgeInsets.all(10),
+//       child: Card(
+//         shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.all(Radius.circular(25))),
+//         elevation: 5,
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             Container(
+//               padding: EdgeInsets.all(20),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   Text(DateTimeFunctions().dateTimeToTextDate(
+//                       date: day)), // TODO: implement total time for the day
+//                 ],
+//               ),
+//             ),
+//             Divider(),
+//             GroupByDay(day: day)
+//           ],
+//         ),
+//       ),
+//     );
+//   },
+// );
+//   }
+// }
 
 class GroupByDay extends StatelessWidget {
   final DateTime day;
