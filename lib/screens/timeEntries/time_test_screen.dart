@@ -100,7 +100,11 @@ class TimeStreamTest extends StatelessWidget {
                         ),
                       ),
                       Divider(),
-                      GroupByDay(dailyEntries: timeEntries.where((entry) => entry.endTime == day).toList(),)
+                      GroupByDay(
+                        dailyEntries: timeEntries
+                            .where((entry) => entry.endTime == day)
+                            .toList(),
+                      )
                     ],
                   ),
                 ),
@@ -111,8 +115,7 @@ class TimeStreamTest extends StatelessWidget {
 
 class GroupByDay extends StatelessWidget {
   final List<TimeEntry> dailyEntries;
-
-  GroupByDay({this.dailyEntries});
+  const GroupByDay({Key key, this.dailyEntries}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,21 +128,44 @@ class GroupByDay extends StatelessWidget {
                     icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
                 title: Text(entry.entryName),
                 subtitle: Text(entry.projectName),
-                // ProjectColors()
-                //     .getProjectColoredText(context, entry.projectName),
-                trailing: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                        '${DateTimeFunctions().dateTimeToTextTime(date: entry.startTime)} - ${DateTimeFunctions().dateTimeToTextTime(date: entry.endTime)}'),
-                    Text(entry.elapsedTime.toString())
-                  ],
-                ),
+                trailing: Text(entry.elapsedTime.toString()),
               );
             }).toList(),
           );
   }
 }
+
+// class GroupByDay extends StatelessWidget {
+//   final List<TimeEntry> dailyEntries;
+
+//   GroupByDay({this.dailyEntries});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return dailyEntries == null
+//         ? Center(child: CircularProgressIndicator())
+//         : ListBody(
+//             children: dailyEntries.map((entry) {
+//               return ListTile(
+//                 leading: IconButton(
+//                     icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
+//                 title: Text(entry.entryName),
+//                 subtitle: Text(entry.projectName),
+//                 // ProjectColors()
+//                 //     .getProjectColoredText(context, entry.projectName),
+//                 trailing: Column(
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     Text(
+//                         '${DateTimeFunctions().dateTimeToTextTime(date: entry.startTime)} - ${DateTimeFunctions().dateTimeToTextTime(date: entry.endTime)}'),
+//                     Text(entry.elapsedTime.toString())
+//                   ],
+//                 ),
+//               );
+//             }).toList(),
+//           );
+//   }
+// }
 
 // class GroupByDay extends StatelessWidget {
 //   final DateTime day;
