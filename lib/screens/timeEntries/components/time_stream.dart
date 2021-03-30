@@ -7,8 +7,8 @@ import 'package:productivity_app/shared_components/color_functions.dart';
 import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
-
 import 'daily_entry_future.dart';
+
 
 class TimeStream extends StatelessWidget {
   @override
@@ -28,7 +28,7 @@ class TimeStream extends StatelessWidget {
             return ListView(
               padding: EdgeInsets.only(bottom: 100),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
-                String day = document.id;
+                DateTime day = (document.data()['endTime'] as Timestamp).toDate();
                 String numberOfEntries =
                     document.data()['numberOfEntries'].toString();
                 return Container(
@@ -45,11 +45,11 @@ class TimeStream extends StatelessWidget {
                           padding: EdgeInsets.all(20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text(day), Text(numberOfEntries)],
+                            children: [Text(day.toString()), Text(numberOfEntries)],
                           ),
                         ),
                         Divider(),
-                        DailyEntriesFuture(day: day)
+                        // DailyEntriesFuture(day: day)
                       ],
                     ),
                   ),

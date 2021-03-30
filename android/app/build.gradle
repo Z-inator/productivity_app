@@ -60,9 +60,6 @@ flutter {
 }
 
 dependencies {
-    // implementation platform('com.google.firebase:firebase-bom:26.3.0')       // TODO: these implementations are apparently not needed for Flutter
-    // implementation 'com.google.firebase:firebase-firestore'
-    // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

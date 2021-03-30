@@ -21,8 +21,7 @@ class TimeEntry {
 
   // TODO: Entertain the idea of converting the timeEntries to a filtered distinct list instead of subCollections
   factory TimeEntry.fromFirestore(DocumentSnapshot snapshot) {
-    Map data = snapshot.data();
-    print(data['entryName']);
+    Map data = Map.from(snapshot.data());
     return TimeEntry(
         entryID: snapshot.id ?? '',
         entryName: data['entryName'].toString() ?? '',

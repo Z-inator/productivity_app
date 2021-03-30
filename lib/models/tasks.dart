@@ -41,13 +41,9 @@ class Task {
         taskName: data['taskName'].toString() ?? '',
         project: associatedProject ?? Project(),
         status: status ?? Status(),
-        taskTime: data['taskTime'] ?? 0,
-        dueDate:
-            DateTimeFunctions().timeStampToDateTime(date: data['dueDate']) ??
-                DateTime.now(),
-        createDate:
-            DateTimeFunctions().timeStampToDateTime(date: data['createDate']) ??
-                DateTime.now());
+        taskTime: data['taskTime'] as int ?? 0,
+        dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(1),
+        createDate: (data['createDate'] as Timestamp).toDate() ?? DateTime(1));
   }
 }
 
