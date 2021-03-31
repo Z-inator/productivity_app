@@ -1,17 +1,13 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/services/Tasks_data.dart';
 import 'package:productivity_app/Shared/color_functions.dart';
 import 'package:productivity_app/Shared/datetime_functions.dart';
 import 'package:productivity_app/Shared/time_functions.dart';
 import 'package:productivity_app/Shared/hour_minute_picker.dart';
+import 'package:productivity_app/Task_Feature/providers/task_edit_state_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
@@ -27,7 +23,6 @@ class TaskEditBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     var state = Provider.of<TaskEditState>(context);
     isUpdate ? state.updateTask(task) : state.addTask();
-    // List<Status> statuses = Provider.of<List<Status>>(context);
     return Container(
         margin: EdgeInsets.all(20),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -79,7 +74,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                   //   'createDate': newTask.createDate ?? widget.task.createDate,
                   //   'taskTime': newTask.taskTime ?? widget.task.taskTime
                   // });
-                  // Navigator.pop(context);
+                  Navigator.pop(context);
                 },
               ))
         ]));

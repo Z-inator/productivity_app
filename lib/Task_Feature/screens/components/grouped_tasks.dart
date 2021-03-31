@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:productivity_app/Task_Feature/providers/task_edit_state_provider.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
@@ -14,38 +15,20 @@ import 'package:productivity_app/Shared/datetime_functions.dart';
 import 'package:productivity_app/Shared/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TaskByDueDate extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final List<Task> tasks = Provider.of<List<Task>>(context);
-    return tasks == null
-    ? Center(child: CircularProgressIndicator())
-    : TaskByDueDateBody(tasks: tasks);
-    
-  }
-}
-
-class TaskByDueDateBody extends StatelessWidget {
-  const TaskByDueDateBody({
-    Key key,
-    @required this.tasks,
-  }) : super(key: key);
-
-  final List<Task> tasks;
+class GroupedTasks extends StatelessWidget {
+  final List<Task> associatedTasks;
+  GroupedTasks({this.associatedTasks});
 
   @override
   Widget build(BuildContext context) {
-    tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
-    return ListView(
-      children: tasks.map((task) {
+    return ListBody(
+      children: associatedTasks.map((task) {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
-          child: TaskExpansionTile(),
+          child: TaskExpansionTile(task: task)
         );
       }).toList(),
     );
   }
 }
-
-

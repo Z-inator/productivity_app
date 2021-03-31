@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/Shared/color_functions.dart';
 
 class Project {
-  String projectID;
-  String projectName;
-  String projectClient;
+  String projectID = '';
+  String projectName = '';
+  String projectClient = '';
   int projectColor = 4285887861;
   int projectTime = 0;
   // List<String> taskList = [];

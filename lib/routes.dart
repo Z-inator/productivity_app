@@ -15,7 +15,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/':
       return MaterialPageRoute(builder: (context) => Wrapper());
     case '/homescreen':
-      return MaterialPageRoute(builder: (context) => BaseFramework2());
+      return MaterialPageRoute(builder: (context) => BaseFramework());
     case '/testtime':
       return MaterialPageRoute(builder: (context) => TimeScreen());
     case '/timescreen':

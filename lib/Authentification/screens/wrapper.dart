@@ -50,6 +50,6 @@ class Wrapper extends StatelessWidget {
         StreamProvider.value(value: TaskService().streamTasks(projects, statuses)),
         StreamProvider<List<TimeEntry>>.value(value: TimeService().streamTimeEntries(projects)),
       ],
-      child: BaseFramework2());
+      child: BaseFramework());
   }
 }

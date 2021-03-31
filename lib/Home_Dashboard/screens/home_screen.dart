@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:productivity_app/screens/home/components/time_tile_list_builder.dart';
-import 'package:productivity_app/screens/home/components/home_page_dashboard.dart';
 import 'package:productivity_app/Shared/base_framework.dart';
 
 class HomeScreen extends StatelessWidget {

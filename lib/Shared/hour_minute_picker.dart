@@ -1,17 +1,7 @@
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/services/Tasks_data.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
-import 'package:provider/provider.dart';
-import 'package:simple_time_range_picker/simple_time_range_picker.dart';
+
 
 // class TimeRangePicker extends StatefulWidget {
 //   TimeRangePicker({this.newTask});

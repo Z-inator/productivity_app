@@ -26,7 +26,7 @@ class GoalService {
   Future<void> addGoal(
       {String goalName,
       int goalOccurence,
-      List goalCompletions = [],
+      List goalCompletions,
       String goalColor}) async {
     return _getGoalReference()
         .add({

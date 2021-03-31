@@ -26,7 +26,7 @@ class HabitService {
   Future<void> addHabit(
       {String habitName,
       int habitOccurence,
-      List habitCompletions = [],
+      List habitCompletions,
       String habitColor}) async {
     return _getHabitReference()
         .add({

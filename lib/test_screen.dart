@@ -13,7 +13,6 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/timer.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/base_framework.dart';
-import 'package:productivity_app/shared_components/bottom_navigation_bar2.dart';
 import 'package:productivity_app/Shared/time_functions.dart';
 import 'package:productivity_app/test_data/project_to_firebase.dart';
 import 'package:productivity_app/test_data/task_to_firebase.dart';
