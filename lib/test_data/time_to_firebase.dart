@@ -1,4 +1,4 @@
-import 'package:productivity_app/services/times_data.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
 
 class TimeToFirebase {
   List<Map<String, dynamic>> data = [

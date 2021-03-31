@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:productivity_app/screens/tasks/components/project_related/project_tasks.dart';
-import 'package:productivity_app/screens/timeEntries/time_test_screen.dart';
-// import 'package:productivity_app/screens/tasks/test.dart';
-import 'package:productivity_app/services/tasks_data.dart';
-import 'package:productivity_app/shared_components/base_framework2.dart';
-import 'screens/home/home_screen.dart';
-import 'screens/timeEntries/time_screen.dart';
-import 'screens/tasks/task_project_screen.dart';
-import 'screens/goals/goal_screen.dart';
-import 'screens/authentification/wrapper.dart';
-import 'screens/test_screen.dart';
+import 'package:productivity_app/Task_Feature/screens/project_tasks.dart';
+import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
+import 'package:productivity_app/Shared/base_framework.dart';
+import 'Home_Dashboard/screens/home_screen.dart';
+import 'Time_Feature/screens/time_screen.dart';
+import 'Task_Feature/screens/task_project_screen.dart';
+import 'Goal_Feature/screens/goal_screen.dart';
+import 'Authentification/screens/wrapper.dart';
+import 'test_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -19,7 +17,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/homescreen':
       return MaterialPageRoute(builder: (context) => BaseFramework2());
     case '/testtime':
-      return MaterialPageRoute(builder: (context) => TimeStreamTest());
+      return MaterialPageRoute(builder: (context) => TimeScreen());
     case '/timescreen':
       return MaterialPageRoute(builder: (context) => TimeScreen());
     case '/projectscreen':
