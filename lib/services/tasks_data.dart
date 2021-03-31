@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/projects.dart';
+import 'package:productivity_app/models/status.dart';
 import 'package:productivity_app/models/tasks.dart';
 import 'package:provider/provider.dart';
 
@@ -25,10 +27,10 @@ class TaskService {
   }
 
   // Snapshot Conversion to Task Model and Stream
-  Stream<List<Task>> streamTasks(BuildContext context) {
+  Stream<List<Task>> streamTasks(List<Project> projects, List<Status> statuses) {
     var ref = _getTaskReference();
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => Task.fromFirestore(queryDocument, context))
+        .map((queryDocument) => Task.fromFirestore(queryDocument, projects, statuses))
         .toList());
   }
 

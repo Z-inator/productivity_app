@@ -12,7 +12,7 @@ class TimeScreen extends StatelessWidget {
           title: Text('title'),
           onTap: () {},
         ),
-        Expanded(child: TimeStreamTest())
+        Expanded(child: TimeStream())
       ],
     );
   }

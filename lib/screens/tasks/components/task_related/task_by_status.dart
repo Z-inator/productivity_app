@@ -16,6 +16,29 @@ class TasksByStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Status> statuses = Provider.of<List<Status>>(context);
+    List<Task> tasks = Provider.of<List<Task>>(context);
+
+    return statuses == null || tasks == null
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : TaskByStatusBody(statuses: statuses, tasks: tasks);
+  }
+}
+
+class TaskByStatusBody extends StatelessWidget {
+  const TaskByStatusBody({
+    Key key,
+    @required this.statuses,
+    @required this.tasks,
+  }) : super(key: key);
+
+  final List<Status> statuses;
+  final List<Task> tasks;
+
+  @override
+  Widget build(BuildContext context) {
+    print(tasks);
     statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
@@ -80,8 +103,8 @@ class TasksByStatus extends StatelessWidget {
                 ),
                 Divider(),
                 GroupByStatus(
-                  associatedStatus: status,
-                )
+                    associatedStatusTasks:
+                        tasks.where((task) => task.status == status).toList())
               ],
             ),
           ),
@@ -92,21 +115,23 @@ class TasksByStatus extends StatelessWidget {
 }
 
 class GroupByStatus extends StatelessWidget {
-  final Status associatedStatus;
-  GroupByStatus({this.associatedStatus});
+  final List<Task> associatedStatusTasks;
+  GroupByStatus({this.associatedStatusTasks});
 
   List<Task> filterByStatus(List<Task> tasks, String associatedStatus) {
-    return tasks.where((task) => task.status.statusName == associatedStatus).toList();
+    return tasks
+        .where((task) => task.status.statusName == associatedStatus)
+        .toList();
   }
 
   // TODO: look at adding an init method to run the .where when the widget is created
 
   @override
   Widget build(BuildContext context) {
-    final List<Task> tasks = Provider.of<List<Task>>(context);
+    // final List<Task> tasks = Provider.of<List<Task>>(context);
     // final List<Project> projects = Provider.of<List<Project>>(context);
     return ListBody(
-      children: filterByStatus(tasks, associatedStatus.statusName).map((task) {
+      children: associatedStatusTasks.map((task) {
         // Project associatedProject = projects
         //     .firstWhere((project) => project.projectName == task.project.projectName);
         return Theme(
@@ -134,12 +159,11 @@ class GroupByStatus extends StatelessWidget {
                               topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return ChangeNotifierProvider(
-                          create: (_) => TaskEditState(),
-                          child: TaskEditBottomSheet(
-                            task: task,
-                            isUpdate: true,
-                          )
-                        );
+                            create: (_) => TaskEditState(),
+                            child: TaskEditBottomSheet(
+                              task: task,
+                              isUpdate: true,
+                            ));
                       });
                 }),
             children: [

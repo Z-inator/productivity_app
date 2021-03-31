@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/models/times.dart';
 import 'package:productivity_app/services/projects_data.dart';
 import 'package:productivity_app/services/times_data.dart';
 import 'package:productivity_app/shared_components/color_functions.dart';
@@ -10,53 +11,108 @@ import 'package:provider/provider.dart';
 import 'daily_entry_future.dart';
 
 
+// class TimeStream extends StatelessWidget {
+//   const TimeStream({Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<List<TimeEntry>>(
+//       builder: (context, List<TimeEntry> timeEntries) {
+//         return Text(timeEntries.first.elapsedTime)
+//       }
+//     );
+//   }
+// }
+
+
 class TimeStream extends StatelessWidget {
+  const TimeStream({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
-    return Container(
-      child: StreamBuilder<QuerySnapshot>(
-          stream: TimeService().timeEntries.snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Something went wrong');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('Loading');
-            }
-            return ListView(
-              padding: EdgeInsets.only(bottom: 100),
-              children: snapshot.data.docs.map((DocumentSnapshot document) {
-                DateTime day = (document.data()['endTime'] as Timestamp).toDate();
-                String numberOfEntries =
-                    document.data()['numberOfEntries'].toString();
-                return Container(
-                  padding: EdgeInsets.all(10),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    elevation: 5,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    
+    return timeEntries == null
+        ? Center(child: CircularProgressIndicator())
+        : TimeStreamBody(timeEntries: timeEntries);
+  }
+}
+
+class TimeStreamBody extends StatelessWidget {
+  const TimeStreamBody({
+    Key key,
+    @required this.timeEntries,
+  }) : super(key: key);
+
+  final List<TimeEntry> timeEntries;
+
+  @override
+  Widget build(BuildContext context) {
+    List<DateTime> days = [];
+    timeEntries.sort((a, b) => a.endTime.compareTo(b.endTime));
+    for (var i = 0; i < timeEntries.length; i++) {
+      TimeEntry entry = timeEntries[i];
+      if (!days.contains(entry.endTime)) {
+        days.add(entry.endTime);
+      }
+    }
+    return ListView(
+        padding: EdgeInsets.only(bottom: 100),
+        children: days.map((day) {
+          
+          return Container(
+            padding: EdgeInsets.all(10),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
+              elevation: 5,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text(day.toString()), Text(numberOfEntries)],
-                          ),
-                        ),
-                        Divider(),
-                        // DailyEntriesFuture(day: day)
+                        Text(DateTimeFunctions().dateTimeToTextDate(
+                            date:
+                                day)), // TODO: implement total time for the day
                       ],
                     ),
                   ),
-                );
-              }).toList(),
-            );
-          }),
-    );
+                  Divider(),
+                  GroupByDay(
+                    dailyEntries: timeEntries
+                        .where((entry) => entry.endTime == day)
+                        .toList(),
+                  )
+                ],
+              ),
+            ),
+          );
+        }).toList());
+  }
+}
+
+class GroupByDay extends StatelessWidget {
+  final List<TimeEntry> dailyEntries;
+  const GroupByDay({Key key, this.dailyEntries}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return dailyEntries == null
+        ? Center(child: CircularProgressIndicator())
+        : ListBody(
+            children: dailyEntries.map((entry) {
+              return ListTile(
+                leading: IconButton(
+                    icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
+                title: Text(entry.entryName),
+                subtitle: Text(entry.projectName),
+                trailing: Text(entry.elapsedTime.toString()),
+              );
+            }).toList(),
+          );
   }
 }

@@ -70,7 +70,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
           StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
           StreamProvider<List<TimeEntry>>.value(value: TimeService().streamTimeEntries()),
           StreamProvider<List<Status>>.value(value: StatusService().streamStatuses()),
-          StreamProvider<List<Task>>.value(value: TaskService().streamTasks(context)),
+          // StreamProvider<List<Task>>.value(value: TaskService().streamTasks()),
         ],
           child: MaterialApp(
             title: 'ProductivityApp',

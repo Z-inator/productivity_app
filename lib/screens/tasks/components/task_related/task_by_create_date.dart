@@ -13,10 +13,26 @@ import 'package:productivity_app/shared_components/datetime_functions.dart';
 import 'package:productivity_app/shared_components/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TasksByCreateDate extends StatelessWidget {
+class TaskByCreateDate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<List<Task>>(context);
+    return tasks == null
+    ? Center(child: CircularProgressIndicator())
+    : TaskByCreateDateBody(tasks: tasks);
+  }
+}
+
+class TaskByCreateDateBody extends StatelessWidget {
+  const TaskByCreateDateBody({
+    Key key,
+    @required this.tasks,
+  }) : super(key: key);
+
+  final List<Task> tasks;
+
+  @override
+  Widget build(BuildContext context) {
     tasks.sort((a, b) => a.createDate.compareTo(b.createDate));
     return ListView(
       children: tasks.map((task) {

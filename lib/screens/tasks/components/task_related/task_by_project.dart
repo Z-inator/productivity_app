@@ -11,6 +11,25 @@ class TasksByProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Project> projects = Provider.of<List<Project>>(context);
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    return projects == null || tasks == null
+        ? Center(child: CircularProgressIndicator())
+        : TaskByProjectBody(projects: projects, tasks: tasks);
+  }
+}
+
+class TaskByProjectBody extends StatelessWidget {
+  const TaskByProjectBody({
+    Key key,
+    @required this.projects,
+    @required this.tasks,
+  }) : super(key: key);
+
+  final List<Project> projects;
+  final List<Task> tasks;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: projects.map((Project project) {
@@ -90,7 +109,9 @@ class TasksByProject extends StatelessWidget {
                       ],
                     )),
                 Divider(),
-                GroupByProject(associatedProject: project)
+                GroupByProject(
+                    associatedProjectTasks:
+                        tasks.where((task) => task.project == project).toList())
               ],
             ),
           ),
@@ -101,8 +122,8 @@ class TasksByProject extends StatelessWidget {
 }
 
 class GroupByProject extends StatelessWidget {
-  final Project associatedProject;
-  GroupByProject({this.associatedProject});
+  final List<Task> associatedProjectTasks;
+  GroupByProject({this.associatedProjectTasks});
 
   List<Task> filterByProject(List<Task> tasks, String associatedProjectName) {
     return tasks
@@ -114,10 +135,8 @@ class GroupByProject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Task> tasks = Provider.of<List<Task>>(context);
     return ListBody(
-      children: filterByProject(tasks, associatedProject.projectName)
-          .map((Task task) {
+      children: associatedProjectTasks.map((Task task) {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
@@ -143,7 +162,9 @@ class GroupByProject extends StatelessWidget {
                               topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return TaskEditBottomSheet(
-                            task: task, isUpdate: true,);
+                          task: task,
+                          isUpdate: true,
+                        );
                       });
                 }),
             children: [

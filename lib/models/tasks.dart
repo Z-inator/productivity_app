@@ -25,25 +25,43 @@ class Task {
       this.dueDate,
       this.createDate});
 
+  // Future<List<Task>> getTasks(DocumentSnapshot snapshot) async {
+  //   Map data = snapshot.data();
 
+  // }
 
-  factory Task.fromFirestore(DocumentSnapshot snapshot, BuildContext context) {
-    List<Project> projects = Provider.of<List<Project>>(context);
-    List<Status> statuses = Provider.of<List<Status>>(context);
+  factory Task.fromFirestore(DocumentSnapshot snapshot, List<Project> projects,
+      List<Status> statuses) {
     Map data = snapshot.data();
-    Project associatedProject = projects
-        .firstWhere((project) => project.projectName == data['pojectName']);
-    print(associatedProject);
-    Status status = statuses
-        .firstWhere((status) => status.statusName == data['statusName']);
-    return Task(
+    // print(projects.first.projectName);
+    // print(statuses.first.statusName);
+    // Project associatedProject = projects.firstWhere((project) {
+    //   print(project.projectName);
+    //   return data['pojectName'].toString() == project.projectName.toString();
+    // }, orElse: () => null);
+    int projectIndex = projects.indexWhere(
+        (project) => project.projectName == data['projectName'].toString());
+    Project associatedProject = projects[projectIndex];
+    print(associatedProject.projectID);
+    // Status status = statuses.firstWhere(
+    //     (status) => status.statusName == data['statusName'],
+    //     orElse: () => null);
+    int statusIndex = statuses
+        .indexWhere((status) => status.statusName == data['status'].toString());
+    Status status = statuses[statusIndex];
+    print(status.statusID);
+    // TODO: this is where it fails
+    Task newTask = Task(
         taskID: snapshot.id ?? '',
-        taskName: data['taskName'].toString() ?? '',
+        taskName: data['taskName'] as String ?? '',
         project: associatedProject ?? Project(),
         status: status ?? Status(),
-        taskTime: data['taskTime'] as int ?? 0,
+        taskTime: (data['taskTime'] as int) ?? 0,
         dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(1),
-        createDate: (data['createDate'] as Timestamp).toDate() ?? DateTime(1));
+        createDate:
+            (data['createDate'] as Timestamp).toDate() ?? DateTime.now());
+    print(newTask.taskID);
+    return newTask;
   }
 }
 

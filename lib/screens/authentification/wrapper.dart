@@ -15,6 +15,8 @@ import 'package:productivity_app/screens/test_screen.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Project> projects = Provider.of<List<Project>>(context);
+    List<Status> statuses =  Provider.of<List<Status>>(context);
     final User user = Provider.of<User>(context);
     if (user == null) {
       return Column(
@@ -41,6 +43,8 @@ class Wrapper extends StatelessWidget {
       //   url: 'https://www.'
       // )
     }
-    return BaseFramework2();
+    return StreamProvider.value(
+        value: TaskService().streamTasks(projects, statuses),
+        child: BaseFramework2());
   }
 }

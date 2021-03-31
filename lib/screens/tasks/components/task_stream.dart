@@ -83,8 +83,8 @@ class TaskBodyState extends ChangeNotifier {
   List<Widget> taskBodyContent = [
     TasksByStatus(),
     TasksByProject(),
-    TasksByDueDate(),
-    TasksByCreateDate()
+    TaskByDueDate(),
+    TaskByCreateDate()
   ];
 
   Widget get widget {
