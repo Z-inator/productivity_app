@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 class Task {
   String taskID = '';
   String taskName = 'Default Name';
-  Project project = Project();
-  Status status = Status();
+  Project project;
+  Status status;
   int taskTime = 0;
   DateTime dueDate = DateTime(1);
   DateTime createDate = DateTime.now();
@@ -50,18 +50,18 @@ class Task {
         .indexWhere((status) => status.statusName == data['status'].toString());
     Status status = statuses[statusIndex];
     print(status.statusID);
+
     // TODO: this is where it fails
-    Task newTask = Task(
+    return Task(
         taskID: snapshot.id ?? '',
         taskName: data['taskName'] as String ?? '',
         project: associatedProject ?? Project(),
         status: status ?? Status(),
-        taskTime: (data['taskTime'] as int) ?? 0,
+        taskTime: data['taskTime'] as int ?? 0,
         dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(1),
-        createDate:
-            (data['createDate'] as Timestamp).toDate() ?? DateTime.now());
-    print(newTask.taskID);
-    return newTask;
+        // createDate:
+        //     (data['createDate'] as Timestamp).toDate() ?? DateTime.now()
+    );
   }
 }
 

@@ -24,8 +24,8 @@ class TimeEntry {
     Map data = Map.from(snapshot.data());
     return TimeEntry(
         entryID: snapshot.id ?? '',
-        entryName: data['entryName']as String ?? '',
-        projectName: data['projectName']as String ?? '',
+        entryName: data['entryName'] as String ?? '',
+        projectName: data['projectName'] as String ?? '',
         startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),
         endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now(),
         elapsedTime: (data['elapsedTime'] as int) ?? 0);

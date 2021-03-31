@@ -29,8 +29,6 @@ class AssociatedTasks extends StatelessWidget {
           final String projectName = task.project.projectName;
           final String status = task.status.statusName;
           final DateTime dueDate = task.dueDate;
-          final String dueDateString =
-              DateTimeFunctions().dateToText(date: dueDate).toString();
           final String elapsedTime =
               TimeFunctions().timeToText(seconds: task.taskTime);
           return Card(
@@ -47,7 +45,7 @@ class AssociatedTasks extends StatelessWidget {
                 onPressed: () {},
               ),
               title: Text(taskName),
-              subtitle: Text(dueDateString),
+              subtitle: Text(dueDate.toString()),
               trailing: Text(elapsedTime),
               onTap: () {},
             ),
