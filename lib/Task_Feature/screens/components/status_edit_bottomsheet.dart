@@ -8,16 +8,30 @@ import 'package:productivity_app/Shared/color_functions.dart';
 import 'package:productivity_app/Shared/time_functions.dart';
 import 'package:provider/provider.dart';
 
+// class StatusEditBottomSheetSetState extends StatelessWidget {
+//   final Status status;
+//   final bool isUpdate;
+//   const StatusEditBottomSheetSetState({Key key, this.status, this.isUpdate})
+//       : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     StatusEditState state = Provider.of<StatusEditState>(context);
+//     isUpdate ? state.updateStatus(status) : state.addStatus();
+//     return StatusEditBottomSheet(status: status, isUpdate: isUpdate);
+//   }
+// }
+
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
-  const StatusEditBottomSheet({Key key, this.status, this.isUpdate})
+  StatusEditBottomSheet({Key key, this.status, this.isUpdate})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<StatusEditState>(context);
-    state.updateStatus(status);
+    String statusName;
+    StatusEditState state = Provider.of<StatusEditState>(context);
     isUpdate ? state.updateStatus(status) : state.addStatus();
     return Container(
       margin: EdgeInsets.all(20),
@@ -29,24 +43,13 @@ class StatusEditBottomSheet extends StatelessWidget {
                 hintText: state.newStatus.statusName ?? 'Status Name'),
             textAlign: TextAlign.center,
             onChanged: (newText) {
-              state.updateStatusName(newText);
+              statusName = newText;
             },
+            onEditingComplete: () => state.updateStatusName(statusName),
           ),
-          SingleChildScrollView(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                  children: AppColors().colorList.map((color) {
-                IconButton(
-                  icon: Icon(
-                      state.newStatus.statusColor == color
-                          ? Icons.check_circle_rounded
-                          : Icons.circle,
-                      color: Color(color),
-                      size: 36),
-                  onPressed: () => state.updateStatusColor(color),
-                );
-              }).toList())),
+          ColorSelector(
+              saveColor: state.updateStatusColor,
+              matchColor: state.newStatus.statusColor),
           OutlinedButton.icon(
               onPressed: () {},
               icon: Icon(Icons.view_list_rounded),
@@ -75,6 +78,30 @@ class StatusEditBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class ColorSelector extends StatelessWidget {
+  int matchColor;
+  Function saveColor;
+  ColorSelector({this.matchColor, this.saveColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+            children: AppColors().colorList.map((color) {
+          print(Color(color));
+          IconButton(
+            icon: Icon(
+                matchColor == color ? Icons.check_circle_rounded : Icons.circle,
+                color: Color(color),
+                size: 36),
+            onPressed: () => saveColor(color),
+          );
+        }).toList()));
   }
 }
 

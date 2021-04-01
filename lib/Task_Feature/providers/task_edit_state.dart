@@ -8,17 +8,14 @@ class TaskEditState with ChangeNotifier {
 
   void addTask() {
     newTask = Task();
-    notifyListeners();
   }
 
   void addTaskCreateDate(DateTime createDate) {
     newTask.createDate = createDate;
-    notifyListeners();
   }
 
   void updateTask(Task task) {
     newTask = task;
-    notifyListeners();
   }
 
   void updateTaskName(String taskName) {

@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 
 class StatusEditState with ChangeNotifier {
-  Status newStatus;
+
+  Status newStatus = Status();
 
   void addStatus() {
     newStatus = Status();
-    notifyListeners();
+    // notifyListeners();
   }
 
   void updateStatus(Status status) {
     newStatus = status;
-    notifyListeners();
+    // notifyListeners();
   }
 
   void updateStatusName(String statusName) {

@@ -6,12 +6,10 @@ class ProjectEditState with ChangeNotifier {
 
   void addProject() {
     newProject = Project();
-    notifyListeners();
   }
 
   void updateProject(Project project) {
     newProject = project;
-    notifyListeners();
   }
 
   void updateProjectName(String projectName) {
