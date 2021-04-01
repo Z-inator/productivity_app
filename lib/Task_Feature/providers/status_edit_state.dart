@@ -7,12 +7,10 @@ class StatusEditState with ChangeNotifier {
 
   void addStatus() {
     newStatus = Status();
-    // notifyListeners();
   }
 
   void updateStatus(Status status) {
     newStatus = status;
-    // notifyListeners();
   }
 
   void updateStatusName(String statusName) {

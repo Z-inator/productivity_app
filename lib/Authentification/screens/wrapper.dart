@@ -10,7 +10,7 @@ import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:productivity_app/Shared/base_framework.dart';
+import 'package:productivity_app/Shared/widgets/base_framework.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/test_screen.dart';
 

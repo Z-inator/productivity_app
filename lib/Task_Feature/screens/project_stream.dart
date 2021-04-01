@@ -5,8 +5,8 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 
@@ -22,9 +22,6 @@ class ProjectStream extends StatelessWidget {
           return Container(
               padding: EdgeInsets.all(10),
               child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25))),
-                  elevation: 5,
                   child: ProjectExpansionTile(project: project,)));
         }).toList());
   }

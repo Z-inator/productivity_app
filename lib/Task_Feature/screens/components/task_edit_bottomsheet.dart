@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
-import 'package:productivity_app/Shared/hour_minute_picker.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/Shared/widgets/hour_minute_picker.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
@@ -43,6 +43,7 @@ class TaskEditBottomSheet extends StatelessWidget {
           DueDatePicker(
             saveDueDate: state.updateTaskDueDate,
             saveDueTime: state.updateTaskDueTime,
+            initialdate: state.newTask.dueDate,
           ),
           Container(
             padding: EdgeInsets.only(top: 20, bottom: 10),
@@ -161,10 +162,6 @@ class StatusPicker extends StatelessWidget {
                           color: Color(status.statusColor))
                       : Icon(Icons.circle, color: Color(status.statusColor))),
               label: Text(status.statusName),
-              style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
-              ),
             ),
           );
         }).toList(),
@@ -176,7 +173,8 @@ class StatusPicker extends StatelessWidget {
 class DueDatePicker extends StatelessWidget {
   final Function(DateTime) saveDueDate;
   final Function(TimeOfDay) saveDueTime;
-  const DueDatePicker({Key key, this.saveDueDate, this.saveDueTime})
+  final DateTime initialdate;
+  const DueDatePicker({Key key, this.saveDueDate, this.saveDueTime, this.initialdate})
       : super(key: key);
 
   Future selectDate(BuildContext context, DateTime initialDate) async {
@@ -200,7 +198,6 @@ class DueDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<TaskEditState>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       mainAxisSize: MainAxisSize.max,
@@ -210,28 +207,22 @@ class DueDatePicker extends StatelessWidget {
           style: Theme.of(context).textTheme.subtitle1,
         ),
         OutlinedButton.icon(
-          onPressed: () => selectDate(context, state.newTask.dueDate),
+          onPressed: () => selectDate(context, initialdate),
           icon: Icon(Icons.today_rounded),
           label: Text(DateTimeFunctions()
-                  .dateTimeToTextDate(date: state.newTask.dueDate) ??
+                  .dateTimeToTextDate(date: initialdate) ??
               'Add Due Date'),
-          style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25)))),
         ),
         OutlinedButton.icon(
           onPressed: () => selectTime(
-              context, TimeOfDay.fromDateTime(state.newTask.dueDate)),
-          icon: Icon(state.newTask.dueDate.hour == 0
+              context, TimeOfDay.fromDateTime(initialdate)),
+          icon: Icon(initialdate.hour == 0
               ? Icons.alarm_add_rounded
               : Icons.alarm_rounded),
-          label: Text(state.newTask.dueDate.hour == 0
+          label: Text(initialdate.hour == 0
               ? 'Add Due Time'
               : DateTimeFunctions()
-                  .dateTimeToTextTime(date: state.newTask.dueDate)),
-          style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25)))),
+                  .dateTimeToTextTime(date: initialdate, context: context)),
         ),
       ],
     );
@@ -256,9 +247,6 @@ class RangeTimePicker extends StatelessWidget {
             saveRangeTime(differenceInSeconds);
           }),
       label: Text('Add Time Range'),
-      style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)))),
     );
   }
 }
@@ -365,9 +353,6 @@ class _ManualTimePickerState extends State<ManualTimePicker> {
       icon: Icon(Icons.more_time_rounded),
       onPressed: () => addManualTime(context),
       label: Text('Add Manual Time'),
-      style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)))),
     );
   }
 }

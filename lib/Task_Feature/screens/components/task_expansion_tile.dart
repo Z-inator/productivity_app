@@ -9,14 +9,18 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class TaskExpansionTile extends StatelessWidget {
   final Task task;
   const TaskExpansionTile({Key key, this.task}) : super(key: key);
+
+  void showEditModalBottomSheet() {
+    
+  }
 
   @override
   Widget build(BuildContext context) {

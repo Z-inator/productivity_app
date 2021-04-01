@@ -11,8 +11,8 @@ import 'package:productivity_app/Task_Feature/screens/components/status_expansio
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 
 import 'package:provider/provider.dart';
 
@@ -49,9 +49,6 @@ class TaskByStatusBody extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(10),
           child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25))),
-            elevation: 5,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,

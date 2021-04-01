@@ -12,9 +12,9 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class StatusExpansionTile extends StatelessWidget {
@@ -23,56 +23,50 @@ class StatusExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        dividerColor: Colors.transparent,
-        accentColor: Theme.of(context).unselectedWidgetColor,
-      ),
-      child: ExpansionTile(
-          initiallyExpanded: false,
-          leading: Icon(
-            Icons.circle,
-            color: Color(status.statusColor),
+    return ExpansionTile(
+        initiallyExpanded: false,
+        leading: Icon(
+          Icons.circle,
+          color: Color(status.statusColor),
+        ),
+        title: Text(
+          status.statusName,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        trailing: IconButton(
+            icon: Icon(Icons.edit_rounded),
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled:
+                      true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25))),
+                  builder: (BuildContext context) {
+                    return ChangeNotifierProvider(
+                        create: (context) => StatusEditState(),
+                        child: StatusEditBottomSheet(
+                          status: status,
+                          isUpdate: true,
+                        ));
+                  });
+            }),
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+            child: Text('Tasks: 10',
+                style: Theme.of(context).textTheme.subtitle1),
           ),
-          title: Text(
-            status.statusName,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          trailing: IconButton(
-              icon: Icon(Icons.edit_rounded),
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    isScrollControlled:
-                        true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25))),
-                    builder: (BuildContext context) {
-                      return ChangeNotifierProvider(
-                          create: (context) => StatusEditState(),
-                          child: StatusEditBottomSheet(
-                            status: status,
-                            isUpdate: true,
-                          ));
-                    });
-              }),
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Text('Tasks: 10',
-                  style: Theme.of(context).textTheme.subtitle1),
-            ),
-            Container(
-                margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Text(
-                    'Description\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
-                    overflow: TextOverflow.fade,
-                    maxLines: 3,
-                    style: Theme.of(context).textTheme.subtitle1))
-          ]),
-    );
+          Container(
+              margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Text(
+                  'Description\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
+                  overflow: TextOverflow.fade,
+                  maxLines: 3,
+                  style: Theme.of(context).textTheme.subtitle1))
+        ]);
   }
 }

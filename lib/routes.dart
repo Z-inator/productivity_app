@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:productivity_app/Task_Feature/screens/project_tasks.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
-import 'package:productivity_app/Shared/base_framework.dart';
+import 'package:productivity_app/Shared/widgets/base_framework.dart';
 import 'Home_Dashboard/screens/home_screen.dart';
 import 'Time_Feature/screens/time_screen.dart';
 import 'Task_Feature/screens/task_project_screen.dart';
@@ -25,7 +25,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/taskscreen':
       var selectedProject = settings.arguments as String;
       return MaterialPageRoute(
-          builder: (context) => AssociatedTasks(
+          builder: (context) => ProjectAssociatedTasks(
                 projectName: selectedProject,
               ));
     case '/functionalityscreen':

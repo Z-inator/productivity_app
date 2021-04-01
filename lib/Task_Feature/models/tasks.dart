@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/subtasks.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:provider/provider.dart';
 
 class Task {

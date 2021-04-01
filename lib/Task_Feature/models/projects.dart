@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 
 class Project {
   String projectID = '';
@@ -20,8 +20,8 @@ class Project {
     Map data = snapshot.data();
     return Project(
         projectID: snapshot.id ?? '',
-        projectName: data['projectName'].toString() ?? '',
-        projectClient: data['projectClient'].toString() ?? '',
+        projectName: data['projectName']as String ?? '',
+        projectClient: data['projectClient'] as String ?? '',
         projectColor: (data['projectColor'] as int) ?? 4285887861,
         projectTime: (data['projectTime'] as int) ?? 0);
   }

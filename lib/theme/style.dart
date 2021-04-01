@@ -17,12 +17,18 @@ ThemeData appTheme() {
         borderSide: BorderSide(color: accentColor)
       ),
       contentPadding: EdgeInsets.all(10),
-    )
+    ),
 
-    
+    cardTheme: CardTheme(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25))),
+          elevation: 5,
+    ),
+
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25))))
+      )
   );
 }
-
-
-// Radius for items (cards, modal sheets, etc) = 20
-// 

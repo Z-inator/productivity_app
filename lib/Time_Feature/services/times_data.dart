@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 
 class TimeService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

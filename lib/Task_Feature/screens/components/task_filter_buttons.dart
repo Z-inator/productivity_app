@@ -25,8 +25,6 @@ class FilterButtonRow extends StatelessWidget {
                 primary: _taskBodyState.page == 0 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
                     _taskBodyState.page == 0 ? Theme.of(context).accentColor : null,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
             ),
           ),
@@ -42,8 +40,6 @@ class FilterButtonRow extends StatelessWidget {
                 primary: _taskBodyState.page == 1 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
                     _taskBodyState.page == 1 ? Theme.of(context).accentColor : null,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
             ),
           ),
@@ -59,8 +55,6 @@ class FilterButtonRow extends StatelessWidget {
                 primary: _taskBodyState.page == 2 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
                     _taskBodyState.page == 2 ? Theme.of(context).accentColor : null,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
             ),
           ),
@@ -76,8 +70,6 @@ class FilterButtonRow extends StatelessWidget {
                 primary: _taskBodyState.page == 3 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
                     _taskBodyState.page == 3 ? Theme.of(context).accentColor : null,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
             ),
           ),

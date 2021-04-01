@@ -20,8 +20,8 @@ import 'package:productivity_app/Authentification/screens/wrapper.dart';
 import 'dart:io' show Platform;
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'theme/style.dart';
-import 'Shared/error_screen.dart';
-import 'Shared/loading_screen.dart';
+import 'Shared/screens/error_screen.dart';
+import 'Shared/screens/loading_screen.dart';
 import 'package:flutter/foundation.dart';
 
 void main() {

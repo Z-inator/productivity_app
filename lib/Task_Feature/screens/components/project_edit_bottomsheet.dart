@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
@@ -30,22 +31,8 @@ class ProjectEditBottomSheet extends StatelessWidget {
               state.updateProjectName(newText);
             },
           ),
-          // TODO: this widget is causing errors
-          SingleChildScrollView(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                  children: AppColors().colorList.map((color) {
-                IconButton(
-                  icon: Icon(
-                      state.newProject.projectColor == color
-                          ? Icons.check_circle_rounded
-                          : Icons.circle,
-                      color: Color(color),
-                      size: 36),
-                  onPressed: () => state.updateProjectColor(color),
-                );
-              }).toList())),
+          ColorSelector(saveColor: state.updateProjectColor, matchColor: state.newProject.projectColor,
+          ),
           TextField(
             decoration: InputDecoration(
                 hintText: state.newProject.projectClient ?? 'Client Name'),

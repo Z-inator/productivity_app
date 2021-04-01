@@ -1,8 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:provider/provider.dart';
+
 
 class AppColors {
   final List<int> colorList = [

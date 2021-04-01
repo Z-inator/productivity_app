@@ -5,16 +5,13 @@ import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart'
 import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
-import 'package:productivity_app/Shared/datetime_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
-  const ProjectExpansionTile({
-    Key key,
-    this.project
-  }) : super(key: key);
+  const ProjectExpansionTile({Key key, this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +44,11 @@ class ProjectExpansionTile extends StatelessWidget {
                     builder: (BuildContext context) {
                       return ChangeNotifierProvider(
                         create: (context) => ProjectEditState(),
-                        child: ProjectEditBottomSheet(project: project, isUpdate: true,),
+                        child: ProjectEditBottomSheet(
+                          project: project,
+                          isUpdate: true,
+                        ),
                       );
-                      
                     });
               }),
           children: [
@@ -58,8 +57,10 @@ class ProjectExpansionTile extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Client: ${project.projectClient}',
-                      style: Theme.of(context).textTheme.subtitle1),
+                  project.projectClient != null 
+                  ? Text('Client: ${project.projectClient}',
+                      style: Theme.of(context).textTheme.subtitle1)
+                  : Text(''),
                   Text('Tasks: 10',
                       style: Theme.of(context).textTheme.subtitle1),
                 ],

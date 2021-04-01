@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/providers/status_edit_state.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Shared/color_functions.dart';
-import 'package:productivity_app/Shared/time_functions.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 // class StatusEditBottomSheetSetState extends StatelessWidget {
@@ -54,9 +55,7 @@ class StatusEditBottomSheet extends StatelessWidget {
               onPressed: () {},
               icon: Icon(Icons.view_list_rounded),
               label: Text('Change Status Order'),
-              style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25))))),
+          ),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
@@ -81,29 +80,6 @@ class StatusEditBottomSheet extends StatelessWidget {
   }
 }
 
-class ColorSelector extends StatelessWidget {
-  int matchColor;
-  Function saveColor;
-  ColorSelector({this.matchColor, this.saveColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-            children: AppColors().colorList.map((color) {
-          print(Color(color));
-          IconButton(
-            icon: Icon(
-                matchColor == color ? Icons.check_circle_rounded : Icons.circle,
-                color: Color(color),
-                size: 36),
-            onPressed: () => saveColor(color),
-          );
-        }).toList()));
-  }
-}
 
 // class StatusEditBottomSheet extends StatefulWidget {
 //   final Status status;
