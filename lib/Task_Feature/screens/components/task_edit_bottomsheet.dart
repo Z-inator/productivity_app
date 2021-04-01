@@ -7,7 +7,7 @@ import 'package:productivity_app/Shared/color_functions.dart';
 import 'package:productivity_app/Shared/datetime_functions.dart';
 import 'package:productivity_app/Shared/time_functions.dart';
 import 'package:productivity_app/Shared/hour_minute_picker.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state_provider.dart';
+import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 

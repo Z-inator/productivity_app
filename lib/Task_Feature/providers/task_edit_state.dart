@@ -3,12 +3,12 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 
-
 class TaskEditState with ChangeNotifier {
   Task newTask;
 
   void addTask() {
     newTask = Task();
+    notifyListeners();
   }
 
   void addTaskCreateDate(DateTime createDate) {
@@ -18,6 +18,7 @@ class TaskEditState with ChangeNotifier {
 
   void updateTask(Task task) {
     newTask = task;
+    notifyListeners();
   }
 
   void updateTaskName(String taskName) {

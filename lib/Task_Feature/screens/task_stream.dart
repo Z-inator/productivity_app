@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_create_date.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_due_date.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_project.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_status.dart';
-import 'package:productivity_app/Task_Feature/screens/task_filter_buttons.dart';
+import 'package:productivity_app/Task_Feature/screens/components/task_filter_buttons.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
@@ -33,6 +34,14 @@ class TaskStream extends StatelessWidget {
         ]
       ),
     );
+  }
+}
+
+class TaskBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Widget body = Provider.of<TaskBodyState>(context).widget;
+    return body;
   }
 }
 
@@ -68,36 +77,4 @@ class TaskStream extends StatelessWidget {
 //   }
 // }
 
-class TaskBody extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Widget body = Provider.of<TaskBodyState>(context).widget;
-    return body;
-  }
-}
 
-class TaskBodyState extends ChangeNotifier {
-  int _page = 0;
-  Widget _widget = TasksByStatus();
-
-  List<Widget> taskBodyContent = [
-    TasksByStatus(),
-    TasksByProject(),
-    TaskByDueDate(),
-    TaskByCreateDate()
-  ];
-
-  Widget get widget {
-    return _widget;
-  }
-
-  int get page {
-    return _page;
-  }
-
-  void changePage(int newPage) {
-    _page = newPage;
-    _widget = taskBodyContent[newPage];
-    notifyListeners();
-  }
-}

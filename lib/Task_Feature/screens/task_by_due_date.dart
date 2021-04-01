@@ -41,7 +41,7 @@ class TaskByDueDateBody extends StatelessWidget {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
-          child: TaskExpansionTile(),
+          child: TaskExpansionTile(task: task),
         );
       }).toList(),
     );

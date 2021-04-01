@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state_provider.dart';
+import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
@@ -42,7 +42,6 @@ class TaskByStatusBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(tasks);
     statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
     return ListView(
       padding: EdgeInsets.only(bottom: 100),

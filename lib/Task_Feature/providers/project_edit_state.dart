@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 
-
 class ProjectEditState with ChangeNotifier {
   Project newProject;
 
   void addProject() {
     newProject = Project();
+    notifyListeners();
   }
 
   void updateProject(Project project) {
     newProject = project;
+    notifyListeners();
   }
 
   void updateProjectName(String projectName) {
@@ -27,6 +28,4 @@ class ProjectEditState with ChangeNotifier {
     newProject.projectClient = projectClient;
     notifyListeners();
   }
-
-  
 }

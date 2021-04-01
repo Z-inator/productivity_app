@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/providers/status_edit_state_provider.dart';
+import 'package:productivity_app/Task_Feature/providers/status_edit_state.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Shared/color_functions.dart';
 import 'package:productivity_app/Shared/time_functions.dart';
@@ -17,6 +17,7 @@ class StatusEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<StatusEditState>(context);
+    state.updateStatus(status);
     isUpdate ? state.updateStatus(status) : state.addStatus();
     return Container(
       margin: EdgeInsets.all(20),
@@ -35,7 +36,7 @@ class StatusEditBottomSheet extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 20),
               scrollDirection: Axis.horizontal,
               child: Row(
-                  children: ProjectColors().colorList.map((color) {
+                  children: AppColors().colorList.map((color) {
                 IconButton(
                   icon: Icon(
                       state.newStatus.statusColor == color
@@ -51,9 +52,8 @@ class StatusEditBottomSheet extends StatelessWidget {
               icon: Icon(Icons.view_list_rounded),
               label: Text('Change Status Order'),
               style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))))
-          ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25))))),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
