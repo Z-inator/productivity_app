@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:productivity_app/Authentification/screens/auth_widget_builder.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/routes.dart';
@@ -63,23 +64,49 @@ class _ProductivityAppState extends State<ProductivityApp> {
     if (!_initialized) {
       return Center(child: Text('Loading'));
     }
-    return StreamProvider<User>.value(
-      value: AuthService().user,
-      child: MultiProvider(   // TODO: fix the issue for user to be logged in for the first time
-        providers: [
-          StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
-          StreamProvider<List<Status>>.value(value: StatusService().streamStatuses()),
-        ],
-          child: MaterialApp(
-            title: 'ProductivityApp',
-            theme: appTheme(),
-            // home: Wrapper(),
-            // routes: routes,
-            onGenerateRoute: generateRoute,
-            initialRoute: '/',
-          ),
-      ),
-
+    return Provider(
+      create: (context) => AuthService(),
+      child: AuthWidgetBuilder(builder: (context, userSnapshot) {
+        return MaterialApp(
+          title: 'Productivity App',
+          theme: appTheme(),
+          home: AuthWidget(userSnapshot: userSnapshot),
+          // onGenerateRoute: generateRoute,
+          // initialRoute: '/',
+        );
+      }),
     );
   }
 }
+
+// return StreamProvider<User>.value(
+//       value: AuthService().user,
+//       child: MultiProvider(   // TODO: fix the issue for user to be logged in for the first time
+//         providers: [
+//           StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
+//           StreamProvider<List<Status>>.value(value: StatusService().streamStatuses()),
+//         ],
+//           child: MultiProvider(
+//             providers: [
+//               StreamProvider<List<Task>>(create: (context) {
+//                 return TaskService().streamTasks(Provider.of<List<Project>>(context), Provider.of<List<Status>>(context));
+//               }),
+//               StreamProvider<List<TimeEntry>>(create: (context) {
+//                 return TimeService().streamTimeEntries(Provider.of<List<Project>>(context));
+//               })
+//             ],
+//             child:
+
+//             MaterialApp(
+//               title: 'ProductivityApp',
+//               theme: appTheme(),
+//               // home: Wrapper(),
+//               // routes: routes,
+//               onGenerateRoute: generateRoute,
+//               initialRoute: '/',
+//             ),
+//           )
+
+//       ),
+
+//     );

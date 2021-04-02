@@ -30,7 +30,6 @@ class _BaseFrameworkState extends State<BaseFramework> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
     return Container(
         child: SafeArea(
       child: Scaffold(

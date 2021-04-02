@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class ColorSelector extends StatelessWidget {
   int matchColor;
-  Function saveColor;
+  Function(int) saveColor;
   ColorSelector({this.matchColor, this.saveColor});
 
   @override

@@ -56,7 +56,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<User>(context);
+    final User user = Provider.of<AuthService>(context).user;
     List<Task> tasks = Provider.of<List<Task>>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

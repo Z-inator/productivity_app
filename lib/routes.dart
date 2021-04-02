@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/screens/project_tasks.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Shared/widgets/base_framework.dart';
@@ -13,20 +14,20 @@ import 'test_screen.dart';
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (context) => Wrapper());
+      return MaterialPageRoute(builder: (context) => AuthWidget());
     case '/homescreen':
       return MaterialPageRoute(builder: (context) => BaseFramework());
     case '/testtime':
       return MaterialPageRoute(builder: (context) => TimeScreen());
     case '/timescreen':
       return MaterialPageRoute(builder: (context) => TimeScreen());
-    case '/projectscreen':
-      return MaterialPageRoute(builder: (context) => TaskScreen());
     case '/taskscreen':
-      var selectedProject = settings.arguments as String;
+      return MaterialPageRoute(builder: (context) => TaskScreen());
+    case '/projectscreen':
+      Project selectedProject = settings.arguments as Project;
       return MaterialPageRoute(
-          builder: (context) => ProjectAssociatedTasks(
-                projectName: selectedProject,
+          builder: (context) => ProjectPage(
+                project: selectedProject,
               ));
     case '/functionalityscreen':
       return MaterialPageRoute(builder: (context) => TestScreen());

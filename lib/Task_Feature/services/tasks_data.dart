@@ -31,7 +31,8 @@ class TaskService {
   Stream<List<Task>> streamTasks(List<Project> projects, List<Status> statuses) {
     var ref = _getTaskReference();
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => Task.fromFirestore(queryDocument, projects, statuses))
+        .map((queryDocument) =>
+            Task.fromFirestore(queryDocument, projects, statuses))
         .toList());
   }
 

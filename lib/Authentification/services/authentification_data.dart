@@ -4,18 +4,26 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 
 import 'package:productivity_app/Authentification/services/database.dart';
+import 'package:productivity_app/Users/models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  User get user {
+    return _auth.currentUser;
+  }
+
   // Authentification change user stream
-  Stream<User> get user {
-    return _auth.authStateChanges();
+  Stream<UserModel> get onAuthStateChanged {
+    return _auth.authStateChanges().map((user) {
+      return user == null ? null : UserModel.fromFirestore(user);
+    });
   }
 
   // Get user reference
   DocumentReference getUserReference(String userID) {
+    User user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
