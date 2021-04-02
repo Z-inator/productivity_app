@@ -28,12 +28,23 @@ class TaskService {
   }
 
   // Snapshot Conversion to Task Model and Stream
-  Stream<List<Task>> streamTasks(List<Project> projects, List<Status> statuses) {
+  Stream<List<Task>> streamTasks(BuildContext context) {
     var ref = _getTaskReference();
+    List<Project> projects = getProjects(context);
+    List<Status> statuses = getStatuses(context);
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) =>
-            Task.fromFirestore(queryDocument, projects, statuses))
+        .map((queryDocument) => Task.fromFirestore(queryDocument, projects, statuses))
         .toList());
+  }
+
+  List<Project> getProjects(BuildContext context) {
+    List<Project> projects = Provider.of<List<Project>>(context);
+    return projects;
+  }
+
+  List<Status> getStatuses(BuildContext context) {
+    List<Status> statuses = Provider.of<List<Status>>(context);
+    return statuses;
   }
 
   // Add Task

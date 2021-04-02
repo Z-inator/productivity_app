@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:provider/provider.dart';
 
 class TimeService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -26,11 +27,18 @@ class TimeService {
   }
 
   // Snapshot Conversion to Time Model and Stream
-  Stream<List<TimeEntry>> streamTimeEntries(List<Project> projects) {
+  Stream<List<TimeEntry>> streamTimeEntries(BuildContext context) {
+    List<Project> projects = getProjects(context);
     var ref = _getTimeEntryReference();
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => TimeEntry.fromFirestore(queryDocument, projects))
+        .map(
+            (queryDocument) => TimeEntry.fromFirestore(queryDocument, projects))
         .toList());
+  }
+
+  List<Project> getProjects(BuildContext context) {
+    List<Project> projects = Provider.of<List<Project>>(context);
+    return projects;
   }
 
   // Add Time Entry

@@ -9,24 +9,52 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
-
 class ProjectStream extends StatelessWidget {
   const ProjectStream({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Project> projects = Provider.of<List<Project>>(context) ?? [];
-    return ListView(
-        padding: EdgeInsets.only(bottom: 100),
-        children: projects.map((project) {
-          return Container(
-              padding: EdgeInsets.all(10),
-              child: Card(
-                  child: ProjectExpansionTile(project: project,)));
-        }).toList());
+    // List<Project> projects = Provider.of<List<Project>>(context) ?? [];
+    return StreamBuilder<List<Project>>(
+      stream: Provider.of<ProjectService>(context).streamProjects(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Something went wrong'));
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: Text('Loading'));
+        }
+        return ListView(
+            padding: EdgeInsets.only(bottom: 100),
+            children: snapshot.data.map((project) {
+              return Container(
+                  padding: EdgeInsets.all(10),
+                  child: Card(
+                      child: ProjectExpansionTile(
+                    project: project,
+                  )));
+            }).toList());
+      },
+    );
   }
 }
 
+// class ProjectStream extends StatelessWidget {
+//   const ProjectStream({Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     List<Project> projects = Provider.of<List<Project>>(context) ?? [];
+//     return ListView(
+//         padding: EdgeInsets.only(bottom: 100),
+//         children: projects.map((project) {
+//           return Container(
+//               padding: EdgeInsets.all(10),
+//               child: Card(
+//                   child: ProjectExpansionTile(project: project,)));
+//         }).toList());
+//   }
+// }
 
 // class ProjectStream extends StatefulWidget {
 //   @override

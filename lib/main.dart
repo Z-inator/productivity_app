@@ -17,7 +17,7 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Authentification/screens/wrapper.dart';
+import 'package:productivity_app/Authentification/screens/auth_widget.dart';
 import 'dart:io' show Platform;
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'theme/style.dart';

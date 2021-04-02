@@ -8,7 +8,7 @@ import 'Home_Dashboard/screens/home_screen.dart';
 import 'Time_Feature/screens/time_screen.dart';
 import 'Task_Feature/screens/task_project_screen.dart';
 import 'Goal_Feature/screens/goal_screen.dart';
-import 'Authentification/screens/wrapper.dart';
+import 'Authentification/screens/auth_widget.dart';
 import 'test_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
