@@ -5,6 +5,8 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:productivity_app/Task_Feature/services/projects_data.dart';
+import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:provider/provider.dart';
 
 class TaskService {
@@ -29,21 +31,31 @@ class TaskService {
 
   // Snapshot Conversion to Task Model and Stream
   Stream<List<Task>> streamTasks(BuildContext context) {
-    var ref = _getTaskReference();
-    List<Project> projects = getProjects(context);
-    List<Status> statuses = getStatuses(context);
-    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => Task.fromFirestore(queryDocument, projects, statuses))
-        .toList());
+    CollectionReference ref = _getTaskReference();
+    List<Project> projects;
+    getProjects(context).then((projectList) => projects = projectList);
+    List<Status> statuses;
+    getStatuses(context).then((statusList) => statuses = statusList);
+    return ref.snapshots().map((QuerySnapshot querySnapshot) =>
+        querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
+          Project project = projects[projects.indexWhere((project) =>
+              project.projectName ==
+              queryDocument.data()['projectName'].toString())];
+          Status status = statuses[statuses.indexWhere((status) =>
+              status.statusName == queryDocument.data()['status'].toString())];
+          return Task.fromFirestore(queryDocument, project, status);
+        }).toList());
   }
 
-  List<Project> getProjects(BuildContext context) {
-    List<Project> projects = Provider.of<List<Project>>(context);
+  Future<List<Project>> getProjects(BuildContext context) async {
+    List<Project> projects =
+        await Provider.of<ProjectService>(context).streamProjects().first;
     return projects;
   }
 
-  List<Status> getStatuses(BuildContext context) {
-    List<Status> statuses = Provider.of<List<Status>>(context);
+  Future<List<Status>> getStatuses(BuildContext context) async {
+    List<Status> statuses =
+        await Provider.of<StatusService>(context).streamStatuses().first;
     return statuses;
   }
 

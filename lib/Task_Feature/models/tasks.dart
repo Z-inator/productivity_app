@@ -30,19 +30,18 @@ class Task {
 
   // }
 
-  factory Task.fromFirestore(DocumentSnapshot snapshot, List<Project> projects,
-      List<Status> statuses) {
+  factory Task.fromFirestore(DocumentSnapshot snapshot, Project project, Status status) {
     Map data = snapshot.data();
-    int projectIndex = projects.indexWhere(
-        (project) => project.projectName == data['projectName'].toString());
-    Project associatedProject = projects[projectIndex];
-    int statusIndex = statuses
-        .indexWhere((status) => status.statusName == data['status'].toString());
-    Status status = statuses[statusIndex];
+    // int projectIndex = projects.indexWhere(
+    //     (project) => project.projectName == data['projectName'].toString());
+    // Project associatedProject = projects[projectIndex];
+    // int statusIndex = statuses
+    //     .indexWhere((status) => status.statusName == data['status'].toString());
+    // Status status = statuses[statusIndex];
     return Task(
         taskID: snapshot.id ?? '',
         taskName: data['taskName'] as String ?? '',
-        project: associatedProject ?? Project(),
+        project: project?? Project(),
         status: status ?? Status(),
         taskTime: data['taskTime'] as int ?? 0,
         dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(1),

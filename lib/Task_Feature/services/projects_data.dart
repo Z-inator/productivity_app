@@ -30,7 +30,7 @@ class ProjectService {
 
   // Snapshot Conversion to Project Model and Stream
   Stream<List<Project>> streamProjects() {
-    var ref = _getProjectReference();
+    CollectionReference ref = _getProjectReference();
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
         .map((queryDocument) => Project.fromFirestore(queryDocument))
         .toList());

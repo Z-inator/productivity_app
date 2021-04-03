@@ -51,6 +51,28 @@ class AuthWidgetBuilder extends StatelessWidget {
               // StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
               // StreamProvider<List<Status>>.value(value: StatusService().streamStatuses()),
             ],
+            builder: (context, child) {
+              // List<Project> projects = Provider.of<ProjectService>(context).streamProjects();
+              return MultiProvider(
+                providers: [
+                  StreamProvider<List<Project>>.value(
+                      value: Provider.of<ProjectService>(context)
+                          .streamProjects()),
+                  StreamProvider<List<Status>>.value(
+                      value: Provider.of<StatusService>(context)
+                          .streamStatuses()),
+                  StreamProvider<List<Task>>.value(
+                      value: Provider.of<TaskService>(context)
+                          .streamTasks(context)),
+                  StreamProvider<List<TimeEntry>>.value(
+                      value: Provider.of<TimeService>(context)
+                          .streamTimeEntries(context))
+                  // StreamProvider<List<Project>>.value(value: ProjectService().streamProjects()),
+                  // StreamProvider<List<Status>>.value(value: StatusService().streamStatuses()),
+                ],
+                child: builder(context, snapshot),
+              );
+            },
             child: builder(context, snapshot),
           );
         }
