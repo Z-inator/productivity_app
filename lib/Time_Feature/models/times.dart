@@ -21,15 +21,15 @@ class TimeEntry {
       this.elapsedTime});
 
   // TODO: Entertain the idea of converting the timeEntries to a filtered distinct list instead of subCollections
-  factory TimeEntry.fromFirestore(DocumentSnapshot snapshot, List<Project> projects) {
+  factory TimeEntry.fromFirestore(DocumentSnapshot snapshot, Project project) {
     Map data = Map.from(snapshot.data());
-    int projectIndex = projects.indexWhere(
-        (project) => project.projectName == data['projectName'].toString());
-    Project associatedProject = projects[projectIndex];
+    // int projectIndex = projects.indexWhere(
+    //     (project) => project.projectName == data['projectName'].toString());
+    // Project associatedProject = projects[projectIndex];
     return TimeEntry(
         entryID: snapshot.id ?? '',
         entryName: data['entryName'] as String ?? '',
-        project: associatedProject ?? Project(),
+        project: project ?? Project(),
         startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),
         endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now(),
         elapsedTime: (data['elapsedTime'] as int) ?? 0);

@@ -32,9 +32,14 @@ class TimeService {
     List<Project> projects;
     getProjects(context).then((projectList) => projects = projectList);
     CollectionReference ref = _getTimeEntryReference();
-    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
+    return ref.snapshots().map((QuerySnapshot querySnapshot) => querySnapshot.docs
         .map(
-            (queryDocument) => TimeEntry.fromFirestore(queryDocument, projects))
+            (QueryDocumentSnapshot queryDocument) {
+              Project project = projects[projects.indexWhere((project) =>
+              project.projectName ==
+              queryDocument.data()['projectName'].toString())];
+              return TimeEntry.fromFirestore(queryDocument, project);
+            })
         .toList());
   }
 

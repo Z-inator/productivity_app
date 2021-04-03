@@ -76,7 +76,7 @@ class TimeStreamBody extends StatelessWidget {
                     ),
                   ),
                   Divider(),
-                  GroupByDay(
+                  GroupedTimeEntries(
                     dailyEntries: timeEntries
                         .where((entry) => entry.endTime == day)
                         .toList(),
@@ -89,25 +89,4 @@ class TimeStreamBody extends StatelessWidget {
   }
 }
 
-class GroupByDay extends StatelessWidget {
-  final List<TimeEntry> dailyEntries;
-  const GroupByDay({Key key, this.dailyEntries}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return dailyEntries == null
-        ? Center(child: CircularProgressIndicator())
-        : ListBody(
-            children: dailyEntries.map((entry) {
-              return ListTile(
-                leading: IconButton(
-                    icon: Icon(Icons.play_arrow_rounded), onPressed: () {}),
-                title: Text(entry.entryName),
-                subtitle: Text(entry.project.projectName,
-                    style: TextStyle(color: Color(entry.project.projectColor))),
-                trailing: Text(entry.elapsedTime.toString()),
-              );
-            }).toList(),
-          );
-  }
-}
