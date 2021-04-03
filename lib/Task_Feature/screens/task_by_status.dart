@@ -17,10 +17,13 @@ import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class TasksByStatus extends StatelessWidget {
+  final List<Task> associatedTasks;
+  TasksByStatus({this.associatedTasks});
+
   @override
   Widget build(BuildContext context) {
     List<Status> statuses = Provider.of<List<Status>>(context);
-    List<Task> tasks = Provider.of<List<Task>>(context);
+    List<Task> tasks = associatedTasks ?? Provider.of<List<Task>>(context);
 
     return statuses == null || tasks == null
         ? Center(
@@ -54,10 +57,9 @@ class TaskByStatusBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 StatusExpansionTile(status: status),
-                Divider(),
                 GroupedTasks(
                     associatedTasks:
-                        tasks.where((task) => task.status == status).toList())
+                        tasks.where((task) => task.status.statusName == status.statusName).toList())
               ],
             ),
           ),

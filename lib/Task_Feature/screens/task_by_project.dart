@@ -44,10 +44,9 @@ class TaskByProjectBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ProjectExpansionTile(project: project),
-                Divider(),
                 GroupedTasks(
                     associatedTasks:
-                        tasks.where((task) => task.project == project).toList())
+                        tasks.where((task) => task.project.projectName == project.projectName).toList())
               ],
             ),
           ),

@@ -21,14 +21,12 @@ class GroupedTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListBody(
-      children: associatedTasks.map((task) {
-        return Theme(
-          data: Theme.of(context)
-              .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
-          child: TaskExpansionTile(task: task)
-        );
-      }).toList(),
-    );
+    return associatedTasks == null
+        ? CircularProgressIndicator()
+        : ListBody(
+            children: associatedTasks.map((task) {
+              return TaskExpansionTile(task: task);
+            }).toList(),
+          );
   }
 }
