@@ -34,24 +34,23 @@ class TaskExpansionTile extends StatelessWidget {
       ),
       trailing: IconButton(
           icon: Icon(Icons.edit_rounded),
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled:
-                    true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25))),
-                builder: (BuildContext context) {
-                  return ChangeNotifierProvider(
-                      create: (context) => TaskEditState(),
-                      child: TaskEditBottomSheet(
-                        task: task,
-                        isUpdate: true,
-                      ));
-                });
-          }),
+          onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled:
+                  true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25))),
+              builder: (BuildContext context) {
+                return ChangeNotifierProvider(
+                    create: (context) => TaskEditState(),
+                    child: TaskEditBottomSheet(
+                      task: task,
+                      isUpdate: true,
+                    ));
+              })
+          ),
       children: [
         Container(
           margin: EdgeInsets.fromLTRB(16, 16, 16, 16),

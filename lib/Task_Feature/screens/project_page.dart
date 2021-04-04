@@ -18,6 +18,7 @@ import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/time_entries_by_day.dart';
 import 'package:productivity_app/Time_Feature/screens/time_stream.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ProjectPage extends StatelessWidget {
   final Project project;
@@ -89,16 +90,37 @@ class ProjectPage extends StatelessWidget {
                     )
                   ]),
             ),
-            body: TabBarView(
-              children: [
-                (tasks == []
-                    ? Text('No Tasks for ${project.projectName}')
-                    : TasksByStatus(associatedTasks: tasks)),
-                (timeEntries == []
-                    ? Text('No Time Entries for ${project.projectName}')
-                    : TimeEntriesByDay(associatedEntries: timeEntries))
-            ])),
+            //TODO: implement an expansiontile as bottomsheet for project details
+
+            // body: SlidingUpPanel(
+            //   borderRadius: BorderRadius.circular(25),
+            //   panel: Scaffold(
+            //     body: Center(child: Text('info')),
+            //     floatingActionButton: FloatingActionButton.extended(
+            //       backgroundColor: Color(project.projectColor),
+            //       onPressed: () {},
+            //       label: Text(project.projectName),
+            //     ),
+            //     floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+            //   ),
+            //   collapsed: Container(
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(25)
+            //     ),
+            //   ),
+            //   body: TabBarView(
+            //     children: [
+            //       (tasks.isEmpty
+            //           ? Center(child: Text('No Tasks for ${project.projectName}'))
+            //           : TasksByStatus(associatedTasks: tasks)),
+            //       (timeEntries.isEmpty
+            //           ? Center(child: Text('No Time Entries for ${project.projectName}'))
+            //           : TimeEntriesByDay(associatedEntries: timeEntries))
+            //   ]),
+            // )
+        ),
       ),
     );
   }
 }
+

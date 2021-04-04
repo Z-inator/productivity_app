@@ -50,6 +50,9 @@ dependencies:
   # Time Range Picker
   simple_time_range_picker: ^0.0.2
 
+  # Sliding Up panel
+  sliding_up_panel: ^1.0.2
+
 
 dev_dependencies:
   flutter_test:
