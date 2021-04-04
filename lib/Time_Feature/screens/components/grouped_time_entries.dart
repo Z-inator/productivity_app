@@ -12,7 +12,7 @@ class GroupedTimeEntries extends StatelessWidget {
         ? Center(child: CircularProgressIndicator())
         : ListBody(
             children: timeEntries.map((entry) {
-              return TimeEntryExpansionTile();
+              return TimeEntryExpansionTile(entry: entry);
             }).toList(),
           );
   }

@@ -10,6 +10,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(entry.entryName);
     return ExpansionTile(
       initiallyExpanded: false,
       leading: IconButton(
@@ -35,10 +36,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
           ),
         ),
         Container(
-          child: IconButton(
-            icon: Icon(Icons.edit_rounded), 
-            onPressed: () {}
-          ), 
+          child: IconButton(icon: Icon(Icons.edit_rounded), onPressed: () {}),
         )
       ],
     );

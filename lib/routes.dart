@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/screens/project_tasks.dart';
+import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Shared/widgets/base_framework.dart';
 import 'Home_Dashboard/screens/home_screen.dart';

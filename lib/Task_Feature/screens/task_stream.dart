@@ -30,14 +30,14 @@ class TaskStream extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           FilterButtonRow(),
-          Expanded(child: TaskBody())
+          Expanded(child: TaskStreamBody())
         ]
       ),
     );
   }
 }
 
-class TaskBody extends StatelessWidget {
+class TaskStreamBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget body = Provider.of<TaskBodyState>(context).widget;
