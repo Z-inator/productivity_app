@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Home_Dashboard/screens/components/home_page_dashboard.dart';
+import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
@@ -44,7 +46,7 @@ class ProjectPage extends StatelessWidget {
     timeEntries = filteredTimeEntries(timeEntries);
     return SafeArea(
       child: DefaultTabController(
-        length: 2,
+        length: 4,
         child: Scaffold(
             appBar: AppBar(
               title: Text(
@@ -53,12 +55,8 @@ class ProjectPage extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  icon: Icon(
-                    Icons.edit_rounded,
-                    color: Theme.of(context).unselectedWidgetColor,
-                  ),
-                  onPressed: () {
-                    showModalBottomSheet(
+                    icon: Icon(Icons.edit_rounded),
+                    onPressed: () => showModalBottomSheet(
                         context: context,
                         isScrollControlled:
                             true, // Allows the modal to me dynamic and keeps the menu above the keyboard
@@ -74,52 +72,205 @@ class ProjectPage extends StatelessWidget {
                               isUpdate: true,
                             ),
                           );
-                        });
-                  },
-                )
+                        })
+                ),
               ],
               bottom: TabBar(
                   unselectedLabelColor: Colors.grey,
                   labelColor: Colors.black,
                   tabs: [
                     Tab(
-                      text: 'Tasks',
+                      icon: Icon(Icons.dashboard_rounded),
                     ),
                     Tab(
-                      text: 'Time Entries',
+                      icon: Icon(Icons.playlist_add_check_rounded),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.timer_rounded),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.bar_chart_rounded),
                     )
                   ]),
             ),
             //TODO: implement an expansiontile as bottomsheet for project details
+            
+            body: TabBarView(
+                    children: [
+                      HomeScreen(),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: (tasks.isEmpty
+                              ? Center(child: Text('No Tasks for ${project.projectName}'))
+                              : TasksByStatus(associatedTasks: tasks)),
+                          ),                          
+                          ElevatedButton.icon(
+                            icon: Icon(Icons.add_rounded),
+                            label: Text('Add Task'),
+                            onPressed: () {},
+                          ) 
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: (timeEntries.isEmpty
+                              ? Center(child: Text('No Time Entries for ${project.projectName}'))
+                              : TimeEntriesByDay(associatedEntries: timeEntries)),
+                          ),                          
+                          ElevatedButton.icon(
+                            icon: Icon(Icons.add_rounded),
+                            label: Text('Add Time Entry'),
+                            onPressed: () {},
+                          ) 
+                        ],
+                      ),
+                      HomeScreen()
+                    ]
+                  ),
+                ),
+                
+
+            
+
+            
+            // bottomNavigationBar: ExpansionTile(
+            //   collapsedBackgroundColor: Color(project.projectColor),
+            //   initiallyExpanded: false,
+            //   title: Text(project.projectName, style: TextStyle(fontWeight: FontWeight.bold),),
+            //   leading: IconButton(
+            //     icon: Icon(Icons.add_rounded),
+            //     onPressed: () {},
+            //   ),
+            //   trailing: IconButton(
+            //     icon: Icon(Icons.edit_rounded),
+            //     onPressed: () => showModalBottomSheet(
+            //         context: context,
+            //         isScrollControlled:
+            //             true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+            //         shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.only(
+            //                 topLeft: Radius.circular(25),
+            //                 topRight: Radius.circular(25))),
+            //         builder: (BuildContext context) {
+            //           return ChangeNotifierProvider(
+            //             create: (context) => ProjectEditState(),
+            //             child: ProjectEditBottomSheet(
+            //               project: project,
+            //               isUpdate: true,
+            //             ),
+            //           );
+            //         })
+            //   ),
+            //   children: [
+            //     Container(
+            //       margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           project.projectClient != null
+            //               ? Text('Client: ${project.projectClient}',
+            //                   style: Theme.of(context).textTheme.subtitle1)
+            //               : Text(''),
+            //           Text('Tasks: 10', style: Theme.of(context).textTheme.subtitle1),
+            //         ],
+            //       ),
+            //     ),
+            //     Container(
+            //       margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Text('Time: ${project.projectTime}',
+            //               style: Theme.of(context).textTheme.subtitle1),
+            //           OutlinedButton.icon(
+            //             icon: Icon(Icons.playlist_add_check_rounded),
+            //             label: Text('Tasks\n10'), // TODO: make this a live number
+            //             onPressed: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(builder: (BuildContext context) {
+            //                   return ProjectPage(project: project);
+            //                 }),
+            //               );
+            //             },
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // bottomSheet: 
+            // ProjectExpansionTile(project: project)
 
             // body: SlidingUpPanel(
-            //   borderRadius: BorderRadius.circular(25),
-            //   panel: Scaffold(
-            //     body: Center(child: Text('info')),
-            //     floatingActionButton: FloatingActionButton.extended(
-            //       backgroundColor: Color(project.projectColor),
-            //       onPressed: () {},
-            //       label: Text(project.projectName),
-            //     ),
-            //     floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+            //   borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+            //   panel: Column(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       Container(
+            //         margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           children: [
+            //             project.projectClient != null
+            //                 ? Text('Client: ${project.projectClient}',
+            //                     style: Theme.of(context).textTheme.subtitle1)
+            //                 : Text(''),
+            //             Text('Tasks: 10', style: Theme.of(context).textTheme.subtitle1),
+            //           ],
+            //         ),
+            //       ),
+            //       Container(
+            //         margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           children: [
+            //             Text('Time: ${project.projectTime}',
+            //                 style: Theme.of(context).textTheme.subtitle1),
+            //             OutlinedButton.icon(
+            //               icon: Icon(Icons.playlist_add_check_rounded),
+            //               label: Text('Tasks\n10'), // TODO: make this a live number
+            //               onPressed: () {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(builder: (BuildContext context) {
+            //                     return ProjectPage(project: project);
+            //                   }),
+            //                 );
+            //               },
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
             //   ),
-            //   collapsed: Container(
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(25)
-            //     ),
-            //   ),
+            //   padding: EdgeInsets.all(20),
+            //   minHeight: 100,
+            //   maxHeight: MediaQuery.of(context).size.height / 5,
+            //   header: Text(project.projectName, style: Theme.of(context).textTheme.headline5.copyWith(color: Color(project.projectColor), fontWeight: FontWeight.bold)),
+            //   // collapsed: Container(
+            //   //   decoration: BoxDecoration(
+            //   //     borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+            //   //     color: Color(project.projectColor)
+            //   //   ),
+            //   //   child: Center(child: Text(project.projectName)),
+            //   // ),
             //   body: TabBarView(
             //     children: [
+            //       HomeScreen(),
             //       (tasks.isEmpty
             //           ? Center(child: Text('No Tasks for ${project.projectName}'))
             //           : TasksByStatus(associatedTasks: tasks)),
             //       (timeEntries.isEmpty
             //           ? Center(child: Text('No Time Entries for ${project.projectName}'))
-            //           : TimeEntriesByDay(associatedEntries: timeEntries))
+            //           : TimeEntriesByDay(associatedEntries: timeEntries)),
+            //       HomeScreen()
             //   ]),
             // )
         ),
-      ),
     );
   }
 }

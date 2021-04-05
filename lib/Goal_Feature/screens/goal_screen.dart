@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+// import 'package:productivity_app/Time_Feature/screens/time_stream.dart';
 // import 'package:productivity_app/screens/timeEntries/components/test.dart';
 // import 'package:productivity_app/screens/timeEntries/components/time_log_list.dart';
 // import 'package:fl_chart/fl_chart.dart';
@@ -7,26 +8,22 @@
 // class GoalScreen extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
-//     return BaseFramework(
-//       dashboard: TimeDashboard(),
-//       content: TimeLogList(),
+//     return Column(
+//       mainAxisSize: MainAxisSize.max,
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: <Widget>[
+//         Flexible(
+//           flex: 1,
+//           fit: FlexFit.loose,
+//           child: TimeDashboard()
+//         ),
+//         Flexible(
+//           flex: 1,
+//           fit: FlexFit.loose,
+//           child: TimeStream(),
+//         )
+//       ]
 //     );
-//     // Column(
-//     //   mainAxisSize: MainAxisSize.max,
-//     //   crossAxisAlignment: CrossAxisAlignment.stretch,
-//     //   children: <Widget>[
-//     //     Flexible(
-//     //       flex: 1,
-//     //       fit: FlexFit.loose,
-//     //       child: TimeDashboard()
-//     //     ),
-//     //     Flexible(
-//     //       flex: 1,
-//     //       fit: FlexFit.loose,
-//     //       child: TimeLogList(),
-//     //     )
-//     //   ]
-//     // );
 //   }
 // }
 
