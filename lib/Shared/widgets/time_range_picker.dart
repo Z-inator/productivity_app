@@ -7,8 +7,9 @@ class RangeTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      icon: Icon(Icons.timelapse_rounded),
+    return IconButton(
+      icon: Icon(Icons.timelapse_rounded, color: Theme.of(context).unselectedWidgetColor,),
+      tooltip: 'Add Time Entry',
       onPressed: () => TimeRangePicker.show(
           context: context,
           onSubmitted: (TimeRangeValue value) {
@@ -19,7 +20,6 @@ class RangeTimePicker extends StatelessWidget {
             int seconds = difference.inSeconds;
             saveRangeTime(seconds);
           }),
-      label: Text('Add Time Range'),
     );
   }
 }

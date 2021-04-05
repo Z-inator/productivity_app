@@ -13,7 +13,7 @@ class TaskScreen extends StatelessWidget {
       child: Column(
         children: [
         TabBar(
-          unselectedLabelColor: Colors.grey,
+          unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
           labelColor: Colors.black,
           labelPadding: EdgeInsets.fromLTRB(5, 20, 5, 10),
             tabs: [

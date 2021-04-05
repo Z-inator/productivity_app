@@ -76,7 +76,7 @@ class ProjectPage extends StatelessWidget {
                 ),
               ],
               bottom: TabBar(
-                  unselectedLabelColor: Colors.grey,
+                  unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
                   labelColor: Colors.black,
                   tabs: [
                     Tab(

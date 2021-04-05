@@ -10,7 +10,7 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/hour_minute_picker.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
-import 'package:productivity_app/Task_Feature/screens/components/due_date/time_picker.dart';
+import 'package:productivity_app/Shared/widgets/time_picker.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
@@ -48,7 +48,7 @@ class TaskEditBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('Due: '),
+              Text('Due: ', style: Theme.of(context).textTheme.subtitle1),
               DueDatePicker(
                 saveDueDate: state.updateTaskDueDate,
                 initialdate: state.newTask.dueDate,
@@ -59,20 +59,12 @@ class TaskEditBottomSheet extends StatelessWidget {
               )
             ],
           ),
-          Container(
-            padding: EdgeInsets.only(top: 20, bottom: 10),
-            child: Text(
-              'Total Tracked Time: ${TimeFunctions().timeToText(seconds: state.newTask.taskTime)}',
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
+          ListTile(
+            title: Text(
+              'Recorded Time: ${TimeFunctions().timeToText(seconds: state.newTask.taskTime)}',
+              style: Theme.of(context).textTheme.subtitle1),
+            trailing: RangeTimePicker(),
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                ManualTimePicker(saveManualTime: state.updateTaskTime),
-                RangeTimePicker(saveRangeTime: state.updateTaskTime),
-              ]),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
