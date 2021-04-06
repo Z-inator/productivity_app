@@ -6,10 +6,12 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
+import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
+import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -62,7 +64,9 @@ class TaskExpansionTile extends StatelessWidget {
                         .subtitle1
                         .copyWith(color: Color(task.status.statusColor)))
               ])),
+          trailing: StatusPickerDropDown(task: task)
         ),
+          
         ListTile(
           title:
               Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
@@ -85,7 +89,7 @@ class TaskExpansionTile extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-              'Recorded Time: ${TimeFunctions().timeToText(seconds: task.taskTime)}',
+              'Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<TaskService>(context).getRecordedTime(context, task))}',
               style: Theme.of(context).textTheme.subtitle1),
           trailing: RangeTimePicker(),
         ),

@@ -9,6 +9,7 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
+import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
@@ -32,7 +33,7 @@ class ProjectExpansionTile extends StatelessWidget {
         ),
         children: [
           ListTile(
-            title: Text('Assigned Tasks: ', style: Theme.of(context).textTheme.subtitle1),
+            title: Text('Assigned Tasks: ${Provider.of<ProjectService>(context).getTaskCount(context, project)}', style: Theme.of(context).textTheme.subtitle1),
             trailing: IconButton(
               icon: Icon(Icons.add_rounded),
               tooltip: 'Add Task',
@@ -40,7 +41,7 @@ class ProjectExpansionTile extends StatelessWidget {
             )
           ),
           ListTile(
-            title: Text('Recorded Time: ', style: Theme.of(context).textTheme.subtitle1),
+            title: Text('Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<ProjectService>(context).getRecordedTime(context, project))}', style: Theme.of(context).textTheme.subtitle1),
             trailing: RangeTimePicker()
           ),
           ListTile(

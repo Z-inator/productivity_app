@@ -83,7 +83,7 @@ class _BaseFrameworkState extends State<BaseFramework> {
                         onPressed: () {},
                       ),
                       IconButton(
-                          icon: Icon(Icons.playlist_add_check_rounded),
+                          icon: Icon(Icons.rule_rounded),
                           color: selectedPage == 2
                               ? Colors.black
                               : Theme.of(context).unselectedWidgetColor,

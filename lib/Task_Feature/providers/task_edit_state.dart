@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
+import 'package:provider/provider.dart';
 
 class TaskEditState with ChangeNotifier {
   Task newTask;
@@ -58,8 +60,8 @@ class TaskEditState with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTaskTime(int taskTime) {
-    newTask.taskTime += taskTime;
-    notifyListeners();
-  }
+  // void addTimeEntry(BuildContext context, int taskTime) {
+  //   TimeService timeService = Provider.of<TimeService>(context);
+  //   notifyListeners();
+  // }
 }

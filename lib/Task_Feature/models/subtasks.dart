@@ -1,9 +1,12 @@
+import 'package:productivity_app/Task_Feature/models/tasks.dart';
 
-class Subtasks {
+class Subtask {
+  String subtaskID = '';
   String subtaskName;
+  Task task = Task();
   bool isDone = false;
 
-  Subtasks({this.subtaskName});
+  Subtask({this.subtaskName});
 
   void toggleDone() {
     isDone = !isDone;

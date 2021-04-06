@@ -12,6 +12,7 @@ import 'package:productivity_app/Shared/widgets/hour_minute_picker.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Shared/widgets/time_picker.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
+import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
@@ -61,7 +62,7 @@ class TaskEditBottomSheet extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Recorded Time: ${TimeFunctions().timeToText(seconds: state.newTask.taskTime)}',
+              'Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<TaskService>(context).getRecordedTime(context, task))}',
               style: Theme.of(context).textTheme.subtitle1),
             trailing: RangeTimePicker(),
           ),
