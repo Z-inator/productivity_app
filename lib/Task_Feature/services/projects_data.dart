@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
+import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 
 class ProjectService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -34,6 +35,25 @@ class ProjectService {
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
         .map((queryDocument) => Project.fromFirestore(queryDocument))
         .toList());
+  }
+
+  int getTaskCount(BuildContext context, Project project) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    return tasks
+        .where((task) => task.project.projectName == project.projectName)
+        .toList()
+        .length;
+  }
+
+  int getRecordedTime(BuildContext context, Project project) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    int recordedTime = 0;
+    timeEntries.forEach((entry) {
+      if (entry.project.projectName == project.projectName) {
+        recordedTime += entry.elapsedTime;
+      }
+    });
+    return recordedTime;
   }
 
   // Add Project
@@ -71,10 +91,7 @@ class ProjectService {
         .then((value) => print('Project Deleted'))
         .catchError((error) => print('Failed to delete project: $error'));
   }
-
-  
 }
-
 
 // class ProjectService {
 //   final User user;
@@ -135,5 +152,3 @@ class ProjectService {
 //   // Get Project Color Number
 
 // }
-
-

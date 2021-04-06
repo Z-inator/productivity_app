@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
+import 'package:productivity_app/Task_Feature/models/subtasks.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:provider/provider.dart';
 
 class TaskService {
@@ -57,6 +59,25 @@ class TaskService {
     List<Status> statuses =
         await Provider.of<StatusService>(context).streamStatuses().first;
     return statuses;
+  }
+
+  int getSubtaskCount(BuildContext context, Task task) {
+    List<Subtask> subtasks = Provider.of<List<Subtask>>(context);
+    return subtasks
+        .where((subtask) => subtask.task.taskName == task.taskName)
+        .toList()
+        .length;
+  }
+
+  int getRecordedTime(BuildContext context, Task task) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    int recordedTime = 0;
+    timeEntries.forEach((entry) {
+      if (entry.entryName == task.taskName) {
+        recordedTime += entry.elapsedTime;
+      }
+    });
+    return recordedTime;
   }
 
   // Add Task
