@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
+import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
@@ -32,6 +33,15 @@ class StatusService {
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
         .map((queryDocument) => Status.fromFirestore(queryDocument))
         .toList());
+  }
+
+  int getTaskCount(List<Task> tasks, Status status) {
+    return tasks.length;
+  }
+
+  List<Status> sortStatuses(List<Status> statuses) {
+    statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
+    return statuses;
   }
 
   // Add Status

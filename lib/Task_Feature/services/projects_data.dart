@@ -37,21 +37,14 @@ class ProjectService {
         .toList());
   }
 
-  int getTaskCount(BuildContext context, Project project) {
-    List<Task> tasks = Provider.of<List<Task>>(context);
-    return tasks
-        .where((task) => task.project.projectName == project.projectName)
-        .toList()
-        .length;
+  int getTaskCount(List<Task> tasks, Project project) {
+    return tasks.length;
   }
 
-  int getRecordedTime(BuildContext context, Project project) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+  int getRecordedTime(List<TimeEntry> timeEntries, Project project) {
     int recordedTime = 0;
     timeEntries.forEach((entry) {
-      if (entry.project.projectName == project.projectName) {
-        recordedTime += entry.elapsedTime;
-      }
+      recordedTime += entry.elapsedTime;
     });
     return recordedTime;
   }
@@ -92,63 +85,3 @@ class ProjectService {
         .catchError((error) => print('Failed to delete project: $error'));
   }
 }
-
-// class ProjectService {
-//   final User user;
-//   ProjectService({this.user});
-
-//   // Collection reference
-//   CollectionReference _getProjectReference() {
-//     if (user == null) {
-//       return null;
-//     } else {
-//       return FirebaseFirestore.instance
-//           .collection('users')
-//           .doc(user.uid)
-//           .collection('projects');
-//     }
-//   }
-
-//   CollectionReference get projects {
-//     return _getProjectReference();
-//   }
-
-//   // Add Project
-//   Future<void> addProject(
-//       {String projectName, int projectColor, int projectTime = 0}) async {
-//     return _getProjectReference()
-//         .add({
-//           'projectName': projectName,
-//           'projectColor': projectColor,
-//           'projectTime': projectTime,
-//           'taskList': {}
-//         })
-//         .then((value) => print('Project Added'))
-//         .catchError((error) => print('Failed to add project: $error'));
-//   }
-//   // // Add Task to Project
-//   // Future<void> addTaskToProject({String projectID, String taskID, String taskName, String status='To Do',}) {
-
-//   // }
-
-//   // Update Project
-//   Future<void> updateProject({String projectID, Map updateData}) async {
-//     return _getProjectReference()
-//         .doc(projectID)
-//         .update(Map<String, dynamic>.from(updateData))
-//         .then((value) => print('Project Updated'))
-//         .catchError((error) => print('Failed to update project: $error'));
-//   }
-
-//   // Delete Project
-//   Future<void> deleteProject({String projectID}) async {
-//     return _getProjectReference()
-//         .doc(projectID)
-//         .delete()
-//         .then((value) => print('Project Deleted'))
-//         .catchError((error) => print('Failed to delete project: $error'));
-//   }
-
-//   // Get Project Color Number
-
-// }

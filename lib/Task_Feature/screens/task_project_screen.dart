@@ -25,7 +25,7 @@ class TaskScreen extends StatelessWidget {
           child: TabBarView(
             children: [
               ProjectStream(),
-              TaskStream()
+              TaskPageStream()
             ]
           ),
         ),

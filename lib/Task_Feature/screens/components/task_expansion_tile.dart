@@ -12,6 +12,7 @@ import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -20,12 +21,13 @@ import 'package:provider/provider.dart';
 
 class TaskExpansionTile extends StatelessWidget {
   final Task task;
-  const TaskExpansionTile({Key key, this.task}) : super(key: key);
-
-  void showEditModalBottomSheet() {}
+  final List<TimeEntry> timeEntries;
+  const TaskExpansionTile({Key key, this.task, this.timeEntries})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TaskService state = Provider.of<TaskService>(context);
     return ExpansionTile(
       initiallyExpanded: false,
       leading: IconButton(
@@ -52,21 +54,19 @@ class TaskExpansionTile extends StatelessWidget {
               ])),
         ),
         ListTile(
-          title: RichText(
-              text: TextSpan(
-                  text: 'Status: ',
-                  style: Theme.of(context).textTheme.subtitle1,
-                  children: <TextSpan>[
-                TextSpan(
-                    text: task.status.statusName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Color(task.status.statusColor)))
-              ])),
-          trailing: StatusPickerDropDown(task: task)
-        ),
-          
+            title: RichText(
+                text: TextSpan(
+                    text: 'Status: ',
+                    style: Theme.of(context).textTheme.subtitle1,
+                    children: <TextSpan>[
+                  TextSpan(
+                      text: task.status.statusName,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: Color(task.status.statusColor)))
+                ])),
+            trailing: StatusPickerDropDown(task: task)),
         ListTile(
           title:
               Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
@@ -78,20 +78,21 @@ class TaskExpansionTile extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-              'Due Date: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+              'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, task))}',
               style: Theme.of(context).textTheme.subtitle1),
-          trailing: task.dueDate.isBefore(DateTime.now())
-              ? IconButton(
-                  icon: Icon(Icons.notifications_active_rounded, color: Colors.red),
-                  onPressed: () {},
-                )
-              : null,
+          trailing: RangeTimePicker(),
         ),
         ListTile(
           title: Text(
-              'Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<TaskService>(context).getRecordedTime(context, task))}',
+              'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
               style: Theme.of(context).textTheme.subtitle1),
-          trailing: RangeTimePicker(),
+          trailing: task.dueDate.isBefore(DateTime.now())
+              ? IconButton(
+                  icon: Icon(Icons.notifications_active_rounded,
+                      color: Colors.red),
+                  onPressed: () {},
+                )
+              : null,
         ),
         Container(
           margin: EdgeInsets.all(16),

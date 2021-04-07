@@ -13,6 +13,7 @@ import 'package:productivity_app/Task_Feature/screens/components/task_expansion_
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,9 @@ class TaskByStatusBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
+    StatusService statusState = Provider.of<StatusService>(context);
+    statusState.sortStatuses(statuses);
+    TaskService taskState = Provider.of<TaskService>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: statuses.map((status) {
@@ -56,10 +59,11 @@ class TaskByStatusBody extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                StatusExpansionTile(status: status),
+                StatusExpansionTile(
+                    status: status,
+                    tasks: taskState.getGroupedTasksByStatus(tasks, status)),
                 GroupedTasks(
-                    associatedTasks:
-                        tasks.where((task) => task.status.statusName == status.statusName).toList())
+                    associatedTasks: taskState.getGroupedTasksByStatus(tasks, status))
               ],
             ),
           ),

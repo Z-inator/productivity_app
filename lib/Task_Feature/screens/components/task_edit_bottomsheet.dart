@@ -26,7 +26,8 @@ class TaskEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<TaskEditState>(context);
+    TaskEditState state = Provider.of<TaskEditState>(context);
+
     isUpdate ? state.updateTask(task) : state.addTask();
     return Container(
         margin: EdgeInsets.all(20),
@@ -60,12 +61,12 @@ class TaskEditBottomSheet extends StatelessWidget {
               )
             ],
           ),
-          ListTile(
-            title: Text(
-              'Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<TaskService>(context).getRecordedTime(context, task))}',
-              style: Theme.of(context).textTheme.subtitle1),
-            trailing: RangeTimePicker(),
-          ),
+          // ListTile(
+          //   title: Text(
+          //     'Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<TaskService>(context).getRecordedTime(context, task))}',
+          //     style: Theme.of(context).textTheme.subtitle1),
+          //   trailing: RangeTimePicker(),
+          // ),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(

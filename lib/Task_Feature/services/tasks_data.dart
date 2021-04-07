@@ -61,21 +61,26 @@ class TaskService {
     return statuses;
   }
 
-  int getSubtaskCount(BuildContext context, Task task) {
-    List<Subtask> subtasks = Provider.of<List<Subtask>>(context);
-    return subtasks
-        .where((subtask) => subtask.task.taskName == task.taskName)
-        .toList()
-        .length;
+  List<Task> getGroupedTasksByStatus(List<Task> tasks, Status status) {
+    return tasks
+        .where((task) => task.status.statusName == status.statusName)
+        .toList();
   }
 
-  int getRecordedTime(BuildContext context, Task task) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+  List<Task> getGroupedTasksByProject(List<Task> tasks, Project project) {
+    return tasks
+        .where((task) => task.project.projectID == project.projectID)
+        .toList();
+  }
+  
+  int getSubtaskCount(List<Subtask> subtasks, Task task) {
+    return subtasks.length;
+  }
+
+  int getRecordedTime(List<TimeEntry> timeEntries, Task task) {
     int recordedTime = 0;
     timeEntries.forEach((entry) {
-      if (entry.entryName == task.taskName) {
-        recordedTime += entry.elapsedTime;
-      }
+      recordedTime += entry.elapsedTime;
     });
     return recordedTime;
   }
@@ -117,101 +122,3 @@ class TaskService {
         .catchError((error) => print('Failed to delete task: $error'));
   }
 }
-
-// class TasksStream extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final User user = Provider.of<User>(context);
-//     return Scaffold(
-//       bottomNavigationBar: AnimatedContainer(
-//         duration: Duration(milliseconds: 600),
-//         height: 60,
-//       ),
-//       body: StreamBuilder<QuerySnapshot>(
-//         stream: TaskService(user: user).tasks.snapshots(),
-//         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//           if (snapshot.hasError) {
-//             return Text('Something went wrong');
-//           }
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Text('Loading');
-//           }
-//           return ListView(
-//             children: snapshot.data.docs.map((DocumentSnapshot document) {
-//               final String docID = document.id;
-//               print(document.id);
-//               return ListTile(
-//                 leading: IconButton(icon: Icon(Icons.plus_one), onPressed: () {}),
-//                 title: Text(document.data()['taskName'].toString()),
-//                 subtitle: Text(document.data()['projectName'].toString()),
-//                 trailing: IconButton(icon: Icon(Icons.delete), onPressed: () {}),
-//               );
-//             }).toList(),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-
-// class TasksTestStream extends StatelessWidget {
-//   final User user;
-//   TasksTestStream({this.user});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<QuerySnapshot>(
-//       stream: TaskService(user: user)
-//           .tasks
-//           .where('projectName', isEqualTo: 'testingProject4')
-//           .snapshots(),
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasError) {
-//           return Text('Something went wrong');
-//         }
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Text('Loading');
-//         }
-//         return Container(
-//           height: 300,
-//           width: 300,
-//           child: ListView(
-//             shrinkWrap: true,
-//             children: snapshot.data.docs.map((DocumentSnapshot document) {
-//               final String docID = document.id;
-//               print(document.id);
-//               return ListTile(
-//                 leading: IconButton(
-//                     icon: Icon(Icons.plus_one),
-//                     onPressed: () {
-//                       TaskService().updateTask(updateData: {
-//                         'taskID': docID,
-//                         'taskName': 'NewTaskNameUpdate'
-//                       });
-//                     }),
-//                 title: Text(document.data()['taskName'].toString()),
-//                 subtitle: Text(document.data()['projectName'].toString()),
-//                 trailing: IconButton(
-//                     icon: Icon(Icons.delete),
-//                     onPressed: () {
-//                       TaskService().deleteTask(taskID: docID);
-//                     }),
-//               );
-//             }).toList(),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// RaisedButton(
-// onPressed: () {
-//   TaskService(user: user).addTask(
-//       taskName: 'taskName$counter',
-//       dueDate: DateTime.utc(2021, 02, 12),
-//       projectName: 'testingProject4');
-//   counter += 1;
-// },
-// child: Text('Add Task')),

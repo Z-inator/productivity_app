@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class FilterButtonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TaskBodyState _taskBodyState = Provider.of<TaskBodyState>(context);
+    TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
       scrollDirection: Axis.horizontal,
@@ -17,14 +17,14 @@ class FilterButtonRow extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: OutlinedButton.icon(
               onPressed: () {
-                _taskBodyState.changePage(0);
+                taskBodyState.changePage(0);
               },
               icon: Icon(Icons.label_rounded),
               label: Text('Status'),
               style: OutlinedButton.styleFrom(
-                primary: _taskBodyState.page == 0 ? Theme.of(context).primaryColor : null,
+                primary: taskBodyState.page == 0 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    _taskBodyState.page == 0 ? Theme.of(context).accentColor : null,
+                    taskBodyState.page == 0 ? Theme.of(context).accentColor : null,
               ),
             ),
           ),
@@ -32,14 +32,14 @@ class FilterButtonRow extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: OutlinedButton.icon(
               onPressed: () {
-                _taskBodyState.changePage(1);
+                taskBodyState.changePage(1);
               },
               icon: Icon(Icons.topic_rounded),
               label: Text('Project'),
               style: OutlinedButton.styleFrom(
-                primary: _taskBodyState.page == 1 ? Theme.of(context).primaryColor : null,
+                primary: taskBodyState.page == 1 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    _taskBodyState.page == 1 ? Theme.of(context).accentColor : null,
+                    taskBodyState.page == 1 ? Theme.of(context).accentColor : null,
               ),
             ),
           ),
@@ -47,14 +47,14 @@ class FilterButtonRow extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: OutlinedButton.icon(
               onPressed: () {
-                _taskBodyState.changePage(2);
+                taskBodyState.changePage(2);
               },
               icon: Icon(Icons.notification_important_rounded),
               label: Text('Due Date'),
               style: OutlinedButton.styleFrom(
-                primary: _taskBodyState.page == 2 ? Theme.of(context).primaryColor : null,
+                primary: taskBodyState.page == 2 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    _taskBodyState.page == 2 ? Theme.of(context).accentColor : null,
+                    taskBodyState.page == 2 ? Theme.of(context).accentColor : null,
               ),
             ),
           ),
@@ -62,14 +62,14 @@ class FilterButtonRow extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: OutlinedButton.icon(
               onPressed: () {
-                _taskBodyState.changePage(3);
+                taskBodyState.changePage(3);
               },
               icon: Icon(Icons.playlist_add_rounded),
               label: Text('Create Date'),
               style: OutlinedButton.styleFrom(
-                primary: _taskBodyState.page == 3 ? Theme.of(context).primaryColor : null,
+                primary: taskBodyState.page == 3 ? Theme.of(context).primaryColor : null,
                 backgroundColor:
-                    _taskBodyState.page == 3 ? Theme.of(context).accentColor : null,
+                    taskBodyState.page == 3 ? Theme.of(context).accentColor : null,
               ),
             ),
           ),

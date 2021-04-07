@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
+import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
@@ -32,21 +33,62 @@ class TimeService {
     List<Project> projects;
     getProjects(context).then((projectList) => projects = projectList);
     CollectionReference ref = _getTimeEntryReference();
-    return ref.snapshots().map((QuerySnapshot querySnapshot) => querySnapshot.docs
-        .map(
-            (QueryDocumentSnapshot queryDocument) {
-              Project project = projects[projects.indexWhere((project) =>
+    return ref.snapshots().map((QuerySnapshot querySnapshot) =>
+        querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
+          Project project = projects[projects.indexWhere((project) =>
               project.projectName ==
               queryDocument.data()['projectName'].toString())];
-              return TimeEntry.fromFirestore(queryDocument, project);
-            })
-        .toList());
+          return TimeEntry.fromFirestore(queryDocument, project);
+        }).toList());
   }
 
   Future<List<Project>> getProjects(BuildContext context) async {
     List<Project> projects =
         await Provider.of<ProjectService>(context).streamProjects().first;
     return projects;
+  }
+
+  List<TimeEntry> sortTimeEntries(List<TimeEntry> timeEntries) {
+    timeEntries.sort((a, b) => a.endTime.compareTo(b.endTime));
+    return timeEntries;
+  }
+
+  List<TimeEntry> filteredTimeEntries(
+      List<TimeEntry> timeEntries, DateTime day) {
+    return timeEntries.where((entry) => entry.endTime == day).toList();
+  }
+
+  List<DateTime> getDays(List<TimeEntry> timeEntries) {
+    List<DateTime> days = [];
+    for (var i = 0; i < timeEntries.length; i++) {
+      TimeEntry entry = timeEntries[i];
+      print(entry.entryID);
+      if (!days.contains(entry.endTime)) {
+        days.add(entry.endTime);
+      }
+    }
+    return days;
+  }
+
+  int getRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
+    int recordedTime = 0;
+    List<TimeEntry> entriesToCount = filteredTimeEntries(timeEntries, day);
+    entriesToCount.forEach((entry) {
+      recordedTime += entry.elapsedTime;
+    });
+    return recordedTime;
+  }
+
+  List<TimeEntry> getGroupedTimeEntriesByProject(List<TimeEntry> timeEntries, Project project) {
+    return timeEntries
+        .where((entry) => entry.project.projectID == project.projectID)
+        .toList();
+  }
+
+  List<TimeEntry> getGroupedTimeEntriesByTask(List<TimeEntry> timeEntries, Task task) {
+    return timeEntries
+        .where((entry) => entry.entryName == task.taskName)
+        .toList();
   }
 
   // Add Time Entry

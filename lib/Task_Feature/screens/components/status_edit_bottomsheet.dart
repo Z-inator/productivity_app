@@ -9,19 +9,6 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
-// class StatusEditBottomSheetSetState extends StatelessWidget {
-//   final Status status;
-//   final bool isUpdate;
-//   const StatusEditBottomSheetSetState({Key key, this.status, this.isUpdate})
-//       : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     StatusEditState state = Provider.of<StatusEditState>(context);
-//     isUpdate ? state.updateStatus(status) : state.addStatus();
-//     return StatusEditBottomSheet(status: status, isUpdate: isUpdate);
-//   }
-// }
 
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;

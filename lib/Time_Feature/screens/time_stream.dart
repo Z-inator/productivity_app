@@ -10,20 +10,7 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
-import 'daily_entry_future.dart';
 
-// class TimeStream extends StatelessWidget {
-//   const TimeStream({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Consumer<List<TimeEntry>>(
-//       builder: (context, List<TimeEntry> timeEntries) {
-//         return Text(timeEntries.first.elapsedTime)
-//       }
-//     );
-//   }
-// }
 
 class TimeStream extends StatelessWidget {
   const TimeStream({Key key}) : super(key: key);
@@ -34,17 +21,8 @@ class TimeStream extends StatelessWidget {
 
     return timeEntries == null
         ? Center(child: CircularProgressIndicator())
-        : TimeStreamBody();
+        : TimeEntriesByDay(timeEntries: timeEntries);
   }
 }
 
-class TimeStreamBody extends StatelessWidget {
-  const TimeStreamBody({Key key,}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Widget body = Provider.of<TimeBodyState>(context).widget;
-    return TimeEntriesByDay();
-  }
-}
 

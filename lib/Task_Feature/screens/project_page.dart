@@ -117,7 +117,7 @@ class ProjectPage extends StatelessWidget {
                           Expanded(
                             child: (timeEntries.isEmpty
                               ? Center(child: Text('No Time Entries for ${project.projectName}'))
-                              : TimeEntriesByDay(associatedEntries: timeEntries)),
+                              : TimeEntriesByDay(timeEntries: timeEntries)),
                           ),                          
                           ElevatedButton.icon(
                             icon: Icon(Icons.add_rounded),

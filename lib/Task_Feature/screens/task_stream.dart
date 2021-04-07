@@ -18,32 +18,33 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TaskStream extends StatelessWidget {
-  const TaskStream({Key key}) : super(key: key);
+class TaskPageStream extends StatelessWidget {
+  const TaskPageStream({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TaskBodyState(),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          FilterButtonRow(),
-          Expanded(child: TaskStreamBody())
-        ]
-      ),
-    );
+        create: (context) => TaskBodyState(),
+        builder: (context, child) {
+          TaskBodyState state = Provider.of<TaskBodyState>(context);
+          return Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                FilterButtonRow(),
+                Expanded(child: state.widget)
+              ]);
+        });
   }
 }
 
-class TaskStreamBody extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Widget body = Provider.of<TaskBodyState>(context).widget;
-    return body;
-  }
-}
+// class TaskStreamBody extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     Widget body = Provider.of<TaskBodyState>(context).widget;
+//     return body;
+//   }
+// }
 
 // class TaskStream extends StatefulWidget {
 //   @override
@@ -76,5 +77,3 @@ class TaskStreamBody extends StatelessWidget {
 //         });
 //   }
 // }
-
-

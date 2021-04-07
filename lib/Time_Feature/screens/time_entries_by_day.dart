@@ -1,53 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/grouped_time_entries.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
 class TimeEntriesByDay extends StatelessWidget {
-  final List<TimeEntry> associatedEntries;
-  const TimeEntriesByDay({Key key, this.associatedEntries}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    List<TimeEntry> timeEntries =
-        associatedEntries ?? Provider.of<List<TimeEntry>>(context);
-    return timeEntries == null
-        ? Center(child: CircularProgressIndicator())
-        : TimeEntriesByDayBody(timeEntries: timeEntries);
-  }
-}
-
-class TimeEntriesByDayBody extends StatelessWidget {
-  const TimeEntriesByDayBody({Key key, this.timeEntries}) : super(key: key);
-
   final List<TimeEntry> timeEntries;
-
-  List<TimeEntry> filteredTimeEntries(
-      List<TimeEntry> timeEntries, DateTime day) {
-    return timeEntries.where((entry) => entry.endTime == day).toList();
-  }
-
-  List<DateTime> getDays(List<TimeEntry> timeEntries) {
-    List<DateTime> days = [];
-    for (var i = 0; i < timeEntries.length; i++) {
-      TimeEntry entry = timeEntries[i];
-      print(entry.entryID);
-      if (!days.contains(entry.endTime)) {
-        days.add(entry.endTime);
-      }
-    }
-    // print(days);
-    return days;
-  }
+  const TimeEntriesByDay({Key key, this.timeEntries}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    timeEntries.sort((a, b) => a.endTime.compareTo(b.endTime));
-    print(timeEntries.first.entryID);
+    TimeService state = Provider.of<TimeService>(context);
+    state.sortTimeEntries(timeEntries);
     return ListView(
         padding: EdgeInsets.only(bottom: 100),
-        children: getDays(timeEntries).map((day) {
+        children: state.getDays(timeEntries).map((day) {
           return Container(
             padding: EdgeInsets.all(10),
             child: Card(
@@ -60,15 +29,15 @@ class TimeEntriesByDayBody extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(DateTimeFunctions().dateTimeToTextDate(
-                            date:
-                                day)), // TODO: implement total time for the day
+                        Text(DateTimeFunctions().dateTimeToTextDate(date: day)), 
+                        // TODO: implement total time for the day
+                        Text(TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, day)))
                       ],
                     ),
                   ),
                   Divider(),
                   GroupedTimeEntries(
-                    timeEntries: filteredTimeEntries(timeEntries, day),
+                    timeEntries: state.filteredTimeEntries(timeEntries, day),
                   )
                 ],
               ),
