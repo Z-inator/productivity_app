@@ -8,6 +8,7 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -35,13 +36,18 @@ class TaskByDueDateBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
     return ListView(
       children: tasks.map((task) {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
-          child: TaskExpansionTile(task: task),
+          child: TaskExpansionTile(
+            task: task,
+            timeEntries: Provider.of<TimeService>(context)
+              .getGroupedTimeEntriesByTask(timeEntries, task)
+          ),
         );
       }).toList(),
     );

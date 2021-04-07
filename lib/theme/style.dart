@@ -7,6 +7,12 @@ ThemeData appTheme() {
   return ThemeData(
     primaryColor: primaryColor,
     accentColor: accentColor,
+
+    appBarTheme: AppBarTheme(
+      iconTheme: IconThemeData(
+        color: Color(0x8a000000)
+      )
+    ),
     
     textTheme: TextTheme(
       subtitle1: TextStyle(color: Color(0x8a000000)),

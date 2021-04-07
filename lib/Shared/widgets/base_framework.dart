@@ -1,3 +1,4 @@
+import 'package:productivity_app/Shared/widgets/add_new_selector.dart';
 import 'package:productivity_app/Task_Feature/screens/task_project_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
 import 'package:productivity_app/test_screen.dart';
 import 'package:productivity_app/Time_Feature/screens/time_screen.dart';
-
 
 class BaseFramework extends StatefulWidget {
   @override
@@ -75,13 +75,14 @@ class _BaseFrameworkState extends State<BaseFramework> {
                           onPressed: () {
                             setPage(1);
                           }),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder()
-                        ),
-                        child: Icon(Icons.add_rounded),
-                        onPressed: () {},
-                      ),
+                      AddNew(),
+                      // ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(shape: CircleBorder()),
+                      //   child: Icon(Icons.add_rounded),
+                      //   onPressed: () {
+                      //     AddNew();
+                      //   },
+                      // ),
                       IconButton(
                           icon: Icon(Icons.rule_rounded),
                           color: selectedPage == 2

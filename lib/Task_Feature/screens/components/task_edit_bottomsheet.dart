@@ -18,17 +18,24 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class TaskEditBottomSheet extends StatelessWidget {
   final Task task;
+  final Project project;
+  final Status status;
   final bool isUpdate;
 
-  TaskEditBottomSheet({Key key, this.task, this.isUpdate}) : super(key: key);
-
-  Project newProject = Project();
+  TaskEditBottomSheet(
+      {Key key, this.task, this.project, this.status, this.isUpdate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     TaskEditState state = Provider.of<TaskEditState>(context);
-
     isUpdate ? state.updateTask(task) : state.addTask();
+    if (project != null) {
+      state.updateTaskProject(project);
+    }
+    if (status != null) {
+      state.updateTaskStatus(status);
+    }
     return Container(
         margin: EdgeInsets.all(20),
         child: Column(mainAxisSize: MainAxisSize.min, children: [

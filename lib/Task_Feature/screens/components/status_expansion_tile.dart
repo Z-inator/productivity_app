@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -21,7 +22,8 @@ import 'package:provider/provider.dart';
 class StatusExpansionTile extends StatelessWidget {
   final Status status;
   final List<Task> tasks;
-  const StatusExpansionTile({Key key, this.status, this.tasks}) : super(key: key);
+  const StatusExpansionTile({Key key, this.status, this.tasks})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,7 @@ class StatusExpansionTile extends StatelessWidget {
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                  title: Text(
-                      'Tasks: ${state.getTaskCount(tasks, status)}',
+                  title: Text('Tasks: ${state.getTaskCount(tasks, status)}',
                       style: Theme.of(context).textTheme.subtitle1),
                   trailing: IconButton(
                     icon: Icon(Icons.add_rounded),
@@ -57,25 +58,25 @@ class StatusExpansionTile extends StatelessWidget {
                     overflow: TextOverflow.fade,
                     maxLines: 3),
                 trailing: IconButton(
-                  icon: Icon(Icons.edit_rounded),
-                  tooltip: 'Edit Status',
-                  onPressed: () => showModalBottomSheet(
-                      context: context,
-                      isScrollControlled:
-                          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              topRight: Radius.circular(25))),
-                      builder: (BuildContext context) {
-                        return ChangeNotifierProvider(
-                            create: (context) => StatusEditState(),
-                            child: StatusEditBottomSheet(
-                              status: status,
-                              isUpdate: true,
-                            ));
-                      }),
-                ),
+                    icon: Icon(Icons.edit_rounded),
+                    tooltip: 'Edit Status',
+                    onPressed: () => showModalBottomSheet(
+                        context: context,
+                        isScrollControlled:
+                            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                topRight: Radius.circular(25))),
+                        builder: (BuildContext context) {
+                          return ChangeNotifierProvider(
+                              create: (context) => StatusEditState(),
+                              child: StatusEditBottomSheet(
+                                status: status,
+                                isUpdate: true,
+                              ));
+                        }),
+                )
               ),
             ]));
   }
