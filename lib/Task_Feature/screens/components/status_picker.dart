@@ -23,9 +23,9 @@ class StatusPicker extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: OutlinedButton.icon(
               onPressed: () {
-                saveStatus(status);
+                state.updateTaskStatus(status);
               },
-              icon: state.newTask.status == null
+              icon: !state.isUpdate
                   ? Icon(Icons.circle, color: Color(status.statusColor))
                   : (state.newTask.status == status
                       ? Icon(Icons.check_circle_rounded,

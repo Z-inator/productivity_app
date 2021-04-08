@@ -113,10 +113,10 @@ class TaskExpansionTile extends StatelessWidget {
                               topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return ChangeNotifierProvider(
-                            create: (context) => TaskEditState(),
+                            create: (context) => TaskEditState(isUpdate: true),
                             child: TaskEditBottomSheet(
                               task: task,
-                              isUpdate: true,
+                              // isUpdate: true,
                             ));
                       })),
               ElevatedButton.icon(

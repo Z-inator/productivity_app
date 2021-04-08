@@ -7,8 +7,12 @@ import 'package:provider/provider.dart';
 
 class TaskEditState with ChangeNotifier {
   Task newTask;
+  bool isUpdate;
+
+  TaskEditState({this.isUpdate});
 
   void addTask() {
+    isUpdate = false;
     newTask = Task();
   }
 
@@ -17,6 +21,7 @@ class TaskEditState with ChangeNotifier {
   }
 
   void updateTask(Task task) {
+    isUpdate = true;
     newTask = task;
   }
 

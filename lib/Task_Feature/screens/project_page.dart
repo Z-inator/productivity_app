@@ -69,10 +69,10 @@ class ProjectPage extends StatelessWidget {
                               topRight: Radius.circular(25))),
                       builder: (BuildContext context) {
                         return ChangeNotifierProvider(
-                          create: (context) => ProjectEditState(),
+                          create: (context) => ProjectEditState(isUpdate: true),
                           child: ProjectEditBottomSheet(
                             project: project,
-                            isUpdate: true,
+                            // isUpdate: true,
                           ),
                         );
                       })),

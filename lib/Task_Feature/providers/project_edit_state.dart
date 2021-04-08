@@ -3,6 +3,9 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 
 class ProjectEditState with ChangeNotifier {
   Project newProject;
+  bool isUpdate;
+
+  ProjectEditState({this.isUpdate});
 
   void addProject() {
     newProject = Project();

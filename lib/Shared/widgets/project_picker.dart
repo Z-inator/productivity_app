@@ -4,22 +4,23 @@ import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:provider/provider.dart';
 
 class ProjectPicker extends StatelessWidget {
-  const ProjectPicker({Key key, this.associatedProject, this.saveProject})
+  const ProjectPicker({Key key,this.saveProject})
       : super(key: key);
-  final Project associatedProject;
+
   final Function(Project) saveProject;
 
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<TaskEditState>(context);
+
     List<Project> projects = Provider.of<List<Project>>(context);
     return PopupMenuButton(
       child: ListTile(
         leading: Icon(
           Icons.circle,
-          color: Color(state.newTask.project.projectColor),
+          color: Color(state.isUpdate ? state.newTask.project.projectColor : 0x8A000000),
         ),
-        title: Text(state.newTask.project.projectName ?? 'Add Project',
+        title: Text(state.isUpdate ? state.newTask.project.projectName : 'Add Project',
             style: Theme.of(context).textTheme.subtitle1),
         trailing: Icon(Icons.arrow_drop_down_rounded,
             color: Theme.of(context).unselectedWidgetColor),
@@ -42,7 +43,7 @@ class ProjectPicker extends StatelessWidget {
                     title: Text(project.projectName,
                         style: Theme.of(context).textTheme.subtitle1),
                     onTap: () {
-                      saveProject(project);
+                      state.updateTaskProject(project);
                       Navigator.pop(context);
                     },
                   );
