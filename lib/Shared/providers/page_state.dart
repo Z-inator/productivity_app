@@ -9,7 +9,7 @@ class PageState extends ChangeNotifier {
   int page = 0;
   Widget widget = HomeScreen();
   bool showOverlay = false;
-  AnimationController controller = AnimationController(vsync: vsync)
+  AnimationController controller;
 
   List<Widget> screens = [
     HomeScreen(),
@@ -28,6 +28,4 @@ class PageState extends ChangeNotifier {
     showOverlay = newOverlay;
     notifyListeners();
   }
-
-
 }

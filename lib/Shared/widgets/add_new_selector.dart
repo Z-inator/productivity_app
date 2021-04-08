@@ -1,11 +1,209 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
+
+
+class FancyFab extends StatefulWidget {
+  final Function() onPressed;
+  final String tooltip;
+  final IconData icon;
+
+  FancyFab({this.onPressed, this.tooltip, this.icon});
+
+  @override
+  _FancyFabState createState() => _FancyFabState();
+}
+
+class _FancyFabState extends State<FancyFab>
+    with SingleTickerProviderStateMixin {
+  bool isOpened = false;
+  AnimationController _animationController;
+  Animation<Color> _buttonColor;
+  Animation<double> _animateIcon;
+  Animation<double> _translateButton;
+  Curve _curve = Curves.easeOut;
+  double _fabHeight = 48;
+
+  @override
+  initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+          ..addListener(() {
+            setState(() {});
+          });
+    _animateIcon =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _buttonColor = ColorTween(
+      begin: Colors.blue,
+      end: Colors.red,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.00,
+        1.00,
+        curve: Curves.linear,
+      ),
+    ));
+    _translateButton = Tween<double>(
+      begin: _fabHeight,
+      end: -14.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.0,
+        0.75,
+        curve: _curve,
+      ),
+    ));
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  animate() {
+    if (!isOpened) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+    isOpened = !isOpened;
+  }
+
+  Widget timer() {
+    return Container(
+      child: FloatingActionButton(
+        mini: true,
+        tooltip: 'Start Timer',
+        child: Icon(Icons.timer_rounded, color: Theme.of(context).accentColor,),
+        backgroundColor: Theme.of(context).cardColor,
+        onPressed: null,
+      ),
+    );
+  }
+
+  Widget timeEntry() {
+    return Container(
+      child: FloatingActionButton(
+        mini: true,
+        tooltip: 'Add Time Entry',
+        child: Icon(Icons.timelapse_rounded, color: Theme.of(context).accentColor,),
+        backgroundColor: Theme.of(context).cardColor,
+        onPressed: null,
+      ),
+    );
+  }
+
+  Widget task() {
+    return Container(
+      child: FloatingActionButton(
+        mini: true,
+        tooltip: 'Add Task',
+        child: Icon(Icons.rule_rounded, color: Theme.of(context).accentColor,),
+        backgroundColor: Theme.of(context).cardColor,
+        onPressed: null,
+      ),
+    );
+  }
+
+  Widget project() {
+    return Container(
+      child: FloatingActionButton(
+        mini: true,
+        tooltip: 'Add Project',
+        child: Icon(Icons.topic_rounded, color: Theme.of(context).accentColor,),
+        backgroundColor: Theme.of(context).cardColor,
+        onPressed: null,
+      ),
+    );
+  }
+
+  Widget goal() {
+    return Container(
+      child: FloatingActionButton(
+        mini: true,
+        tooltip: 'Add Goal',
+        child: Icon(Icons.bar_chart_rounded, color: Theme.of(context).accentColor,),
+        backgroundColor: Theme.of(context).cardColor,
+        onPressed: null,
+      ),
+    );
+  }
+
+  Widget toggle() {
+    return Container(
+      child: RotationTransition(
+        turns: CurvedAnimation(parent: _animationController, curve: Interval(0, .875, curve: _curve)),
+        child: FloatingActionButton(
+          mini: true,
+          backgroundColor: _buttonColor.value,
+          tooltip: 'Toggle',
+          child: Icon(Icons.add_rounded),
+          onPressed: animate,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 5,
+            0.0,
+          ),
+          child: timer(),
+        ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 4,
+            0.0,
+          ),
+          child: timeEntry(),
+        ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 3,
+            0.0,
+          ),
+          child: task(),
+        ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 2,
+            0.0,
+          ),
+          child: project(),
+        ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value,
+            0.0,
+          ),
+          child: goal(),
+        ),
+        toggle(),
+      ],
+    );
+  }
+}
 
 // class AddNew extends StatefulWidget {
 //   AddNew({Key key}) : super(key: key);
@@ -124,23 +322,24 @@ import 'dart:math' as math;
 //   }
 // }
 
-
 // https://stackoverflow.com/questions/46480221/flutter-floating-action-button-with-speed-dail
 class FabWithIcons extends StatefulWidget {
-  FabWithIcons({this.icons, this.onIconTapped});
+  FabWithIcons({this.icons, this.onIconTapped, this.state});
   final List<IconData> icons;
+  final PageState state;
   ValueChanged<int> onIconTapped;
   @override
   State createState() => FabWithIconsState();
 }
 
-class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixin {
-  AnimationController _controller;
+class FabWithIconsState extends State<FabWithIcons>
+    with TickerProviderStateMixin {
+  // AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    widget.state.controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
@@ -149,15 +348,15 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(widget.icons.length, (int index) {
-        return _buildChild(index);
-      }).toList()
-      // ..add(
-      //   _buildFab(),
-      // ),
-    );
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(widget.icons.length, (int index) {
+          return _buildChild(index);
+        }).toList()
+        // ..add(
+        //   _buildFab(),
+        // ),
+        );
   }
 
   Widget _buildChild(int index) {
@@ -169,12 +368,9 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
       alignment: FractionalOffset.topCenter,
       child: ScaleTransition(
         scale: CurvedAnimation(
-          parent: _controller,
-          curve: Interval(
-              0.0,
-              1.0 - index / widget.icons.length / 2.0,
-              curve: Curves.easeOut
-          ),
+          parent: widget.state.controller,
+          curve: Interval(0.0, 1.0 - index / widget.icons.length / 2.0,
+              curve: Curves.easeOut),
         ),
         child: FloatingActionButton(
           backgroundColor: backgroundColor,
@@ -186,22 +382,22 @@ class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixi
     );
   }
 
-  Widget _buildFab() {
-    return ElevatedButton(
-      onPressed: () {
-        if (_controller.isDismissed) {
-          _controller.forward();
-        } else {
-          _controller.reverse();
-        }
-      },
-      style: ElevatedButton.styleFrom(shape: CircleBorder()),
-      child: Icon(Icons.add_rounded),
-    );
-  }
+  // Widget _buildFab() {
+  //   return ElevatedButton(
+  //     onPressed: () {
+  //       if (_controller.isDismissed) {
+  //         _controller.forward();
+  //       } else {
+  //         _controller.reverse();
+  //       }
+  //     },
+  //     style: ElevatedButton.styleFrom(shape: CircleBorder()),
+  //     child: Icon(Icons.add_rounded),
+  //   );
+  // }
 
   void _onTapped(int index) {
-    _controller.reverse();
+    widget.state.controller.reverse();
     widget.onIconTapped(index);
   }
 }
@@ -223,12 +419,14 @@ class AnchoredOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+      child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
         return OverlayBuilder(
           showOverlay: showOverlay,
           overlayBuilder: (BuildContext overlayContext) {
             RenderBox box = context.findRenderObject() as RenderBox;
-            final center = box.size.center(box.localToGlobal(const Offset(0.0, 0.0)));
+            final center =
+                box.size.center(box.localToGlobal(const Offset(0.0, 0.0)));
             return overlayBuilder(overlayContext, center);
           },
           child: child,
