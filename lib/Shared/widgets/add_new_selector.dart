@@ -1,135 +1,343 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
-class AddNew extends StatefulWidget {
-  AddNew({Key key}) : super(key: key);
+// class AddNew extends StatefulWidget {
+//   AddNew({Key key}) : super(key: key);
 
+//   @override
+//   _AddNewState createState() => _AddNewState();
+// }
+
+// class _AddNewState extends State<AddNew> with SingleTickerProviderStateMixin {
+//   AnimationController _controller;
+//   bool openMenu = false;
+
+//   onIconTapped(int index) {
+//     switch (index) {
+//       case 0:
+//         return;
+//       case 1:
+//         return;
+//       case 2:
+//         return showModalBottomSheet(
+//             context: context,
+//             isScrollControlled:
+//                 true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+//             shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.only(
+//                     topLeft: Radius.circular(25),
+//                     topRight: Radius.circular(25))),
+//             builder: (BuildContext context) {
+//               return ChangeNotifierProvider(
+//                   create: (context) => TaskEditState(),
+//                   child: TaskEditBottomSheet(
+//                     isUpdate: false,
+//                   ));
+//             });
+//       case 3:
+//         return showModalBottomSheet(
+//             context: context,
+//             isScrollControlled:
+//                 true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+//             shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.only(
+//                     topLeft: Radius.circular(25),
+//                     topRight: Radius.circular(25))),
+//             builder: (BuildContext context) {
+//               return ChangeNotifierProvider(
+//                 create: (context) => ProjectEditState(),
+//                 child: ProjectEditBottomSheet(
+//                   isUpdate: false,
+//                 ),
+//               );
+//             });
+//       default:
+//     }
+//   }
+
+//   @override
+//   void initState() {
+//     _controller = AnimationController(
+//       vsync: this,
+//       duration: const Duration(milliseconds: 500),
+//     );
+//   }
+
+//   Widget build(BuildContext context) {
+//     Color backgroundColor = Theme.of(context).cardColor;
+//     Color foregroundColor = Theme.of(context).accentColor;
+//     return Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: List.generate(icons.length, (int index) {
+//           Widget child = Container(
+//             height: 70.0,
+//             width: 56.0,
+//             alignment: FractionalOffset.topCenter,
+//             child: ScaleTransition(
+//               scale: CurvedAnimation(
+//                 parent: _controller,
+//                 curve: Interval(
+//                   0.0,
+//                   1.0 - index / icons.length / 2.0,
+//                   curve: Curves.easeOut
+//                 ),
+//               ),
+//               child: FloatingActionButton(
+//                 heroTag: null,
+//                 backgroundColor: backgroundColor,
+//                 mini: true,
+//                 child: Icon(icons[index], color: foregroundColor),
+//                 onPressed: () {},
+//               ),
+//             ),
+//           );
+//           return child;
+//         }).toList()..add(
+//           FloatingActionButton(
+//             heroTag: null,
+//             child: AnimatedBuilder(
+//               animation: _controller,
+//               builder: (BuildContext context, Widget child) {
+//                 return Transform(
+//                   transform: Matrix4.rotationZ(_controller.value * 0.5 * math.pi),
+//                   alignment: FractionalOffset.center,
+//                   child: Icon(_controller.isDismissed ? Icons.add_rounded : Icons.close_rounded),
+//                 );
+//               },
+//             ),
+//             onPressed: () {
+//               if (_controller.isDismissed) {
+//                 _controller.forward();
+//               } else {
+//                 _controller.reverse();
+//               }
+//             },
+//           )
+//       ),
+//     );
+//   }
+// }
+
+
+// https://stackoverflow.com/questions/46480221/flutter-floating-action-button-with-speed-dail
+class FabWithIcons extends StatefulWidget {
+  FabWithIcons({this.icons, this.onIconTapped});
+  final List<IconData> icons;
+  ValueChanged<int> onIconTapped;
   @override
-  _AddNewState createState() => _AddNewState();
+  State createState() => FabWithIconsState();
 }
 
-class _AddNewState extends State<AddNew> with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  bool openMenu = false;
-
-  List<IconData> icons = [
-    Icons.timer_rounded,
-    Icons.timelapse_rounded,
-    Icons.rule_rounded,
-    Icons.topic_rounded,
-    Icons.bar_chart_rounded
-  ];
-
-  onIconTapped(int index) {
-    switch (index) {
-      case 0:
-        return;
-      case 1:
-        return;
-      case 2:
-        return showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                  create: (context) => TaskEditState(),
-                  child: TaskEditBottomSheet(
-                    isUpdate: false,
-                  ));
-            });
-      case 3:
-        return showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                create: (context) => ProjectEditState(),
-                child: ProjectEditBottomSheet(
-                  isUpdate: false,
-                ),
-              );
-            });
-      default:
-    }
-  }
+class FabWithIconsState extends State<FabWithIcons> with TickerProviderStateMixin {
+  AnimationController _controller;
 
   @override
   void initState() {
-    _controller = new AnimationController(
+    super.initState();
+    _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 250),
     );
   }
 
+  @override
   Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(widget.icons.length, (int index) {
+        return _buildChild(index);
+      }).toList()
+      // ..add(
+      //   _buildFab(),
+      // ),
+    );
+  }
+
+  Widget _buildChild(int index) {
     Color backgroundColor = Theme.of(context).cardColor;
     Color foregroundColor = Theme.of(context).accentColor;
-    return new Scaffold(
-      appBar: new AppBar(title: new Text('Speed Dial Example')),
-      floatingActionButton: new Column(
-        mainAxisSize: MainAxisSize.min,
-        children: new List.generate(icons.length, (int index) {
-          Widget child = new Container(
-            height: 70.0,
-            width: 56.0,
-            alignment: FractionalOffset.topCenter,
-            child: new ScaleTransition(
-              scale: new CurvedAnimation(
-                parent: _controller,
-                curve: new Interval(
-                  0.0,
-                  1.0 - index / icons.length / 2.0,
-                  curve: Curves.easeOut
-                ),
-              ),
-              child: new FloatingActionButton(
-                heroTag: null,
-                backgroundColor: backgroundColor,
-                mini: true,
-                child: new Icon(icons[index], color: foregroundColor),
-                onPressed: () {},
-              ),
-            ),
-          );
-          return child;
-        }).toList()..add(
-          new FloatingActionButton(
-            heroTag: null,
-            child: new AnimatedBuilder(
-              animation: _controller,
-              builder: (BuildContext context, Widget child) {
-                return new Transform(
-                  transform: new Matrix4.rotationZ(_controller.value * 0.5 * math.pi),
-                  alignment: FractionalOffset.center,
-                  child: new Icon(_controller.isDismissed ? Icons.share : Icons.close),
-                );
-              },
-            ),
-            onPressed: () {
-              if (_controller.isDismissed) {
-                _controller.forward();
-              } else {
-                _controller.reverse();
-              }
-            },
+    return Container(
+      height: 70.0,
+      width: 56.0,
+      alignment: FractionalOffset.topCenter,
+      child: ScaleTransition(
+        scale: CurvedAnimation(
+          parent: _controller,
+          curve: Interval(
+              0.0,
+              1.0 - index / widget.icons.length / 2.0,
+              curve: Curves.easeOut
           ),
+        ),
+        child: FloatingActionButton(
+          backgroundColor: backgroundColor,
+          mini: true,
+          child: Icon(widget.icons[index], color: foregroundColor),
+          onPressed: () => _onTapped(index),
         ),
       ),
     );
   }
+
+  Widget _buildFab() {
+    return ElevatedButton(
+      onPressed: () {
+        if (_controller.isDismissed) {
+          _controller.forward();
+        } else {
+          _controller.reverse();
+        }
+      },
+      style: ElevatedButton.styleFrom(shape: CircleBorder()),
+      child: Icon(Icons.add_rounded),
+    );
+  }
+
+  void _onTapped(int index) {
+    _controller.reverse();
+    widget.onIconTapped(index);
+  }
 }
 
+// code from: https://github.com/matthew-carroll/flutter_ui_challenge_feature_discovery
+// TODO: Use https://github.com/matthew-carroll/fluttery/blob/master/lib/src/layout_overlays.dart
+
+class AnchoredOverlay extends StatelessWidget {
+  final bool showOverlay;
+  final Widget Function(BuildContext, Offset anchor) overlayBuilder;
+  final Widget child;
+
+  AnchoredOverlay({
+    this.showOverlay,
+    this.overlayBuilder,
+    this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+        return OverlayBuilder(
+          showOverlay: showOverlay,
+          overlayBuilder: (BuildContext overlayContext) {
+            RenderBox box = context.findRenderObject() as RenderBox;
+            final center = box.size.center(box.localToGlobal(const Offset(0.0, 0.0)));
+            return overlayBuilder(overlayContext, center);
+          },
+          child: child,
+        );
+      }),
+    );
+  }
+}
+
+class OverlayBuilder extends StatefulWidget {
+  final bool showOverlay;
+  final Function(BuildContext) overlayBuilder;
+  final Widget child;
+
+  OverlayBuilder({
+    this.showOverlay = false,
+    this.overlayBuilder,
+    this.child,
+  });
+
+  @override
+  _OverlayBuilderState createState() => _OverlayBuilderState();
+}
+
+class _OverlayBuilderState extends State<OverlayBuilder> {
+  OverlayEntry overlayEntry;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.showOverlay) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => showOverlay());
+    }
+  }
+
+  @override
+  void didUpdateWidget(OverlayBuilder oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback((_) => syncWidgetAndOverlay());
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    WidgetsBinding.instance.addPostFrameCallback((_) => syncWidgetAndOverlay());
+  }
+
+  @override
+  void dispose() {
+    if (isShowingOverlay()) {
+      hideOverlay();
+    }
+
+    super.dispose();
+  }
+
+  bool isShowingOverlay() => overlayEntry != null;
+
+  void showOverlay() {
+    overlayEntry = OverlayEntry(
+      builder: widget.overlayBuilder,
+    );
+    addToOverlay(overlayEntry);
+  }
+
+  void addToOverlay(OverlayEntry entry) async {
+    print('addToOverlay');
+    Overlay.of(context).insert(entry);
+  }
+
+  void hideOverlay() {
+    print('hideOverlay');
+    overlayEntry.remove();
+    overlayEntry = null;
+  }
+
+  void syncWidgetAndOverlay() {
+    if (isShowingOverlay() && !widget.showOverlay) {
+      hideOverlay();
+    } else if (!isShowingOverlay() && widget.showOverlay) {
+      showOverlay();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+}
+
+class CenterAbout extends StatelessWidget {
+  final Offset position;
+  final Widget child;
+
+  CenterAbout({
+    this.position,
+    this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: position.dy,
+      left: position.dx,
+      child: FractionalTranslation(
+        translation: const Offset(-0.5, -0.5),
+        child: child,
+      ),
+    );
+  }
+}

@@ -50,6 +50,9 @@ dependencies:
   # Time Range Picker
   simple_time_range_picker: ^0.0.2
 
+  # FAB Speed Dial
+  flutter_speed_dial: ^3.0.5
+
   # Sliding Up panel
   sliding_up_panel: ^1.0.2
 
