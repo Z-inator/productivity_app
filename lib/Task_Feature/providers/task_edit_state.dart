@@ -39,7 +39,7 @@ class TaskEditState with ChangeNotifier {
   }
 
   void updateTaskDueDate(DateTime dueDate) {
-    if (newTask.dueDate.hour == 1) {
+    if (newTask.dueDate.hour == 0) {
       newTask.dueDate = dueDate;
     } else {
       final DateTime temp = newTask.dueDate;
@@ -50,8 +50,8 @@ class TaskEditState with ChangeNotifier {
   }
 
   void updateTaskDueTime(TimeOfDay dueTime) {
-    if (newTask.dueDate.year == 1) {
-      newTask.dueDate = DateTime(1, 1, 1, dueTime.hour, dueTime.minute);
+    if (newTask.dueDate.year == 0) {
+      newTask.dueDate = DateTime(0, 0, 0, dueTime.hour, dueTime.minute);
     } else {
       final DateTime temp = newTask.dueDate;
       newTask.dueDate = DateTime(

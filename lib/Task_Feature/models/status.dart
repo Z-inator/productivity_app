@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Status {
-  String statusID;
-  String statusName;
-  int statusColor;
-  int statusOrder;
+  String statusID = '';
+  String statusName = '';
+  int statusColor = 4285887861;
+  int statusOrder = 0;
 
   Status({this.statusID, this.statusName, this.statusColor, this.statusOrder});
 

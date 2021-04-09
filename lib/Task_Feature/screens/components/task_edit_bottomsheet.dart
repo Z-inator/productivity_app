@@ -10,7 +10,6 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/hour_minute_picker.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
-import 'package:productivity_app/Shared/widgets/time_picker.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
@@ -47,20 +46,47 @@ class TaskEditBottomSheet extends StatelessWidget {
               state.updateTaskName(newText);
             },
           ),
-          ProjectPicker(),
-          StatusPicker(),
+          ProjectPicker(
+            saveProject: state.updateTaskProject, 
+            child: ListTile(
+              leading: Icon(
+                Icons.circle,
+                color: Color(
+                    state.newTask.project.projectColor ?? 0x8A000000),
+              ),
+              title: Text(
+                  state.newTask.project.projectName ?? 'Add Project',
+                  style: Theme.of(context).textTheme.subtitle1),
+              trailing: Icon(Icons.arrow_drop_down_rounded,
+                  color: Theme.of(context).unselectedWidgetColor),
+            ),
+          ),
+          StatusPicker(saveStatus: state.updateTaskStatus),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text('Due: ', style: Theme.of(context).textTheme.subtitle1),
-              DueDatePicker(
-                saveDueDate: state.updateTaskDueDate,
-                initialdate: state.isUpdate ? state.newTask.dueDate : DateTime.now(),
+              OutlinedButton.icon(
+                onPressed: () => DateAndTimePickers().selectDate(
+                  context: context, 
+                  initialDate: state.newTask.dueDate.year != 0
+                      ? state.newTask.dueDate 
+                      : DateTime.now(), 
+                  saveDate: state.updateTaskDueDate
+                ),
+                icon: Icon(Icons.today_rounded),
+                label: Text(state.newTask.dueDate.year != 0
+                    ? DateTimeFunctions().dateTimeToTextDate(date: state.newTask.dueDate)
+                    : 'Add Due Date'),
               ),
-              DueTimePicker(
-                saveDueTime: state.updateTaskDueTime,
-                initialdate: state.isUpdate ? state.newTask.dueDate : DateTime.now(),
-              )
+              OutlinedButton.icon(
+                onPressed: () => DateAndTimePickers().selectTime(context: context, initialTime: state.isUpdate ? TimeOfDay.fromDateTime(state.newTask.dueDate) : TimeOfDay.now(), saveTime: state.updateTaskDueTime),
+                icon: Icon(Icons.alarm_rounded),
+                label: Text(state.newTask.dueDate.hour != 0   // TODO: change to where you can set dueDate to midnight
+                    ? DateTimeFunctions()
+                        .dateTimeToTextTime(date: state.newTask.dueDate, context: context)
+                    : 'Add Due Time'),
+              ),
             ],
           ),
           // ListTile(

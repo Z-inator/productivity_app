@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
-import 'package:productivity_app/Shared/widgets/time_range_picker.dart';
+import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 
 class TimeEntryExpansionTile extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/widgets/time_range_picker.dart';
+import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
@@ -50,7 +50,8 @@ class ProjectExpansionTile extends StatelessWidget {
               title: Text(
                   'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, project))}',
                   style: Theme.of(context).textTheme.subtitle1),
-              trailing: RangeTimePicker()),
+              trailing: IconButton(icon: Icon(Icons.timelapse_rounded), onPressed: () => DateAndTimePickers().buildTimeRangePicker())
+          ),
           ListTile(
               title: Text('Client: ${project.projectClient}',
                   style: Theme.of(context).textTheme.subtitle1),

@@ -8,6 +8,8 @@ import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/task_project_screen.dart';
+import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -211,8 +213,8 @@ class BaseFramework extends StatelessWidget {
                     topRight: Radius.circular(25))),
             builder: (BuildContext context) {
               return ChangeNotifierProvider(
-                  create: (context) => TaskEditState(isUpdate: false),
-                  child: TaskEditBottomSheet(
+                  create: (context) => TimeEntryEditState(isUpdate: false),
+                  child: TimeEntryEditBottomSheet(
                     // isUpdate: false,
                   ));
             }),

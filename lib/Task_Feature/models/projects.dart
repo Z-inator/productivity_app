@@ -19,7 +19,7 @@ class Project {
       projectID: snapshot.id ?? '',
       projectName: data['projectName'] as String ?? '',
       projectClient: data['projectClient'] as String ?? '',
-      projectColor: (data['projectColor'] as int) ?? 4285887861,
+      projectColor: data['projectColor'] as int ?? 4285887861,
     );
   }
 }
