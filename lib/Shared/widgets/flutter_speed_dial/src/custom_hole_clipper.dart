@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class InvertedClipper extends CustomClipper<Path> {
-  var height;
-  var width;
-  var dx;
-  var dy;
+  double height;
+  double width;
+  double dx;
+  double dy;
 
   InvertedClipper({this.width, this.height, this.dy, this.dx});
 

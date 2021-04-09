@@ -1,6 +1,8 @@
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+// import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/widgets/add_new_selector.dart';
+import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
+// import 'package:productivity_app/Shared/widgets/flutter_speed_dial/src/speed_dial.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
@@ -19,145 +21,143 @@ class BaseFramework extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => PageState(),
       builder: (context, child) {
-        PageState state = Provider.of<PageState>(context);
+        final PageState state = Provider.of<PageState>(context);
         return Container(
             child: SafeArea(
           child: Scaffold(
-            body: state.widget,
-            bottomNavigationBar: BottomAppBar(
-              shape: CircularNotchedRectangle(),
-              color: Colors.white,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.dashboard_rounded),
-                      color: state.page == 0
-                          ? Colors.black
-                          : Theme.of(context).unselectedWidgetColor,
-                      onPressed: () {
-                        state.changePage(0);
-                      }),
-                  IconButton(
-                      icon: Icon(Icons.timer_rounded),
-                      color: state.page == 1
-                          ? Colors.black
-                          : Theme.of(context).unselectedWidgetColor,
-                      onPressed: () {
-                        state.changePage(1);
-                      }),
-                  // Container(
-                  //   height: 36,
-                  //   width: 36,
-                  //   child: buildSpeedDial(context),
-                  // ),
+            // body: state.widget,
+            // bottomNavigationBar: BottomAppBar(
+            //   shape: CircularNotchedRectangle(),
+            //   color: Colors.white,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: [
+            //       IconButton(
+            //           icon: Icon(Icons.dashboard_rounded),
+            //           color: state.page == 0
+            //               ? Colors.black
+            //               : Theme.of(context).unselectedWidgetColor,
+            //           onPressed: () {
+            //             state.changePage(0);
+            //           }),
+            //       IconButton(
+            //           icon: Icon(Icons.timer_rounded),
+            //           color: state.page == 1
+            //               ? Colors.black
+            //               : Theme.of(context).unselectedWidgetColor,
+            //           onPressed: () {
+            //             state.changePage(1);
+            //           }),
+            //       // Container(
+            //       //   height: 36,
+            //       //   width: 36,
+            //       //   child: buildSpeedDial(context),
+            //       // ),
                   
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(shape: CircleBorder(), primary: Colors.red),
-                    child: Icon(Icons.add_rounded),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.rule_rounded),
-                      color: state.page == 2
-                          ? Colors.black
-                          : Theme.of(context).unselectedWidgetColor,
-                      onPressed: () {
-                        state.changePage(2);
-                      }),
-                  IconButton(
-                      icon: Icon(Icons.bar_chart_rounded),
-                      color: state.page == 3
-                          ? Colors.black
-                          : Theme.of(context).unselectedWidgetColor,
-                      onPressed: () {
-                        state.changePage(3);
-                      }),
-                ],
-              ),
-            ),
-
-            // Stack(children: [
-            //   state.widget,
-            //   Positioned(
-            //     bottom: 0,
-            //     left: 0,
-            //     right: 0,
-            //     child: Container(
-            //       margin: EdgeInsets.fromLTRB(40, 0, 40, 20),
-            //       decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.all(Radius.circular(25)),
-            //           boxShadow: [
-            //             BoxShadow(
-            //               color: Colors.black.withOpacity(0.5),
-            //               spreadRadius: 2,
-            //               blurRadius: 7,
-            //               offset: Offset(0, 5),
-            //             )
-            //           ]),
-            //       child: ClipRRect(
-            //         borderRadius: BorderRadius.all(Radius.circular(25)),
-            //         child: BottomAppBar(
-            //           color: Colors.white,
-            //           child: Row(
-            //             mainAxisSize: MainAxisSize.max,
-            //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //             children: [
-            //               IconButton(
-            //                   icon: Icon(Icons.dashboard_rounded),
-            //                   color: state.page == 0
-            //                       ? Colors.black
-            //                       : Theme.of(context).unselectedWidgetColor,
-            //                   onPressed: () {
-            //                     state.changePage(0);
-            //                   }),
-            //               IconButton(
-            //                   icon: Icon(Icons.timer_rounded),
-            //                   color: state.page == 1
-            //                       ? Colors.black
-            //                       : Theme.of(context).unselectedWidgetColor,
-            //                   onPressed: () {
-            //                     state.changePage(1);
-            //                   }),
-            //               // Container(
-            //               //   height: 36,
-            //               //   width: 36,
-            //               //   child: buildSpeedDial(context),
-            //               // ),
-                          
-            //               // ElevatedButton(
-            //               //   style: ElevatedButton.styleFrom(shape: CircleBorder(), primary: Colors.red),
-            //               //   child: Icon(Icons.add_rounded),
-            //               //   onPressed: () {},
-            //               // ),
-            //               IconButton(
-            //                   icon: Icon(Icons.rule_rounded),
-            //                   color: state.page == 2
-            //                       ? Colors.black
-            //                       : Theme.of(context).unselectedWidgetColor,
-            //                   onPressed: () {
-            //                     state.changePage(2);
-            //                   }),
-            //               IconButton(
-            //                   icon: Icon(Icons.bar_chart_rounded),
-            //                   color: state.page == 3
-            //                       ? Colors.black
-            //                       : Theme.of(context).unselectedWidgetColor,
-            //                   onPressed: () {
-            //                     state.changePage(3);
-            //                   }),
-            //             ],
-            //           ),
-            //         ),
+            //       ElevatedButton(
+            //         style: ElevatedButton.styleFrom(shape: CircleBorder(), primary: Colors.red),
+            //         onPressed: () {},
+            //         child: Icon(Icons.add_rounded),
             //       ),
-            //     ),
-            //   )
-            // ]),
-            floatingActionButton: SpeedDial(
+            //       IconButton(
+            //           icon: Icon(Icons.rule_rounded),
+            //           color: state.page == 2
+            //               ? Colors.black
+            //               : Theme.of(context).unselectedWidgetColor,
+            //           onPressed: () {
+            //             state.changePage(2);
+            //           }),
+            //       IconButton(
+            //           icon: Icon(Icons.bar_chart_rounded),
+            //           color: state.page == 3
+            //               ? Colors.black
+            //               : Theme.of(context).unselectedWidgetColor,
+            //           onPressed: () {
+            //             state.changePage(3);
+            //           }),
+            //     ],
+            //   ),
+            // ),
 
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat
+            body: Stack(
+              children: [
+              state.widget,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(40, 0, 40, 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                          offset: Offset(0, 5),
+                        )
+                      ]),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    child: BottomAppBar(
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                              icon: Icon(Icons.dashboard_rounded),
+                              color: state.page == 0
+                                  ? Colors.black
+                                  : Theme.of(context).unselectedWidgetColor,
+                              onPressed: () {
+                                state.changePage(0);
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.timer_rounded),
+                              color: state.page == 1
+                                  ? Colors.black
+                                  : Theme.of(context).unselectedWidgetColor,
+                              onPressed: () {
+                                state.changePage(1);
+                              }),
+                          // Container(
+                          //   height: 36,
+                          //   width: 36,
+                          //   child: buildSpeedDial(context),
+                          // ),
+                          buildSpeedDial(context),
+                          // ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(shape: CircleBorder(), primary: Colors.red),
+                          //   child: Icon(Icons.add_rounded),
+                          //   onPressed: () {},
+                          // ),
+                          IconButton(
+                              icon: Icon(Icons.rule_rounded),
+                              color: state.page == 2
+                                  ? Colors.black
+                                  : Theme.of(context).unselectedWidgetColor,
+                              onPressed: () {
+                                state.changePage(2);
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.bar_chart_rounded),
+                              color: state.page == 3
+                                  ? Colors.black
+                                  : Theme.of(context).unselectedWidgetColor,
+                              onPressed: () {
+                                state.changePage(3);
+                              }),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ]),
+            // floatingActionButton: buildSpeedDial(context),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked
           ),
         ));
       },
@@ -167,20 +167,16 @@ class BaseFramework extends StatelessWidget {
   SpeedDial buildSpeedDial(BuildContext context) {
     return SpeedDial(
       icon: Icons.add_rounded,
+      iconTheme: IconThemeData(size: 40),
       activeIcon: Icons.close_rounded,
-      visible: true,
-      closeManually: false,
       renderOverlay: false,
       curve: Curves.bounceIn,
-      overlayColor: Colors.white,
-      overlayOpacity: .5,
       tooltip: 'Add Menu',
-      // marginBottom: 17,
-      // marginEnd: MediaQuery.of(context).size.width / 2 - 28,
-      // buttonSize: 36,
+      buttonSize: 40,
+      childrenButtonSize: 40,
       backgroundColor: Theme.of(context).accentColor,
       foregroundColor: Theme.of(context).primaryColor,
-      elevation: 4,
+      elevation: 0,
       shape: CircleBorder(),
       children: [
         SpeedDialChild(
