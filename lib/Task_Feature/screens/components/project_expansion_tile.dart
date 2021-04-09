@@ -24,11 +24,10 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProjectService state = Provider.of<ProjectService>(context);
+    final ProjectService state = Provider.of<ProjectService>(context);
     return Theme(
       data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
-        initiallyExpanded: false,
         leading: Icon(
           Icons.circle,
           color: Color(project.projectColor),
@@ -65,7 +64,6 @@ class ProjectExpansionTile extends StatelessWidget {
           Container(
             margin: EdgeInsets.all(16),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 OutlinedButton.icon(

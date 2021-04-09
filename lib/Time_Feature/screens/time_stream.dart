@@ -17,7 +17,7 @@ class TimeStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
 
     return timeEntries == null
         ? Center(child: CircularProgressIndicator())

@@ -15,8 +15,8 @@ class TimeToFirebase {
 
 
   Future<void> uploadExampleData() {
-    for (Map<String, dynamic> map in data) {
-      Map<String, dynamic> data = {
+    for (final Map<String, dynamic> map in data) {
+      final Map<String, dynamic> data = {
         'entryName': map['entryName'].toString(),
         'projectName': map['projectName'],
         'startTime': DateTime.parse(map['startTime'] as String),

@@ -13,11 +13,11 @@ class RangeTimePicker extends StatelessWidget {
       onPressed: () => TimeRangePicker.show(
           context: context,
           onSubmitted: (TimeRangeValue value) {
-            DateTime day = DateTime.now();
-            DateTime startTime = DateTime(day.year, day.month, day.day, value.startTime.hour, value.startTime.minute);
-            DateTime endTime = DateTime(day.year, day.month, day.day, value.endTime.hour, value.endTime.minute);
-            Duration difference = endTime.difference(startTime);
-            int seconds = difference.inSeconds;
+            final DateTime day = DateTime.now();
+            final DateTime startTime = DateTime(day.year, day.month, day.day, value.startTime.hour, value.startTime.minute);
+            final DateTime endTime = DateTime(day.year, day.month, day.day, value.endTime.hour, value.endTime.minute);
+            final Duration difference = endTime.difference(startTime);
+            final int seconds = difference.inSeconds;
             saveRangeTime(seconds);
           }),
     );

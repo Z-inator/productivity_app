@@ -27,11 +27,10 @@ class StatusExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StatusService state = Provider.of<StatusService>(context);
+    final StatusService state = Provider.of<StatusService>(context);
     return Theme(
         data: ThemeData().copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-            initiallyExpanded: false,
             leading: Icon(
               Icons.circle,
               color: Color(status.statusColor),

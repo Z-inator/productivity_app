@@ -12,7 +12,6 @@ class TaskEditState with ChangeNotifier {
   TaskEditState({this.isUpdate});
 
   void addTask() {
-    isUpdate = false;
     newTask = Task();
   }
 
@@ -21,7 +20,6 @@ class TaskEditState with ChangeNotifier {
   }
 
   void updateTask(Task task) {
-    isUpdate = true;
     newTask = task;
   }
 
@@ -44,7 +42,7 @@ class TaskEditState with ChangeNotifier {
     if (newTask.dueDate.hour == 1) {
       newTask.dueDate = dueDate;
     } else {
-      DateTime temp = newTask.dueDate;
+      final DateTime temp = newTask.dueDate;
       newTask.dueDate = DateTime(
           dueDate.year, dueDate.month, dueDate.day, temp.hour, temp.minute);
     }
@@ -55,11 +53,11 @@ class TaskEditState with ChangeNotifier {
     if (newTask.dueDate.year == 1) {
       newTask.dueDate = DateTime(1, 1, 1, dueTime.hour, dueTime.minute);
     } else {
-      DateTime temp = newTask.dueDate;
+      final DateTime temp = newTask.dueDate;
       newTask.dueDate = DateTime(
           temp.year, temp.month, temp.day, dueTime.hour, dueTime.minute);
     }
-    DateTime temp = newTask.dueDate;
+    final DateTime temp = newTask.dueDate;
     newTask.dueDate =
         DateTime(temp.year, temp.month, temp.day, dueTime.hour, dueTime.minute);
     notifyListeners();

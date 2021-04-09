@@ -24,7 +24,7 @@ import 'package:flutter/services.dart';
 class TestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<List<Task>>(context);
+    final List<Task> tasks = Provider.of<List<Task>>(context);
     // final Task task =
     //     tasks.firstWhere((task) => task.taskID == '2HzAhm2vMw9q0ZrBr1nJ');
     return FunctionalityButtonList();
@@ -57,7 +57,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<AuthService>(context).user;
-    List<Task> tasks = Provider.of<List<Task>>(context);
+    final List<Task> tasks = Provider.of<List<Task>>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -156,8 +156,8 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
             child: Text('Add time data')),
         ElevatedButton(
             onPressed: () {
-              List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
-              List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
+              final List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
+              final List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
               int counter = 0;
               statuses.map((status) async {
                 await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('statuses').doc().set({

@@ -16,8 +16,8 @@ class DatabaseService {
       'firstName': firstName,
       'lastName': lastName,
     });
-    List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
-    List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
+    final List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
+    final List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
     int counter = 0;
     statuses.map((status) async {
       await userCollection.doc(uid).collection('statuses').doc().set({

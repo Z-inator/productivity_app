@@ -32,10 +32,10 @@ class TimeService {
   Stream<List<TimeEntry>> streamTimeEntries(BuildContext context) {
     List<Project> projects;
     getProjects(context).then((projectList) => projects = projectList);
-    CollectionReference ref = _getTimeEntryReference();
+    final CollectionReference ref = _getTimeEntryReference();
     return ref.snapshots().map((QuerySnapshot querySnapshot) =>
         querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-          Project project = projects[projects.indexWhere((project) =>
+          final Project project = projects[projects.indexWhere((project) =>
               project.projectName ==
               queryDocument.data()['projectName'].toString())];
           return TimeEntry.fromFirestore(queryDocument, project);
@@ -43,7 +43,7 @@ class TimeService {
   }
 
   Future<List<Project>> getProjects(BuildContext context) async {
-    List<Project> projects =
+    final List<Project> projects =
         await Provider.of<ProjectService>(context).streamProjects().first;
     return projects;
   }
@@ -59,9 +59,9 @@ class TimeService {
   }
 
   List<DateTime> getDays(List<TimeEntry> timeEntries) {
-    List<DateTime> days = [];
+    final List<DateTime> days = [];
     for (var i = 0; i < timeEntries.length; i++) {
-      TimeEntry entry = timeEntries[i];
+      final TimeEntry entry = timeEntries[i];
       print(entry.entryID);
       if (!days.contains(entry.endTime)) {
         days.add(entry.endTime);
@@ -72,7 +72,7 @@ class TimeService {
 
   int getRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
     int recordedTime = 0;
-    List<TimeEntry> entriesToCount = filteredTimeEntries(timeEntries, day);
+    final List<TimeEntry> entriesToCount = filteredTimeEntries(timeEntries, day);
     entriesToCount.forEach((entry) {
       recordedTime += entry.elapsedTime;
     });
@@ -100,12 +100,12 @@ class TimeService {
   }
 
   Future<void> addTimeEntry2({String addToDate, Map addData}) async {
-    DocumentSnapshot documentSnapshot =
+    final DocumentSnapshot documentSnapshot =
         await _getTimeEntryReference().doc(addToDate).get();
     if (!documentSnapshot.exists) {
       await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 1});
     } else {
-      dynamic newNumberOfEntries =
+      final dynamic newNumberOfEntries =
           documentSnapshot.data()['numberOfEntries'] + 1;
       await _getTimeEntryReference()
           .doc(addToDate)

@@ -11,20 +11,10 @@ class ProjectPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<TaskEditState>(context);
+    final state = Provider.of<TaskEditState>(context);
 
-    List<Project> projects = Provider.of<List<Project>>(context);
+    final List<Project> projects = Provider.of<List<Project>>(context);
     return PopupMenuButton(
-      child: ListTile(
-        leading: Icon(
-          Icons.circle,
-          color: Color(state.isUpdate ? state.newTask.project.projectColor : 0x8A000000),
-        ),
-        title: Text(state.isUpdate ? state.newTask.project.projectName : 'Add Project',
-            style: Theme.of(context).textTheme.subtitle1),
-        trailing: Icon(Icons.arrow_drop_down_rounded,
-            color: Theme.of(context).unselectedWidgetColor),
-      ),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))),
       itemBuilder: (BuildContext context) {
@@ -53,6 +43,16 @@ class ProjectPicker extends StatelessWidget {
           )
         ];
       },
+      child: ListTile(
+        leading: Icon(
+          Icons.circle,
+          color: Color(state.isUpdate ? state.newTask.project.projectColor : 0x8A000000),
+        ),
+        title: Text(state.isUpdate ? state.newTask.project.projectName : 'Add Project',
+            style: Theme.of(context).textTheme.subtitle1),
+        trailing: Icon(Icons.arrow_drop_down_rounded,
+            color: Theme.of(context).unselectedWidgetColor),
+      ),
     );
   }
 }

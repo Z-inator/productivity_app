@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ReusableTimeTile extends StatelessWidget {
-  ReusableTimeTile(
+  const ReusableTimeTile(
       {this.task, this.project, this.projectColor, this.timeLogged});
 
   final String task;

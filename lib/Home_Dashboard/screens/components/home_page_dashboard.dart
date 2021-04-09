@@ -10,18 +10,14 @@ class HomeDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Flexible(
-            fit: FlexFit.loose,
             flex: 1,
             child: Row(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Flexible(
-                    flex: 1,
                     child: Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
                       elevation: 10,
@@ -39,7 +35,6 @@ class HomeDashboard extends StatelessWidget {
                     ),
                   ),
                   Flexible(
-                    flex: 1,
                     child: ListTile(
                       title: Text('Tasks Due Today: 4'),
                       subtitle: Text('Total Tracked Time for the week: 20'),
@@ -51,20 +46,17 @@ class HomeDashboard extends StatelessWidget {
             flex: 3,
             fit: FlexFit.tight,
             child: Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Flexible(
-                  flex: 1,
                   fit: FlexFit.loose,
                   child: Table(children: [
                     TableRow(children: <Widget>[
                       TableCell(
                         child: CircularPercentIndicator(
                           radius: 50,
-                          lineWidth: 5,
                           percent: .5,
-                          center: new Text('100%'),
+                          center: Text('100%'),
                           footer: Text('Habit'),
                           progressColor: Colors.green,
                           animation: true,
@@ -75,9 +67,8 @@ class HomeDashboard extends StatelessWidget {
                       TableCell(
                         child: CircularPercentIndicator(
                           radius: 50,
-                          lineWidth: 5,
                           percent: .5,
-                          center: new Text('100%'),
+                          center: Text('100%'),
                           footer: Text('Habit'),
                           progressColor: Colors.green,
                           animation: true,
@@ -88,9 +79,8 @@ class HomeDashboard extends StatelessWidget {
                       TableCell(
                         child: CircularPercentIndicator(
                           radius: 50,
-                          lineWidth: 5,
                           percent: .5,
-                          center: new Text('100%'),
+                          center: Text('100%'),
                           footer: Text('Habit'),
                           progressColor: Colors.green,
                           animation: true,
@@ -103,9 +93,8 @@ class HomeDashboard extends StatelessWidget {
                       TableCell(
                         child: CircularPercentIndicator(
                           radius: 50,
-                          lineWidth: 5,
                           percent: .5,
-                          center: new Text('100%'),
+                          center: Text('100%'),
                           footer: Text('Habit'),
                           progressColor: Colors.green,
                           animation: true,
@@ -116,9 +105,8 @@ class HomeDashboard extends StatelessWidget {
                       TableCell(
                         child: CircularPercentIndicator(
                           radius: 50,
-                          lineWidth: 5,
                           percent: .5,
-                          center: new Text('100%'),
+                          center: Text('100%'),
                           footer: Text('Habit'),
                           progressColor: Colors.green,
                           animation: true,
@@ -129,9 +117,8 @@ class HomeDashboard extends StatelessWidget {
                       TableCell(
                         child: CircularPercentIndicator(
                           radius: 50,
-                          lineWidth: 5,
                           percent: .5,
-                          center: new Text('100%'),
+                          center: Text('100%'),
                           footer: Text('Habit'),
                           progressColor: Colors.green,
                           animation: true,
@@ -143,7 +130,6 @@ class HomeDashboard extends StatelessWidget {
                   ]),
                 ),
                 Flexible(
-                    flex: 1,
                     fit: FlexFit.loose,
                     child: Container(
                       padding: EdgeInsets.all(10),
@@ -151,13 +137,10 @@ class HomeDashboard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Column(
-                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
                                 Flexible(
-                                  fit: FlexFit.loose,
                                   child: FAProgressBar(
-                                    maxValue: 100,
                                     currentValue: 20,
                                     progressColor: Colors.blue,
                                     changeColorValue: 75,
@@ -173,13 +156,10 @@ class HomeDashboard extends StatelessWidget {
                                 Text('Goal')
                               ]),
                           Column(
-                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
                                 Flexible(
-                                  fit: FlexFit.loose,
                                   child: FAProgressBar(
-                                    maxValue: 100,
                                     currentValue: 60,
                                     progressColor: Colors.blue,
                                     changeColorValue: 75,
@@ -195,13 +175,10 @@ class HomeDashboard extends StatelessWidget {
                                 Text('Goal')
                               ]),
                           Column(
-                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
                                 Flexible(
-                                  fit: FlexFit.loose,
                                   child: FAProgressBar(
-                                    maxValue: 100,
                                     currentValue: 80,
                                     progressColor: Colors.blue,
                                     changeColorValue: 75,

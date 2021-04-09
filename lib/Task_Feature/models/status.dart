@@ -9,7 +9,7 @@ class Status {
   Status({this.statusID, this.statusName, this.statusColor, this.statusOrder});
 
   factory Status.fromFirestore(DocumentSnapshot snapshot) {
-    Map data = snapshot.data();
+    final Map data = snapshot.data();
 
     return Status(
       statusID: snapshot.id,

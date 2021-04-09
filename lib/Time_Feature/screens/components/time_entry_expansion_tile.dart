@@ -12,7 +12,6 @@ class TimeEntryExpansionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     print(entry.entryName);
     return ExpansionTile(
-      initiallyExpanded: false,
       leading: IconButton(
           icon: Icon(Icons.play_arrow_rounded),
           color: Colors.green,
@@ -24,7 +23,6 @@ class TimeEntryExpansionTile extends StatelessWidget {
       children: [
         Container(
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text('Time: '),

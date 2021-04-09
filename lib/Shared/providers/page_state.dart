@@ -23,9 +23,4 @@ class PageState extends ChangeNotifier {
     widget = screens[newPage];
     notifyListeners();
   }
-
-  void showOverlayList(bool newOverlay) {
-    showOverlay = newOverlay;
-    notifyListeners();
-  }
 }

@@ -21,7 +21,7 @@ class ProjectToFirebase {
   ];
 
   Future<void> uploadExampleData() {
-    for (Map<String, dynamic> map in projectData) {
+    for (final Map<String, dynamic> map in projectData) {
       ProjectService().addProject(
         projectName: map['projectName'].toString(),
         projectTime: map['projectTime'] as int,

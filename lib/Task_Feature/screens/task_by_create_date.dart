@@ -35,7 +35,7 @@ class TaskByCreateDateBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     tasks.sort((a, b) => a.createDate.compareTo(b.createDate));
     return ListView(
       children: tasks.map((task) {

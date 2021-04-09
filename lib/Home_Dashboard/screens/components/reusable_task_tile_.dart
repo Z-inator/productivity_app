@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ReusableTimeCard extends StatelessWidget {
-  ReusableTimeCard(
+  const ReusableTimeCard(
       {this.task, this.project, this.projectColor, this.timeLogged});
 
   final String task;

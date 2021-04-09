@@ -12,11 +12,11 @@ import 'package:provider/provider.dart';
 class ProjectEditBottomSheet extends StatelessWidget {
   final Project project;
   // final bool isUpdate;
-  ProjectEditBottomSheet({this.project});
+  const ProjectEditBottomSheet({this.project});
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<ProjectEditState>(context);
+    final state = Provider.of<ProjectEditState>(context);
     state.isUpdate ? state.updateProject(project) : state.addProject();
     return Container(
       margin: EdgeInsets.all(20),

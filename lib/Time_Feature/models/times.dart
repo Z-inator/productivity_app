@@ -22,7 +22,7 @@ class TimeEntry {
 
   // TODO: Entertain the idea of converting the timeEntries to a filtered distinct list instead of subCollections
   factory TimeEntry.fromFirestore(DocumentSnapshot snapshot, Project project) {
-    Map data = Map.from(snapshot.data());
+    final Map data = Map.from(snapshot.data());
     // int projectIndex = projects.indexWhere(
     //     (project) => project.projectName == data['projectName'].toString());
     // Project associatedProject = projects[projectIndex];

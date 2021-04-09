@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
-  Color primaryColor = Colors.white;
-  Color accentColor = Colors.blue;
+  final Color primaryColor = Colors.white;
+  final Color accentColor = Colors.blue;
 
   return ThemeData(
     primaryColor: primaryColor,

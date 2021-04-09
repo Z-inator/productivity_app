@@ -29,7 +29,7 @@ class StatusService {
 
   // Snapshot Conversion to Status Model and Stream
   Stream<List<Status>> streamStatuses() {
-    CollectionReference ref = _getStatusReference();
+    final CollectionReference ref = _getStatusReference();
     return ref.snapshots().map((querySnapshot) => querySnapshot.docs
         .map((queryDocument) => Status.fromFirestore(queryDocument))
         .toList());

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class FilterButtonRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
+    final TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
       scrollDirection: Axis.horizontal,

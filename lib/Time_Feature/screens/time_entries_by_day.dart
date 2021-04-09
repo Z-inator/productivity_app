@@ -12,7 +12,7 @@ class TimeEntriesByDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TimeService state = Provider.of<TimeService>(context);
+    final TimeService state = Provider.of<TimeService>(context);
     state.sortTimeEntries(timeEntries);
     return ListView(
         padding: EdgeInsets.only(bottom: 100),

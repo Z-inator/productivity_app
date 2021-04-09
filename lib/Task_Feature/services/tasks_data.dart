@@ -33,30 +33,30 @@ class TaskService {
 
   // Snapshot Conversion to Task Model and Stream
   Stream<List<Task>> streamTasks(BuildContext context) {
-    CollectionReference ref = _getTaskReference();
+    final CollectionReference ref = _getTaskReference();
     List<Project> projects;
     getProjects(context).then((projectList) => projects = projectList);
     List<Status> statuses;
     getStatuses(context).then((statusList) => statuses = statusList);
     return ref.snapshots().map((QuerySnapshot querySnapshot) =>
         querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-          Project project = projects[projects.indexWhere((project) =>
+          final Project project = projects[projects.indexWhere((project) =>
               project.projectName ==
               queryDocument.data()['projectName'].toString())];
-          Status status = statuses[statuses.indexWhere((status) =>
+          final Status status = statuses[statuses.indexWhere((status) =>
               status.statusName == queryDocument.data()['status'].toString())];
           return Task.fromFirestore(queryDocument, project, status);
         }).toList());
   }
 
   Future<List<Project>> getProjects(BuildContext context) async {
-    List<Project> projects =
+    final List<Project> projects =
         await Provider.of<ProjectService>(context).streamProjects().first;
     return projects;
   }
 
   Future<List<Status>> getStatuses(BuildContext context) async {
-    List<Status> statuses =
+    final List<Status> statuses =
         await Provider.of<StatusService>(context).streamStatuses().first;
     return statuses;
   }

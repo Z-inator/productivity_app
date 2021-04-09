@@ -27,9 +27,8 @@ class TaskExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskService state = Provider.of<TaskService>(context);
+    final TaskService state = Provider.of<TaskService>(context);
     return ExpansionTile(
-      initiallyExpanded: false,
       leading: IconButton(
         icon: Icon(Icons.play_arrow_rounded),
         color: Colors.green,
@@ -97,7 +96,6 @@ class TaskExpansionTile extends StatelessWidget {
         Container(
           margin: EdgeInsets.all(16),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               OutlinedButton.icon(

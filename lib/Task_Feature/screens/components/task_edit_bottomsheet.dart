@@ -22,13 +22,13 @@ class TaskEditBottomSheet extends StatelessWidget {
   final Status status;
   // final bool isUpdate;
 
-  TaskEditBottomSheet(
+  const TaskEditBottomSheet(
       {Key key, this.task, this.project, this.status, })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TaskEditState state = Provider.of<TaskEditState>(context);
+    final TaskEditState state = Provider.of<TaskEditState>(context);
     state.isUpdate ? state.updateTask(task) : state.addTask();
     if (project != null) {
       state.updateTaskProject(project);
@@ -50,7 +50,6 @@ class TaskEditBottomSheet extends StatelessWidget {
           ProjectPicker(),
           StatusPicker(),
           Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text('Due: ', style: Theme.of(context).textTheme.subtitle1),

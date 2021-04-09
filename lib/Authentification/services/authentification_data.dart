@@ -23,7 +23,7 @@ class AuthService {
 
   // Get user reference
   DocumentReference getUserReference(String userID) {
-    User user = _auth.currentUser;
+    final User user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {

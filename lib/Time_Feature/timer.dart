@@ -44,7 +44,7 @@ class Ticker {
 
 class TimerWidget extends StatefulWidget {
   final User user;
-  TimerWidget({this.user});
+  const TimerWidget({this.user});
   @override
   _TimerWidgetState createState() => _TimerWidgetState();
 }

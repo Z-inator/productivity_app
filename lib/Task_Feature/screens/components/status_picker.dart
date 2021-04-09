@@ -12,8 +12,8 @@ class StatusPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Status> statuses = Provider.of<List<Status>>(context);
-    var state = Provider.of<TaskEditState>(context);
+    final List<Status> statuses = Provider.of<List<Status>>(context);
+    final state = Provider.of<TaskEditState>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
       scrollDirection: Axis.horizontal,
@@ -49,8 +49,8 @@ class StatusPickerDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Status> statuses = Provider.of<List<Status>>(context);
-    TaskService state = Provider.of<TaskService>(context);
+    final List<Status> statuses = Provider.of<List<Status>>(context);
+    final TaskService state = Provider.of<TaskService>(context);
     return PopupMenuButton(
         icon: Icon(Icons.rule_rounded),
         shape: RoundedRectangleBorder(

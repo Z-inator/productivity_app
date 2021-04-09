@@ -19,12 +19,12 @@ import 'package:provider/provider.dart';
 
 class TasksByStatus extends StatelessWidget {
   final List<Task> associatedTasks;
-  TasksByStatus({this.associatedTasks});
+  const TasksByStatus({this.associatedTasks});
 
   @override
   Widget build(BuildContext context) {
-    List<Status> statuses = Provider.of<List<Status>>(context);
-    List<Task> tasks = associatedTasks ?? Provider.of<List<Task>>(context);
+    final List<Status> statuses = Provider.of<List<Status>>(context);
+    final List<Task> tasks = associatedTasks ?? Provider.of<List<Task>>(context);
 
     return statuses == null || tasks == null
         ? Center(
@@ -46,9 +46,9 @@ class TaskByStatusBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StatusService statusState = Provider.of<StatusService>(context);
+    final StatusService statusState = Provider.of<StatusService>(context);
     statusState.sortStatuses(statuses);
-    TaskService taskState = Provider.of<TaskService>(context);
+    final TaskService taskState = Provider.of<TaskService>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: statuses.map((status) {

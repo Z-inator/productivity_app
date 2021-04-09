@@ -14,7 +14,7 @@ class Project {
       this.projectClient});
 
   factory Project.fromFirestore(DocumentSnapshot snapshot) {
-    Map data = snapshot.data();
+    final Map data = snapshot.data();
     return Project(
       projectID: snapshot.id ?? '',
       projectName: data['projectName'] as String ?? '',

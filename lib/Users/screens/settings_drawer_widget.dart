@@ -7,10 +7,8 @@ class SettingsDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Expanded(
-              flex: 1,
               child: Stack(
                 children: <Widget>[
                   DrawerHeader(

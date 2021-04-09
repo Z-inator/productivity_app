@@ -8,7 +8,6 @@ class TaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 0,
       length: 2,
       child: Column(
         children: [

@@ -16,8 +16,8 @@ import 'package:provider/provider.dart';
 class TasksByProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Project> projects = Provider.of<List<Project>>(context);
-    List<Task> tasks = Provider.of<List<Task>>(context);
+    final List<Project> projects = Provider.of<List<Project>>(context);
+    final List<Task> tasks = Provider.of<List<Task>>(context);
     return projects == null || tasks == null
         ? Center(child: CircularProgressIndicator())
         : TaskByProjectBody(projects: projects, tasks: tasks);
@@ -36,8 +36,8 @@ class TaskByProjectBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskService state = Provider.of<TaskService>(context);
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    final TaskService state = Provider.of<TaskService>(context);
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
       children: projects.map((Project project) {

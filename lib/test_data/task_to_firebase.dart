@@ -58,7 +58,7 @@ class TaskToFirebase {
     {"taskName":"unleash dynamic e-commerce","status":"To Do","taskTime":46,"dueDate":"2021-03-26T12:21:02Z","createDate":"2020-10-11T23:18:34Z","projectName":"Skyble"}];
 
   Future<void> uploadExampleData() async {
-    for (Map<String, dynamic> map in taskData) {
+    for (final Map<String, dynamic> map in taskData) {
       TaskService()
           .addTask(
               taskName: map['taskName'].toString(),

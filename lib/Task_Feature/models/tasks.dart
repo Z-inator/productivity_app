@@ -24,7 +24,7 @@ class Task {
 
 
   factory Task.fromFirestore(DocumentSnapshot snapshot, Project project, Status status) {
-    Map data = snapshot.data();
+    final Map data = snapshot.data();
     return Task(
         taskID: snapshot.id ?? '',
         taskName: data['taskName'] as String ?? '',

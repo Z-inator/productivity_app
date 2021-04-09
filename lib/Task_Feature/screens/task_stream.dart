@@ -26,10 +26,9 @@ class TaskPageStream extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => TaskBodyState(),
         builder: (context, child) {
-          TaskBodyState state = Provider.of<TaskBodyState>(context);
+          final TaskBodyState state = Provider.of<TaskBodyState>(context);
           return Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 FilterButtonRow(),
                 Expanded(child: state.widget)

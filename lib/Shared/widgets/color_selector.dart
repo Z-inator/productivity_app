@@ -12,7 +12,7 @@ class ColorSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<int> colorList = AppColors().colorList;
+    final List<int> colorList = AppColors().colorList;
     return SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 20),
         scrollDirection: Axis.horizontal,

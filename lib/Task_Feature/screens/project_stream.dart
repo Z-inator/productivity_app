@@ -18,9 +18,9 @@ class ProjectStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Project> projects = Provider.of<List<Project>>(context) ?? [];
-    List<Task> tasks = Provider.of<List<Task>>(context);
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    final List<Project> projects = Provider.of<List<Project>>(context) ?? [];
+    final List<Task> tasks = Provider.of<List<Task>>(context);
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return projects == null
         ? Center(child: CircularProgressIndicator())
         : ListView(

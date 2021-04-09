@@ -57,7 +57,7 @@ class SubtaskService {
 
 class SubtaskStream extends StatelessWidget {
   final User user;
-  SubtaskStream({this.user});
+  const SubtaskStream({this.user});
 
   @override
   Widget build(BuildContext context) {

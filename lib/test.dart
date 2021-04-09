@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   double _prevAniValue = 0.0;
 
   // these will be our tab icons. You can use whatever you like for the content of your buttons
-  List _icons = [
+  final List _icons = [
     Icons.star,
     Icons.whatshot,
     Icons.call,
@@ -51,18 +51,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   // active button's foreground color
-  Color _foregroundOn = Colors.white;
-  Color _foregroundOff = Colors.black;
+  final Color _foregroundOn = Colors.white;
+  final Color _foregroundOff = Colors.black;
 
   // active button's background color
-  Color _backgroundOn = Colors.blue;
-  Color _backgroundOff = Colors.grey[300];
+  final Color _backgroundOn = Colors.blue;
+  final Color _backgroundOff = Colors.grey[300];
 
   // scroll controller for the TabBar
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   // this will save the keys for each Tab in the Tab Bar, so we can retrieve their position and size for the scroll controller
-  List _keys = [];
+  final List _keys = [];
 
   // regist if the the button was tapped
   bool _buttonTap = false;
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     for (int index = 0; index < _icons.length; index++) {
       // create a GlobalKey for each Tab
-      _keys.add(new GlobalKey());
+      _keys.add(GlobalKey());
     }
 
     // this creates the controller with 6 tabs (in our case)
@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               color: _getBackgroundColor(index),
                               // make the button a rectangle with round corners
                               shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(7.0)),
+                                  borderRadius: BorderRadius.circular(7.0)),
                               onPressed: () {
                                 setState(() {
                                   _buttonTap = true;
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     // scroll the calculated ammount
     _scrollController.animateTo(offset + _scrollController.offset,
-        duration: new Duration(milliseconds: 150), curve: Curves.easeInOut);
+        duration: Duration(milliseconds: 150), curve: Curves.easeInOut);
   }
 
   _getBackgroundColor(int index) {

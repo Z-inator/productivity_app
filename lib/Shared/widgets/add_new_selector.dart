@@ -14,7 +14,7 @@ class FancyFab extends StatefulWidget {
   final String tooltip;
   final IconData icon;
 
-  FancyFab({this.onPressed, this.tooltip, this.icon});
+  const FancyFab({this.onPressed, this.tooltip, this.icon});
 
   @override
   _FancyFabState createState() => _FancyFabState();
@@ -27,8 +27,8 @@ class _FancyFabState extends State<FancyFab>
   Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
-  Curve _curve = Curves.easeOut;
-  double _fabHeight = 48;
+  final Curve _curve = Curves.easeOut;
+  final double _fabHeight = 48;
 
   @override
   initState() {
@@ -47,7 +47,6 @@ class _FancyFabState extends State<FancyFab>
       curve: Interval(
         0.00,
         1.00,
-        curve: Curves.linear,
       ),
     ));
     _translateButton = Tween<double>(
@@ -84,9 +83,9 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         mini: true,
         tooltip: 'Start Timer',
-        child: Icon(Icons.timer_rounded, color: Theme.of(context).accentColor,),
         backgroundColor: Theme.of(context).cardColor,
         onPressed: null,
+        child: Icon(Icons.timer_rounded, color: Theme.of(context).accentColor,),
       ),
     );
   }
@@ -96,9 +95,9 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         mini: true,
         tooltip: 'Add Time Entry',
-        child: Icon(Icons.timelapse_rounded, color: Theme.of(context).accentColor,),
         backgroundColor: Theme.of(context).cardColor,
         onPressed: null,
+        child: Icon(Icons.timelapse_rounded, color: Theme.of(context).accentColor,),
       ),
     );
   }
@@ -108,9 +107,9 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         mini: true,
         tooltip: 'Add Task',
-        child: Icon(Icons.rule_rounded, color: Theme.of(context).accentColor,),
         backgroundColor: Theme.of(context).cardColor,
         onPressed: null,
+        child: Icon(Icons.rule_rounded, color: Theme.of(context).accentColor,),
       ),
     );
   }
@@ -120,9 +119,9 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         mini: true,
         tooltip: 'Add Project',
-        child: Icon(Icons.topic_rounded, color: Theme.of(context).accentColor,),
         backgroundColor: Theme.of(context).cardColor,
         onPressed: null,
+        child: Icon(Icons.topic_rounded, color: Theme.of(context).accentColor,),
       ),
     );
   }
@@ -132,9 +131,9 @@ class _FancyFabState extends State<FancyFab>
       child: FloatingActionButton(
         mini: true,
         tooltip: 'Add Goal',
-        child: Icon(Icons.bar_chart_rounded, color: Theme.of(context).accentColor,),
         backgroundColor: Theme.of(context).cardColor,
         onPressed: null,
+        child: Icon(Icons.bar_chart_rounded, color: Theme.of(context).accentColor,),
       ),
     );
   }
@@ -147,8 +146,8 @@ class _FancyFabState extends State<FancyFab>
           mini: true,
           backgroundColor: _buttonColor.value,
           tooltip: 'Toggle',
-          child: Icon(Icons.add_rounded),
           onPressed: animate,
+          child: Icon(Icons.add_rounded),
         ),
       ),
     );
@@ -360,8 +359,8 @@ class FabWithIconsState extends State<FabWithIcons>
   }
 
   Widget _buildChild(int index) {
-    Color backgroundColor = Theme.of(context).cardColor;
-    Color foregroundColor = Theme.of(context).accentColor;
+    final Color backgroundColor = Theme.of(context).cardColor;
+    final Color foregroundColor = Theme.of(context).accentColor;
     return Container(
       height: 70.0,
       width: 56.0,
@@ -375,8 +374,8 @@ class FabWithIconsState extends State<FabWithIcons>
         child: FloatingActionButton(
           backgroundColor: backgroundColor,
           mini: true,
-          child: Icon(widget.icons[index], color: foregroundColor),
           onPressed: () => _onTapped(index),
+          child: Icon(widget.icons[index], color: foregroundColor),
         ),
       ),
     );
@@ -410,7 +409,7 @@ class AnchoredOverlay extends StatelessWidget {
   final Widget Function(BuildContext, Offset anchor) overlayBuilder;
   final Widget child;
 
-  AnchoredOverlay({
+  const AnchoredOverlay({
     this.showOverlay,
     this.overlayBuilder,
     this.child,
@@ -424,7 +423,7 @@ class AnchoredOverlay extends StatelessWidget {
         return OverlayBuilder(
           showOverlay: showOverlay,
           overlayBuilder: (BuildContext overlayContext) {
-            RenderBox box = context.findRenderObject() as RenderBox;
+            final RenderBox box = context.findRenderObject() as RenderBox;
             final center =
                 box.size.center(box.localToGlobal(const Offset(0.0, 0.0)));
             return overlayBuilder(overlayContext, center);
@@ -441,7 +440,7 @@ class OverlayBuilder extends StatefulWidget {
   final Function(BuildContext) overlayBuilder;
   final Widget child;
 
-  OverlayBuilder({
+  const OverlayBuilder({
     this.showOverlay = false,
     this.overlayBuilder,
     this.child,
@@ -522,7 +521,7 @@ class CenterAbout extends StatelessWidget {
   final Offset position;
   final Widget child;
 
-  CenterAbout({
+  const CenterAbout({
     this.position,
     this.child,
   });

@@ -25,7 +25,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ProjectPage extends StatelessWidget {
   final Project project;
-  ProjectPage({this.project});
+  const ProjectPage({this.project});
 
   List<Task> filteredTasks(List<Task> tasks) {
     return tasks
@@ -108,8 +108,8 @@ class ProjectPage extends StatelessWidget {
           ]),
           floatingActionButton: FloatingActionButton(
             mini: true,
-            child: Icon(Icons.add_rounded),
             onPressed: () {},
+            child: Icon(Icons.add_rounded),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.miniCenterFloat,

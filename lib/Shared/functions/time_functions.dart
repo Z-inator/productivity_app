@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class TimeFunctions {
   String timeToText({int seconds}) {
-    String hourStr =
+    final String hourStr =
         ((seconds / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
-    String minutesStr =
+    final String minutesStr =
         ((seconds / 60) % 60).floor().toString().padLeft(2, '0');
-    String secondsStr = (seconds % 60).floor().toString().padLeft(2, '0');
+    final String secondsStr = (seconds % 60).floor().toString().padLeft(2, '0');
     return '$hourStr:$minutesStr:$secondsStr';
   }
 
@@ -15,9 +15,9 @@ class TimeFunctions {
   // }
 
   String timeToTextWithoutSeconds({int seconds}) {
-    String hourStr =
+    final String hourStr =
         ((seconds / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
-    String minutesStr =
+    final String minutesStr =
         ((seconds / 60) % 60).floor().toString().padLeft(2, '0');
     return '$hourStr:$minutesStr';
   }

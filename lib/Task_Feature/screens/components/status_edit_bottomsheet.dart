@@ -13,13 +13,13 @@ import 'package:provider/provider.dart';
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
-  StatusEditBottomSheet({Key key, this.status, this.isUpdate})
+  const StatusEditBottomSheet({Key key, this.status, this.isUpdate})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String statusName;
-    StatusEditState state = Provider.of<StatusEditState>(context);
+    final StatusEditState state = Provider.of<StatusEditState>(context);
     isUpdate ? state.updateStatus(status) : state.addStatus();
     return Container(
       margin: EdgeInsets.all(20),

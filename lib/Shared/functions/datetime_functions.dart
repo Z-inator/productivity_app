@@ -7,11 +7,11 @@ class DateTimeFunctions {
   }
 
   String dateToText({DateTime date}) {
-    String month = date.month.toString().padLeft(2, '0');
-    String day = date.day.toString().padLeft(2, '0');
-    String year = date.year.toString();
-    String hour = date.hour.toString().padLeft(2, '0');
-    String minute = date.minute.toString().padLeft(2, '0');
+    final String month = date.month.toString().padLeft(2, '0');
+    final String day = date.day.toString().padLeft(2, '0');
+    final String year = date.year.toString();
+    final String hour = date.hour.toString().padLeft(2, '0');
+    final String minute = date.minute.toString().padLeft(2, '0');
     return '$month/$day/$year - $hour:$minute';
   }
 

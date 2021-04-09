@@ -18,11 +18,11 @@ import 'package:provider/provider.dart';
 
 class GroupedTasks extends StatelessWidget {
   final List<Task> associatedTasks;
-  GroupedTasks({this.associatedTasks});
+  const GroupedTasks({this.associatedTasks});
 
   @override
   Widget build(BuildContext context) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return ListBody(
       children: associatedTasks.map((task) {
         return TaskExpansionTile(
