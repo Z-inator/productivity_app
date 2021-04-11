@@ -14,6 +14,7 @@ import 'package:productivity_app/Task_Feature/screens/components/status_picker.d
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
@@ -39,7 +40,6 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
     // if (task != null) {
     //   state.updateEntryTask(task);
     // }
-    print(state.newEntry.project.projectColor);
     return Container(
         margin: EdgeInsets.all(20),
         child: Form(
@@ -53,9 +53,9 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 return null;
               },
               decoration: InputDecoration(
-                  hintText: state.isUpdate
-                      ? state.newEntry.entryName
-                      : 'Enter Time Entry Name'),
+                  hintText: state.newEntry.entryName.isEmpty
+                      ? 'Enter Time Entry Name'
+                      : state.newEntry.entryName),
               textAlign: TextAlign.center,
               onChanged: (newText) {
                 state.updateEntryName(newText);
@@ -66,14 +66,12 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   Icons.circle,
-                  color: Color(state.newEntry.project != null
-                      ? state.newEntry.project.projectColor
-                      : 0x8A000000),
+                  color: Color(state.newEntry.project.projectColor),
                 ),
                 title: Text(
-                    state.newEntry.project != null
-                        ? state.newEntry.project.projectName
-                        : 'Add Project',
+                    state.newEntry.project.projectName.isEmpty
+                        ? 'Add Project'
+                        : state.newEntry.project.projectName,
                     style: Theme.of(context).textTheme.subtitle1),
                 trailing: Icon(Icons.arrow_drop_down_rounded,
                     color: Theme.of(context).unselectedWidgetColor),
@@ -84,19 +82,15 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
               children: [
                 Text('Date:    ', style: Theme.of(context).textTheme.subtitle1),
                 OutlinedButton.icon(
-                  onPressed: () => DateAndTimePickers().selectDate(
-                      context: context,
-                      initialDate: state.isUpdate
-                          ? state.newEntry.startTime
-                          : DateTime.now(),
-                      saveDate: state.updateDate),
-                  icon: Icon(Icons.today_rounded),
-                  label: Text(state.isUpdate
-                      ? DateTimeFunctions()
-                          .dateTimeToTextDate(date: state.newEntry.startTime)
-                      : DateTimeFunctions()
-                          .dateTimeToTextDate(date: DateTime.now())),
-                ),
+                    onPressed: () => DateAndTimePickers().selectDate(
+                        context: context,
+                        initialDate: state.isUpdate
+                            ? state.newEntry.startTime
+                            : DateTime.now(),
+                        saveDate: state.updateDate),
+                    icon: Icon(Icons.today_rounded),
+                    label: Text(DateTimeFunctions()
+                        .dateTimeToTextDate(date: state.newEntry.startTime))),
               ],
             ),
             Row(
@@ -108,9 +102,8 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                         context: context,
                         saveTimeRange: state.updateStartEndTime),
                     icon: Icon(Icons.timelapse_rounded),
-                    label: Text(state.isUpdate
-                        ? '${TimeOfDay.fromDateTime(state.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(state.newEntry.endTime).format(context)}'
-                        : '${TimeOfDay.now().format(context)} - ${TimeOfDay.now().format(context)}'))
+                    label: Text(
+                        '${TimeOfDay.fromDateTime(state.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(state.newEntry.endTime).format(context)}'))
               ],
             ),
             Container(
@@ -120,16 +113,12 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                   label: Text(state.isUpdate ? 'Update' : 'Add'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      // TimeService()
-                      //     .updateTime(timeEntryID: widget.task.taskID, updateData: {
-                      //   'taskName': newTask.taskName ?? widget.task.taskName,
-                      //   'projectName':
-                      //       newTask.projectName ?? widget.task.projectName,
-                      //   'status': newTask.status ?? widget.task.status,
-                      //   'dueDate': newTask.dueDate ?? widget.task.dueDate,
-                      //   'createDate': newTask.createDate ?? widget.task.createDate,
-                      //   'taskTime': newTask.taskTime ?? widget.task.taskTime
-                      // });
+                      state.isUpdate
+                          ? TimeService().updateTimeEntry(
+                              timeEntryID: entry.entryID,
+                              updateData: state.newEntry.toFirestore())
+                          : TimeService().addTimeEntry(
+                              addData: state.newEntry.toFirestore());
                       Navigator.pop(context);
                     }
                   },

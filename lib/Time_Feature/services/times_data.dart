@@ -106,32 +106,32 @@ class TimeService {
   }
 
   // Add Time Entry
-  Future<void> addTimeEntry({Map addData}) async {
+  Future<void> addTimeEntry({Map<String, dynamic> addData}) async {
     return _getTimeEntryReference()
         .add(Map<String, dynamic>.from(addData))
         .then((value) => print('Time Entry Added'))
         .catchError((error) => print('Failed to add time entry: $error'));
   }
 
-  Future<void> addTimeEntry2({String addToDate, Map addData}) async {
-    final DocumentSnapshot documentSnapshot =
-        await _getTimeEntryReference().doc(addToDate).get();
-    if (!documentSnapshot.exists) {
-      await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 1});
-    } else {
-      final dynamic newNumberOfEntries =
-          documentSnapshot.data()['numberOfEntries'] + 1;
-      await _getTimeEntryReference()
-          .doc(addToDate)
-          .set({'numberOfEntries': newNumberOfEntries});
-    }
-    return _getTimeEntryReference()
-        .doc(addToDate)
-        .collection('dayEntries')
-        .add(Map<String, dynamic>.from(addData))
-        .then((value) => print('Time Entry Added'))
-        .catchError((error) => print('Failed to add time entry: $error'));
-  }
+  // Future<void> addTimeEntry2({String addToDate, Map addData}) async {
+  //   final DocumentSnapshot documentSnapshot =
+  //       await _getTimeEntryReference().doc(addToDate).get();
+  //   if (!documentSnapshot.exists) {
+  //     await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 1});
+  //   } else {
+  //     final dynamic newNumberOfEntries =
+  //         documentSnapshot.data()['numberOfEntries'] + 1;
+  //     await _getTimeEntryReference()
+  //         .doc(addToDate)
+  //         .set({'numberOfEntries': newNumberOfEntries});
+  //   }
+  //   return _getTimeEntryReference()
+  //       .doc(addToDate)
+  //       .collection('dayEntries')
+  //       .add(Map<String, dynamic>.from(addData))
+  //       .then((value) => print('Time Entry Added'))
+  //       .catchError((error) => print('Failed to add time entry: $error'));
+  // }
 
   // Update Time Entry
   Future<void> updateTimeEntry({String timeEntryID, Map updateData}) async {

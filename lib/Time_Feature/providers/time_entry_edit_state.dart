@@ -5,15 +5,15 @@ import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class TimeEntryEditState with ChangeNotifier {
-  TimeEntry newEntry = TimeEntry();
+  TimeEntry newEntry;
   bool isUpdate;
   DateTime date;
 
   TimeEntryEditState({this.isUpdate});
 
-  // void addEntry() {
-  //   newEntry = TimeEntry();
-  // }
+  void addEntry() {
+    newEntry = TimeEntry();
+  }
 
   void updateEntry(TimeEntry entry) {
     newEntry = entry;
@@ -35,18 +35,10 @@ class TimeEntryEditState with ChangeNotifier {
   // }
 
   void updateDate(DateTime date) {
-    newEntry.startTime = DateTime(
-        date.year, 
-        date.month, 
-        date.day,
-        newEntry.startTime.hour, 
-        newEntry.startTime.minute);
-    newEntry.endTime = DateTime(
-        date.year, 
-        date.month, 
-        date.day,
-        newEntry.endTime.hour, 
-        newEntry.endTime.minute);
+    newEntry.startTime = DateTime(date.year, date.month, date.day,
+        newEntry.startTime.hour, newEntry.startTime.minute);
+    newEntry.endTime = DateTime(date.year, date.month, date.day,
+        newEntry.endTime.hour, newEntry.endTime.minute);
   }
 
   void updateStartEndTime(TimeRangeValue timeRangeValue) {

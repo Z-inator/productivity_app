@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Shared/widgets/project_picker.dart';
-import 'package:productivity_app/Shared/widgets/time_range_picker.dart';
+import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
@@ -19,7 +19,6 @@ class TaskEditBottomSheet extends StatelessWidget {
   final Task task;
   final Project project;
   final Status status;
-  // final bool isUpdate;
 
   const TaskEditBottomSheet(
       {Key key, this.task, this.project, this.status, })
@@ -40,7 +39,7 @@ class TaskEditBottomSheet extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           TextField(
             decoration: InputDecoration(
-                hintText: state.isUpdate ? state.newTask.taskName : 'Enter Task Name'),
+                hintText: state.newTask.taskName.isEmpty ? 'Enter Task Name' : state.newTask.taskName),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               state.updateTaskName(newText);
@@ -52,10 +51,12 @@ class TaskEditBottomSheet extends StatelessWidget {
               leading: Icon(
                 Icons.circle,
                 color: Color(
-                    state.newTask.project.projectColor ?? 0x8A000000),
+                    state.newTask.project.projectColor),
               ),
               title: Text(
-                  state.newTask.project.projectName ?? 'Add Project',
+                  state.newTask.project.projectName.isEmpty 
+                      ? 'Add Project' 
+                      : state.newTask.project.projectName,
                   style: Theme.of(context).textTheme.subtitle1),
               trailing: Icon(Icons.arrow_drop_down_rounded,
                   color: Theme.of(context).unselectedWidgetColor),
@@ -89,28 +90,16 @@ class TaskEditBottomSheet extends StatelessWidget {
               ),
             ],
           ),
-          // ListTile(
-          //   title: Text(
-          //     'Recorded Time: ${TimeFunctions().timeToText(seconds: Provider.of<TaskService>(context).getRecordedTime(context, task))}',
-          //     style: Theme.of(context).textTheme.subtitle1),
-          //   trailing: RangeTimePicker(),
-          // ),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ElevatedButton.icon(
                 icon: Icon(Icons.check_circle_outline_rounded),
                 label: Text(state.isUpdate ? 'Update' : 'Add'),
                 onPressed: () {
-                  // TaskService()
-                  //     .updateTask(taskID: widget.task.taskID, updateData: {
-                  //   'taskName': newTask.taskName ?? widget.task.taskName,
-                  //   'projectName':
-                  //       newTask.projectName ?? widget.task.projectName,
-                  //   'status': newTask.status ?? widget.task.status,
-                  //   'dueDate': newTask.dueDate ?? widget.task.dueDate,
-                  //   'createDate': newTask.createDate ?? widget.task.createDate,
-                  //   'taskTime': newTask.taskTime ?? widget.task.taskTime
-                  // });
+                  state.isUpdate
+                      ? TaskService()
+                          .updateTask(taskID: task.taskID, updateData: state.newTask.toFirestore())
+                      : TaskService().addTask(addData: state.newTask.toFirestore());
                   Navigator.pop(context);
                 },
               ))

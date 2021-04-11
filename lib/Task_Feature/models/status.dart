@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Status {
-  String statusID = '';
-  String statusName = '';
-  int statusColor = 4285887861;
-  int statusOrder = 0;
+  String statusID;
+  String statusName;
+  int statusColor;
+  int statusOrder;
 
-  Status({this.statusID, this.statusName, this.statusColor, this.statusOrder});
+  Status({statusID, statusName, statusColor, statusOrder})
+      : statusID = statusID as String ?? '',
+        statusName = statusName as String ?? '',
+        statusColor = statusColor as int ?? 4285887861,
+        statusOrder = statusOrder as int ?? 0;
 
   factory Status.fromFirestore(DocumentSnapshot snapshot) {
     final Map data = snapshot.data();

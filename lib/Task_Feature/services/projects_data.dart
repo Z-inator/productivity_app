@@ -50,15 +50,9 @@ class ProjectService {
   }
 
   // Add Project
-  Future<void> addProject(
-      {String projectName, int projectColor, int projectTime = 0}) async {
+  Future<void> addProject({Map<String, dynamic> addData}) async {
     return _getProjectReference()
-        .add({
-          'projectName': projectName,
-          'projectColor': projectColor,
-          'projectTime': projectTime,
-          'taskList': {}
-        })
+        .add(Map<String, dynamic>.from(addData))
         .then((value) => print('Project Added'))
         .catchError((error) => print('Failed to add project: $error'));
   }

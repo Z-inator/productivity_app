@@ -128,32 +128,32 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        ElevatedButton(
-            onPressed: () {
-              TaskToFirebase().uploadExampleData();
-            },
-            child: Text('Add task data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       TaskToFirebase().uploadExampleData();
+        //     },
+        //     child: Text('Add task data')),
         // ElevatedButton(
         //     onPressed: () {
         //       TimeService().addTimeEntry2(
         //           addToDate: '03-20-2021', addData: {'testing': 'testing'});
         //     },
         //     child: Text('Add time entry')),
-        ElevatedButton(
-            onPressed: () {
-              ProjectToFirebase(user: user).uploadExampleData();
-            },
-            child: Text('Add project data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       ProjectToFirebase(user: user).uploadExampleData();
+        //     },
+        //     child: Text('Add project data')),
         // ElevatedButton(
         //     onPressed: () {
         //       ProjectToFirebase(user: user).updateProjectData();
         //     },
         //     child: Text('Update project data')),
-        ElevatedButton(
-            onPressed: () {
-              TimeToFirebase().uploadExampleData();
-            },
-            child: Text('Add time data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       TimeToFirebase().uploadExampleData();
+        //     },
+        //     child: Text('Add time data')),
         ElevatedButton(
             onPressed: () {
               final List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];

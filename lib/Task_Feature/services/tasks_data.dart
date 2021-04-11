@@ -86,22 +86,11 @@ class TaskService {
   }
 
   // Add Task
-  Future<DocumentReference> addTask(
-      {String taskName,
-      String status = 'To Do',
-      int taskTime = 0,
-      DateTime dueDate,
-      String projectName,
-      DateTime createDate}) async {
-    return _getTaskReference().add({
-      'taskName': taskName,
-      'status': status,
-      'taskTime': taskTime,
-      'dueDate': dueDate,
-      'projectName': projectName,
-      'createDate': createDate
-    }).catchError((error) => print('Failed to add task: $error'));
-    // .then((value) => print('Task Added'))   // TODO: look at returning the added document reference to insert as key into project update method's task
+  Future<void> addTask({Map<String, dynamic> addData}) async {
+    return _getTaskReference()
+        .add(Map<String, dynamic>.from(addData))
+        .then((value) => print('Task Added'))
+        .catchError((error) => print('Failed to add task: $error'));
   }
 
   // Update Task

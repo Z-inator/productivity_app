@@ -28,13 +28,13 @@ class TaskEditState with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTaskProject(Project projectName) {
-    newTask.project = projectName;
+  void updateTaskProject(Project project) {
+    newTask.project = project;
     notifyListeners();
   }
 
-  void updateTaskStatus(Status taskStatus) {
-    newTask.status = taskStatus;
+  void updateTaskStatus(Status status) {
+    newTask.status = status;
     notifyListeners();
   }
 

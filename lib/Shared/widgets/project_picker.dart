@@ -7,7 +7,7 @@ class ProjectPicker extends StatelessWidget {
   const ProjectPicker({Key key, this.saveProject, this.child})
       : super(key: key);
 
-  final Function(Project) saveProject;
+  final void Function(Project) saveProject;
   final Widget child;
 
   @override

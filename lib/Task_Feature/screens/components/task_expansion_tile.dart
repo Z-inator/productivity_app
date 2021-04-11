@@ -29,6 +29,7 @@ class TaskExpansionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final TaskService state = Provider.of<TaskService>(context);
     return ExpansionTile(
+      
       leading: IconButton(
         icon: Icon(Icons.play_arrow_rounded),
         color: Colors.green,
@@ -82,8 +83,9 @@ class TaskExpansionTile extends StatelessWidget {
           trailing: IconButton(icon: Icon(Icons.timelapse_rounded), onPressed: () => DateAndTimePickers().buildTimeRangePicker())
         ),
         ListTile(
-          title: Text(
-              'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+          title: Text(task.dueDate.year == 0
+              ? 'Due: '
+              : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
               style: Theme.of(context).textTheme.subtitle1),
           trailing: task.dueDate.isBefore(DateTime.now())
               ? IconButton(
