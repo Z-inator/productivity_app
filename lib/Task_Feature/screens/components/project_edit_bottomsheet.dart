@@ -11,13 +11,14 @@ import 'package:provider/provider.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
   final Project project;
-  // final bool isUpdate;
   const ProjectEditBottomSheet({this.project});
 
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<ProjectEditState>(context);
-    state.isUpdate ? state.updateProject(project) : state.addProject();
+    if (project != null) {
+      state.updateProject(project);
+    }
     return Container(
       margin: EdgeInsets.all(20),
       child: Column(
@@ -25,7 +26,9 @@ class ProjectEditBottomSheet extends StatelessWidget {
         children: [
           TextField(
             decoration: InputDecoration(
-              hintText: state.newProject.projectName ?? 'Project Name'),
+              hintText: state.newProject.projectName.isEmpty 
+                  ? 'Project Name' 
+                  : state.newProject.projectName),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               state.updateProjectName(newText);
@@ -35,7 +38,9 @@ class ProjectEditBottomSheet extends StatelessWidget {
           ),
           TextField(
             decoration: InputDecoration(
-                hintText: state.newProject.projectClient ?? 'Client Name'),
+                hintText: state.newProject.projectClient.isEmpty 
+                  ? 'Client Name' 
+                  : state.newProject.projectClient),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               state.updateProjectClient(newText);

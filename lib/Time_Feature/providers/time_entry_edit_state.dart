@@ -9,11 +9,7 @@ class TimeEntryEditState with ChangeNotifier {
   bool isUpdate;
   DateTime date;
 
-  TimeEntryEditState({this.isUpdate});
-
-  void addEntry() {
-    newEntry = TimeEntry();
-  }
+  TimeEntryEditState({this.isUpdate}) : newEntry = TimeEntry();
 
   void updateEntry(TimeEntry entry) {
     newEntry = entry;

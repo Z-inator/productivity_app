@@ -9,15 +9,7 @@ class TaskEditState with ChangeNotifier {
   Task newTask;
   bool isUpdate;
 
-  TaskEditState({this.isUpdate});
-
-  void addTask() {
-    newTask = Task();
-  }
-
-  void addTaskCreateDate(DateTime createDate) {
-    newTask.createDate = createDate;
-  }
+  TaskEditState({this.isUpdate}) : newTask = Task();
 
   void updateTask(Task task) {
     newTask = task;
@@ -30,6 +22,7 @@ class TaskEditState with ChangeNotifier {
 
   void updateTaskProject(Project project) {
     newTask.project = project;
+    print(newTask.project.projectName);
     notifyListeners();
   }
 
@@ -67,4 +60,8 @@ class TaskEditState with ChangeNotifier {
   //   TimeService timeService = Provider.of<TimeService>(context);
   //   notifyListeners();
   // }
+  
+  void addTaskCreateDate(DateTime createDate) {
+    newTask.createDate = createDate;
+  }
 }

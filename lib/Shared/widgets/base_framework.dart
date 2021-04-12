@@ -233,9 +233,7 @@ class BaseFramework extends StatelessWidget {
             builder: (BuildContext context) {
               return ChangeNotifierProvider(
                   create: (context) => TaskEditState(isUpdate: false),
-                  child: TaskEditBottomSheet(
-                    // isUpdate: false,
-                  ));
+                  child: TaskEditBottomSheet());
             }),
         ),
         SpeedDialChild(

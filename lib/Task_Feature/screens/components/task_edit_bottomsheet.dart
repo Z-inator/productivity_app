@@ -20,14 +20,19 @@ class TaskEditBottomSheet extends StatelessWidget {
   final Project project;
   final Status status;
 
-  const TaskEditBottomSheet(
-      {Key key, this.task, this.project, this.status, })
-      : super(key: key);
+  const TaskEditBottomSheet({
+    Key key,
+    this.task,
+    this.project,
+    this.status,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TaskEditState state = Provider.of<TaskEditState>(context);
-    state.isUpdate ? state.updateTask(task) : state.addTask();
+    if (task != null) {
+      state.updateTask(task);
+    }
     if (project != null) {
       state.updateTaskProject(project);
     }
@@ -39,23 +44,24 @@ class TaskEditBottomSheet extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           TextField(
             decoration: InputDecoration(
-                hintText: state.newTask.taskName.isEmpty ? 'Enter Task Name' : state.newTask.taskName),
+                hintText: state.newTask.taskName.isEmpty
+                    ? 'Enter Task Name'
+                    : state.newTask.taskName),
             textAlign: TextAlign.center,
             onChanged: (newText) {
               state.updateTaskName(newText);
             },
           ),
           ProjectPicker(
-            saveProject: state.updateTaskProject, 
+            saveProject: state.updateTaskProject,
             child: ListTile(
               leading: Icon(
                 Icons.circle,
-                color: Color(
-                    state.newTask.project.projectColor),
+                color: Color(state.newTask.project.projectColor),
               ),
               title: Text(
-                  state.newTask.project.projectName.isEmpty 
-                      ? 'Add Project' 
+                  state.newTask.project.projectName.isEmpty
+                      ? 'Add Project'
                       : state.newTask.project.projectName,
                   style: Theme.of(context).textTheme.subtitle1),
               trailing: Icon(Icons.arrow_drop_down_rounded,
@@ -69,23 +75,29 @@ class TaskEditBottomSheet extends StatelessWidget {
               Text('Due: ', style: Theme.of(context).textTheme.subtitle1),
               OutlinedButton.icon(
                 onPressed: () => DateAndTimePickers().selectDate(
-                  context: context, 
-                  initialDate: state.newTask.dueDate.year != 0
-                      ? state.newTask.dueDate 
-                      : DateTime.now(), 
-                  saveDate: state.updateTaskDueDate
-                ),
+                    context: context,
+                    initialDate: state.newTask.dueDate.year != 0
+                        ? state.newTask.dueDate
+                        : DateTime.now(),
+                    saveDate: state.updateTaskDueDate),
                 icon: Icon(Icons.today_rounded),
                 label: Text(state.newTask.dueDate.year != 0
-                    ? DateTimeFunctions().dateTimeToTextDate(date: state.newTask.dueDate)
+                    ? DateTimeFunctions()
+                        .dateTimeToTextDate(date: state.newTask.dueDate)
                     : 'Add Due Date'),
               ),
               OutlinedButton.icon(
-                onPressed: () => DateAndTimePickers().selectTime(context: context, initialTime: state.isUpdate ? TimeOfDay.fromDateTime(state.newTask.dueDate) : TimeOfDay.now(), saveTime: state.updateTaskDueTime),
+                onPressed: () => DateAndTimePickers().selectTime(
+                    context: context,
+                    initialTime: state.isUpdate
+                        ? TimeOfDay.fromDateTime(state.newTask.dueDate)
+                        : TimeOfDay.now(),
+                    saveTime: state.updateTaskDueTime),
                 icon: Icon(Icons.alarm_rounded),
-                label: Text(state.newTask.dueDate.hour != 0   // TODO: change to where you can set dueDate to midnight
-                    ? DateTimeFunctions()
-                        .dateTimeToTextTime(date: state.newTask.dueDate, context: context)
+                label: Text(state.newTask.dueDate.hour !=
+                        0 // TODO: change to where you can set dueDate to midnight
+                    ? DateTimeFunctions().dateTimeToTextTime(
+                        date: state.newTask.dueDate, context: context)
                     : 'Add Due Time'),
               ),
             ],
@@ -97,9 +109,11 @@ class TaskEditBottomSheet extends StatelessWidget {
                 label: Text(state.isUpdate ? 'Update' : 'Add'),
                 onPressed: () {
                   state.isUpdate
-                      ? TaskService()
-                          .updateTask(taskID: task.taskID, updateData: state.newTask.toFirestore())
-                      : TaskService().addTask(addData: state.newTask.toFirestore());
+                      ? TaskService().updateTask(
+                          taskID: task.taskID,
+                          updateData: state.newTask.toFirestore())
+                      : TaskService()
+                          .addTask(addData: state.newTask.toFirestore());
                   Navigator.pop(context);
                 },
               ))

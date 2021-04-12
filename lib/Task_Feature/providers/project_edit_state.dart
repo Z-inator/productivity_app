@@ -5,11 +5,7 @@ class ProjectEditState with ChangeNotifier {
   Project newProject;
   bool isUpdate;
 
-  ProjectEditState({this.isUpdate});
-
-  void addProject() {
-    newProject = Project();
-  }
+  ProjectEditState({this.isUpdate}) : newProject = Project();
 
   void updateProject(Project project) {
     newProject = project;
