@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/home_page_dashboard.dart';
 import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
+import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
@@ -59,23 +60,7 @@ class ProjectPage extends StatelessWidget {
             actions: [
               IconButton(
                   icon: Icon(Icons.edit_rounded, color: Theme.of(context).unselectedWidgetColor,),
-                  onPressed: () => showModalBottomSheet(
-                      context: context,
-                      isScrollControlled:
-                          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              topRight: Radius.circular(25))),
-                      builder: (BuildContext context) {
-                        return ChangeNotifierProvider(
-                          create: (context) => ProjectEditState(isUpdate: true),
-                          child: ProjectEditBottomSheet(
-                            project: project,
-                            // isUpdate: true,
-                          ),
-                        );
-                      })),
+                  onPressed: () => EditBottomSheet().buildProjectEditBottomSheet(context: context, project: project, isUpdate: true)),
             ],
             bottom: TabBar(
                 unselectedLabelColor: Theme.of(context).unselectedWidgetColor,

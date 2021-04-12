@@ -10,31 +10,87 @@ import 'package:productivity_app/Task_Feature/screens/components/project_edit_bo
 import 'package:productivity_app/Task_Feature/screens/components/status_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
 
-// class EditBottomSheet {
-// final inputObject;
-// final ChangeNotifier editState;
-// final Widget bottomSheet;
-// final bool isUpdate;
+class EditBottomSheet {
+  Future<dynamic> buildTaskEditBottomSheet(
+      {BuildContext context,
+      bool isUpdate,
+      Task task,
+      Project project,
+      Status status}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled:
+            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        builder: (BuildContext context) {
+          return ChangeNotifierProvider(
+              create: (context) => TaskEditState(isUpdate: isUpdate),
+              builder: (context, child) {
+                return TaskEditBottomSheet(
+                    task: task, project: project, status: status);
+              });
+        });
+  }
 
-// EditBottomSheet(
-//     {this.inputObject, this.editState, this.bottomSheet, this.isUpdate});
+  Future<dynamic> buildProjectEditBottomSheet(
+      {BuildContext context, bool isUpdate, Project project}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled:
+            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        builder: (BuildContext context) {
+          return ChangeNotifierProvider(
+              create: (context) => ProjectEditState(isUpdate: isUpdate),
+              child: ProjectEditBottomSheet(project: project));
+        });
+  }
 
-Future<dynamic> buildShowModalBottomSheet(
-    {BuildContext context, ChangeNotifier editState, Widget bottomSheet}) {
-  return showModalBottomSheet(
-      context: context,
-      isScrollControlled:
-          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25), topRight: Radius.circular(25))),
-      builder: (BuildContext context) {
-        return ChangeNotifierProvider(
-            create: (context) => editState,
-            builder: (context, child) {
-              return bottomSheet;
-            });
-      });
+  Future<dynamic> buildTimeEntryEditBottomSheet(
+      {BuildContext context,
+      bool isUpdate,
+      TimeEntry entry,
+      Project project,
+      Task task}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled:
+            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        builder: (BuildContext context) {
+          return ChangeNotifierProvider(
+              create: (context) => TimeEntryEditState(isUpdate: isUpdate),
+              child: TimeEntryEditBottomSheet(
+                  entry: entry, project: project, task: task));
+        });
+  }
+
+  Future<dynamic> buildStatusEditBottomSheet(
+      {BuildContext context, bool isUpdate, Status status}) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled:
+            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        builder: (BuildContext context) {
+          return ChangeNotifierProvider(
+              create: (context) => StatusEditState(),
+              child: StatusEditBottomSheet(
+                status: status,
+                isUpdate: isUpdate,
+              ));
+        });
+  }
 }

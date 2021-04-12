@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
+import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
@@ -103,19 +104,8 @@ class TaskExpansionTile extends StatelessWidget {
               OutlinedButton.icon(
                   icon: Icon(Icons.edit_rounded),
                   label: Text('Edit Task'),
-                  onPressed: () => showModalBottomSheet(
-                      context: context,
-                      isScrollControlled:
-                          true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              topRight: Radius.circular(25))),
-                      builder: (BuildContext context) {
-                        return ChangeNotifierProvider(
-                            create: (context) => TaskEditState(isUpdate: true),
-                            child: TaskEditBottomSheet(task: task));
-                      })),
+                  onPressed: () => EditBottomSheet().buildTaskEditBottomSheet(context: context, isUpdate: true, task: task)
+              ),
               ElevatedButton.icon(
                 icon: Icon(Icons.open_with_rounded),
                 label: Text('Project Page'),

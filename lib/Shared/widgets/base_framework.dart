@@ -1,6 +1,7 @@
 // import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/widgets/add_new_selector.dart';
+import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 // import 'package:productivity_app/Shared/widgets/flutter_speed_dial/src/speed_dial.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
@@ -129,7 +130,7 @@ class BaseFramework extends StatelessWidget {
                           //   width: 36,
                           //   child: buildSpeedDial(context),
                           // ),
-                          buildSpeedDial(context),
+                          AddSpeedDial(),
                           // ElevatedButton(
                           //   style: ElevatedButton.styleFrom(shape: CircleBorder(), primary: Colors.red),
                           //   child: Icon(Icons.add_rounded),
@@ -166,117 +167,7 @@ class BaseFramework extends StatelessWidget {
     );
   }
 
-  SpeedDial buildSpeedDial(BuildContext context) {
-    return SpeedDial(
-      icon: Icons.add_rounded,
-      iconTheme: IconThemeData(size: 40),
-      activeIcon: Icons.close_rounded,
-      renderOverlay: false,
-      curve: Curves.bounceIn,
-      tooltip: 'Add Menu',
-      buttonSize: 40,
-      childrenButtonSize: 40,
-      backgroundColor: Theme.of(context).accentColor,
-      foregroundColor: Theme.of(context).primaryColor,
-      elevation: 0,
-      shape: CircleBorder(),
-      children: [
-        SpeedDialChild(
-          child: Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
-          backgroundColor: Theme.of(context).cardColor,
-          onTap: () => showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                  create: (context) => TaskEditState(isUpdate: false),
-                  child: TaskEditBottomSheet(
-                    // isUpdate: false,
-                  ));
-            }),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.timelapse_rounded, color: Theme.of(context).accentColor),
-          backgroundColor: Theme.of(context).cardColor,
-          onTap: () => showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                  create: (context) => TimeEntryEditState(isUpdate: false),
-                  child: TimeEntryEditBottomSheet(
-                    // isUpdate: false,
-                  ));
-            }),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),
-          backgroundColor: Theme.of(context).cardColor,
-          onTap: () => showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                  create: (context) => TaskEditState(isUpdate: false),
-                  child: TaskEditBottomSheet());
-            }),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.topic_rounded, color: Theme.of(context).accentColor),
-          backgroundColor: Theme.of(context).cardColor,
-          onTap: () => showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                  create: (context) => ProjectEditState(isUpdate: false),
-                  child: ProjectEditBottomSheet(
-                    // isUpdate: false,
-                  ));
-            }),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.bar_chart_rounded, color: Theme.of(context).accentColor),
-          backgroundColor: Theme.of(context).cardColor,
-          onTap: () => showModalBottomSheet(
-            context: context,
-            isScrollControlled:
-                true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25))),
-            builder: (BuildContext context) {
-              return ChangeNotifierProvider(
-                  create: (context) => TaskEditState(isUpdate: false),
-                  child: TaskEditBottomSheet(
-                    // isUpdate: false,
-                  ));
-            }),
-        )
-      ],
-    );
-  }
+  
 
   // Widget _buildFab(BuildContext context) {
   //   final icons = [

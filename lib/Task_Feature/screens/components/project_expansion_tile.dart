@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
+import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
@@ -70,44 +71,8 @@ class ProjectExpansionTile extends StatelessWidget {
                 OutlinedButton.icon(
                     icon: Icon(Icons.edit_rounded),
                     label: Text('Edit Project'),
-                    onPressed: () => showModalBottomSheet(
-                        context: context,
-                        isScrollControlled:
-                            true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25),
-                                topRight: Radius.circular(25))),
-                        builder: (BuildContext context) {
-                          return ChangeNotifierProvider(
-                            create: (context) => ProjectEditState(isUpdate: true),
-                            child: ProjectEditBottomSheet(
-                              project: project,
-                              // isUpdate: true,
-                            ),
-                          );
-                        })),
-                // ElevatedButton.icon(
-                //   icon: Icon(Icons.edit_rounded),
-                //   label: Text('Edit Project'),
-                //   onPressed: () => showModalBottomSheet(
-                //       context: context,
-                //       isScrollControlled:
-                //           true, // Allows the modal to me dynamic and keeps the menu above the keyboard
-                //       shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.only(
-                //               topLeft: Radius.circular(25),
-                //               topRight: Radius.circular(25))),
-                //       builder: (BuildContext context) {
-                //         return ChangeNotifierProvider(
-                //           create: (context) => ProjectEditState(),
-                //           child: ProjectEditBottomSheet(
-                //             project: project,
-                //             isUpdate: true,
-                //           ),
-                //         );
-                //       })
-                // ),
+                    onPressed: () => EditBottomSheet().buildProjectEditBottomSheet(context: context, project: project, isUpdate: true)
+                ),
                 ElevatedButton.icon(
                   icon: Icon(Icons.open_with_rounded),
                   label: Text('Project Page'),
