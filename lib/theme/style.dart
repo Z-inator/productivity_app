@@ -28,7 +28,7 @@ ThemeData appTheme() {
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))),
-          elevation: 5,
+          elevation: 4,
     ),
 
     outlinedButtonTheme: OutlinedButtonThemeData(

@@ -59,20 +59,8 @@ class BottomNavigationBar extends StatelessWidget {
       right: 0,
       child: Container(
         margin: EdgeInsets.fromLTRB(40, 0, 40, 20),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: Offset(0, 5),
-              )
-            ]),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          child: BottomAppBar(
-            color: Colors.white,
+        child: Card(
+            elevation: 12,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -129,7 +117,7 @@ class BottomNavigationBar extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      // ),
     );
   }
 

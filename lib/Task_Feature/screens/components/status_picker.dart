@@ -39,10 +39,10 @@ class StatusPicker extends StatelessWidget {
 }
 
 class StatusPickerDropDown extends StatelessWidget {
-  final Function(Status) saveStatus;
+
   final Task task;
 
-  const StatusPickerDropDown({Key key, this.saveStatus, this.task})
+  const StatusPickerDropDown({Key key, this.task})
       : super(key: key);
 
   @override

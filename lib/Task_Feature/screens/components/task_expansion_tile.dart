@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -25,115 +26,96 @@ import 'package:provider/provider.dart';
 class TaskExpansionTile extends StatelessWidget {
   final Task task;
   final List<TimeEntry> timeEntries;
-  const TaskExpansionTile({Key key, this.task, this.timeEntries})
-      : super(key: key);
+  const TaskExpansionTile({Key key, this.task, this.timeEntries});
 
   @override
   Widget build(BuildContext context) {
     final TaskService state = Provider.of<TaskService>(context);
-    final TaskBodyState pageState = Provider.of<TaskBodyState>(context);
+    
     return ExpansionTile(
-      leading: Text(
-        pageState.widget == TasksByStatus() 
-            ? task.project.projectName
-            : , 
-        style: TextStyle(color: Color(task.project.projectColor)), : '')
-      IconButton(
-        icon: Icon(Icons.play_arrow_rounded),
-        color: Colors.green,
-        onPressed: () {},
-      ),
-      title: Text(
-        task.taskName,
-      ),
+      leading: Icon(Icons.circle, color: Color(task.status.statusColor)),
+      title: Text(task.taskName),
+      subtitle: Text(task.project.projectName, style: TextStyle(color: Color(task.project.projectColor))),
       children: [
-        ListTile(
-          title: RichText(
-              text: TextSpan(
-                  text: 'Project: ',
-                  style: Theme.of(context).textTheme.subtitle1,
-                  children: <TextSpan>[
-                TextSpan(
-                    text: task.project.projectName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Color(task.project.projectColor)))
-              ])),
-        ),
-        ListTile(
-            title: RichText(
-                text: TextSpan(
-                    text: 'Status: ',
-                    style: Theme.of(context).textTheme.subtitle1,
-                    children: <TextSpan>[
-                  TextSpan(
-                      text: task.status.statusName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .copyWith(color: Color(task.status.statusColor)))
-                ])),
-            trailing: StatusPickerDropDown(task: task)),
-        ListTile(
-          title:
-              Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
-          trailing: IconButton(
-            icon: Icon(Icons.add_rounded),
-            tooltip: 'Add Subtask',
-            onPressed: () {},
-          ),
-        ),
-        ListTile(
-            title: Text(
+        ExpansionTile(
+          childrenPadding: EdgeInsets.symmetric(horizontal: 20),
+          title: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.play_arrow_rounded),
+                  tooltip: 'Start Timer',
+                  color: Colors.green,
+                  onPressed: () {},
+                ),
+                IconButton(
+                    icon: Icon(Icons.timelapse_rounded),
+                    tooltip: 'Add Time Entry',
+                    onPressed: () =>
+                        DateAndTimePickers().buildTimeRangePicker()),
+                // IconButton(
+                //   icon: Icon(Icons.add_rounded),
+                //   tooltip: 'Add Subtask',
+                //   onPressed: () {},
+                // ),
+                IconButton(
+                  icon: Icon(Icons.alarm_rounded),
+                  tooltip: 'Edit Due Date',
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit_rounded),
+                  tooltip: 'Edit Task',
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                      context: context,
+                      bottomSheet: TaskEditBottomSheet(task: task)),
+                ),
+                StatusPickerDropDown()
+              ]),
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                    text: TextSpan(
+                        text: 'Project: ',
+                        style: Theme.of(context).textTheme.subtitle1,
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: task.project.projectName,
+                          style: Theme.of(context).textTheme.subtitle1.copyWith(
+                              color: Color(task.project.projectColor)))
+                    ])),
+                RichText(
+                    text: TextSpan(
+                        text: 'Status: ',
+                        style: Theme.of(context).textTheme.subtitle1,
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: task.status.statusName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(color: Color(task.status.statusColor)))
+                    ])),
+              ],
+            ),
+            Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
+            Text(
                 'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, task))}',
                 style: Theme.of(context).textTheme.subtitle1),
-            trailing: IconButton(
-                icon: Icon(Icons.timelapse_rounded),
-                onPressed: () => DateAndTimePickers().buildTimeRangePicker())),
-        ListTile(
-          title: Text(
-              task.dueDate.year == 0
-                  ? 'Due: '
-                  : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
-              style: Theme.of(context).textTheme.subtitle1),
-          trailing: task.dueDate.isBefore(DateTime.now())
-              ? IconButton(
-                  icon: Icon(Icons.notifications_active_rounded,
-                      color: Colors.red),
-                  onPressed: () {},
-                )
-              : null,
-        ),
-        Container(
-          margin: EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              OutlinedButton.icon(
-                  icon: Icon(Icons.edit_rounded),
-                  label: Text('Edit Task'),
-                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context, 
-                  bottomSheet: TaskEditBottomSheet(isUpdate: true, task: task))),
-              ElevatedButton.icon(
-                icon: Icon(Icons.open_with_rounded),
-                label: Text('Project Page'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return ProjectPage(project: task.project);
-                    }),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        Text(
-            'Create Date: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
-            style: Theme.of(context).textTheme.caption),
+            Text(
+                task.dueDate.year == 0
+                    ? 'Due: '
+                    : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                style: Theme.of(context).textTheme.subtitle1),
+            Text(
+                'Create Date: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
+                style: Theme.of(context).textTheme.caption),
+          ],
+        )
       ],
     );
   }
