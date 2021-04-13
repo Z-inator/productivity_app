@@ -59,9 +59,10 @@ class StatusExpansionTile extends StatelessWidget {
                 trailing: IconButton(
                     icon: Icon(Icons.edit_rounded),
                     tooltip: 'Edit Status',
-                    onPressed: () => EditBottomSheet().buildStatusEditBottomSheet(context: context, isUpdate: true, status: status),
+                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context, 
+                  bottomSheet: StatusEditBottomSheet(isUpdate: true, status: status))),
                 )
-              ),
             ]));
   }
 }

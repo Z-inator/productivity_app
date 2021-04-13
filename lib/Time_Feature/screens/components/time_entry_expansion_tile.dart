@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
+import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 
 class TimeEntryExpansionTile extends StatelessWidget {
   final TimeEntry entry;
@@ -10,7 +12,6 @@ class TimeEntryExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(entry.entryName);
     return ExpansionTile(
       leading: IconButton(
           icon: Icon(Icons.play_arrow_rounded),
@@ -23,18 +24,21 @@ class TimeEntryExpansionTile extends StatelessWidget {
       children: [
         Container(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text('Time: '),
+              Text('Time:     '),
               Text(DateTimeFunctions()
                   .dateTimeToTextTime(date: entry.startTime, context: context)),
+              Text(' - '),
               Text(DateTimeFunctions()
                   .dateTimeToTextTime(date: entry.endTime, context: context)),
             ],
           ),
         ),
         Container(
-          child: IconButton(icon: Icon(Icons.edit_rounded), onPressed: () {}),
+          child: IconButton(icon: Icon(Icons.edit_rounded), onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context, 
+                  bottomSheet: TimeEntryEditBottomSheet(isUpdate: true, entry: entry))),
         )
       ],
     );

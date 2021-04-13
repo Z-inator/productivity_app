@@ -6,10 +6,12 @@ import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
+import 'package:productivity_app/Task_Feature/screens/task_by_status.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
@@ -29,9 +31,14 @@ class TaskExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TaskService state = Provider.of<TaskService>(context);
+    final TaskBodyState pageState = Provider.of<TaskBodyState>(context);
     return ExpansionTile(
-      
-      leading: IconButton(
+      leading: Text(
+        pageState.widget == TasksByStatus() 
+            ? task.project.projectName
+            : , 
+        style: TextStyle(color: Color(task.project.projectColor)), : '')
+      IconButton(
         icon: Icon(Icons.play_arrow_rounded),
         color: Colors.green,
         onPressed: () {},
@@ -78,15 +85,17 @@ class TaskExpansionTile extends StatelessWidget {
           ),
         ),
         ListTile(
-          title: Text(
-              'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, task))}',
-              style: Theme.of(context).textTheme.subtitle1),
-          trailing: IconButton(icon: Icon(Icons.timelapse_rounded), onPressed: () => DateAndTimePickers().buildTimeRangePicker())
-        ),
+            title: Text(
+                'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, task))}',
+                style: Theme.of(context).textTheme.subtitle1),
+            trailing: IconButton(
+                icon: Icon(Icons.timelapse_rounded),
+                onPressed: () => DateAndTimePickers().buildTimeRangePicker())),
         ListTile(
-          title: Text(task.dueDate.year == 0
-              ? 'Due: '
-              : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+          title: Text(
+              task.dueDate.year == 0
+                  ? 'Due: '
+                  : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
               style: Theme.of(context).textTheme.subtitle1),
           trailing: task.dueDate.isBefore(DateTime.now())
               ? IconButton(
@@ -104,8 +113,9 @@ class TaskExpansionTile extends StatelessWidget {
               OutlinedButton.icon(
                   icon: Icon(Icons.edit_rounded),
                   label: Text('Edit Task'),
-                  onPressed: () => EditBottomSheet().buildTaskEditBottomSheet(context: context, isUpdate: true, task: task)
-              ),
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context, 
+                  bottomSheet: TaskEditBottomSheet(isUpdate: true, task: task))),
               ElevatedButton.icon(
                 icon: Icon(Icons.open_with_rounded),
                 label: Text('Project Page'),

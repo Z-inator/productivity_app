@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 class PageState extends ChangeNotifier {
   int page = 0;
   Widget widget = HomeScreen();
-  bool showOverlay = false;
-  AnimationController controller;
+  // bool showOverlay = false;
+  // AnimationController controller;
+
+  PageState({this.page, this.widget});
 
   List<Widget> screens = [
     HomeScreen(),

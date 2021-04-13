@@ -10,56 +10,77 @@ import 'package:provider/provider.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 
 class AddSpeedDial extends StatelessWidget {
-  Map<IconData, Function> options;
+  Map<IconData, Future> options;
   AddSpeedDial({this.options});
+
+  // List<SpeedDialChild> getSpeedDialChildren(
+  //     BuildContext context, Map<IconData, Future> options) {
+  //   List<SpeedDialChild> children = [];
+  //   options.forEach((key, value) {
+  //     SpeedDialChild temp = SpeedDialChild(
+  //       child: Icon(key, color: Theme.of(context).accentColor),
+  //       backgroundColor: Theme.of(context).cardColor,
+  //       onTap: () => value,
+  //     );
+  //     children.add(temp);
+  //   });
+  //   return children;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // List<SpeedDialChild> speedDialChildren =
+    //     getSpeedDialChildren(context, options);
     return SpeedDial(
-      icon: Icons.add_rounded,
-      iconTheme: IconThemeData(size: 40),
-      activeIcon: Icons.close_rounded,
-      renderOverlay: false,
-      curve: Curves.bounceIn,
-      tooltip: 'Add Menu',
-      buttonSize: 40,
-      childrenButtonSize: 40,
-      backgroundColor: Theme.of(context).accentColor,
-      foregroundColor: Theme.of(context).primaryColor,
-      elevation: 0,
-      shape: CircleBorder(),
-      children: [
-        SpeedDialChild(
-          child:
-              Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
-          backgroundColor: Theme.of(context).cardColor,
-          onTap: () {}      //TODO: add timer start here
-        ),
-        SpeedDialChild(
-            child: Icon(Icons.timelapse_rounded,
-                color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
-            onTap: () => EditBottomSheet().buildTimeEntryEditBottomSheet(
-                context: context, isUpdate: false)),
-        SpeedDialChild(
-            child:
-                Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
-            onTap: () => EditBottomSheet()
-                .buildTaskEditBottomSheet(context: context, isUpdate: false)),
-        SpeedDialChild(
-            child:
-                Icon(Icons.topic_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
-            onTap: () => EditBottomSheet().buildProjectEditBottomSheet(
-                context: context, isUpdate: false)),
+        icon: Icons.add_rounded,
+        iconTheme: IconThemeData(size: 40),
+        activeIcon: Icons.close_rounded,
+        renderOverlay: false,
+        curve: Curves.bounceIn,
+        tooltip: 'Add Menu',
+        buttonSize: 40,
+        childrenButtonSize: 40,
+        backgroundColor: Theme.of(context).accentColor,
+        foregroundColor: Theme.of(context).primaryColor,
+        elevation: 0,
+        shape: CircleBorder(),
+        children: 
+        [
+          SpeedDialChild(
+              child:
+                  Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
+              backgroundColor: Theme.of(context).cardColor,
+              onTap: () {} //TODO: add timer start here
+              ),
+          SpeedDialChild(
+              child: Icon(Icons.timelapse_rounded,
+                  color: Theme.of(context).accentColor),
+              backgroundColor: Theme.of(context).cardColor,
+              onTap: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context, 
+                  bottomSheet: TimeEntryEditBottomSheet(isUpdate: false))),
+          SpeedDialChild(
+              child:
+                  Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),
+              backgroundColor: Theme.of(context).cardColor,
+              onTap: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context, 
+                  bottomSheet: TaskEditBottomSheet(isUpdate: false))),
+          SpeedDialChild(
+              child:
+                  Icon(Icons.topic_rounded, color: Theme.of(context).accentColor),
+              backgroundColor: Theme.of(context).cardColor,
+              onTap: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context, 
+                  bottomSheet: ProjectEditBottomSheet(isUpdate: false))),
+
+        ],
         // TODO: Implement Goal/Habits
         // SpeedDialChild(
         //     child: Icon(Icons.bar_chart_rounded,
         //         color: Theme.of(context).accentColor),
         //     backgroundColor: Theme.of(context).cardColor,
         //     onTap: () {})
-      ],
-    );
+        );
   }
 }

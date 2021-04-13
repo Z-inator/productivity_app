@@ -10,63 +10,67 @@ import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
+  final bool isUpdate;
   final Project project;
-  const ProjectEditBottomSheet({this.project});
+  const ProjectEditBottomSheet({this.isUpdate, this.project});
 
   @override
   Widget build(BuildContext context) {
-    final state = Provider.of<ProjectEditState>(context);
-    if (project != null) {
-      state.updateProject(project);
-    }
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            decoration: InputDecoration(
-              hintText: state.newProject.projectName.isEmpty 
-                  ? 'Project Name' 
-                  : state.newProject.projectName),
-            textAlign: TextAlign.center,
-            onChanged: (newText) {
-              state.updateProjectName(newText);
-            },
-          ),
-          ColorSelector(saveColor: state.updateProjectColor, matchColor: state.newProject.projectColor,
-          ),
-          TextField(
-            decoration: InputDecoration(
-                hintText: state.newProject.projectClient.isEmpty 
-                  ? 'Client Name' 
-                  : state.newProject.projectClient),
-            textAlign: TextAlign.center,
-            onChanged: (newText) {
-              state.updateProjectClient(newText);
-            },
-          ),
-          Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: ElevatedButton.icon(
-                icon: Icon(Icons.check_circle_outline_rounded),
-                label: Text(state.isUpdate ? 'Update' : 'Add'),
-                onPressed: () {
-                  // ProjectService().updateProject(
-                  //     projectID: widget.project.projectID,
-                  //     updateData: {
-                  //       'projectName': newProject.projectName ??
-                  //           widget.project.projectName,
-                  //       'projectClient': newProject.projectClient ??
-                  //           widget.project.projectClient,
-                  //       'projectColor': newProject.projectColor ??
-                  //           widget.project.projectColor
-                  //     });
-                  Navigator.pop(context);
+    return ChangeNotifierProvider(
+      create: (context) => ProjectEditState(),
+      builder: (context, child) {
+        final state = Provider.of<ProjectEditState>(context);
+        if (project != null) {
+          state.updateProject(project);
+        }
+        return Container(
+          margin: EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                    hintText: state.newProject.projectName.isEmpty
+                        ? 'Project Name'
+                        : state.newProject.projectName),
+                textAlign: TextAlign.center,
+                onChanged: (newText) {
+                  state.updateProjectName(newText);
                 },
-              ))
-        ],
-      ),
+              ),
+              ColorSelector(
+                saveColor: state.updateProjectColor,
+                matchColor: state.newProject.projectColor,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    hintText: state.newProject.projectClient.isEmpty
+                        ? 'Client Name'
+                        : state.newProject.projectClient),
+                textAlign: TextAlign.center,
+                onChanged: (newText) {
+                  state.updateProjectClient(newText);
+                },
+              ),
+              Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.check_circle_outline_rounded),
+                    label: Text(isUpdate ? 'Update' : 'Add'),
+                    onPressed: () {
+                      isUpdate
+                          ? ProjectService().updateProject(
+                              projectID: project.projectID,
+                              updateData: state.newProject.toFirestore())
+                          : ProjectService().addProject(
+                              addData: state.newProject.toFirestore());
+                      Navigator.pop(context);
+                    },
+                  ))
+            ],
+          ),
+        );
+      },
     );
   }
 }

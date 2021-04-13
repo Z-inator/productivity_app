@@ -9,7 +9,6 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
-
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
@@ -18,55 +17,56 @@ class StatusEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String statusName;
-    final StatusEditState state = Provider.of<StatusEditState>(context);
-    isUpdate ? state.updateStatus(status) : state.addStatus();
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            decoration: InputDecoration(
-                hintText: state.newStatus.statusName ?? 'Status Name'),
-            textAlign: TextAlign.center,
-            onChanged: (newText) {
-              statusName = newText;
-            },
-            onEditingComplete: () => state.updateStatusName(statusName),
-          ),
-          ColorSelector(
-              saveColor: state.updateStatusColor,
-              matchColor: state.newStatus.statusColor),
-          OutlinedButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.view_list_rounded),
-              label: Text('Change Status Order'),
-          ),
-          Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: ElevatedButton.icon(
-                icon: Icon(Icons.check_circle_outline_rounded),
-                label: Text(isUpdate ? 'Update' : 'Add'),
-                onPressed: () {
-                  // StatusService().updateStatus(
-                  //     statusID: widget.status.statusID,
-                  //     updateData: {
-                  //       'statusName': newStatusName ?? widget.status.statusName,
-                  //       'statusColor': int.parse(
-                  //               '0x${newStatusColor.value.toRadixString(16).toUpperCase().toString()}') ??
-                  //           int.parse(
-                  //               '0x${widget.status.statusColor.toString()}')
-                  //     });
-                  Navigator.pop(context);
+    return ChangeNotifierProvider(
+      create: (context) => StatusEditState(),
+      builder: (context, child) {
+        final StatusEditState state = Provider.of<StatusEditState>(context);
+        return Container(
+          margin: EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                    hintText: state.newStatus.statusName ?? 'Status Name'),
+                textAlign: TextAlign.center,
+                onChanged: (newText) {
+                  state.updateStatusName(newText);
                 },
-              ))
-        ],
-      ),
+              ),
+              ColorSelector(
+                  saveColor: state.updateStatusColor,
+                  matchColor: state.newStatus.statusColor),
+              OutlinedButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.view_list_rounded),
+                label: Text('Change Status Order'),
+              ),
+              Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.check_circle_outline_rounded),
+                    label: Text(isUpdate ? 'Update' : 'Add'),
+                    onPressed: () {
+                      // StatusService().updateStatus(
+                      //     statusID: widget.status.statusID,
+                      //     updateData: {
+                      //       'statusName': newStatusName ?? widget.status.statusName,
+                      //       'statusColor': int.parse(
+                      //               '0x${newStatusColor.value.toRadixString(16).toUpperCase().toString()}') ??
+                      //           int.parse(
+                      //               '0x${widget.status.statusColor.toString()}')
+                      //     });
+                      Navigator.pop(context);
+                    },
+                  ))
+            ],
+          ),
+        );
+      },
     );
   }
 }
-
 
 // class StatusEditBottomSheet extends StatefulWidget {
 //   final Status status;

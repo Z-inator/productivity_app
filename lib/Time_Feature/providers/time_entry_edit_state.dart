@@ -6,10 +6,8 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class TimeEntryEditState with ChangeNotifier {
   TimeEntry newEntry;
-  bool isUpdate;
-  DateTime date;
 
-  TimeEntryEditState({this.isUpdate}) : newEntry = TimeEntry();
+  TimeEntryEditState() : newEntry = TimeEntry();
 
   void updateEntry(TimeEntry entry) {
     newEntry = entry;
@@ -35,6 +33,7 @@ class TimeEntryEditState with ChangeNotifier {
         newEntry.startTime.hour, newEntry.startTime.minute);
     newEntry.endTime = DateTime(date.year, date.month, date.day,
         newEntry.endTime.hour, newEntry.endTime.minute);
+    notifyListeners();
   }
 
   void updateStartEndTime(TimeRangeValue timeRangeValue) {
@@ -53,13 +52,8 @@ class TimeEntryEditState with ChangeNotifier {
     notifyListeners();
   }
 
-  // void updateEndTime(DateTime endDate) {
-  //   newEntry.endTime = endDate;
+  // void updateElapsedTime(int seconds) {
+  //   newEntry.elapsedTime = seconds;
   //   notifyListeners();
   // }
-
-  void updateElapsedTime(int seconds) {
-    newEntry.elapsedTime = seconds;
-    notifyListeners();
-  }
 }

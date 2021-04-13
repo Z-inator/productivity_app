@@ -73,7 +73,6 @@ class TimeService {
     final List<DateTime> days = [];
     for (var i = 0; i < timeEntries.length; i++) {
       final TimeEntry entry = timeEntries[i];
-      print(entry.entryID);
       if (!days.contains(entry.endTime)) {
         days.add(entry.endTime);
       }

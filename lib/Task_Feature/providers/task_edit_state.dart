@@ -7,9 +7,7 @@ import 'package:provider/provider.dart';
 
 class TaskEditState with ChangeNotifier {
   Task newTask;
-  bool isUpdate;
-
-  TaskEditState({this.isUpdate}) : newTask = Task();
+  TaskEditState() : newTask = Task();
 
   void updateTask(Task task) {
     newTask = task;
@@ -22,7 +20,6 @@ class TaskEditState with ChangeNotifier {
 
   void updateTaskProject(Project project) {
     newTask.project = project;
-    print(newTask.project.projectName);
     notifyListeners();
   }
 
@@ -56,12 +53,11 @@ class TaskEditState with ChangeNotifier {
     notifyListeners();
   }
 
-  // void addTimeEntry(BuildContext context, int taskTime) {
-  //   TimeService timeService = Provider.of<TimeService>(context);
-  //   notifyListeners();
-  // }
-  
   void addTaskCreateDate(DateTime createDate) {
     newTask.createDate = createDate;
+  }
+
+  void disposeOfState() {
+    super.dispose();
   }
 }
