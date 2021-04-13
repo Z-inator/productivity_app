@@ -11,7 +11,7 @@ class HomeDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
+        children: [
           Flexible(
             flex: 1,
             child: Row(

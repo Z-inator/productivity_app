@@ -45,7 +45,7 @@ dependencies:
   # Data Visualization Tools
   percent_indicator: "^2.1.7+2"
   flutter_animation_progress_bar: ^1.0.6
-  fl_chart: ^0.12.2
+  fl_chart: ^0.35.0
 
   # Time Range Picker
   simple_time_range_picker: ^0.0.2
