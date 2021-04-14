@@ -23,4 +23,9 @@ class StatusEditState with ChangeNotifier {
     newStatus.statusOrder = statusOrder;
     notifyListeners();
   }
+
+  void updateStatusComplete(bool equalToComplete) {
+    newStatus.equalToComplete = equalToComplete;
+    notifyListeners();
+  }
 }

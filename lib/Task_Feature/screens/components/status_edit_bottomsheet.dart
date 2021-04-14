@@ -42,6 +42,10 @@ class StatusEditBottomSheet extends StatelessWidget {
                 icon: Icon(Icons.view_list_rounded),
                 label: Text('Change Status Order'),
               ),
+              CheckboxListTile(
+                value: true, 
+                onChanged: (bool value) => state.updateStatusComplete(value)
+              ),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(

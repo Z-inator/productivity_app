@@ -49,7 +49,7 @@ class ProjectPage extends StatelessWidget {
     List<Task> tasks = Provider.of<List<Task>>(context);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     tasks = Provider.of<TaskService>(context)
-        .getGroupedTasksByProject(tasks, project);
+        .getGroupedTasksByProject(context, project);
     timeEntries = Provider.of<TimeService>(context)
         .getGroupedTimeEntriesByProject(timeEntries, project);
     return SafeArea(

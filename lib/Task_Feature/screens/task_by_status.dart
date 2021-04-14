@@ -61,9 +61,9 @@ class TaskByStatusBody extends StatelessWidget {
               children: [
                 StatusExpansionTile(
                     status: status,
-                    tasks: taskState.getGroupedTasksByStatus(tasks, status)),
+                    tasks: taskState.getGroupedTasksByStatus(context, status)),
                 GroupedTasks(
-                    associatedTasks: taskState.getGroupedTasksByStatus(tasks, status))
+                    associatedTasks: taskState.getGroupedTasksByStatus(context, status))
               ],
             ),
           ),

@@ -32,7 +32,7 @@ class ProjectStream extends StatelessWidget {
                       child: ProjectExpansionTile(
                           project: project,
                           tasks: Provider.of<TaskService>(context)
-                              .getGroupedTasksByProject(tasks, project),
+                              .getGroupedTasksByProject(context, project),
                           timeEntries: Provider.of<TimeService>(context)
                               .getGroupedTimeEntriesByProject(timeEntries, project)
                       )

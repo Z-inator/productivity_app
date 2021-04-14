@@ -104,7 +104,7 @@ class TaskExpansionTile extends StatelessWidget {
             ),
             Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
             Text(
-                'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, task))}',
+                'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(context, task))}',
                 style: Theme.of(context).textTheme.subtitle1),
             Text(
                 task.dueDate.year == 0

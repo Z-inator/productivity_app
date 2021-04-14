@@ -50,12 +50,12 @@ class TaskByProjectBody extends StatelessWidget {
               children: [
                 ProjectExpansionTile(
                     project: project,
-                    tasks: state.getGroupedTasksByProject(tasks, project),
+                    tasks: state.getGroupedTasksByProject(context, project),
                     timeEntries: Provider.of<TimeService>(context)
                          .getGroupedTimeEntriesByProject(timeEntries, project),
                 ),    
                 GroupedTasks(
-                    associatedTasks: state.getGroupedTasksByProject(tasks, project))
+                    associatedTasks: state.getGroupedTasksByProject(context, project))
               ],
             ),
           ),

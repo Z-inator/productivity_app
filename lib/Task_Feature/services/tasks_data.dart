@@ -61,28 +61,87 @@ class TaskService {
     return statuses;
   }
 
-  List<Task> getGroupedTasksByStatus(List<Task> tasks, Status status) {
+  List<Task> getGroupedTasksByStatus(BuildContext context, Status status) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
     return tasks
         .where((task) => task.status.statusName == status.statusName)
         .toList();
   }
 
-  List<Task> getGroupedTasksByProject(List<Task> tasks, Project project) {
+  List<Task> getGroupedTasksByProject(BuildContext context, Project project) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
     return tasks
         .where((task) => task.project.projectID == project.projectID)
         .toList();
   }
-  
-  int getSubtaskCount(List<Subtask> subtasks, Task task) {
+
+  int getSubtaskCount(BuildContext context, Task task) {
+    List<Subtask> subtasks = Provider.of<List<Subtask>>(context);
     return subtasks.length;
   }
 
-  int getRecordedTime(List<TimeEntry> timeEntries, Task task) {
+  int getRecordedTime(BuildContext context, Task task) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     int recordedTime = 0;
     timeEntries.forEach((entry) {
       recordedTime += entry.elapsedTime;
     });
     return recordedTime;
+  }
+
+  List<Task> getTasksDueToday(BuildContext context) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    DateTime today = DateTime.now();
+    return tasks
+        .where((task) =>
+            task.dueDate.year == today.year &&
+            task.dueDate.month == today.month &&
+            task.dueDate.day == today.day)
+        .toList();
+  }
+
+  List<Task> getTasksDueThisWeek(BuildContext context) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    DateTime today = DateTime.now();
+    DateTime monday;
+    DateTime sunday;
+    // int count = 0;
+    for (var day = 0; day < 7; day++) {
+      DateTime decreaseTemp = today.subtract(Duration(days: day));
+      if (decreaseTemp.weekday == 1) {
+        monday = decreaseTemp;
+      }
+      DateTime increaseTemp = today.add(Duration(days: day));
+      if (increaseTemp.weekday == 7) {
+        sunday = increaseTemp;
+      }
+    }
+    // while (monday == null && sunday == null) {
+    //   DateTime decreaseTemp = today.subtract(Duration(days: count));
+    //   DateTime increaseTemp = today.add(Duration(days: count));
+    //   if (decreaseTemp.weekday == 1) {
+    //     monday = decreaseTemp;
+    //   }
+    //   if (increaseTemp.weekday == 7) {
+    //     sunday = increaseTemp;
+    //   }
+    //   count++;
+    // }
+    return tasks
+        .where((task) =>
+            task.dueDate.isAfter(monday.subtract(Duration(days: 1))) &&
+            task.dueDate.isBefore(sunday.add(Duration(days: 1))))
+        .toList();
+  }
+
+  List<Task> getTasksPastDue(BuildContext context) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    DateTime today = DateTime.now();
+    return tasks
+        .where((task) =>
+            task.dueDate.isBefore(today) &&
+            task.status.equalToComplete == false)
+        .toList();
   }
 
   // Add Task
