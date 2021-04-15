@@ -29,12 +29,16 @@ class TaskExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskService state = Provider.of<TaskService>(context);
-    
+    final TaskService taskService = Provider.of<TaskService>(context);
+    final TimeService timeService = Provider.of<TimeService>(context);
+    List<TimeEntry> timeEntries = timeService.getTimeEntriesByTask(
+        Provider.of<List<TimeEntry>>(context), task);
+    int recordedTime = taskService.getRecordedTime(timeEntries, task);
     return ExpansionTile(
       leading: Icon(Icons.circle, color: Color(task.status.statusColor)),
       title: Text(task.taskName),
-      subtitle: Text(task.project.projectName, style: TextStyle(color: Color(task.project.projectColor))),
+      subtitle: Text(task.project.projectName,
+          style: TextStyle(color: Color(task.project.projectColor))),
       children: [
         ExpansionTile(
           childrenPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -68,7 +72,8 @@ class TaskExpansionTile extends StatelessWidget {
                   tooltip: 'Edit Task',
                   onPressed: () => EditBottomSheet().buildEditBottomSheet(
                       context: context,
-                      bottomSheet: TaskEditBottomSheet(isUpdate: true, task: task)),
+                      bottomSheet:
+                          TaskEditBottomSheet(isUpdate: true, task: task)),
                 ),
                 StatusPickerDropDown()
               ]),
@@ -103,7 +108,7 @@ class TaskExpansionTile extends StatelessWidget {
             ),
             Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
             Text(
-                'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(context, task))}',
+                'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
                 style: Theme.of(context).textTheme.subtitle1),
             Text(
                 task.dueDate.year == 0

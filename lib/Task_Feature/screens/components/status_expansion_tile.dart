@@ -13,6 +13,7 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
+import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -21,12 +22,15 @@ import 'package:provider/provider.dart';
 
 class StatusExpansionTile extends StatelessWidget {
   final Status status;
-  const StatusExpansionTile({Key key, this.status})
-      : super(key: key);
+  const StatusExpansionTile({Key key, this.status}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final StatusService state = Provider.of<StatusService>(context);
+    final StatusService statusService = Provider.of<StatusService>(context);
+    final TaskService taskService = Provider.of<TaskService>(context);
+    List<Task> tasks =
+        taskService.getTasksByStatus(Provider.of<List<Task>>(context), status);
+    int taskCount = statusService.getTaskCount(tasks, status);
     return Theme(
         data: ThemeData().copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
@@ -41,7 +45,7 @@ class StatusExpansionTile extends StatelessWidget {
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                  title: Text('Tasks: ${state.getTaskCount(context, status)}',
+                  title: Text('Tasks: $taskCount',
                       style: Theme.of(context).textTheme.subtitle1),
                   trailing: IconButton(
                     icon: Icon(Icons.add_rounded),
@@ -59,9 +63,10 @@ class StatusExpansionTile extends StatelessWidget {
                     icon: Icon(Icons.edit_rounded),
                     tooltip: 'Edit Status',
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context, 
-                  bottomSheet: StatusEditBottomSheet(isUpdate: true, status: status))),
-                )
+                        context: context,
+                        bottomSheet: StatusEditBottomSheet(
+                            isUpdate: true, status: status))),
+              )
             ]));
   }
 }

@@ -22,7 +22,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/timescreen':
       return MaterialPageRoute(builder: (context) => TimeScreen());
     case '/taskscreen':
-      return MaterialPageRoute(builder: (context) => TaskScreen());
+      return MaterialPageRoute(builder: (context) => TaskProjectScreen());
     case '/projectscreen':
       final Project selectedProject = settings.arguments as Project;
       return MaterialPageRoute(

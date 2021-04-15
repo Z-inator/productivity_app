@@ -5,6 +5,7 @@ import 'package:productivity_app/Authentification/services/authentification_data
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class ProjectService {
         .toList());
   }
 
-  int getTaskCount(List<Task> tasks, Project project) {
+  int getTaskCount(List<Task> tasks) {
     return tasks.length;
   }
 
@@ -62,7 +63,8 @@ class ProjectService {
   // }
 
   // Update Project
-  Future<void> updateProject({String projectID, Map<String, dynamic> updateData}) async {
+  Future<void> updateProject(
+      {String projectID, Map<String, dynamic> updateData}) async {
     return _getProjectReference()
         .doc(projectID)
         .update(updateData)

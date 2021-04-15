@@ -16,7 +16,7 @@ class PageState extends ChangeNotifier {
   List<Widget> screens = [
     HomeScreen(),
     TimeScreen(),
-    TaskScreen(),
+    TaskProjectScreen(),
     TestScreen()
   ];
 

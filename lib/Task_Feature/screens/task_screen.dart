@@ -18,32 +18,31 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TaskPageStream extends StatelessWidget {
-  const TaskPageStream({Key key}) : super(key: key);
+class TaskScreen extends StatelessWidget {
+  const TaskScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => TaskBodyState(),
         builder: (context, child) {
-          final TaskBodyState state = Provider.of<TaskBodyState>(context);
           return Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 FilterButtonRow(),
-                Expanded(child: state.widget)
+                Expanded(child: TaskScreenBody())
               ]);
         });
   }
 }
 
-// class TaskStreamBody extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     Widget body = Provider.of<TaskBodyState>(context).widget;
-//     return body;
-//   }
-// }
+class TaskScreenBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Widget body = Provider.of<TaskBodyState>(context).widget;
+    return body;
+  }
+}
 
 // class TaskStream extends StatefulWidget {
 //   @override

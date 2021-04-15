@@ -10,6 +10,7 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
+import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
@@ -23,7 +24,6 @@ import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/screens/time_entries_by_day.dart';
-import 'package:productivity_app/Time_Feature/screens/time_stream.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -46,12 +46,12 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<List<Task>>(context);
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    tasks = Provider.of<TaskService>(context)
-        .getGroupedTasksByProject(context, project);
-    timeEntries = Provider.of<TimeService>(context)
-        .getGroupedTimeEntriesByProject(context, project);
+    TaskService taskService = Provider.of<TaskService>(context);
+    List<Task> tasks = taskService.getTasksByProject(
+        Provider.of<List<Task>>(context), project);
+    TimeService timeService = Provider.of<TimeService>(context);
+    List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
+        Provider.of<List<TimeEntry>>(context), project);
     return SafeArea(
         child: DefaultTabController(
       length: 4,
@@ -68,36 +68,29 @@ class ProjectPage extends StatelessWidget {
                   color: Theme.of(context).unselectedWidgetColor,
                 ),
                 onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context, 
-                  bottomSheet: ProjectEditBottomSheet(isUpdate: true, project: project))),
+                    context: context,
+                    bottomSheet: ProjectEditBottomSheet(
+                        isUpdate: true, project: project))),
           ],
           bottom: TabBar(
               unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
               labelColor: Colors.black,
               tabs: [
-                Tab(
-                  icon: Icon(Icons.dashboard_rounded),
-                ),
-                Tab(
-                  icon: Icon(Icons.playlist_add_check_rounded),
-                ),
-                Tab(
-                  icon: Icon(Icons.timer_rounded),
-                ),
-                Tab(
-                  icon: Icon(Icons.bar_chart_rounded),
-                )
+                Tab(icon: Icon(Icons.dashboard_rounded)),
+                Tab(icon: Icon(Icons.timer_rounded)),
+                Tab(icon: Icon(Icons.playlist_add_check_rounded)),
+                Tab(icon: Icon(Icons.bar_chart_rounded))
               ]),
         ),
         body: TabBarView(children: [
           HomeScreen(),
-          (tasks.isEmpty
-              ? Center(child: Text('No Tasks for ${project.projectName}'))
-              : TasksByStatus()),
           (timeEntries.isEmpty
               ? Center(
-                  child: Text('No Time Entries for ${project.projectName}'))
+                  child: Text('No Time Recorded for ${project.projectName}'))
               : TimeEntriesByDay(timeEntries: timeEntries)),
+          (tasks.isEmpty
+              ? Center(child: Text('No Tasks for ${project.projectName}'))
+              : TasksByStatus(associatedTasks: tasks)),
           HomeScreen()
         ]),
         floatingActionButton: ProjectPageSpeedDial(project: project),
@@ -139,15 +132,17 @@ class ProjectPageSpeedDial extends StatelessWidget {
                 color: Theme.of(context).accentColor),
             backgroundColor: Theme.of(context).cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context, 
-                  bottomSheet: TimeEntryEditBottomSheet(isUpdate: false, project: project))),
+                context: context,
+                bottomSheet: TimeEntryEditBottomSheet(
+                    isUpdate: false, project: project))),
         SpeedDialChild(
             child:
                 Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),
             backgroundColor: Theme.of(context).cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context, 
-                  bottomSheet: TaskEditBottomSheet(isUpdate: false, project: project))),
+                context: context,
+                bottomSheet:
+                    TaskEditBottomSheet(isUpdate: false, project: project))),
       ],
       // TODO: Implement Goal/Habits
       // SpeedDialChild(

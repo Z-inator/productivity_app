@@ -23,11 +23,15 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context)
-        .getGroupedTasksByProject(context, project);
-    List<TimeEntry> timeEntries = Provider.of<TimeService>(context)
-        .getGroupedTimeEntriesByProject(context, project);
-    final ProjectService state = Provider.of<ProjectService>(context);
+    final ProjectService projectService = Provider.of<ProjectService>(context);
+    final TaskService taskService = Provider.of<TaskService>(context);
+    final TimeService timeService = Provider.of<TimeService>(context);
+    List<Task> tasks = taskService.getTasksByProject(
+        Provider.of<List<Task>>(context), project);
+    int taskCount = projectService.getTaskCount(tasks);
+    List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
+        Provider.of<List<TimeEntry>>(context), project);
+    int recordedTime = projectService.getRecordedTime(timeEntries, project);
     return Theme(
       data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
@@ -41,8 +45,7 @@ class ProjectExpansionTile extends StatelessWidget {
         ),
         children: [
           ListTile(
-              title: Text(
-                  'Assigned Tasks: ${state.getTaskCount(tasks, project)}',
+              title: Text('Assigned Tasks: $taskCount',
                   style: Theme.of(context).textTheme.subtitle1),
               trailing: IconButton(
                 icon: Icon(Icons.add_rounded),
@@ -51,7 +54,7 @@ class ProjectExpansionTile extends StatelessWidget {
               )),
           ListTile(
               title: Text(
-                  'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, project))}',
+                  'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
                   style: Theme.of(context).textTheme.subtitle1),
               trailing: IconButton(
                   icon: Icon(Icons.timelapse_rounded),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/screens/project_stream.dart';
-import 'package:productivity_app/Task_Feature/screens/task_stream.dart';
+import 'package:productivity_app/Task_Feature/screens/project_screen.dart';
+import 'package:productivity_app/Task_Feature/screens/task_screen.dart';
 import 'package:provider/provider.dart';
 
 // TODO: look at using an Animated Switcher instead of Provider
-class TaskScreen extends StatelessWidget {
+class TaskProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,8 +23,8 @@ class TaskScreen extends StatelessWidget {
         Expanded(
           child: TabBarView(
             children: [
-              ProjectStream(),
-              TaskPageStream()
+              ProjectScreen(),
+              TaskScreen()
             ]
           ),
         ),

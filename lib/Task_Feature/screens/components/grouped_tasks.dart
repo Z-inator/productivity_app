@@ -22,11 +22,15 @@ class GroupedTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    return ListBody(
-      children: associatedTasks.map((task) {
-        return TaskExpansionTile(task: task);
-      }).toList(),
-    );
+    
+    return associatedTasks == null 
+    ? Center(child: CircularProgressIndicator(),)
+    : associatedTasks.isEmpty
+        ? Center(child: Text('No Tasks Yet'))
+        : ListBody(
+            children: associatedTasks.map((task) {
+              return TaskExpansionTile(task: task);
+            }).toList(),
+          );
   }
 }

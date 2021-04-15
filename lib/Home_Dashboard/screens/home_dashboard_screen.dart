@@ -88,31 +88,36 @@ class TaskDueRow extends StatelessWidget {
     List<Task> tasks = Provider.of<List<Task>>(context);
     return Container(
       margin: EdgeInsets.only(bottom: 20),
-      child: tasks.isEmpty
-          ? CircularProgressIndicator()
-          : SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TaskDueToday(),
-                  TaskDueThisWeek(),
-                  TaskDueThisWeek()
-                ],
-              ),
-            ),
+      child: tasks == null
+          ? Center(child: CircularProgressIndicator())
+          : tasks.isEmpty
+              ? Center(
+                  child: Text('Add Tasks to Track Due Dates'),
+                )
+              : SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TaskDueToday(tasks: tasks),
+                      TaskDueThisWeek(tasks: tasks),
+                      TaskDueThisWeek(tasks: tasks)
+                    ],
+                  ),
+                ),
     );
   }
 }
 
 class TaskDueToday extends StatelessWidget {
-  const TaskDueToday({Key key}) : super(key: key);
+  final List<Task> tasks;
+  const TaskDueToday({Key key, this.tasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks =
-        Provider.of<TaskService>(context).getTasksDueToday(context);
+    List<Task> dueTodayTasks =
+        Provider.of<TaskService>(context).getTasksDueToday(tasks);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
@@ -122,12 +127,12 @@ class TaskDueToday extends StatelessWidget {
             ListTile(
               title: Text('Tasks Due Today'),
             ),
-            tasks.isEmpty
+            dueTodayTasks.isEmpty
                 ? ListTile(
                     title: Text('No Tasks Due Today',
                         style: Theme.of(context).textTheme.subtitle1))
                 : ListBody(
-                    children: tasks
+                    children: dueTodayTasks
                         .map((task) => TaskExpansionTile(task: task))
                         .toList(),
                   ),
@@ -139,12 +144,13 @@ class TaskDueToday extends StatelessWidget {
 }
 
 class TaskDueThisWeek extends StatelessWidget {
-  const TaskDueThisWeek({Key key}) : super(key: key);
+  final List<Task> tasks;
+  const TaskDueThisWeek({Key key, this.tasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks =
-        Provider.of<TaskService>(context).getTasksDueThisWeek(context);
+    List<Task> dueThisWeekTasks =
+        Provider.of<TaskService>(context).getTasksDueThisWeek(tasks);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
@@ -154,12 +160,12 @@ class TaskDueThisWeek extends StatelessWidget {
             ListTile(
               title: Text('Tasks Due This Week'),
             ),
-            tasks.isEmpty
+            dueThisWeekTasks.isEmpty
                 ? ListTile(
                     title: Text('No Tasks Due This Week',
                         style: Theme.of(context).textTheme.subtitle1))
                 : ListBody(
-                    children: tasks
+                    children: dueThisWeekTasks
                         .map((task) => TaskExpansionTile(task: task))
                         .toList(),
                   ),
@@ -171,12 +177,13 @@ class TaskDueThisWeek extends StatelessWidget {
 }
 
 class TaskPastDue extends StatelessWidget {
-  const TaskPastDue({Key key}) : super(key: key);
+  final List<Task> tasks;
+  const TaskPastDue({Key key, this.tasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks =
-        Provider.of<TaskService>(context).getTasksPastDue(context);
+    List<Task> pastDueTasks =
+        Provider.of<TaskService>(context).getTasksPastDue(tasks);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
@@ -186,12 +193,12 @@ class TaskPastDue extends StatelessWidget {
             ListTile(
               title: Text('Late Tasks'),
             ),
-            tasks.isEmpty
+            pastDueTasks.isEmpty
                 ? ListTile(
                     title: Text('No Late Tasks',
                         style: Theme.of(context).textTheme.subtitle1))
                 : ListBody(
-                    children: tasks
+                    children: pastDueTasks
                         .map((task) => TaskExpansionTile(task: task))
                         .toList(),
                   ),
@@ -267,7 +274,7 @@ class StatusList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Status> statuses = Provider.of<List<Status>>(context);
-    
+
     return statuses == null
         ? Center(child: CircularProgressIndicator())
         : Container(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Task_Feature/models/tasks.dart';
 
 class Project {
   String projectID;
@@ -7,7 +8,7 @@ class Project {
   String projectClient;
   int projectColor;
 
-  Project({projectID, projectName, projectColor = 4285887861, projectClient})
+  Project({projectID, projectName, projectColor, projectClient, projectTasks})
       : projectID = projectID as String ?? '',
         projectName = projectName as String ?? '',
         projectColor = projectColor as int ?? 4285887861,

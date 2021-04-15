@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Time_Feature/screens/time_stream.dart';
+import 'package:productivity_app/Shared/widgets/project_picker.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/screens/time_entries_by_day.dart';
+import 'package:provider/provider.dart';
+
 
 
 class TimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return Column(
       children: [
-        ListTile(
-          tileColor: Colors.green,
-          title: Text('title'),
-          onTap: () {},
+        ProjectPicker(
+          child: ListTile(
+            title: Text('Sort by Project'),
+          ),
         ),
-        Expanded(child: TimeStream())
+        Expanded(child: TimeEntriesByDay(timeEntries: timeEntries))
       ],
     );
   }

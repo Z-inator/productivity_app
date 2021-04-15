@@ -12,8 +12,9 @@ class TimeEntriesByDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TimeService state = Provider.of<TimeService>(context);
-    List<DateTime> days = state.getDays(context);
+    final TimeService timeService = Provider.of<TimeService>(context);
+
+    List<DateTime> days = timeService.getDays(timeEntries);
     return days == null 
         ? Center(child: CircularProgressIndicator())
         : ListView(
@@ -32,15 +33,14 @@ class TimeEntriesByDay extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(DateTimeFunctions().dateTimeToTextDate(date: day)),
-                            // TODO: implement total time for the day
                             Text(TimeFunctions().timeToText(
-                                seconds: state.getRecordedTime(context, day)))
+                                seconds: timeService.getRecordedTime(timeEntries, day)))
                           ],
                         ),
                       ),
                       Divider(),
                       GroupedTimeEntries(
-                        timeEntries: state.filteredTimeEntries(context, day),
+                        timeEntries: timeService.filteredTimeEntries(timeEntries, day),
                       )
                     ],
                   ),

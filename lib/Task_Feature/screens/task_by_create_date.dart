@@ -35,18 +35,13 @@ class TaskByCreateDateBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     tasks.sort((a, b) => a.createDate.compareTo(b.createDate));
     return ListView(
       children: tasks.map((task) {
         return Theme(
           data: Theme.of(context)
               .copyWith(accentColor: Theme.of(context).unselectedWidgetColor),
-          child: TaskExpansionTile(
-            task: task,
-            timeEntries: Provider.of<TimeService>(context)
-              .getGroupedTimeEntriesByTask(timeEntries, task)
-          )
+          child: TaskExpansionTile(task: task,)
         );
       }).toList(),
     );

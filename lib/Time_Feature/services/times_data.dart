@@ -63,14 +63,12 @@ class TimeService {
   //   return tasks;
   // }
 
-  List<TimeEntry> filteredTimeEntries(BuildContext context, DateTime day) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+  List<TimeEntry> filteredTimeEntries(List<TimeEntry> timeEntries, DateTime day) {
     return timeEntries.where((entry) => entry.endTime == day).toList();
   }
 
-  List<DateTime> getDays(BuildContext context) {
+  List<DateTime> getDays(List<TimeEntry> timeEntries) {
     final List<DateTime> days = [];
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     for (var i = 0; i < timeEntries.length; i++) {
       final TimeEntry entry = timeEntries[i];
       if (!days.contains(entry.endTime)) {
@@ -81,25 +79,22 @@ class TimeService {
     return days;
   }
 
-  int getRecordedTime(BuildContext context, DateTime day) {
+  int getRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
     int recordedTime = 0;
-    final List<TimeEntry> entriesToCount = filteredTimeEntries(context, day);
-    entriesToCount.forEach((entry) {
+    timeEntries.forEach((entry) {
       recordedTime += entry.elapsedTime;
     });
     return recordedTime;
   }
 
-  List<TimeEntry> getGroupedTimeEntriesByProject(
-      BuildContext context, Project project) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+  List<TimeEntry> getTimeEntriesByProject(
+      List<TimeEntry> timeEntries, Project project) {
     return timeEntries
         .where((entry) => entry.project.projectID == project.projectID)
         .toList();
   }
 
-  List<TimeEntry> getGroupedTimeEntriesByTask(BuildContext context, Task task) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+  List<TimeEntry> getTimeEntriesByTask(List<TimeEntry> timeEntries, Task task) {
     return timeEntries
         .where((entry) => entry.entryName == task.taskName)
         .toList();

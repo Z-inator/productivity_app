@@ -37,16 +37,9 @@ class StatusService {
             .toList());
   }
 
-  int getTaskCount(BuildContext context, Status status) {
-    List<Task> tasks = Provider.of<List<Task>>(context);
+  int getTaskCount(List<Task> tasks, Status status) {
     return tasks.length;
   }
-
-  // List<Status> sortStatuses(BuildContext context) {
-  //   List<Status> statuses = Provider.of<List<Status>>(context);
-  //   statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
-  //   return statuses;
-  // }
 
   // Add Status
   Future<void> addStatus({Map<String, dynamic> addData}) async {

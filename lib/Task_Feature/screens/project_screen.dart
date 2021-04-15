@@ -13,23 +13,25 @@ import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
-class ProjectStream extends StatelessWidget {
-  const ProjectStream({Key key}) : super(key: key);
+class ProjectScreen extends StatelessWidget {
+  const ProjectScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<Project> projects = Provider.of<List<Project>>(context) ?? [];
     return projects == null
         ? Center(child: CircularProgressIndicator())
-        : ListView(
-            padding: EdgeInsets.only(bottom: 100),
-            children: projects.map((project) {
-              return Container(
-                  padding: EdgeInsets.all(10),
-                  child: Card(
-                      child: ProjectExpansionTile(project: project)
-                  )
-              );
-            }).toList());
+        : projects.isEmpty
+            ? Center(child: Text('Add Projects to see them listed here'))
+            : ListView(
+                padding: EdgeInsets.only(bottom: 100),
+                children: projects.map((project) {
+                  return Container(
+                      padding: EdgeInsets.all(10),
+                      child: Card(
+                          child: ProjectExpansionTile(project: project)
+                      )
+                  );
+                }).toList());
   }
 }

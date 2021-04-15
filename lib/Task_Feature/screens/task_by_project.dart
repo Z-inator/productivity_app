@@ -16,51 +16,33 @@ import 'package:provider/provider.dart';
 class TasksByProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final TaskService taskService = Provider.of<TaskService>(context);
     final List<Project> projects = Provider.of<List<Project>>(context);
     final List<Task> tasks = Provider.of<List<Task>>(context);
-    return projects == null || tasks == null
+    return projects == null
         ? Center(child: CircularProgressIndicator())
-        : TaskByProjectBody(projects: projects, tasks: tasks);
-  }
-}
-
-class TaskByProjectBody extends StatelessWidget {
-  const TaskByProjectBody({
-    Key key,
-    @required this.projects,
-    @required this.tasks,
-  }) : super(key: key);
-
-  final List<Project> projects;
-  final List<Task> tasks;
-
-  @override
-  Widget build(BuildContext context) {
-    final TaskService state = Provider.of<TaskService>(context);
-    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    return ListView(
-      padding: EdgeInsets.only(bottom: 100),
-      children: projects.map((Project project) {
-        return Container(
-          padding: EdgeInsets.all(10),
-          child: Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ProjectExpansionTile(
-                    project: project,
-                    tasks: state.getGroupedTasksByProject(context, project),
-                    timeEntries: Provider.of<TimeService>(context)
-                         .getGroupedTimeEntriesByProject(timeEntries, project),
-                ),    
-                GroupedTasks(
-                    associatedTasks: state.getGroupedTasksByProject(context, project))
-              ],
-            ),
-          ),
-        );
-      }).toList(),
-    );
+        : projects.isEmpty
+            ? Center(child: Text('Add Projects to group Tasks'))
+            : ListView(
+                padding: EdgeInsets.only(bottom: 100),
+                children: projects.map((Project project) {
+                  return Container(
+                    padding: EdgeInsets.all(10),
+                    child: Card(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProjectExpansionTile(
+                              project: project,
+                          ),    
+                          GroupedTasks(
+                              associatedTasks: taskService.getTasksByProject(tasks, project))
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
   }
 }
