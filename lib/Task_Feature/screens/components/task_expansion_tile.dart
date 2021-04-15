@@ -25,8 +25,7 @@ import 'package:provider/provider.dart';
 
 class TaskExpansionTile extends StatelessWidget {
   final Task task;
-  final List<TimeEntry> timeEntries;
-  const TaskExpansionTile({Key key, this.task, this.timeEntries});
+  const TaskExpansionTile({Key key, this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,7 @@ class TaskExpansionTile extends StatelessWidget {
                   tooltip: 'Edit Task',
                   onPressed: () => EditBottomSheet().buildEditBottomSheet(
                       context: context,
-                      bottomSheet: TaskEditBottomSheet(task: task)),
+                      bottomSheet: TaskEditBottomSheet(isUpdate: true, task: task)),
                 ),
                 StatusPickerDropDown()
               ]),

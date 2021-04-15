@@ -15,8 +15,6 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
-
-
 class TaskEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final Task task;
@@ -37,6 +35,7 @@ class TaskEditBottomSheet extends StatelessWidget {
       create: (context) => TaskEditState(),
       builder: (context, child) {
         final TaskEditState state = Provider.of<TaskEditState>(context);
+        final TaskService taskService = Provider.of<TaskService>(context);
         if (task != null) {
           state.updateTask(task);
         }
@@ -128,10 +127,10 @@ class TaskEditBottomSheet extends StatelessWidget {
                         label: Text(isUpdate ? 'Update' : 'Add'),
                         onPressed: () {
                           isUpdate
-                              ? TaskService().updateTask(
+                              ? taskService.updateTask(
                                   taskID: task.taskID,
                                   updateData: state.newTask.toFirestore())
-                              : TaskService().addTask(
+                              : taskService.addTask(
                                   addData: state.newTask.toFirestore());
                           Navigator.pop(context);
                         },

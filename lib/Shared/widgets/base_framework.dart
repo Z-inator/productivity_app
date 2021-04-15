@@ -22,6 +22,7 @@ import 'package:productivity_app/Time_Feature/screens/time_screen.dart';
 class BaseFramework extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return ChangeNotifierProvider(
       create: (context) => PageState(page: 0, widget: HomeScreen()),
       builder: (context, child) {

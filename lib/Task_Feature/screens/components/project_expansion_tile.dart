@@ -11,6 +11,7 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
+import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
@@ -18,13 +19,14 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
-  final List<Task> tasks;
-  final List<TimeEntry> timeEntries;
-  const ProjectExpansionTile({Key key, this.project, this.tasks, this.timeEntries})
-      : super(key: key);
+  const ProjectExpansionTile({Key key, this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<Task> tasks = Provider.of<TaskService>(context)
+        .getGroupedTasksByProject(context, project);
+    List<TimeEntry> timeEntries = Provider.of<TimeService>(context)
+        .getGroupedTimeEntriesByProject(context, project);
     final ProjectService state = Provider.of<ProjectService>(context);
     return Theme(
       data: ThemeData().copyWith(dividerColor: Colors.transparent),
@@ -51,8 +53,10 @@ class ProjectExpansionTile extends StatelessWidget {
               title: Text(
                   'Recorded Time: ${TimeFunctions().timeToText(seconds: state.getRecordedTime(timeEntries, project))}',
                   style: Theme.of(context).textTheme.subtitle1),
-              trailing: IconButton(icon: Icon(Icons.timelapse_rounded), onPressed: () => DateAndTimePickers().buildTimeRangePicker())
-          ),
+              trailing: IconButton(
+                  icon: Icon(Icons.timelapse_rounded),
+                  onPressed: () =>
+                      DateAndTimePickers().buildTimeRangePicker())),
           ListTile(
               title: Text('Client: ${project.projectClient}',
                   style: Theme.of(context).textTheme.subtitle1),
@@ -72,8 +76,9 @@ class ProjectExpansionTile extends StatelessWidget {
                     icon: Icon(Icons.edit_rounded),
                     label: Text('Edit Project'),
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context, 
-                  bottomSheet: TaskEditBottomSheet(isUpdate: true, project: project))),
+                        context: context,
+                        bottomSheet: TaskEditBottomSheet(
+                            isUpdate: true, project: project))),
                 ElevatedButton.icon(
                   icon: Icon(Icons.open_with_rounded),
                   label: Text('Project Page'),

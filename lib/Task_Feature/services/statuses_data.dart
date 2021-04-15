@@ -30,39 +30,38 @@ class StatusService {
   // Snapshot Conversion to Status Model and Stream
   Stream<List<Status>> streamStatuses() {
     final CollectionReference ref = _getStatusReference();
-    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => Status.fromFirestore(queryDocument))
-        .toList());
+
+    return ref.orderBy('statusOrder', descending: false).snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((queryDocument) => Status.fromFirestore(queryDocument))
+            .toList());
   }
 
-  int getTaskCount(List<Task> tasks, Status status) {
+  int getTaskCount(BuildContext context, Status status) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
     return tasks.length;
   }
 
-  List<Status> sortStatuses(List<Status> statuses) {
-    statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
-    return statuses;
-  }
+  // List<Status> sortStatuses(BuildContext context) {
+  //   List<Status> statuses = Provider.of<List<Status>>(context);
+  //   statuses.sort((a, b) => a.statusOrder.compareTo(b.statusOrder));
+  //   return statuses;
+  // }
 
   // Add Status
-  Future<void> addStatus(
-      {String statusName, int statusColor, int statusTime = 0}) async {
+  Future<void> addStatus({Map<String, dynamic> addData}) async {
     return _getStatusReference()
-        .add({
-          'StatusName': statusName,
-          'StatusColor': statusColor,
-          'StatusTime': statusTime,
-          'taskList': {}
-        })
+        .add(addData)
         .then((value) => print('Status Added'))
         .catchError((error) => print('Failed to add status: $error'));
   }
 
   // Update Status
-  Future<void> updateStatus({String statusID, Map updateData}) async {
+  Future<void> updateStatus(
+      {String statusID, Map<String, dynamic> updateData}) async {
     return _getStatusReference()
         .doc(statusID)
-        .update(Map<String, dynamic>.from(updateData))
+        .update(updateData)
         .then((value) => print('Status Updated'))
         .catchError((error) => print('Failed to update status: $error'));
   }

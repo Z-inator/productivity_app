@@ -19,8 +19,6 @@ class ProjectStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Project> projects = Provider.of<List<Project>>(context) ?? [];
-    final List<Task> tasks = Provider.of<List<Task>>(context);
-    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return projects == null
         ? Center(child: CircularProgressIndicator())
         : ListView(
@@ -29,13 +27,7 @@ class ProjectStream extends StatelessWidget {
               return Container(
                   padding: EdgeInsets.all(10),
                   child: Card(
-                      child: ProjectExpansionTile(
-                          project: project,
-                          tasks: Provider.of<TaskService>(context)
-                              .getGroupedTasksByProject(context, project),
-                          timeEntries: Provider.of<TimeService>(context)
-                              .getGroupedTimeEntriesByProject(timeEntries, project)
-                      )
+                      child: ProjectExpansionTile(project: project)
                   )
               );
             }).toList());

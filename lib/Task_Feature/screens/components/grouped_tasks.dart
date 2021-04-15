@@ -25,11 +25,7 @@ class GroupedTasks extends StatelessWidget {
     final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return ListBody(
       children: associatedTasks.map((task) {
-        return TaskExpansionTile(
-          task: task,
-          timeEntries: Provider.of<TimeService>(context)
-              .getGroupedTimeEntriesByTask(timeEntries, task),
-        );
+        return TaskExpansionTile(task: task);
       }).toList(),
     );
   }

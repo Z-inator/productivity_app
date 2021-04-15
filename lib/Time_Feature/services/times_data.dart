@@ -36,15 +36,19 @@ class TimeService {
     // List<Task> tasks;
     // getTasks(context).then((taskList) => tasks = taskList);
     final CollectionReference ref = _getTimeEntryReference();
-    return ref.snapshots().map((QuerySnapshot querySnapshot) =>
-        querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-          final Project project = projects[projects.indexWhere((project) =>
-              project.projectName ==
-              queryDocument.data()['projectName'].toString())];
-          // final Task task = tasks[tasks.indexWhere((task) =>
-          //     task.taskName == queryDocument.data()['taskName'].toString())];
-          return TimeEntry.fromFirestore(queryDocument, project,);
-        }).toList());
+    return ref.orderBy('endTime', descending: true).snapshots().map(
+        (QuerySnapshot querySnapshot) =>
+            querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
+              final Project project = projects[projects.indexWhere((project) =>
+                  project.projectName ==
+                  queryDocument.data()['projectName'].toString())];
+              // final Task task = tasks[tasks.indexWhere((task) =>
+              //     task.taskName == queryDocument.data()['taskName'].toString())];
+              return TimeEntry.fromFirestore(
+                queryDocument,
+                project,
+              );
+            }).toList());
   }
 
   Future<List<Project>> getProjects(BuildContext context) async {
@@ -59,31 +63,27 @@ class TimeService {
   //   return tasks;
   // }
 
-  List<TimeEntry> sortTimeEntries(List<TimeEntry> timeEntries) {
-    timeEntries.sort((a, b) => a.endTime.compareTo(b.endTime));
-    return timeEntries;
-  }
-
-  List<TimeEntry> filteredTimeEntries(
-      List<TimeEntry> timeEntries, DateTime day) {
+  List<TimeEntry> filteredTimeEntries(BuildContext context, DateTime day) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return timeEntries.where((entry) => entry.endTime == day).toList();
   }
 
-  List<DateTime> getDays(List<TimeEntry> timeEntries) {
+  List<DateTime> getDays(BuildContext context) {
     final List<DateTime> days = [];
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     for (var i = 0; i < timeEntries.length; i++) {
       final TimeEntry entry = timeEntries[i];
       if (!days.contains(entry.endTime)) {
         days.add(entry.endTime);
       }
     }
+    days.sort((a, b) => b.compareTo(a));
     return days;
   }
 
-  int getRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
+  int getRecordedTime(BuildContext context, DateTime day) {
     int recordedTime = 0;
-    final List<TimeEntry> entriesToCount =
-        filteredTimeEntries(timeEntries, day);
+    final List<TimeEntry> entriesToCount = filteredTimeEntries(context, day);
     entriesToCount.forEach((entry) {
       recordedTime += entry.elapsedTime;
     });
@@ -91,14 +91,15 @@ class TimeService {
   }
 
   List<TimeEntry> getGroupedTimeEntriesByProject(
-      List<TimeEntry> timeEntries, Project project) {
+      BuildContext context, Project project) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return timeEntries
         .where((entry) => entry.project.projectID == project.projectID)
         .toList();
   }
 
-  List<TimeEntry> getGroupedTimeEntriesByTask(
-      List<TimeEntry> timeEntries, Task task) {
+  List<TimeEntry> getGroupedTimeEntriesByTask(BuildContext context, Task task) {
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     return timeEntries
         .where((entry) => entry.entryName == task.taskName)
         .toList();
@@ -107,36 +108,17 @@ class TimeService {
   // Add Time Entry
   Future<void> addTimeEntry({Map<String, dynamic> addData}) async {
     return _getTimeEntryReference()
-        .add(Map<String, dynamic>.from(addData))
+        .add(addData)
         .then((value) => print('Time Entry Added'))
         .catchError((error) => print('Failed to add time entry: $error'));
   }
 
-  // Future<void> addTimeEntry2({String addToDate, Map addData}) async {
-  //   final DocumentSnapshot documentSnapshot =
-  //       await _getTimeEntryReference().doc(addToDate).get();
-  //   if (!documentSnapshot.exists) {
-  //     await _getTimeEntryReference().doc(addToDate).set({'numberOfEntries': 1});
-  //   } else {
-  //     final dynamic newNumberOfEntries =
-  //         documentSnapshot.data()['numberOfEntries'] + 1;
-  //     await _getTimeEntryReference()
-  //         .doc(addToDate)
-  //         .set({'numberOfEntries': newNumberOfEntries});
-  //   }
-  //   return _getTimeEntryReference()
-  //       .doc(addToDate)
-  //       .collection('dayEntries')
-  //       .add(Map<String, dynamic>.from(addData))
-  //       .then((value) => print('Time Entry Added'))
-  //       .catchError((error) => print('Failed to add time entry: $error'));
-  // }
-
   // Update Time Entry
-  Future<void> updateTimeEntry({String timeEntryID, Map updateData}) async {
+  Future<void> updateTimeEntry(
+      {String timeEntryID, Map<String, dynamic> updateData}) async {
     return _getTimeEntryReference()
         .doc(timeEntryID)
-        .update(Map<String, dynamic>.from(updateData))
+        .update(updateData)
         .then((value) => print('Time Entry Updated'))
         .catchError((error) => print('Failed to update time entry: $error'));
   }

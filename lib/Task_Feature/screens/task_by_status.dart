@@ -18,19 +18,17 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 
 class TasksByStatus extends StatelessWidget {
-  final List<Task> associatedTasks;
-  const TasksByStatus({this.associatedTasks});
+  // final List<Task> associatedTasks;
+  const TasksByStatus();
 
   @override
   Widget build(BuildContext context) {
     final List<Status> statuses = Provider.of<List<Status>>(context);
-    final List<Task> tasks = associatedTasks ?? Provider.of<List<Task>>(context);
-
-    return statuses == null || tasks == null
+    return statuses == null
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : TaskByStatusBody(statuses: statuses, tasks: tasks);
+        : TaskByStatusBody(statuses: statuses);
   }
 }
 
@@ -38,16 +36,12 @@ class TaskByStatusBody extends StatelessWidget {
   const TaskByStatusBody({
     Key key,
     @required this.statuses,
-    @required this.tasks,
   }) : super(key: key);
 
   final List<Status> statuses;
-  final List<Task> tasks;
 
   @override
   Widget build(BuildContext context) {
-    final StatusService statusState = Provider.of<StatusService>(context);
-    statusState.sortStatuses(statuses);
     final TaskService taskState = Provider.of<TaskService>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
@@ -61,7 +55,7 @@ class TaskByStatusBody extends StatelessWidget {
               children: [
                 StatusExpansionTile(
                     status: status,
-                    tasks: taskState.getGroupedTasksByStatus(context, status)),
+                ),
                 GroupedTasks(
                     associatedTasks: taskState.getGroupedTasksByStatus(context, status))
               ],

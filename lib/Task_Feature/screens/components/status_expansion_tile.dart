@@ -21,8 +21,7 @@ import 'package:provider/provider.dart';
 
 class StatusExpansionTile extends StatelessWidget {
   final Status status;
-  final List<Task> tasks;
-  const StatusExpansionTile({Key key, this.status, this.tasks})
+  const StatusExpansionTile({Key key, this.status})
       : super(key: key);
 
   @override
@@ -42,7 +41,7 @@ class StatusExpansionTile extends StatelessWidget {
             expandedCrossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                  title: Text('Tasks: ${state.getTaskCount(tasks, status)}',
+                  title: Text('Tasks: ${state.getTaskCount(context, status)}',
                       style: Theme.of(context).textTheme.subtitle1),
                   trailing: IconButton(
                     icon: Icon(Icons.add_rounded),

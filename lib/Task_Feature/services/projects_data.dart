@@ -52,7 +52,7 @@ class ProjectService {
   // Add Project
   Future<void> addProject({Map<String, dynamic> addData}) async {
     return _getProjectReference()
-        .add(Map<String, dynamic>.from(addData))
+        .add(addData)
         .then((value) => print('Project Added'))
         .catchError((error) => print('Failed to add project: $error'));
   }
@@ -62,10 +62,10 @@ class ProjectService {
   // }
 
   // Update Project
-  Future<void> updateProject({String projectID, Map updateData}) async {
+  Future<void> updateProject({String projectID, Map<String, dynamic> updateData}) async {
     return _getProjectReference()
         .doc(projectID)
-        .update(Map<String, dynamic>.from(updateData))
+        .update(updateData)
         .then((value) => print('Project Updated'))
         .catchError((error) => print('Failed to update project: $error'));
   }

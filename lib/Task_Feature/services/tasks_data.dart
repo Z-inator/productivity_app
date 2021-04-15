@@ -9,6 +9,7 @@ import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
 class TaskService {
@@ -81,7 +82,8 @@ class TaskService {
   }
 
   int getRecordedTime(BuildContext context, Task task) {
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    List<TimeEntry> timeEntries = Provider.of<TimeService>(context)
+        .getGroupedTimeEntriesByTask(context, task);
     int recordedTime = 0;
     timeEntries.forEach((entry) {
       recordedTime += entry.elapsedTime;
@@ -147,16 +149,17 @@ class TaskService {
   // Add Task
   Future<void> addTask({Map<String, dynamic> addData}) async {
     return _getTaskReference()
-        .add(Map<String, dynamic>.from(addData))
+        .add(addData)
         .then((value) => print('Task Added'))
         .catchError((error) => print('Failed to add task: $error'));
   }
 
   // Update Task
-  Future<void> updateTask({String taskID, Map updateData}) async {
+  Future<void> updateTask(
+      {String taskID, Map<String, dynamic> updateData}) async {
     return _getTaskReference()
         .doc(taskID)
-        .update(Map<String, dynamic>.from(updateData))
+        .update(updateData)
         .then((value) => print('Task Updated'))
         .catchError((error) => print('Failed to update task: $error'));
   }

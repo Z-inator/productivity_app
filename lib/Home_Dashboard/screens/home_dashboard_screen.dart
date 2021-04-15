@@ -18,65 +18,64 @@ class HomeDashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  ListTile(
-                      leading: CircleAvatar(
-                        foregroundImage: NetworkImage(
-                            'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-                      ),
-                      title: Text('Butt Face'),
-                      subtitle: Text(DateTimeFunctions()
-                          .dateTimeToTextDate(date: DateTime.now())),
-                      trailing: IconButton(
-                        icon: Icon(Icons.settings_rounded),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                      )),
-                  Text(
-                      'The secret of your future is hidden in your daily routine.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .copyWith(fontStyle: FontStyle.italic)),
-                  Text(
-                      'Mike Murdock',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle1)
-                ],
-              ),
+      scrollDirection: Axis.vertical,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                ListTile(
+                    leading: CircleAvatar(
+                      foregroundImage: NetworkImage(
+                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                    ),
+                    title: Text('Butt Face'),
+                    subtitle: Text(DateTimeFunctions()
+                        .dateTimeToTextDate(date: DateTime.now())),
+                    trailing: IconButton(
+                      icon: Icon(Icons.settings_rounded),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                    )),
+                Text(
+                    'The secret of your future is hidden in your daily routine.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontStyle: FontStyle.italic)),
+                Text('Mike Murdock',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1)
+              ],
             ),
-            ListTile(
-              title: Text('Recorded Time',
-                  style: Theme.of(context).textTheme.headline5),
-              trailing: IconButton(
-                icon: Icon(Icons.insights_rounded),
-                tooltip: 'Reports',
-                onPressed: () {},
-              ),
+          ),
+          ListTile(
+            title: Text('Recorded Time',
+                style: Theme.of(context).textTheme.headline5),
+            trailing: IconButton(
+              icon: Icon(Icons.insights_rounded),
+              tooltip: 'Reports',
+              onPressed: () {},
             ),
-            TimeChartRow(),
-            ListTile(
-              title: Text('Important Tasks',
-                  style: Theme.of(context).textTheme.headline5),
-              trailing: IconButton(
-                icon: Icon(Icons.insights_rounded),
-                tooltip: 'Reports',
-                onPressed: () {},
-              ),
+          ),
+          TimeChartRow(),
+          ListTile(
+            title: Text('Important Tasks',
+                style: Theme.of(context).textTheme.headline5),
+            trailing: IconButton(
+              icon: Icon(Icons.insights_rounded),
+              tooltip: 'Reports',
+              onPressed: () {},
             ),
-            TaskDueRow(),
-            // StatusList()
-            SizedBox(height: 100)
-          ],
-        ),
+          ),
+          TaskDueRow(),
+          StatusList(),
+          SizedBox(height: 100)
+        ],
+      ),
     );
   }
 }
@@ -90,19 +89,19 @@ class TaskDueRow extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: tasks.isEmpty
-        ? CircularProgressIndicator()
-        : SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TaskDueToday(),
-              TaskDueThisWeek(),
-              TaskDueThisWeek()
-            ],
-          ),
-      ),
+          ? CircularProgressIndicator()
+          : SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TaskDueToday(),
+                  TaskDueThisWeek(),
+                  TaskDueThisWeek()
+                ],
+              ),
+            ),
     );
   }
 }
@@ -112,7 +111,8 @@ class TaskDueToday extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context).getTasksDueToday(context);
+    List<Task> tasks =
+        Provider.of<TaskService>(context).getTasksDueToday(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
@@ -123,10 +123,13 @@ class TaskDueToday extends StatelessWidget {
               title: Text('Tasks Due Today'),
             ),
             tasks.isEmpty
-                ? ListTile(title: Text('No Tasks Due Today', style: Theme.of(context).textTheme.subtitle1))
+                ? ListTile(
+                    title: Text('No Tasks Due Today',
+                        style: Theme.of(context).textTheme.subtitle1))
                 : ListBody(
-                    children:
-                        tasks.map((task) => TaskExpansionTile(task: task)).toList(),
+                    children: tasks
+                        .map((task) => TaskExpansionTile(task: task))
+                        .toList(),
                   ),
           ],
         ),
@@ -140,7 +143,8 @@ class TaskDueThisWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context).getTasksDueThisWeek(context);
+    List<Task> tasks =
+        Provider.of<TaskService>(context).getTasksDueThisWeek(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
@@ -151,10 +155,13 @@ class TaskDueThisWeek extends StatelessWidget {
               title: Text('Tasks Due This Week'),
             ),
             tasks.isEmpty
-                ? ListTile(title: Text('No Tasks Due This Week', style: Theme.of(context).textTheme.subtitle1))
+                ? ListTile(
+                    title: Text('No Tasks Due This Week',
+                        style: Theme.of(context).textTheme.subtitle1))
                 : ListBody(
-                    children:
-                        tasks.map((task) => TaskExpansionTile(task: task)).toList(),
+                    children: tasks
+                        .map((task) => TaskExpansionTile(task: task))
+                        .toList(),
                   ),
           ],
         ),
@@ -168,7 +175,8 @@ class TaskPastDue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context).getTasksPastDue(context);
+    List<Task> tasks =
+        Provider.of<TaskService>(context).getTasksPastDue(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
@@ -179,10 +187,13 @@ class TaskPastDue extends StatelessWidget {
               title: Text('Late Tasks'),
             ),
             tasks.isEmpty
-                ? ListTile(title: Text('No Late Tasks', style: Theme.of(context).textTheme.subtitle1))
+                ? ListTile(
+                    title: Text('No Late Tasks',
+                        style: Theme.of(context).textTheme.subtitle1))
                 : ListBody(
-                    children:
-                        tasks.map((task) => TaskExpansionTile(task: task)).toList(),
+                    children: tasks
+                        .map((task) => TaskExpansionTile(task: task))
+                        .toList(),
                   ),
           ],
         ),
@@ -217,9 +228,7 @@ class TimeBarChart extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: 350,
       height: 350,
-      child: Card(
-          child: BarChartSample1()
-      ),
+      child: Card(child: BarChartSample1()),
     );
   }
 }
@@ -230,12 +239,10 @@ class TimePieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        width: 350,
-        height: 350,
-        child: Card(
-            child: PieChartSample2()
-        ),
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      width: 350,
+      height: 350,
+      child: Card(child: PieChartSample2()),
     );
   }
 }
@@ -246,34 +253,31 @@ class TimeBarChartByProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        width: 350,
-        height: 350,
-        child: Card(
-            child: BarChartSample1()
-        ),
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      width: 350,
+      height: 350,
+      child: Card(child: BarChartSample1()),
     );
   }
 }
 
-// class StatusList extends StatelessWidget {
-//   const StatusList({Key key}) : super(key: key);
+class StatusList extends StatelessWidget {
+  const StatusList({Key key}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     List<Status> statuses = Provider.of<List<Status>>(context);
-//     return statuses.isEmpty
-//         ? CircularProgressIndicator()
-//         : Container(
-//             child: Card(
-//               child: ListBody(
-//                 children: statuses.map((status) {
-//                   StatusExpansionTile(status: status);
-//                 }).toList(),
-//               ),
-//           ));
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    final List<Status> statuses = Provider.of<List<Status>>(context);
+    
+    return statuses == null
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+            child: ListBody(
+            children: statuses.map((status) {
+              StatusExpansionTile(status: status);
+            }).toList(),
+          ));
+  }
+}
 
 class StatusEditPage extends StatefulWidget {
   StatusEditPage({Key key}) : super(key: key);
@@ -312,7 +316,6 @@ class _StatusEditPageState extends State<StatusEditPage> {
     );
   }
 }
-
 
 class BarChartSample1 extends StatefulWidget {
   final List<Color> availableColors = [
@@ -355,7 +358,9 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Text(
                     'Mingguan',
                     style: TextStyle(
-                        color: const Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
+                        color: const Color(0xff0f4a3c),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 4,
@@ -363,7 +368,9 @@ class BarChartSample1State extends State<BarChartSample1> {
                   Text(
                     'Grafik konsumsi kalori',
                     style: TextStyle(
-                        color: const Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
+                        color: const Color(0xff379982),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 38,
@@ -521,8 +528,8 @@ class BarChartSample1State extends State<BarChartSample1> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) =>
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          getTextStyles: (value) => const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
@@ -565,8 +572,8 @@ class BarChartSample1State extends State<BarChartSample1> {
         show: true,
         bottomTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) =>
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          getTextStyles: (value) => const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
@@ -600,25 +607,32 @@ class BarChartSample1State extends State<BarChartSample1> {
         switch (i) {
           case 0:
             return makeGroupData(0, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 1:
             return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 2:
             return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 3:
             return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 4:
             return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 5:
             return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           case 6:
             return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-                barColor: widget.availableColors[Random().nextInt(widget.availableColors.length)]);
+                barColor: widget.availableColors[
+                    Random().nextInt(widget.availableColors.length)]);
           default:
             return null;
         }
@@ -628,7 +642,8 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   Future<dynamic> refreshState() async {
     setState(() {});
-    await Future<dynamic>.delayed(animDuration + const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(
+        animDuration + const Duration(milliseconds: 50));
     if (isPlaying) {
       refreshState();
     }
@@ -659,12 +674,16 @@ class PieChart2State extends State {
                 aspectRatio: 1,
                 child: PieChart(
                   PieChartData(
-                      pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                      pieTouchData:
+                          PieTouchData(touchCallback: (pieTouchResponse) {
                         setState(() {
-                          final desiredTouch = pieTouchResponse.touchInput is! PointerExitEvent &&
+                          final desiredTouch = pieTouchResponse.touchInput
+                                  is! PointerExitEvent &&
                               pieTouchResponse.touchInput is! PointerUpEvent;
-                          if (desiredTouch && pieTouchResponse.touchedSection != null) {
-                            touchedIndex = pieTouchResponse.touchedSection.touchedSectionIndex;
+                          if (desiredTouch &&
+                              pieTouchResponse.touchedSection != null) {
+                            touchedIndex = pieTouchResponse
+                                .touchedSection.touchedSectionIndex;
                           } else {
                             touchedIndex = -1;
                           }
@@ -740,7 +759,9 @@ class PieChart2State extends State {
             title: '40%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         case 1:
           return PieChartSectionData(
@@ -749,7 +770,9 @@ class PieChart2State extends State {
             title: '30%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         case 2:
           return PieChartSectionData(
@@ -758,7 +781,9 @@ class PieChart2State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         case 3:
           return PieChartSectionData(
@@ -767,7 +792,9 @@ class PieChart2State extends State {
             title: '15%',
             radius: radius,
             titleStyle: TextStyle(
-                fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
           );
         default:
           return null;
@@ -809,7 +836,8 @@ class Indicator extends StatelessWidget {
         ),
         Text(
           text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: textColor),
         )
       ],
     );

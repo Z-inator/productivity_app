@@ -21,6 +21,10 @@ class StatusEditBottomSheet extends StatelessWidget {
       create: (context) => StatusEditState(),
       builder: (context, child) {
         final StatusEditState state = Provider.of<StatusEditState>(context);
+        final StatusService statusService = Provider.of<StatusService>(context);
+        if (status != null) {
+          state.updateStatus(status);
+        }
         return Container(
           margin: EdgeInsets.all(20),
           child: Column(
@@ -37,30 +41,22 @@ class StatusEditBottomSheet extends StatelessWidget {
               ColorSelector(
                   saveColor: state.updateStatusColor,
                   matchColor: state.newStatus.statusColor),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.view_list_rounded),
-                label: Text('Change Status Order'),
-              ),
               CheckboxListTile(
-                value: true, 
-                onChanged: (bool value) => state.updateStatusComplete(value)
-              ),
+                  value: state.newStatus.equalToComplete,
+                  title: Text('This Status represents Task Complete:', style: Theme.of(context).textTheme.subtitle1),
+                  onChanged: (bool value) => state.updateStatusComplete(value)),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
                     icon: Icon(Icons.check_circle_outline_rounded),
                     label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
-                      // StatusService().updateStatus(
-                      //     statusID: widget.status.statusID,
-                      //     updateData: {
-                      //       'statusName': newStatusName ?? widget.status.statusName,
-                      //       'statusColor': int.parse(
-                      //               '0x${newStatusColor.value.toRadixString(16).toUpperCase().toString()}') ??
-                      //           int.parse(
-                      //               '0x${widget.status.statusColor.toString()}')
-                      //     });
+                      isUpdate
+                          ? statusService.updateStatus(
+                              statusID: status.statusID,
+                              updateData: state.newStatus.toFirestore())
+                          : statusService.addStatus(
+                              addData: state.newStatus.toFirestore());
                       Navigator.pop(context);
                     },
                   ))

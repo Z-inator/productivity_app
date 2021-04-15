@@ -51,7 +51,7 @@ class ProjectPage extends StatelessWidget {
     tasks = Provider.of<TaskService>(context)
         .getGroupedTasksByProject(context, project);
     timeEntries = Provider.of<TimeService>(context)
-        .getGroupedTimeEntriesByProject(timeEntries, project);
+        .getGroupedTimeEntriesByProject(context, project);
     return SafeArea(
         child: DefaultTabController(
       length: 4,
@@ -93,7 +93,7 @@ class ProjectPage extends StatelessWidget {
           HomeScreen(),
           (tasks.isEmpty
               ? Center(child: Text('No Tasks for ${project.projectName}'))
-              : TasksByStatus(associatedTasks: tasks)),
+              : TasksByStatus()),
           (timeEntries.isEmpty
               ? Center(
                   child: Text('No Time Entries for ${project.projectName}'))
