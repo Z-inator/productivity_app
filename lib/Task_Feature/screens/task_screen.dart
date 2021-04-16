@@ -26,23 +26,21 @@ class TaskScreen extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => TaskBodyState(),
         builder: (context, child) {
+          TaskBodyState state = Provider.of<TaskBodyState>(context);
           return Column(
               mainAxisSize: MainAxisSize.max,
-              children: [
-                FilterButtonRow(),
-                Expanded(child: TaskScreenBody())
-              ]);
+              children: [FilterButtonRow(), Expanded(child: state.widget)]);
         });
   }
 }
 
-class TaskScreenBody extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Widget body = Provider.of<TaskBodyState>(context).widget;
-    return body;
-  }
-}
+// class TaskScreenBody extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     Widget body = Provider.of<TaskBodyState>(context).widget;
+//     return body;
+//   }
+// }
 
 // class TaskStream extends StatefulWidget {
 //   @override
