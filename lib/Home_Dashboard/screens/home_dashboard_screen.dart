@@ -11,6 +11,7 @@ import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
+import 'package:productivity_app/Task_Feature/screens/status_edit_screen.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
@@ -65,8 +66,8 @@ class HomeDashBoard extends StatelessWidget {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: TimeChartRow()),
+              height: MediaQuery.of(context).size.height / 2,
+              child: TimeChartRow()),
           ListTile(
             title: Text('Important Tasks',
                 style: Theme.of(context).textTheme.headline5),
@@ -77,14 +78,20 @@ class HomeDashBoard extends StatelessWidget {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: TaskDueRow()),
+              height: MediaQuery.of(context).size.height / 2,
+              child: TaskDueRow()),
           ListTile(
-            title: Text('Statuses',
-                style: Theme.of(context).textTheme.headline5),
+            title:
+                Text('Statuses', style: Theme.of(context).textTheme.headline5),
             trailing: IconButton(
               icon: Icon(Icons.edit_rounded),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StatusEditPage(),
+                    ));
+              },
             ),
           ),
           StatusList(),
@@ -94,5 +101,3 @@ class HomeDashBoard extends StatelessWidget {
     );
   }
 }
-
-

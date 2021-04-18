@@ -49,7 +49,6 @@ class TaskExpansionTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.play_arrow_rounded),
                   tooltip: 'Start Timer',
-                  color: Colors.green,
                   onPressed: () {},
                 ),
                 IconButton(
@@ -68,6 +67,34 @@ class TaskExpansionTile extends StatelessWidget {
                   onPressed: () {},
                 ),
                 IconButton(
+                  icon: Icon(Icons.delete_rounded),
+                  tooltip: 'Delete Task',
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Delete Task: ${task.taskName}?'),
+                          content: ListTile(
+                            title: Text(
+                                'This will permanently delete this task.\nIt will not effect related time entries or projects.'),
+                          ),
+                          actions: [
+                            OutlinedButton.icon(
+                              icon: Icon(Icons.cancel_rounded),
+                              label: Text('Cancel'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            ElevatedButton.icon(
+                              icon: Icon(Icons.check_circle_outline_rounded),
+                              label: Text('Delete'),
+                              onPressed: () =>
+                                  taskService.deleteTask(taskID: task.taskID),
+                            )
+                          ],
+                        );
+                      }),
+                ),
+                IconButton(
                   icon: Icon(Icons.edit_rounded),
                   tooltip: 'Edit Task',
                   onPressed: () => EditBottomSheet().buildEditBottomSheet(
@@ -78,43 +105,60 @@ class TaskExpansionTile extends StatelessWidget {
                 StatusPickerDropDown(task: task)
               ]),
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RichText(
-                    text: TextSpan(
-                        text: 'Project: ',
-                        style: Theme.of(context).textTheme.subtitle1,
-                        children: <TextSpan>[
-                      TextSpan(
-                          text: task.project.projectName,
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                              color: Color(task.project.projectColor)))
-                    ])),
-                RichText(
-                    text: TextSpan(
-                        text: 'Status: ',
-                        style: Theme.of(context).textTheme.subtitle1,
-                        children: <TextSpan>[
-                      TextSpan(
-                          text: task.status.statusName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              .copyWith(color: Color(task.status.statusColor)))
-                    ])),
-              ],
+            ListTile(
+              title: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                      text: TextSpan(
+                          text: 'Project: ',
+                          style: Theme.of(context).textTheme.subtitle1,
+                          children: <TextSpan>[
+                        TextSpan(
+                            text: task.project.projectName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(
+                                    color: Color(task.project.projectColor)))
+                      ])),
+                  RichText(
+                      text: TextSpan(
+                          text: 'Status: ',
+                          style: Theme.of(context).textTheme.subtitle1,
+                          children: <TextSpan>[
+                        TextSpan(
+                            text: task.status.statusName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(
+                                    color: Color(task.status.statusColor)))
+                      ])),
+                ],
+              ),
             ),
-            Text('Subtasks: ', style: Theme.of(context).textTheme.subtitle1),
-            Text(
-                'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
-                style: Theme.of(context).textTheme.subtitle1),
-            Text(
-                task.dueDate.year == 0
-                    ? 'Due: '
-                    : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
-                style: Theme.of(context).textTheme.subtitle1),
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text('Subtasks: ',
+                      style: Theme.of(context).textTheme.subtitle1),
+                  Text(
+                      'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
+                      style: Theme.of(context).textTheme.subtitle1),
+                ],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                  task.dueDate.year == 0
+                      ? 'Due: '
+                      : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                  style: Theme.of(context).textTheme.subtitle1),
+            ),
             Text(
                 'Create Date: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
                 style: Theme.of(context).textTheme.caption),

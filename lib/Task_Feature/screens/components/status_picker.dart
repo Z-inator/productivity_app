@@ -39,7 +39,6 @@ class StatusPicker extends StatelessWidget {
 }
 
 class StatusPickerDropDown extends StatelessWidget {
-
   final Task task;
 
   const StatusPickerDropDown({Key key, this.task})
@@ -50,7 +49,8 @@ class StatusPickerDropDown extends StatelessWidget {
     final List<Status> statuses = Provider.of<List<Status>>(context);
     final TaskService state = Provider.of<TaskService>(context);
     return PopupMenuButton(
-        icon: Icon(Icons.rule_rounded),
+        icon: Icon(Icons.done_rounded),
+        tooltip: 'Change Status',
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))),
         itemBuilder: (BuildContext context) {

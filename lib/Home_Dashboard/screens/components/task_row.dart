@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class TaskDueRow extends StatelessWidget {
   TaskDueRow({Key key}) : super(key: key);
 
-  List<Widget> pages = [TaskDueToday(), TaskDueThisWeek(), TaskDueThisWeek()];
+  List<Widget> pages = [TaskDueToday(), TaskDueThisWeek(), TaskPastDue()];
 
   @override
   Widget build(BuildContext context) {

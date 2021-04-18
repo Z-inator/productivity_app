@@ -34,39 +34,33 @@ class StatusExpansionTile extends StatelessWidget {
     return Theme(
         data: ThemeData().copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-            leading: Icon(
-              Icons.circle,
-              color: Color(status.statusColor),
+          key: key,
+          leading: Icon(Icons.circle, color: Color(status.statusColor)),
+          title: Text(
+            status.statusName,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          trailing: IconButton(
+              icon: Icon(Icons.edit_rounded),
+              tooltip: 'Edit Status',
+              onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                  context: context,
+                  bottomSheet:
+                      StatusEditBottomSheet(isUpdate: true, status: status))),
+          children: [
+            ListTile(
+              title: Text('Tasks: $taskCount',
+                  style: Theme.of(context).textTheme.subtitle1),
             ),
-            title: Text(
-              status.statusName,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            expandedCrossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                  title: Text('Tasks: $taskCount',
-                      style: Theme.of(context).textTheme.subtitle1),
-                  trailing: IconButton(
-                    icon: Icon(Icons.add_rounded),
-                    tooltip: 'Add Task',
-                    onPressed: () {},
-                  )),
-              ListTile(
-                title: Text('Description:',
-                    style: Theme.of(context).textTheme.subtitle1),
-                subtitle: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
-                    overflow: TextOverflow.fade,
-                    maxLines: 3),
-                trailing: IconButton(
-                    icon: Icon(Icons.edit_rounded),
-                    tooltip: 'Edit Status',
-                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                        context: context,
-                        bottomSheet: StatusEditBottomSheet(
-                            isUpdate: true, status: status))),
-              )
-            ]));
+            ListTile(
+              title: Text('Description:',
+                  style: Theme.of(context).textTheme.subtitle1),
+              subtitle: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
+                  overflow: TextOverflow.fade,
+                  maxLines: 3),
+            )
+          ],
+        ));
   }
 }

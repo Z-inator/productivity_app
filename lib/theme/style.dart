@@ -35,6 +35,7 @@ ThemeData appTheme() {
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))))
-      )
+      ),
+      buttonBarTheme: ButtonBarThemeData(alignment: MainAxisAlignment.spaceAround)
   );
 }

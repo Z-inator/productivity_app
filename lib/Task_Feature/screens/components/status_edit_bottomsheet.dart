@@ -12,7 +12,9 @@ import 'package:provider/provider.dart';
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
-  const StatusEditBottomSheet({Key key, this.status, this.isUpdate})
+  final int statusCount;
+  const StatusEditBottomSheet(
+      {Key key, this.status, this.isUpdate, this.statusCount})
       : super(key: key);
 
   @override
@@ -24,6 +26,9 @@ class StatusEditBottomSheet extends StatelessWidget {
         final StatusService statusService = Provider.of<StatusService>(context);
         if (status != null) {
           state.updateStatus(status);
+        }
+        if (statusCount != null) {
+          state.updateStatusOrder(statusCount);
         }
         return Container(
           margin: EdgeInsets.all(20),
@@ -43,7 +48,8 @@ class StatusEditBottomSheet extends StatelessWidget {
                   matchColor: state.newStatus.statusColor),
               CheckboxListTile(
                   value: state.newStatus.equalToComplete,
-                  title: Text('This Status represents Task Complete:', style: Theme.of(context).textTheme.subtitle1),
+                  title: Text('This Status represents Task Complete:',
+                      style: Theme.of(context).textTheme.subtitle1),
                   onChanged: (bool value) => state.updateStatusComplete(value)),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
