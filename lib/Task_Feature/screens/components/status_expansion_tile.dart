@@ -40,25 +40,74 @@ class StatusExpansionTile extends StatelessWidget {
             status.statusName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          trailing: IconButton(
-              icon: Icon(Icons.edit_rounded),
-              tooltip: 'Edit Status',
-              onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                  context: context,
-                  bottomSheet:
-                      StatusEditBottomSheet(isUpdate: true, status: status))),
           children: [
-            ListTile(
-              title: Text('Tasks: $taskCount',
-                  style: Theme.of(context).textTheme.subtitle1),
-            ),
-            ListTile(
-              title: Text('Description:',
-                  style: Theme.of(context).textTheme.subtitle1),
-              subtitle: Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
-                  overflow: TextOverflow.fade,
-                  maxLines: 3),
+            ExpansionTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.edit_rounded),
+                      tooltip: 'Edit Status',
+                      onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                          context: context,
+                          bottomSheet: StatusEditBottomSheet(
+                              isUpdate: true, status: status))),
+                  IconButton(
+                    icon: Icon(Icons.delete_rounded),
+                    tooltip: 'Delete Status',
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Delete Status: ${status.statusName}?'),
+                            content: ListTile(
+                              title: Text(
+                                  'This will permanently delete this status.\nIt will not effect related tasks.'),
+                            ),
+                            actions: [
+                              OutlinedButton.icon(
+                                icon: Icon(Icons.cancel_rounded),
+                                label: Text('Cancel'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              ElevatedButton.icon(
+                                  icon:
+                                      Icon(Icons.check_circle_outline_rounded),
+                                  label: Text('Delete'),
+                                  onPressed: () {
+                                    statusService.deleteStatus(
+                                        statusID: status.statusID);
+                                    Navigator.pop(context);
+                                  })
+                            ],
+                          );
+                        }),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add_rounded),
+                    tooltip: 'Add Task',
+                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                        context: context,
+                        bottomSheet: TaskEditBottomSheet(
+                            isUpdate: false, status: status)),
+                  )
+                ],
+              ),
+              children: [
+                ListTile(
+                  title: Text('Tasks: $taskCount',
+                      style: Theme.of(context).textTheme.subtitle1),
+                ),
+                ListTile(
+                  title: Text('Description:',
+                      style: Theme.of(context).textTheme.subtitle1),
+                  subtitle: Text(
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
+                      overflow: TextOverflow.fade,
+                      maxLines: 3),
+                )
+              ],
             )
           ],
         ));

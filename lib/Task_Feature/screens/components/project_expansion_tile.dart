@@ -44,59 +44,98 @@ class ProjectExpansionTile extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         children: [
-          ListTile(
-              title: Text('Assigned Tasks: $taskCount',
-                  style: Theme.of(context).textTheme.subtitle1),
-              trailing: IconButton(
-                icon: Icon(Icons.add_rounded),
-                tooltip: 'Add Task',
-                onPressed: () {},
-              )),
-          ListTile(
-              title: Text(
-                  'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
-                  style: Theme.of(context).textTheme.subtitle1),
-              trailing: IconButton(
-                  icon: Icon(Icons.timelapse_rounded),
-                  onPressed: () =>
-                      DateAndTimePickers().buildTimeRangePicker())),
-          ListTile(
-              title: Text('Client: ${project.projectClient}',
-                  style: Theme.of(context).textTheme.subtitle1),
-              trailing: project.projectClient == ''
-                  ? IconButton(
-                      icon: Icon(Icons.person_add_rounded),
-                      tooltip: 'Add Client',
-                      onPressed: () {},
-                    )
-                  : null),
-          Container(
-            margin: EdgeInsets.all(16),
-            child: Row(
+          ExpansionTile(
+            title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                OutlinedButton.icon(
-                    icon: Icon(Icons.edit_rounded),
-                    label: Text('Edit Project'),
-                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                        context: context,
-                        bottomSheet: TaskEditBottomSheet(
-                            isUpdate: true, project: project))),
-                ElevatedButton.icon(
-                  icon: Icon(Icons.open_with_rounded),
-                  label: Text('Project Page'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                        return ProjectPage(project: project);
+                IconButton(
+                  icon: Icon(Icons.play_arrow_rounded),
+                  tooltip: 'Start Timer',
+                  onPressed: () {},
+                ),
+                IconButton(
+                    icon: Icon(Icons.timelapse_rounded),
+                    tooltip: 'Add Time Entry',
+                    onPressed: () =>
+                        DateAndTimePickers().buildTimeRangePicker()),
+                IconButton(
+                  icon: Icon(Icons.delete_rounded),
+                  tooltip: 'Delete Project',
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title:
+                              Text('Delete Project: ${project.projectName}?'),
+                          content: ListTile(
+                            title: Text(
+                                'This will permanently delete this project.\nIt will not effect related time entries or tasks.'),
+                          ),
+                          actions: [
+                            OutlinedButton.icon(
+                              icon: Icon(Icons.cancel_rounded),
+                              label: Text('Cancel'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            ElevatedButton.icon(
+                                icon: Icon(Icons.check_circle_outline_rounded),
+                                label: Text('Delete'),
+                                onPressed: () {
+                                  projectService.deleteProject(
+                                      projectID: project.projectID);
+                                  Navigator.pop(context);
+                                })
+                          ],
+                        );
                       }),
-                    );
-                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit_rounded),
+                  tooltip: 'Edit Project',
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                      context: context,
+                      bottomSheet: ProjectEditBottomSheet(
+                          isUpdate: true, project: project)),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add_rounded),
+                  tooltip: 'Add Task',
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                      context: context,
+                      bottomSheet: TaskEditBottomSheet(
+                          isUpdate: false, project: project)),
                 ),
               ],
             ),
-          )
+            children: [
+              ListTile(
+                title: Text('Assigned Tasks: $taskCount',
+                    style: Theme.of(context).textTheme.subtitle1),
+              ),
+              ListTile(
+                title: Text(
+                    'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
+                    style: Theme.of(context).textTheme.subtitle1),
+              ),
+              ListTile(
+                title: Text('Client: ${project.projectClient}',
+                    style: Theme.of(context).textTheme.subtitle1),
+              ),
+              ElevatedButton.icon(
+                icon: Icon(Icons.open_with_rounded),
+                label: Text('Project Page'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                      return ProjectPage(project: project);
+                    }),
+                  );
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -43,10 +43,6 @@ class _StatusEditPageState extends State<StatusEditPage> {
               }
               final Status statusTile = statuses.removeAt(oldIndex);
               statuses.insert(newIndex, statusTile);
-              statusTile.statusOrder = newIndex + 1;
-              statuses.forEach((status) {
-                status.statusOrder = statuses.indexOf(status) + 1;
-              });
             });
           },
         ),
@@ -74,9 +70,12 @@ class _StatusEditPageState extends State<StatusEditPage> {
                   icon: Icon(Icons.check_circle_outline_rounded),
                   label: Text('Update'),
                   onPressed: () {
-                    statuses.forEach((status) => statusService.updateStatus(
-                        statusID: status.statusID,
-                        updateData: status.toFirestore()));
+                    statuses.forEach((status) {
+                      status.statusOrder = statuses.indexOf(status) + 1;
+                      statusService.updateStatus(
+                          statusID: status.statusID,
+                          updateData: status.toFirestore());
+                    });
                   },
                 ),
               ],

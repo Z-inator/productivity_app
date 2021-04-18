@@ -26,7 +26,7 @@ class GroupedTasks extends StatelessWidget {
     return associatedTasks == null 
     ? Center(child: CircularProgressIndicator(),)
     : associatedTasks.isEmpty
-        ? Center(child: Text('No Tasks Yet'))
+        ? Center(child: Text('No Tasks Yet', style: Theme.of(context).textTheme.caption,))
         : ListBody(
             children: associatedTasks.map((task) {
               return TaskExpansionTile(task: task);

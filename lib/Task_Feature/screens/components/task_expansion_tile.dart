@@ -41,7 +41,6 @@ class TaskExpansionTile extends StatelessWidget {
           style: TextStyle(color: Color(task.project.projectColor))),
       children: [
         ExpansionTile(
-          childrenPadding: EdgeInsets.symmetric(horizontal: 20),
           title: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -85,11 +84,12 @@ class TaskExpansionTile extends StatelessWidget {
                               onPressed: () => Navigator.pop(context),
                             ),
                             ElevatedButton.icon(
-                              icon: Icon(Icons.check_circle_outline_rounded),
-                              label: Text('Delete'),
-                              onPressed: () =>
-                                  taskService.deleteTask(taskID: task.taskID),
-                            )
+                                icon: Icon(Icons.check_circle_outline_rounded),
+                                label: Text('Delete'),
+                                onPressed: () {
+                                  taskService.deleteTask(taskID: task.taskID);
+                                  Navigator.pop(context);
+                                })
                           ],
                         );
                       }),
@@ -160,7 +160,7 @@ class TaskExpansionTile extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle1),
             ),
             Text(
-                'Create Date: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
+                'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
                 style: Theme.of(context).textTheme.caption),
           ],
         )
