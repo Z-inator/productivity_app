@@ -11,7 +11,7 @@ import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
-import 'package:productivity_app/Task_Feature/screens/status_edit_screen.dart';
+import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
@@ -59,11 +59,11 @@ class HomeDashBoard extends StatelessWidget {
           ListTile(
             title: Text('Recorded Time',
                 style: Theme.of(context).textTheme.headline5),
-            trailing: IconButton(
-              icon: Icon(Icons.insights_rounded),
-              tooltip: 'Reports',
-              onPressed: () {},
-            ),
+            // trailing: IconButton(
+            //   icon: Icon(Icons.insights_rounded),
+            //   tooltip: 'Reports',
+            //   onPressed: () {},
+            // ),
           ),
           Container(
               height: MediaQuery.of(context).size.height / 2,
@@ -71,11 +71,11 @@ class HomeDashBoard extends StatelessWidget {
           ListTile(
             title: Text('Important Tasks',
                 style: Theme.of(context).textTheme.headline5),
-            trailing: IconButton(
-              icon: Icon(Icons.insights_rounded),
-              tooltip: 'Reports',
-              onPressed: () {},
-            ),
+            // trailing: IconButton(
+            //   icon: Icon(Icons.insights_rounded),
+            //   tooltip: 'Reports',
+            //   onPressed: () {},
+            // ),
           ),
           Container(
               height: MediaQuery.of(context).size.height / 2,

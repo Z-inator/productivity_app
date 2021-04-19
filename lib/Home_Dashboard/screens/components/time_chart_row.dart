@@ -27,7 +27,13 @@ class TimeBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BarChartSample1();
+    return BarChart(
+      BarChartData(
+        // barGroups: BarChartGroupData(
+        //   x: ,
+        // )
+      )
+    );
   }
 }
 

@@ -8,7 +8,7 @@ class Project {
   String projectClient;
   int projectColor;
 
-  Project({projectID, projectName, projectColor, projectClient, projectTasks})
+  Project({projectID, projectName, projectColor, projectClient})
       : projectID = projectID as String ?? '',
         projectName = projectName as String ?? '',
         projectColor = projectColor as int ?? 4285887861,

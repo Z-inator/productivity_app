@@ -30,7 +30,7 @@ class Task {
         taskName: data['taskName'] as String ?? '',
         project: project ?? Project(),
         status: status ?? Status(),
-        dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(1),
+        dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(0),
         createDate:
             (data['createDate'] as Timestamp).toDate() ?? DateTime.now());
   }
