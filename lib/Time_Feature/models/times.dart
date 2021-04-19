@@ -18,6 +18,7 @@ class TimeEntry {
       : entryID = entryID as String ?? '',
         entryName = entryName as String ?? '',
         project = project as Project ?? Project(),
+        task = task as Task ?? Task(),
         startTime = startTime as DateTime ?? DateTime.now(),
         endTime = endTime as DateTime ?? DateTime.now().add(Duration(hours: 1)),
         elapsedTime = elapsedTime as int ?? 0;
@@ -35,17 +36,16 @@ class TimeEntry {
         task: task ?? Task(),
         startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),
         endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now(),
-        elapsedTime: (data['startTime'] as Timestamp)
-                .toDate()
-                .compareTo((data['endTime'] as Timestamp).toDate()) ??
+        elapsedTime: (data['endTime'] as Timestamp).toDate()
+            .difference((data['startTime'] as Timestamp).toDate()).inSeconds ??
             0);
   }
 
   Map<String, dynamic> toFirestore() {
     return {
       'entryName': entryName,
-      'entryProject': project.projectID,
-      'entryTask': task.taskID,
+      'project': project.projectID,
+      'task': task.taskID,
       'startTime': startTime,
       'endTime': endTime,
     };

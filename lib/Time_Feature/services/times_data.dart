@@ -39,16 +39,11 @@ class TimeService {
     return ref.orderBy('endTime', descending: true).snapshots().map(
         (QuerySnapshot querySnapshot) =>
             querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-              final Project project = projects[projects.indexWhere((project) =>
-                  project.projectID ==
-                  queryDocument.data()['entryProject'].toString())];
-              final Task task = tasks[tasks.indexWhere((task) =>
-                  task.taskID == queryDocument.data()['entryTask'].toString())];
-              return TimeEntry.fromFirestore(
-                queryDocument,
-                project,
-                task
-              );
+              final Project project = projects.firstWhere((project) =>
+                  project.projectID == queryDocument.data()['project'].toString());
+              final Task task = tasks.firstWhere((task) =>
+                  task.taskID == queryDocument.data()['task'].toString());
+              return TimeEntry.fromFirestore(queryDocument, project, task);
             }).toList());
   }
 
@@ -64,7 +59,8 @@ class TimeService {
     return tasks;
   }
 
-  List<TimeEntry> filteredTimeEntries(List<TimeEntry> timeEntries, DateTime day) {
+  List<TimeEntry> filteredTimeEntries(
+      List<TimeEntry> timeEntries, DateTime day) {
     return timeEntries.where((entry) => entry.endTime == day).toList();
   }
 
@@ -82,7 +78,10 @@ class TimeService {
 
   int getRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
     int recordedTime = 0;
-    timeEntries.forEach((entry) {
+    List<TimeEntry> dailyEntries;
+    dailyEntries =
+        timeEntries.where((entry) => entry.endTime.day == day.day).toList();
+    dailyEntries.forEach((entry) {
       recordedTime += entry.elapsedTime;
     });
     return recordedTime;
@@ -99,6 +98,39 @@ class TimeService {
     return timeEntries
         .where((entry) => entry.entryName == task.taskName)
         .toList();
+  }
+
+  List<int> getWeekTimeData(
+      List<TimeEntry> timeEntries, DateTime referenceDay) {
+    DateTime monday;
+    DateTime sunday;
+    List<DateTime> days;
+    List<int> recordedDailyTime;
+
+    for (var day = 0; day < 7; day++) {
+      DateTime decreaseTemp = referenceDay.subtract(Duration(days: day));
+      if (decreaseTemp.weekday == 1) {
+        monday =
+            DateTime(decreaseTemp.year, decreaseTemp.month, decreaseTemp.day);
+      }
+      DateTime increaseTemp = referenceDay.add(Duration(days: day));
+      if (increaseTemp.weekday == 7) {
+        sunday =
+            DateTime(increaseTemp.year, increaseTemp.month, increaseTemp.day);
+      }
+    }
+    List<TimeEntry> weeksData = timeEntries
+        .where((entry) =>
+            entry.endTime.isAfter(monday.subtract(Duration(days: 1))) &&
+            entry.endTime.isBefore(sunday.add(Duration(days: 1))))
+        .toList();
+    days = getDays(weeksData);
+    days.forEach((day) {
+      int temp = getRecordedTime(weeksData, day);
+      recordedDailyTime.add(temp);
+    });
+    print(recordedDailyTime.length);
+    return recordedDailyTime;
   }
 
   // Add Time Entry
