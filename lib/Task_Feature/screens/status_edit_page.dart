@@ -63,7 +63,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
                       context: context,
                       bottomSheet: StatusEditBottomSheet(
                         isUpdate: false,
-                        statusCount: statuses.length + 1,
+                        statusOrder: statuses.length + 1,
                       )),
                 ),
                 ElevatedButton.icon(

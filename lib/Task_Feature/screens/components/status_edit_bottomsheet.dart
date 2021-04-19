@@ -12,14 +12,15 @@ import 'package:provider/provider.dart';
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
-  final int statusCount;
-  StatusEditBottomSheet({Key key, this.status, this.isUpdate, this.statusCount})
+  final int statusOrder;
+  StatusEditBottomSheet({Key key, this.status, this.isUpdate, this.statusOrder})
       : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    
     return ChangeNotifierProvider(
       create: (context) => StatusEditState(),
       builder: (context, child) {
@@ -28,14 +29,21 @@ class StatusEditBottomSheet extends StatelessWidget {
         if (status != null) {
           state.updateStatus(status);
         }
-        if (statusCount != null) {
-          state.updateStatusOrder(statusCount);
+        if (statusOrder != null) {
+          state.updateStatusOrder(statusOrder);
         }
         return Container(
           margin: EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              ListTile(
+                title: Text(state.newStatus.statusName.isEmpty
+                    ? 'Add Status'
+                    : state.newStatus.statusName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -43,12 +51,13 @@ class StatusEditBottomSheet extends StatelessWidget {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
-                    hintText: state.newStatus.statusName ?? 'Status Name'),
+                decoration: InputDecoration(hintText: 'Status Name'),
                 textAlign: TextAlign.center,
-                onChanged: (newText) {
-                  state.updateStatusName(newText);
-                },
+                // onChanged: (newText) {
+                //   state.updateStatusName(newText);
+                // },
+                onSaved: (value) =>
+                    state.updateStatusName(value),
               ),
               ColorSelector(
                   saveColor: state.updateStatusColor,
@@ -66,11 +75,11 @@ class StatusEditBottomSheet extends StatelessWidget {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         isUpdate
-                          ? statusService.updateStatus(
-                              statusID: status.statusID,
-                              updateData: state.newStatus.toFirestore())
-                          : statusService.addStatus(
-                              addData: state.newStatus.toFirestore());
+                            ? statusService.updateStatus(
+                                statusID: status.statusID,
+                                updateData: state.newStatus.toFirestore())
+                            : statusService.addStatus(
+                                addData: state.newStatus.toFirestore());
                         Navigator.pop(context);
                       }
                     },
