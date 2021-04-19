@@ -12,9 +12,9 @@ class TimeEntry {
   int elapsedTime;
   String entryName;
   Project project;
-  // Task task;
+  Task task;
 
-  TimeEntry({entryID, entryName, project, startTime, endTime, elapsedTime})
+  TimeEntry({entryID, entryName, project, task, startTime, endTime, elapsedTime})
       : entryID = entryID as String ?? '',
         entryName = entryName as String ?? '',
         project = project as Project ?? Project(),
@@ -25,13 +25,14 @@ class TimeEntry {
   factory TimeEntry.fromFirestore(
     DocumentSnapshot snapshot,
     Project project,
+    Task task
   ) {
     final Map data = Map.from(snapshot.data());
     return TimeEntry(
         entryID: snapshot.id ?? '',
         entryName: data['entryName'] as String ?? '',
         project: project ?? Project(),
-        // task: task ?? Task(),
+        task: task ?? Task(),
         startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),
         endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now(),
         elapsedTime: (data['startTime'] as Timestamp)
@@ -43,7 +44,8 @@ class TimeEntry {
   Map<String, dynamic> toFirestore() {
     return {
       'entryName': entryName,
-      'projectName': project.projectName,
+      'entryProject': project.projectID,
+      'entryTask': task.taskID,
       'startTime': startTime,
       'endTime': endTime,
     };

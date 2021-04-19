@@ -13,6 +13,7 @@ import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
@@ -57,8 +58,10 @@ class ProjectExpansionTile extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.timelapse_rounded),
                     tooltip: 'Add Time Entry',
-                    onPressed: () =>
-                        DateAndTimePickers().buildTimeRangePicker()),
+                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                        context: context,
+                        bottomSheet: TimeEntryEditBottomSheet(
+                            isUpdate: false, project: project))),
                 IconButton(
                   icon: Icon(Icons.delete_rounded),
                   tooltip: 'Delete Project',

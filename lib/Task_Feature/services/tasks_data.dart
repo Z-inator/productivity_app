@@ -42,10 +42,10 @@ class TaskService {
     return ref.snapshots().map((QuerySnapshot querySnapshot) =>
         querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
           final Project project = projects[projects.indexWhere((project) =>
-              project.projectName ==
-              queryDocument.data()['projectName'].toString())];
+              project.projectID ==
+              queryDocument.data()['taskProject'].toString())];
           final Status status = statuses[statuses.indexWhere((status) =>
-              status.statusName == queryDocument.data()['status'].toString())];
+              status.statusID == queryDocument.data()['taskStatus'].toString())];
           return Task.fromFirestore(queryDocument, project, status);
         }).toList());
   }

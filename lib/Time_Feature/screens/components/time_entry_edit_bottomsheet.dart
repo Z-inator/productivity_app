@@ -43,9 +43,9 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
         if (project != null) {
           state.updateEntryProject(project);
         }
-        // if (task != null) {
-        //   state.updateEntryTask(task);
-        // }
+        if (task != null) {
+          state.updateEntryTask(task);
+        }
         return Container(
             margin: EdgeInsets.all(20),
             child: Form(

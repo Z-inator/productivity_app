@@ -23,10 +23,10 @@ class TimeEntryEditState with ChangeNotifier {
     notifyListeners();
   }
 
-  // void updateEntryTask(Task task) {
-  //   newEntry.task = task;
-  //   notifyListeners();
-  // }
+  void updateEntryTask(Task task) {
+    newEntry.task = task;
+    notifyListeners();
+  }
 
   void updateDate(DateTime date) {
     newEntry.startTime = DateTime(date.year, date.month, date.day,

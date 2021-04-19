@@ -17,6 +17,7 @@ import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -53,8 +54,10 @@ class TaskExpansionTile extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.timelapse_rounded),
                     tooltip: 'Add Time Entry',
-                    onPressed: () =>
-                        DateAndTimePickers().buildTimeRangePicker()),
+                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                        context: context,
+                        bottomSheet: TimeEntryEditBottomSheet(
+                            isUpdate: false, task: task))),
                 // IconButton(
                 //   icon: Icon(Icons.add_rounded),
                 //   tooltip: 'Add Subtask',

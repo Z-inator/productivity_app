@@ -33,20 +33,21 @@ class TimeService {
   Stream<List<TimeEntry>> streamTimeEntries(BuildContext context) {
     List<Project> projects;
     getProjects(context).then((projectList) => projects = projectList);
-    // List<Task> tasks;
-    // getTasks(context).then((taskList) => tasks = taskList);
+    List<Task> tasks;
+    getTasks(context).then((taskList) => tasks = taskList);
     final CollectionReference ref = _getTimeEntryReference();
     return ref.orderBy('endTime', descending: true).snapshots().map(
         (QuerySnapshot querySnapshot) =>
             querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
               final Project project = projects[projects.indexWhere((project) =>
-                  project.projectName ==
-                  queryDocument.data()['projectName'].toString())];
-              // final Task task = tasks[tasks.indexWhere((task) =>
-              //     task.taskName == queryDocument.data()['taskName'].toString())];
+                  project.projectID ==
+                  queryDocument.data()['entryProject'].toString())];
+              final Task task = tasks[tasks.indexWhere((task) =>
+                  task.taskID == queryDocument.data()['entryTask'].toString())];
               return TimeEntry.fromFirestore(
                 queryDocument,
                 project,
+                task
               );
             }).toList());
   }
@@ -57,11 +58,11 @@ class TimeService {
     return projects;
   }
 
-  // Future<List<Task>> getTasks(BuildContext context) async {
-  //   final List<Task> tasks =
-  //       await Provider.of<TaskService>(context).streamTasks(context).first;
-  //   return tasks;
-  // }
+  Future<List<Task>> getTasks(BuildContext context) async {
+    final List<Task> tasks =
+        await Provider.of<TaskService>(context).streamTasks(context).first;
+    return tasks;
+  }
 
   List<TimeEntry> filteredTimeEntries(List<TimeEntry> timeEntries, DateTime day) {
     return timeEntries.where((entry) => entry.endTime == day).toList();
