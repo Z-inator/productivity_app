@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TimeFunctions {
   String timeToText({int seconds}) {
     final String hourStr =
-        ((seconds / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
+        (seconds / (60 * 60)).floor().toString().padLeft(2, '0');
     final String minutesStr =
         ((seconds / 60) % 60).floor().toString().padLeft(2, '0');
     final String secondsStr = (seconds % 60).floor().toString().padLeft(2, '0');
