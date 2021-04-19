@@ -13,9 +13,10 @@ class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
   final int statusCount;
-  const StatusEditBottomSheet(
-      {Key key, this.status, this.isUpdate, this.statusCount})
+  StatusEditBottomSheet({Key key, this.status, this.isUpdate, this.statusCount})
       : super(key: key);
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,13 @@ class StatusEditBottomSheet extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter Status Name';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                     hintText: state.newStatus.statusName ?? 'Status Name'),
                 textAlign: TextAlign.center,
@@ -57,13 +64,15 @@ class StatusEditBottomSheet extends StatelessWidget {
                     icon: Icon(Icons.check_circle_outline_rounded),
                     label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
-                      isUpdate
+                      if (_formKey.currentState.validate()) {
+                        isUpdate
                           ? statusService.updateStatus(
                               statusID: status.statusID,
                               updateData: state.newStatus.toFirestore())
                           : statusService.addStatus(
                               addData: state.newStatus.toFirestore());
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
                     },
                   ))
             ],

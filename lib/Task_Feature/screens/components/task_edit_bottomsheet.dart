@@ -21,13 +21,15 @@ class TaskEditBottomSheet extends StatelessWidget {
   final Project project;
   final Status status;
 
-  const TaskEditBottomSheet({
+  TaskEditBottomSheet({
     Key key,
     this.isUpdate,
     this.task,
     this.project,
     this.status,
   }) : super(key: key);
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,13 @@ class TaskEditBottomSheet extends StatelessWidget {
         return Container(
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-              TextField(
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter Project Name';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                     hintText: state.newTask.taskName.isEmpty
                         ? 'Enter Task Name'
@@ -110,33 +118,35 @@ class TaskEditBottomSheet extends StatelessWidget {
               ),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      OutlinedButton.icon(
-                        icon: Icon(Icons.cancel_rounded),
-                        label: Text('Cancel'),
-                        onPressed: () {
-                          // state.disposeOfState();
-                          Navigator.pop(context);
-                        },
-                      ),
+                  child: 
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   children: [
+                  //     OutlinedButton.icon(
+                  //       icon: Icon(Icons.cancel_rounded),
+                  //       label: Text('Cancel'),
+                  //       onPressed: () {
+                  //         // state.disposeOfState();
+                  //         Navigator.pop(context);
+                  //       },
+                  //     ),
                       ElevatedButton.icon(
                         icon: Icon(Icons.check_circle_outline_rounded),
                         label: Text(isUpdate ? 'Update' : 'Add'),
                         onPressed: () {
-                          isUpdate
+                          if (_formKey.currentState.validate()) {
+                            isUpdate
                               ? taskService.updateTask(
                                   taskID: task.taskID,
                                   updateData: state.newTask.toFirestore())
                               : taskService.addTask(
                                   addData: state.newTask.toFirestore());
-                          Navigator.pop(context);
+                            Navigator.pop(context);
+                          }
                         },
                       ),
-                    ],
-                  ))
+                  )
             ]));
       },
     );
