@@ -41,11 +41,10 @@ class TaskService {
     getStatuses(context).then((statusList) => statuses = statusList);
     return ref.snapshots().map((QuerySnapshot querySnapshot) =>
         querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-          final Project project = projects[projects.indexWhere((project) =>
-              project.projectID ==
-              queryDocument.data()['taskProject'].toString())];
-          final Status status = statuses[statuses.indexWhere((status) =>
-              status.statusID == queryDocument.data()['taskStatus'].toString())];
+          final Project project = projects.firstWhere((project) =>
+              project.projectID == queryDocument.data()['project'].toString());
+          final Status status = statuses.firstWhere((status) =>
+              status.statusID == queryDocument.data()['status'].toString());
           return Task.fromFirestore(queryDocument, project, status);
         }).toList());
   }
@@ -64,7 +63,7 @@ class TaskService {
 
   List<Task> getTasksByStatus(List<Task> tasks, Status status) {
     return tasks
-        .where((task) => task.status.statusName == status.statusName)
+        .where((task) => task.status.statusID == status.statusID)
         .toList();
   }
 
@@ -103,11 +102,13 @@ class TaskService {
     for (var day = 0; day < 7; day++) {
       DateTime decreaseTemp = today.subtract(Duration(days: day));
       if (decreaseTemp.weekday == 1) {
-        monday = decreaseTemp;
+        monday =
+            DateTime(decreaseTemp.year, decreaseTemp.month, decreaseTemp.day);
       }
       DateTime increaseTemp = today.add(Duration(days: day));
       if (increaseTemp.weekday == 7) {
-        sunday = increaseTemp;
+        sunday =
+            DateTime(increaseTemp.year, increaseTemp.month, increaseTemp.day);
       }
     }
     return tasks
