@@ -14,6 +14,7 @@ import 'package:productivity_app/Time_Feature/timer.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/widgets/base_framework.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/test_data/new_data.dart';
 import 'package:productivity_app/test_data/project_to_firebase.dart';
 import 'package:productivity_app/test_data/task_to_firebase.dart';
 import 'package:productivity_app/test_data/time_to_firebase.dart';
@@ -128,45 +129,35 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        // ElevatedButton(
-        //     onPressed: () {
-        //       TaskToFirebase().uploadExampleData();
-        //     },
-        //     child: Text('Add task data')),
+        ElevatedButton(
+            onPressed: () {
+              NewDataUpload().uploadExampleTaskData();
+            },
+            child: Text('Add task data')),
         // ElevatedButton(
         //     onPressed: () {
         //       TimeService().addTimeEntry2(
         //           addToDate: '03-20-2021', addData: {'testing': 'testing'});
         //     },
         //     child: Text('Add time entry')),
-        // ElevatedButton(
-        //     onPressed: () {
-        //       ProjectToFirebase(user: user).uploadExampleData();
-        //     },
-        //     child: Text('Add project data')),
+        ElevatedButton(
+            onPressed: () {
+              NewDataUpload().uploadExampleProjectData();
+            },
+            child: Text('Add project data')),
         // ElevatedButton(
         //     onPressed: () {
         //       ProjectToFirebase(user: user).updateProjectData();
         //     },
         //     child: Text('Update project data')),
-        // ElevatedButton(
-        //     onPressed: () {
-        //       TimeToFirebase().uploadExampleData();
-        //     },
-        //     child: Text('Add time data')),
         ElevatedButton(
             onPressed: () {
-              final List<String> statuses = ['To Do', 'In Progress', 'Done', 'Archived'];
-              final List<int> statusColors = [4287954944, 4280902399, 4278241363, 4285887861];
-              int counter = 0;
-              statuses.map((status) async {
-                await FirebaseFirestore.instance.collection('users').doc(user.uid).collection('statuses').doc().set({
-                  'statusName': status,
-                  'statusColor': statusColors.elementAt(counter),
-                  'statusOrder': counter + 1
-                });
-                counter += 1;
-              });
+              NewDataUpload().uploadExampleTimeData();
+            },
+            child: Text('Add time data')),
+        ElevatedButton(
+            onPressed: () {
+              NewDataUpload().uploadExampleStatusData();
             },
             child: Text('Add status data')),
         ElevatedButton(
