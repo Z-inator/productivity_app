@@ -105,7 +105,7 @@ class TaskExpansionTile extends StatelessWidget {
                       bottomSheet:
                           TaskEditBottomSheet(isUpdate: true, task: task)),
                 ),
-                StatusPickerDropDown(task: task)
+                StatusPickerDropDown(task: task, icon: Icon(Icons.done_rounded),)
               ]),
           children: [
             ListTile(

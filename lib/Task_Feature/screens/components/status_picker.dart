@@ -27,7 +27,7 @@ class StatusPicker extends StatelessWidget {
               },
               icon: state.newTask.status.statusID == status.statusID
                   ? Icon(Icons.check_circle_rounded,
-                          color: Color(status.statusColor))
+                      color: Color(status.statusColor))
                   : Icon(Icons.circle, color: Color(status.statusColor)),
               label: Text(status.statusName),
             ),
@@ -40,16 +40,16 @@ class StatusPicker extends StatelessWidget {
 
 class StatusPickerDropDown extends StatelessWidget {
   final Task task;
+  final Icon icon;
 
-  const StatusPickerDropDown({Key key, this.task})
-      : super(key: key);
+  const StatusPickerDropDown({Key key, this.task, this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<Status> statuses = Provider.of<List<Status>>(context);
     final TaskService state = Provider.of<TaskService>(context);
     return PopupMenuButton(
-        icon: Icon(Icons.done_rounded),
+        icon: icon,
         tooltip: 'Change Status',
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))),

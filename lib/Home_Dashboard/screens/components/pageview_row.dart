@@ -29,9 +29,7 @@ class PageViewRow extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                        child: Card(
-                          child: pages[index],
-                        )
+                        child: pages[index]
                       );
                     },
                   ),
