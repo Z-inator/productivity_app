@@ -18,6 +18,7 @@ class TimeChartRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return PageViewRow(pages: pages);
   }
 }
@@ -27,11 +28,12 @@ class TimeBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<DateTime, int>> timeData = Provider.of<TimeService>(context).getTimeData
     return BarChart(
       BarChartData(
-        // barGroups: BarChartGroupData(
-        //   x: ,
-        // )
+        barGroups: BarChartGroupData(
+          x: ,
+        )
       )
     );
   }
