@@ -85,48 +85,6 @@ class TaskService {
     return recordedTime;
   }
 
-  List<Task> getTasksDueToday(List<Task> tasks) {
-    DateTime today = DateTime.now();
-    return tasks
-        .where((task) =>
-            task.dueDate.year == today.year &&
-            task.dueDate.month == today.month &&
-            task.dueDate.day == today.day)
-        .toList();
-  }
-
-  List<Task> getTasksDueThisWeek(List<Task> tasks) {
-    DateTime today = DateTime.now();
-    DateTime monday;
-    DateTime sunday;
-    for (var day = 0; day < 7; day++) {
-      DateTime decreaseTemp = today.subtract(Duration(days: day));
-      if (decreaseTemp.weekday == 1) {
-        monday =
-            DateTime(decreaseTemp.year, decreaseTemp.month, decreaseTemp.day);
-      }
-      DateTime increaseTemp = today.add(Duration(days: day));
-      if (increaseTemp.weekday == 7) {
-        sunday =
-            DateTime(increaseTemp.year, increaseTemp.month, increaseTemp.day);
-      }
-    }
-    return tasks
-        .where((task) =>
-            task.dueDate.isAfter(monday.subtract(Duration(days: 1))) &&
-            task.dueDate.isBefore(sunday.add(Duration(days: 1))))
-        .toList();
-  }
-
-  List<Task> getTasksPastDue(List<Task> tasks) {
-    DateTime today = DateTime.now();
-    return tasks
-        .where((task) =>
-            task.dueDate.isBefore(today) &&
-            task.status.equalToComplete == false)
-        .toList();
-  }
-
   // Add Task
   Future<void> addTask({Map<String, dynamic> addData}) async {
     return _getTaskReference()

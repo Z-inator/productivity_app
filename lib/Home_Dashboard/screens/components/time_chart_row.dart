@@ -5,6 +5,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_position_dots.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
+import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
+import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
 class TimeChartRow extends StatelessWidget {
@@ -18,29 +22,137 @@ class TimeChartRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return PageViewRow(pages: pages);
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    List<DateTime> currentWeek =
+        Provider.of<TimeGraphs>(context).getCurrentWeek(DateTime.now());
+    print('${currentWeek.first} - ${currentWeek.last}');
+    return timeEntries == null
+        ? Center(child: CircularProgressIndicator())
+        : timeEntries.isEmpty
+            ? Center(child: Text('Add Time Entries to see Recorded Data'))
+            : PageViewRow(pages: [
+                TimeBarChart(
+                  timeEntries: timeEntries,
+                  startDay: currentWeek[0],
+                  endDay: currentWeek[1],
+                ),
+                TimePieChart(
+                  timeEntries: timeEntries,
+                  startDay: currentWeek[0],
+                  endDay: currentWeek[1],
+                ),
+                TimeBarChartByProject(
+                  timeEntries: timeEntries,
+                  startDay: currentWeek[0],
+                  endDay: currentWeek[1],
+                )
+              ]);
   }
 }
 
 class TimeBarChart extends StatelessWidget {
-  const TimeBarChart({Key key}) : super(key: key);
+  final List<TimeEntry> timeEntries;
+  final DateTime startDay;
+  final DateTime endDay;
+  const TimeBarChart({Key key, this.timeEntries, this.startDay, this.endDay})
+      : super(key: key);
+
+  List<BarChartGroupData> buildGroupData(
+      BuildContext context, List<Map<DateTime, int>> timeData) {
+    List<BarChartGroupData> groupData = [];
+    for (var entry in timeData) {
+      groupData.add(generateGroupData(
+          context, timeData.indexOf(entry), entry.values.first.toDouble()));
+    }
+    return groupData;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<DateTime, int>> timeData = Provider.of<TimeService>(context).getTimeData
-    return BarChart(
-      BarChartData(
-        barGroups: BarChartGroupData(
-          x: ,
-        )
-      )
+    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
+    List<Map<DateTime, int>> timeData = timeGraphsState.getTimeData(
+        Provider.of<TimeService>(context), timeEntries, startDay, endDay);
+    List<BarChartGroupData> groupData = buildGroupData(context, timeData);
+    int totalWeekTime = timeGraphsState.getTotalWeekTime(timeData);
+    double maxDailyTime = timeGraphsState.getMaxTime(timeData);
+    return Column(
+      children: [
+        ListTile(
+          title: Text('Time for the Week'),
+          trailing: Text(TimeFunctions().timeToText(seconds: totalWeekTime)),
+        ),
+        Expanded(
+          child: Card(
+            child: timeData == null
+                ? Center(
+                    child: Text('No Recorded Time for the Week.'),
+                  )
+                : BarChart(
+                    BarChartData(
+                        maxY: timeGraphsState.getMaxTime(timeData),
+                        titlesData: FlTitlesData(
+                            bottomTitles: SideTitles(
+                              getTextStyles: (value) =>
+                                  Theme.of(context).textTheme.subtitle1,
+                              getTitles: (value) {
+                                switch (timeData[value.toInt()]
+                                    .keys
+                                    .first
+                                    .weekday) {
+                                  case 1:
+                                    return 'Mon';
+                                  case 2:
+                                    return 'Tue';
+                                  case 3:
+                                    return 'Wed';
+                                  case 4:
+                                    return 'Thu';
+                                  case 5:
+                                    return 'Fri';
+                                  case 6:
+                                    return 'Sat';
+                                  case 7:
+                                    return 'Sun';
+                                  default:
+                                    return '';
+                                }
+                              },
+                            ),
+                            leftTitles: SideTitles(
+                              getTextStyles: (value) =>
+                                  Theme.of(context).textTheme.subtitle1,
+                              // getTitles: (value) {
+
+                              // },
+                            )),
+                        // barTouchData: BarTouchData(
+                        //   touchTooltipData: BarTouchTooltipData(
+
+                        //   )
+                        // ),
+                        barGroups: groupData),
+                    swapAnimationDuration: Duration(microseconds: 500),
+                    swapAnimationCurve: Curves.easeInOut,
+                  ),
+          ),
+        ),
+      ],
     );
+  }
+
+  BarChartGroupData generateGroupData(BuildContext context, int x, double y) {
+    return BarChartGroupData(x: x, barRods: [
+      BarChartRodData(y: y, colors: [Theme.of(context).accentColor])
+    ]);
   }
 }
 
 class TimePieChart extends StatelessWidget {
-  const TimePieChart({Key key}) : super(key: key);
+  final List<TimeEntry> timeEntries;
+  final DateTime startDay;
+  final DateTime endDay;
+  const TimePieChart({Key key, this.timeEntries, this.startDay, this.endDay})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +161,12 @@ class TimePieChart extends StatelessWidget {
 }
 
 class TimeBarChartByProject extends StatelessWidget {
-  const TimeBarChartByProject({Key key}) : super(key: key);
+  final List<TimeEntry> timeEntries;
+  final DateTime startDay;
+  final DateTime endDay;
+  const TimeBarChartByProject(
+      {Key key, this.timeEntries, this.startDay, this.endDay})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

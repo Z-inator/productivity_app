@@ -48,22 +48,84 @@ class NewDataUpload {
     }
   }
 
-  Future uploadExampleTimeData() async {
-    for (Map<String, dynamic> map in taskData) {
-      QuerySnapshot taskDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc('GCuVCCMfwNeKWjPXceUViDgQKxW2')
-          .collection('tasks')
-          .where('taskName', isEqualTo: map['taskName'])
-          .get();
-      String taskID = taskDoc.docs.first.id;
-      TimeService().addTimeEntry(addData: {
-        'entryName': map['taskName'] as String,
-        'project': map['project'] as String,
-        'task': taskID as String,
-        'startTime': DateTime(2021, 6, 20, 7, 30),
-        'endTime': DateTime(2021, 6, 20, 15, 30),
-      });
+  // Future uploadExampleTimeData() async {
+  //   for (Map<String, dynamic> map in taskData) {
+  //     QuerySnapshot taskDoc = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc('GCuVCCMfwNeKWjPXceUViDgQKxW2')
+  //         .collection('tasks')
+  //         .where('taskName', isEqualTo: map['taskName'])
+  //         .get();
+  //     String taskID = taskDoc.docs.first.id;
+  //     TimeService().addTimeEntry(addData: {
+  //       'entryName': map['taskName'] as String,
+  //       'project': map['project'] as String,
+  //       'task': taskID as String,
+  //       'startTime': DateTime(2021, 6, 20, 7, 30),
+  //       'endTime': DateTime(2021, 6, 20, 8, 30),
+  //     });
+  //   }
+  // }
+
+  dynamic uploadExampleTimeData(List<Task> tasks) {
+    int count = 5;
+    for (Task task in tasks) {
+      switch (count.remainder(5).toInt()) {
+        case 0:
+          TimeService().addTimeEntry(addData: {
+            'entryName': task.taskName as String,
+            'project': task.project.projectID as String,
+            'task': task.taskID as String,
+            'startTime': DateTime(2021, 4, 20, 7, 30),
+            'endTime': DateTime(2021, 4, 20, 8, 30),
+          });
+          break;
+        case 1:
+          TimeService().addTimeEntry(addData: {
+            'entryName': task.taskName as String,
+            'project': task.project.projectID as String,
+            'task': task.taskID as String,
+            'startTime': DateTime(2021, 4, 21, 7, 30),
+            'endTime': DateTime(2021, 4, 21, 8, 30),
+          });
+          break;
+          case 2:
+            TimeService().addTimeEntry(addData: {
+              'entryName': task.taskName as String,
+              'project': task.project.projectID as String,
+              'task': task.taskID as String,
+              'startTime': DateTime(2021, 4, 22, 7, 30),
+              'endTime': DateTime(2021, 4, 22, 8, 30),
+            });
+          break;
+          case 3:
+            TimeService().addTimeEntry(addData: {
+              'entryName': task.taskName as String,
+              'project': task.project.projectID as String,
+              'task': task.taskID as String,
+              'startTime': DateTime(2021, 4, 23, 7, 30),
+              'endTime': DateTime(2021, 4, 23, 8, 30),
+            });
+          break;
+          case 4:
+            TimeService().addTimeEntry(addData: {
+              'entryName': task.taskName as String,
+              'project': task.project.projectID as String,
+              'task': task.taskID as String,
+              'startTime': DateTime(2021, 4, 24, 7, 30),
+              'endTime': DateTime(2021, 4, 24, 8, 30),
+            });
+          break;
+        default:
+          TimeService().addTimeEntry(addData: {
+            'entryName': task.taskName as String,
+            'project': task.project.projectID as String,
+            'task': task.taskID as String,
+            'startTime': DateTime(2021, 4, 25, 7, 30),
+            'endTime': DateTime(2021, 4, 25, 8, 30),
+          });
+      }
+      count++;
     }
   }
 }

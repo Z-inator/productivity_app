@@ -15,37 +15,40 @@ class TimeEntriesByDay extends StatelessWidget {
     final TimeService timeService = Provider.of<TimeService>(context);
 
     List<DateTime> days = timeService.getDays(timeEntries);
-    return days == null 
+    return days == null
         ? Center(child: CircularProgressIndicator())
-        : ListView(
-            padding: EdgeInsets.only(bottom: 100),
-            children: days.map((day) {
-              return Container(
-                padding: EdgeInsets.all(10),
-                child: Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(DateTimeFunctions().dateTimeToTextDate(date: day)),
-                            Text(TimeFunctions().timeToText(
-                                seconds: timeService.getRecordedTime(timeEntries, day)))
-                          ],
-                        ),
+        : days.isEmpty
+            ? Center(child: Text('Record Time Worked to View Here.'))
+            : ListView(
+                padding: EdgeInsets.only(bottom: 100),
+                children: days.map((day) {
+                  return Container(
+                    padding: EdgeInsets.all(10),
+                    child: Card(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(DateTimeFunctions()
+                                    .dateTimeToTextDate(date: day)),
+                                Text(TimeFunctions().timeToText(
+                                    seconds: timeService.getRecordedTime(
+                                        timeEntries, day)))
+                              ],
+                            ),
+                          ),
+                          GroupedTimeEntries(
+                            timeEntries: timeService.filteredTimeEntries(
+                                timeEntries, day),
+                          )
+                        ],
                       ),
-                      Divider(),
-                      GroupedTimeEntries(
-                        timeEntries: timeService.filteredTimeEntries(timeEntries, day),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }).toList());
+                    ),
+                  );
+                }).toList());
   }
 }

@@ -152,7 +152,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //     child: Text('Update project data')),
         ElevatedButton(
             onPressed: () {
-              NewDataUpload().uploadExampleTimeData();
+              NewDataUpload().uploadExampleTimeData(tasks);
             },
             child: Text('Add time data')),
         ElevatedButton(

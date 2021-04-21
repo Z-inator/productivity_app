@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
+import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
@@ -49,7 +50,7 @@ class TaskDueToday extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context)
+    List<Task> tasks = Provider.of<TaskCharts>(context)
         .getTasksDueToday(Provider.of<List<Task>>(context));
     return Column(
       children: [
@@ -83,7 +84,7 @@ class TaskDueThisWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context)
+    List<Task> tasks = Provider.of<TaskCharts>(context)
         .getTasksDueThisWeek(Provider.of<List<Task>>(context));
     return Column(
       children: [
@@ -117,7 +118,7 @@ class TaskPastDue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<TaskService>(context)
+    List<Task> tasks = Provider.of<TaskCharts>(context)
         .getTasksPastDue(Provider.of<List<Task>>(context));
     return Column(
       children: [
