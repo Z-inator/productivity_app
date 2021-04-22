@@ -92,7 +92,6 @@ class TimeService {
         entry.endTime.day == day.day);
     for (TimeEntry entry in dailyEntries) {
       recordedTime += entry.elapsedTime;
-      print(entry.elapsedTime);
     }
     return recordedTime;
   }
