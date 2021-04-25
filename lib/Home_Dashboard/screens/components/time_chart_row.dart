@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Home_Dashboard/screens/components/TimeBarChart.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_position_dots.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
@@ -49,138 +50,6 @@ class TimeChartRow extends StatelessWidget {
   }
 }
 
-class TimeBarChart extends StatelessWidget {
-  final List<TimeEntry> timeEntries;
-  final DateTime startDay;
-  final DateTime endDay;
-  const TimeBarChart({Key key, this.timeEntries, this.startDay, this.endDay})
-      : super(key: key);
-
-  List<BarChartGroupData> buildGroupData(
-      BuildContext context, List<Map<DateTime, int>> timeData) {
-    List<BarChartGroupData> groupData = [];
-    for (var entry in timeData) {
-      groupData.add(generateGroupData(
-          context, timeData.indexOf(entry), entry.values.first.toDouble()));
-    }
-    return groupData;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    List<Map<DateTime, int>> timeData = timeGraphsState.getTimeData(
-        Provider.of<TimeService>(context), timeEntries, startDay, endDay);
-    List<BarChartGroupData> groupData = buildGroupData(context, timeData);
-    int totalWeekTime = timeGraphsState.getTotalWeekTime(timeData);
-    double maxDailyTime = timeGraphsState.getMaxTime(timeData);
-    int maxHour = (maxDailyTime / (60 * 60)).toInt();
-    return Column(
-      children: [
-        ListTile(
-          title: Text('Time for the Week'),
-          trailing: Text(TimeFunctions().timeToText(seconds: totalWeekTime)),
-        ),
-        Expanded(
-          child: Card(
-            child: timeData == null
-                ? Center(
-                    child: Text('No Recorded Time for the Week.'),
-                  )
-                : BarChart(
-                    BarChartData(
-                        maxY: maxDailyTime,
-                        titlesData: FlTitlesData(
-                            show: true,
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              getTextStyles: (value) =>
-                                  Theme.of(context).textTheme.subtitle1,
-                              getTitles: (value) {
-                                switch (value.toInt()) {
-                                  case 0:
-                                    return 'M';
-                                  case 1:
-                                    return 'T';
-                                  case 2:
-                                    return 'W';
-                                  case 3:
-                                    return 'T';
-                                  case 4:
-                                    return 'F';
-                                  case 5:
-                                    return 'S';
-                                  case 6:
-                                    return 'S';
-                                  default:
-                                    return '';
-                                }
-                              },
-                            ),
-                            leftTitles: SideTitles(
-                              showTitles: true,
-                              getTextStyles: (value) =>
-                                  Theme.of(context).textTheme.subtitle1,
-                              // getTitles: (value) {
-                                // int hourValue = value ~/ (60 * 60);
-                                // List<int> yAxisTitle = [];
-                                // for (var i = 0; i <= maxHour; i + 2) {
-                                //   yAxisTitle.add(i);
-                                // }
-                                // switch (value ~/ (60 * 60)) {
-                                //   case 0:
-                                //     return '0';
-                                //   case 2:
-                                //     return '2';
-                                //   case 4:
-                                //     return '4';
-                                //   case 6:
-                                //     return '6';
-                                //   case 8:
-                                //     return '8';
-                                //   case 10:
-                                //     return '10';
-                                //   default:
-                                //     return '';
-                                // }
-                                // if (hourValue == 0) {
-                                //   return '0';
-                                // } else if (value == 2) {
-                                //   return '2';
-                                // } else if (hourValue == 4) {
-                                //   return '4';
-                                // } else if (hourValue == 6) {
-                                //   return '6';
-                                // } else if (hourValue == 8) {
-                                //   return '8';
-                                // } else if (hourValue == 10) {
-                                //   return '10';
-                                // }
-                                // return '';
-                              // },
-                            )),
-                        // barTouchData: BarTouchData(
-                        //   touchTooltipData: BarTouchTooltipData(
-
-                        //   )
-                        // ),
-                        barGroups: groupData),
-                    swapAnimationDuration: Duration(microseconds: 500),
-                    swapAnimationCurve: Curves.easeInOut,
-                  ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  BarChartGroupData generateGroupData(BuildContext context, int x, double y) {
-    return BarChartGroupData(x: x, barRods: [
-      BarChartRodData(y: y, colors: [Theme.of(context).accentColor])
-    ]);
-  }
-}
-
 class TimePieChart extends StatelessWidget {
   final List<TimeEntry> timeEntries;
   final DateTime startDay;
@@ -190,7 +59,22 @@ class TimePieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PieChartSample2();
+    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
+    List<Map<DateTime, int>> timeData = timeGraphsState.getTimeData(
+        Provider.of<TimeService>(context), timeEntries, startDay, endDay);
+    // List<BarChartGroupData> groupData = buildGroupData(context, timeData);
+    int totalWeekTime = timeGraphsState.getTotalWeekTime(timeData);
+    double maxDailyTime = timeGraphsState.getMaxTime(timeData);
+    int maxHour = (maxDailyTime / (60 * 60)).toInt();
+    return Column(
+      children: [
+        ListTile(
+          title: Text('Time by Project'),
+          trailing: Text(TimeFunctions().timeToText(seconds: totalWeekTime),
+              style: Theme.of(context).textTheme.subtitle1),
+        )
+      ],
+    );
   }
 }
 
@@ -269,7 +153,6 @@ class BarChartSample2State extends State<BarChartSample2> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  makeTransactionsIcon(),
                   const SizedBox(
                     width: 38,
                   ),
@@ -426,54 +309,6 @@ class BarChartSample2State extends State<BarChartSample2> {
         width: width,
       ),
     ]);
-  }
-
-  Widget makeTransactionsIcon() {
-    const double width = 4.5;
-    const double space = 3.5;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withOpacity(0.4),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 42,
-          color: Colors.white.withOpacity(1),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withOpacity(0.4),
-        ),
-      ],
-    );
   }
 }
 
