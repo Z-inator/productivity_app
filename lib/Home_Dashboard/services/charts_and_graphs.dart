@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
@@ -16,35 +18,71 @@ class TimeGraphs {
       }
       DateTime increaseTemp = referenceDay.add(Duration(days: day));
       if (increaseTemp.weekday == 7) {
-        sunday = DateTime(
-            increaseTemp.year, increaseTemp.month, increaseTemp.day, 23, 59);
+        sunday = DateTime(increaseTemp.year, increaseTemp.month,
+            increaseTemp.day, 23, 59, 59, 999);
       }
     }
     return [monday, sunday];
   }
 
-  List<Map<DateTime, int>> getTimeData(TimeService timeService,
+  List<TimeEntry> getTimeRangeData(
       List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
-    List<DateTime> days = [startDay, endDay];
-    List<Map<DateTime, int>> recordedDailyTime = <Map<DateTime, int>>[];
-
     List<TimeEntry> timeData = timeEntries
         .where((entry) =>
             entry.endTime.isAfter(startDay) && entry.endTime.isBefore(endDay))
         .toList();
-    if (timeData == null) {
-      return null;
-    } else {
-      for (int i = 1; i < endDay.difference(startDay).inDays; i++) {
-        days.add(startDay.add(Duration(days: i)));
-      }
-      days.sort((a, b) => a.compareTo(b));
-      for (DateTime day in days) {
-        int tempTotalTime = timeService.getRecordedTime(timeData, day);
-        recordedDailyTime.add({day: tempTotalTime ?? 0});
-      }
-      return recordedDailyTime;
+    return timeData;
+  }
+
+  List<Map<DateTime, int>> getTimeBarChartData(TimeService timeService,
+      List<TimeEntry> timeEntries, List<DateTime> days) {
+    List<Map<DateTime, int>> recordedDailyTime = <Map<DateTime, int>>[];
+
+    days.sort((a, b) => a.compareTo(b));
+
+    for (DateTime day in days) {
+      int tempTotalTime = timeService.getRecordedTime(timeEntries, day);
+      recordedDailyTime.add({day: tempTotalTime ?? 0});
     }
+    return recordedDailyTime;
+
+    // List<TimeEntry> timeData = timeEntries
+    //     .where((entry) =>
+    //         entry.endTime.isAfter(startDay) && entry.endTime.isBefore(endDay))
+    //     .toList();
+    // if (timeData == null) {
+    //   return null;
+    // } else {
+    //   for (int i = 1; i < endDay.difference(startDay).inDays; i++) {
+    //     days.add(startDay.add(Duration(days: i)));
+    //   }
+    //   days.sort((a, b) => a.compareTo(b));
+    //   for (DateTime day in days) {
+    //     int tempTotalTime = timeService.getRecordedTime(timeData, day);
+    //     recordedDailyTime.add({day: tempTotalTime ?? 0});
+    //   }
+    //   return recordedDailyTime;
+  }
+
+  List<Map<Project, int>> getProjectPieChartData(
+      ProjectService projectService, List<TimeEntry> timeEntries) {
+    List<Map<Project, int>> recordedProjectTime = <Map<Project, int>>[];
+    List<Project> projects = getProjects(timeEntries);
+    for (Project project in projects) {
+      int projectTime = projectService.getRecordedTime(timeEntries, project);
+      recordedProjectTime.add({project: projectTime ?? 0});
+    }
+    return recordedProjectTime;
+  }
+
+  List<Project> getProjects(List<TimeEntry> timeEntries) {
+    List<Project> projects = [];
+    for (TimeEntry entry in timeEntries) {
+      if (!projects.contains(entry.project)) {
+        projects.add(entry.project);
+      }
+    }
+    return projects;
   }
 
   double getMaxTime(List<Map<DateTime, int>> timeData) {
@@ -57,12 +95,12 @@ class TimeGraphs {
     return maxTime;
   }
 
-  int getTotalWeekTime(List<Map<DateTime, int>> timeData) {
-    int totalWeekTime = 0;
-    for (var entry in timeData) {
-      totalWeekTime += entry.values.first;
+  int getTotalTimeRangeTime(List<TimeEntry> timeEntries) {
+    int totalTime = 0;
+    for (TimeEntry entry in timeEntries) {
+      totalTime += entry.elapsedTime;
     }
-    return totalWeekTime;
+    return totalTime;
   }
 }
 
