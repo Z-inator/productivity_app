@@ -16,6 +16,7 @@ ThemeData appTheme() {
     
     textTheme: TextTheme(
       subtitle1: TextStyle(color: Color(0x8a000000)),
+      subtitle2: TextStyle(color: Colors.white)
     ),
 
     inputDecorationTheme: InputDecorationTheme(

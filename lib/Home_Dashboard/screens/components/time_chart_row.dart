@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/TimeBarChart.dart';
+import 'package:productivity_app/Home_Dashboard/screens/components/project_pie_chart.dart';
+import 'package:productivity_app/Home_Dashboard/screens/components/time_bar_chart.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_position_dots.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
@@ -18,6 +19,14 @@ import 'package:provider/provider.dart';
 class TimeChartRow extends StatelessWidget {
   TimeChartRow({Key key}) : super(key: key);
 
+  List<Widget> pages(List<TimeEntry> timeEntries) {
+    return [
+      TimeBarChart(timeEntries: timeEntries,),
+      TimePieChart(timeEntries: timeEntries),
+      TimeBarChartByProject(timeEntries: timeEntries)
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
@@ -29,87 +38,11 @@ class TimeChartRow extends StatelessWidget {
         ? Center(child: CircularProgressIndicator())
         : weeksTimeEntries.isEmpty
             ? Center(child: Text('Add Time Entries to see Recorded Data'))
-            : PageViewRow(pages: [
-                TimeBarChart(
-                  timeEntries: weeksTimeEntries,
-                ),
-                TimePieChart(timeEntries: weeksTimeEntries),
-                TimeBarChartByProject(timeEntries: weeksTimeEntries)
-              ]);
+            : PageViewRow(pages: pages(weeksTimeEntries));
   }
 }
 
-class TimePieChart extends StatelessWidget {
-  final List<TimeEntry> timeEntries;
-  final DateTime startDay;
-  final DateTime endDay;
-  const TimePieChart({Key key, this.timeEntries, this.startDay, this.endDay})
-      : super(key: key);
 
-  List<PieChartSectionData> buildSectionData(
-      List<Map<Project, int>> projectData,
-      TextStyle titleStyle,
-      int totalTimeRangeTime) {
-    List<PieChartSectionData> sectionData = [];
-    for (var project in projectData) {
-      int percentage =
-          ((project.values.first / totalTimeRangeTime) * 100).toInt();
-      String title = '$percentage%';
-      sectionData.add(generatePieSections(
-          project.keys.first, project.values.first, title, titleStyle));
-    }
-    return sectionData;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    ProjectService projectService = Provider.of<ProjectService>(context);
-    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries);
-    List<Map<Project, int>> projectData =
-        timeGraphsState.getProjectPieChartData(projectService, timeEntries);
-    List<PieChartSectionData> sectionData = buildSectionData(
-        projectData, Theme.of(context).textTheme.subtitle1, totalTimeRangeTime);
-    return Column(
-      children: [
-        ListTile(
-          title: Text('Time by Project'),
-        ),
-        Expanded(
-            child: Card(
-                child: projectData == null
-                    ? Center(
-                        child: Text('No Recorded Time for the Week'),
-                      )
-                    : Container(
-                        margin: EdgeInsets.all(25),
-                        child: PieChart(
-                          PieChartData(
-                              centerSpaceRadius: 40,
-                              sectionsSpace: 0,
-                              borderData: FlBorderData(show: false),
-                              sections: sectionData,
-                              pieTouchData: PieTouchData(
-                                touchCallback: (pieTouchResponse) {},
-                              )),
-                          swapAnimationDuration: Duration(microseconds: 500),
-                          swapAnimationCurve: Curves.easeInOut,
-                        ),
-                      )))
-      ],
-    );
-  }
-
-  PieChartSectionData generatePieSections(Project project, int recordedTime,
-      String percentage, TextStyle titleStyle) {
-    return PieChartSectionData(
-        color: Color(project.projectColor),
-        value: recordedTime.toDouble(),
-        title: percentage,
-        titlePositionPercentageOffset: 1,
-        titleStyle: titleStyle);
-  }
-}
 
 class TimeBarChartByProject extends StatelessWidget {
   final List<TimeEntry> timeEntries;

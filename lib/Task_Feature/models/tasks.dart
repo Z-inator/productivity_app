@@ -38,8 +38,8 @@ class Task {
   Map<String, dynamic> toFirestore() {
     return {
       'taskName': taskName,
-      'projectName': project.projectName,
-      'status': status.statusName,
+      'projectName': project.projectID,
+      'status': status.statusID,
       'dueDate': dueDate,
       'createDate': createDate,
     };

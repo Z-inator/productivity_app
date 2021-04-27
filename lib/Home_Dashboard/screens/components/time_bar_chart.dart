@@ -146,6 +146,7 @@ class TimeBarChart extends StatelessWidget {
     );
   }
 
+
   BarChartGroupData generateBarGroup(
       Color color, int x, double y) {
     return BarChartGroupData(x: x, barsSpace: 4, barRods: [
