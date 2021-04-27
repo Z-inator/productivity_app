@@ -11,32 +11,29 @@ class PageViewRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller = PageController(viewportFraction: .95);
+    controller = PageController();
     return ChangeNotifierProvider(
         create: (context) => PageViewDotsState(),
         builder: (context, child) {
           PageViewDotsState state = Provider.of<PageViewDotsState>(context);
-          return Container(
-            height: MediaQuery.of(context).size.height / 2,
-            child: Column(
-              children: [
-                Expanded(
-                  child: PageView.builder(
-                    controller: controller,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (int index) => state.changePage(index),
-                    itemCount: pages.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                        child: pages[index]
-                      );
-                    },
-                  ),
+          return Column(
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: controller,
+                  scrollDirection: Axis.horizontal,
+                  onPageChanged: (int index) => state.changePage(index),
+                  itemCount: pages.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                      child: pages[index]
+                    );
+                  },
                 ),
-                PageViewDotsRow(numberOfPages: pages.length)
-              ],
-            ),
+              ),
+              PageViewDotsRow(numberOfPages: pages.length)
+            ],
           );
         });
   }

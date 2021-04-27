@@ -17,43 +17,33 @@ class TimePieChart extends StatelessWidget {
     int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries);
     List<Map<Project, int>> projectData =
         timeGraphsState.getProjectPieChartData(projectService, timeEntries);
-    return Column(
-      children: [
-        ListTile(
-          title: Text('Time by Project'),
-          trailing: Text('Projects: ${projectData.length}',
-              style: Theme.of(context).textTheme.subtitle1),
-        ),
-        Expanded(
-            child: Card(
-                child: projectData == null
-                    ? Center(
-                        child: Text('No Recorded Time for the Week'),
-                      )
-                    : Container(
-                        margin: EdgeInsets.all(25),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            return PieChart(
-                              PieChartData(
-                                  centerSpaceRadius: 0,
-                                  sectionsSpace: 0,
-                                  borderData: FlBorderData(show: false),
-                                  sections: generatePieSections(
-                                      projectData,
-                                      totalTimeRangeTime,
-                                      Theme.of(context).textTheme.subtitle2,
-                                      Theme.of(context).textTheme.subtitle1,
-                                      constraints.maxHeight / 2.1)),
-                              swapAnimationDuration:
-                                  Duration(microseconds: 500),
-                              swapAnimationCurve: Curves.easeInOut,
-                            );
-                          },
-                        ),
-                      )))
-      ],
-    );
+    return Card(
+        child: projectData == null
+            ? Center(
+                child: Text('No Recorded Time for the Week'),
+              )
+            : Container(
+                margin: EdgeInsets.all(25),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return PieChart(
+                      PieChartData(
+                          centerSpaceRadius: 0,
+                          sectionsSpace: 0,
+                          borderData: FlBorderData(show: false),
+                          sections: generatePieSections(
+                              projectData,
+                              totalTimeRangeTime,
+                              Theme.of(context).textTheme.subtitle2,
+                              Theme.of(context).textTheme.subtitle1,
+                              constraints.maxHeight / 2.25)),
+                      swapAnimationDuration:
+                          Duration(microseconds: 500),
+                      swapAnimationCurve: Curves.easeInOut,
+                    );
+                  },
+                ),
+              ));
   }
 
   List<PieChartSectionData> generatePieSections(
@@ -74,7 +64,7 @@ class TimePieChart extends StatelessWidget {
           titlePositionPercentageOffset: .5,
           titleStyle: titleStyle,
           badgeWidget: badgeWidget(badgeStyle, project),
-          badgePositionPercentageOffset: 1);
+          badgePositionPercentageOffset: .9);
     });
   }
 

@@ -25,6 +25,16 @@ class TimeGraphs {
     return [monday, sunday];
   }
 
+  List<DateTime> getDays(DateTime startDay, DateTime endDay) {
+    int daysDifference = endDay.difference(startDay).inDays;
+    List<DateTime> days = [startDay, endDay];
+    DateTime temp = startDay;
+    for (var i = 1; i < daysDifference; i++) {
+      days.add(startDay.add(Duration(days: i)));
+    }
+    return days;
+  }
+
   List<TimeEntry> getTimeRangeData(
       List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
     List<TimeEntry> timeData = timeEntries
@@ -45,23 +55,6 @@ class TimeGraphs {
       recordedDailyTime.add({day: tempTotalTime ?? 0});
     }
     return recordedDailyTime;
-
-    // List<TimeEntry> timeData = timeEntries
-    //     .where((entry) =>
-    //         entry.endTime.isAfter(startDay) && entry.endTime.isBefore(endDay))
-    //     .toList();
-    // if (timeData == null) {
-    //   return null;
-    // } else {
-    //   for (int i = 1; i < endDay.difference(startDay).inDays; i++) {
-    //     days.add(startDay.add(Duration(days: i)));
-    //   }
-    //   days.sort((a, b) => a.compareTo(b));
-    //   for (DateTime day in days) {
-    //     int tempTotalTime = timeService.getRecordedTime(timeData, day);
-    //     recordedDailyTime.add({day: tempTotalTime ?? 0});
-    //   }
-    //   return recordedDailyTime;
   }
 
   List<Map<Project, int>> getProjectPieChartData(
@@ -69,10 +62,9 @@ class TimeGraphs {
     List<Map<Project, int>> recordedProjectTime = <Map<Project, int>>[];
     List<Project> projects = getProjects(timeEntries);
     for (Project project in projects) {
-      int projectTime = projectService.getRecordedTime(
-          timeEntries
-              .where((entry) => entry.project.projectID == project.projectID)
-              .toList());
+      int projectTime = projectService.getRecordedTime(timeEntries
+          .where((entry) => entry.project.projectID == project.projectID)
+          .toList());
       recordedProjectTime.add({project: projectTime ?? 0});
     }
     return recordedProjectTime;
