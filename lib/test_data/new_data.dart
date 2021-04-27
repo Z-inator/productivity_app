@@ -31,7 +31,7 @@ class NewDataUpload {
         'statusName': map['statusName'] as String,
         'statusColor': map['statusColor'] as int,
         'statusOrder': map['statusOrder'] as int,
-        'equaltToComplete': map['equalToComplete'] as bool
+        'equalToComplete': map['equalToComplete'] as bool
       });
     }
   }

@@ -66,6 +66,7 @@ class TimeBarChart extends StatelessWidget {
                         ),
                     titlesData: FlTitlesData(
                         show: true,
+                        
                         bottomTitles: SideTitles(
                           margin: 10,
                           showTitles: true,
