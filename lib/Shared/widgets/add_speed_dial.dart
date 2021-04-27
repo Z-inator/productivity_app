@@ -33,13 +33,13 @@ class AddSpeedDial extends StatelessWidget {
     //     getSpeedDialChildren(context, options);
     return SpeedDial(
         icon: Icons.add_rounded,
-        iconTheme: IconThemeData(size: 40),
+        // iconTheme: IconThemeData(size: 40),
         activeIcon: Icons.close_rounded,
         renderOverlay: false,
         curve: Curves.bounceIn,
         tooltip: 'Add Menu',
-        buttonSize: 40,
-        childrenButtonSize: 40,
+        // buttonSize: 40,
+        // childrenButtonSize: 40,
         backgroundColor: Theme.of(context).accentColor,
         foregroundColor: Theme.of(context).primaryColor,
         elevation: 0,
