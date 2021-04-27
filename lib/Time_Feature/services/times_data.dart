@@ -83,7 +83,7 @@ class TimeService {
     return days;
   }
 
-  int getRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
+  int getDailyRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
     int recordedTime = 0;
     Iterable<TimeEntry> dailyEntries;
     dailyEntries = timeEntries.where((entry) =>

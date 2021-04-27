@@ -42,7 +42,7 @@ class ProjectService {
     return tasks.length;
   }
 
-  int getRecordedTime(List<TimeEntry> timeEntries, Project project) {
+  int getRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
     timeEntries.forEach((entry) {
       recordedTime += entry.elapsedTime;

@@ -36,7 +36,7 @@ class TimeEntriesByDay extends StatelessWidget {
                                 Text(DateTimeFunctions()
                                     .dateTimeToTextDate(date: day)),
                                 Text(TimeFunctions().timeToText(
-                                    seconds: timeService.getRecordedTime(
+                                    seconds: timeService.getDailyRecordedTime(
                                         timeEntries, day)))
                               ],
                             ),

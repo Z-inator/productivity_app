@@ -35,7 +35,7 @@ class TimeEntry {
         project: project ?? Project(),
         task: task ?? Task(),
         startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),
-        endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now(),
+        endTime: (data['endTime'] as Timestamp).toDate() ?? DateTime.now().add(Duration(hours: 1)),
         elapsedTime: (data['endTime'] as Timestamp).toDate()
             .difference((data['startTime'] as Timestamp).toDate()).inSeconds ??
             0);

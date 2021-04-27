@@ -52,10 +52,11 @@ class TimePieChart extends StatelessWidget {
       int totalTimeRangeTime) {
     List<PieChartSectionData> sectionData = [];
     for (var project in projectData) {
-      String percentage =
-          '${((project.values.first / totalTimeRangeTime) * 100).toInt()}%';
+      int percentage =
+          ((project.values.first / totalTimeRangeTime) * 100).toInt();
+      String title = '$percentage%';
       sectionData.add(generatePieSections(
-          project.keys.first, project.values.first, percentage, titleStyle));
+          project.keys.first, project.values.first, title, titleStyle));
     }
     return sectionData;
   }

@@ -32,7 +32,7 @@ class ProjectExpansionTile extends StatelessWidget {
     int taskCount = projectService.getTaskCount(tasks);
     List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
         Provider.of<List<TimeEntry>>(context), project);
-    int recordedTime = projectService.getRecordedTime(timeEntries, project);
+    int recordedTime = projectService.getRecordedTime(timeEntries);
     return Theme(
       data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(

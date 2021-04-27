@@ -41,7 +41,7 @@ class TimeGraphs {
     days.sort((a, b) => a.compareTo(b));
 
     for (DateTime day in days) {
-      int tempTotalTime = timeService.getRecordedTime(timeEntries, day);
+      int tempTotalTime = timeService.getDailyRecordedTime(timeEntries, day);
       recordedDailyTime.add({day: tempTotalTime ?? 0});
     }
     return recordedDailyTime;
@@ -69,7 +69,10 @@ class TimeGraphs {
     List<Map<Project, int>> recordedProjectTime = <Map<Project, int>>[];
     List<Project> projects = getProjects(timeEntries);
     for (Project project in projects) {
-      int projectTime = projectService.getRecordedTime(timeEntries, project);
+      int projectTime = projectService.getRecordedTime(
+          timeEntries
+              .where((entry) => entry.project.projectID == project.projectID)
+              .toList());
       recordedProjectTime.add({project: projectTime ?? 0});
     }
     return recordedProjectTime;
