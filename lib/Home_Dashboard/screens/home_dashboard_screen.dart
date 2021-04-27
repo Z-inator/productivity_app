@@ -77,17 +77,17 @@ class HomeDashBoard extends StatelessWidget {
             // Container(
             //     height: MediaQuery.of(context).size.height / 2,
             //     child: TimeChartRow()),
-            ListTile(
-              title: Text('Important Tasks',
-                  style: Theme.of(context).textTheme.headline5),
-              // trailing: IconButton(
-              //   icon: Icon(Icons.insights_rounded),
-              //   tooltip: 'Reports',
-              //   onPressed: () {},
-              // ),
-            ),
+            // ListTile(
+            //   title: Text('Important Tasks',
+            //       style: Theme.of(context).textTheme.headline5),
+            //   // trailing: IconButton(
+            //   //   icon: Icon(Icons.insights_rounded),
+            //   //   tooltip: 'Reports',
+            //   //   onPressed: () {},
+            //   // ),
+            // ),
             Container(
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height / 1.5,
                 child: TaskDueRow()),
             ListTile(
               title:

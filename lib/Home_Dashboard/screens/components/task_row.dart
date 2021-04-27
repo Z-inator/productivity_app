@@ -16,7 +16,20 @@ class TaskDueRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageViewRow(pages: pages);
+    return Column(
+      children: [
+        ListTile(
+          title: Text('Important Tasks',
+              style: Theme.of(context).textTheme.headline5),
+          // trailing: IconButton(
+          //   icon: Icon(Icons.insights_rounded),
+          //   tooltip: 'Reports',
+          //   onPressed: () {},
+          // ),
+        ),
+        Expanded(child: PageViewRow(pages: pages))
+      ],
+    );
   }
 }
 
@@ -27,7 +40,9 @@ class ImportantTaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: StatusPickerDropDown(task: task, icon: Icon(
+      leading: StatusPickerDropDown(
+          task: task,
+          icon: Icon(
             Icons.check_circle_rounded,
             color: Color(task.status.statusColor),
           )),
