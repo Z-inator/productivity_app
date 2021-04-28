@@ -73,7 +73,7 @@ class ProjectExpansionTile extends StatelessWidget {
                               Text('Delete Project: ${project.projectName}?'),
                           content: ListTile(
                             title: Text(
-                                'This will permanently delete this project.\nIt will not effect related time entries or tasks.'),
+                                'This will permanently delete this project.\nIt will not delete related time entries or tasks.'),
                           ),
                           actions: [
                             OutlinedButton.icon(
@@ -109,15 +109,23 @@ class ProjectExpansionTile extends StatelessWidget {
                       bottomSheet: TaskEditBottomSheet(
                           isUpdate: false, project: project)),
                 ),
+                IconButton(
+                  icon: Icon(Icons.topic_rounded),
+                  tooltip: 'Project Page',
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                      return ProjectPage(project: project);
+                    }),
+                  )
+                ),
               ],
             ),
             children: [
               ListTile(
-                title: Text('Assigned Tasks: $taskCount',
+                leading: Text('Tasks: $taskCount',
                     style: Theme.of(context).textTheme.subtitle1),
-              ),
-              ListTile(
-                title: Text(
+                    trailing: Text(
                     'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
                     style: Theme.of(context).textTheme.subtitle1),
               ),
@@ -125,18 +133,18 @@ class ProjectExpansionTile extends StatelessWidget {
                 title: Text('Client: ${project.projectClient}',
                     style: Theme.of(context).textTheme.subtitle1),
               ),
-              ElevatedButton.icon(
-                icon: Icon(Icons.open_with_rounded),
-                label: Text('Project Page'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return ProjectPage(project: project);
-                    }),
-                  );
-                },
-              ),
+              // ElevatedButton.icon(
+              //   icon: Icon(Icons.open_with_rounded),
+              //   label: Text('Project Page'),
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (BuildContext context) {
+              //         return ProjectPage(project: project);
+              //       }),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ],

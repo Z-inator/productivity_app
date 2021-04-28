@@ -41,131 +41,122 @@ class TaskExpansionTile extends StatelessWidget {
       subtitle: Text(task.project.projectName,
           style: TextStyle(color: Color(task.project.projectColor))),
       children: [
-        ExpansionTile(
-          title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.play_arrow_rounded),
-                  tooltip: 'Start Timer',
-                  onPressed: () {},
-                ),
-                IconButton(
-                    icon: Icon(Icons.timelapse_rounded),
-                    tooltip: 'Add Time Entry',
+        Theme(
+          data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            title: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.play_arrow_rounded),
+                    tooltip: 'Start Timer',
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.timelapse_rounded),
+                      tooltip: 'Add Time Entry',
+                      onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                          context: context,
+                          bottomSheet: TimeEntryEditBottomSheet(
+                              isUpdate: false, task: task))),
+                  // IconButton(
+                  //   icon: Icon(Icons.add_rounded),
+                  //   tooltip: 'Add Subtask',
+                  //   onPressed: () {},
+                  // ),
+                  IconButton(
+                    icon: Icon(Icons.alarm_rounded),
+                    tooltip: 'Edit Due Date',
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete_rounded),
+                    tooltip: 'Delete Task',
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Delete Task: ${task.taskName}?'),
+                            content: ListTile(
+                              title: Text(
+                                  'This will permanently delete this task.\nIt will not delete related time entries or projects.'),
+                            ),
+                            actions: [
+                              OutlinedButton.icon(
+                                icon: Icon(Icons.cancel_rounded),
+                                label: Text('Cancel'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              ElevatedButton.icon(
+                                  icon: Icon(Icons.check_circle_outline_rounded),
+                                  label: Text('Delete'),
+                                  onPressed: () {
+                                    taskService.deleteTask(taskID: task.taskID);
+                                    Navigator.pop(context);
+                                  })
+                            ],
+                          );
+                        }),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.edit_rounded),
+                    tooltip: 'Edit Task',
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
                         context: context,
-                        bottomSheet: TimeEntryEditBottomSheet(
-                            isUpdate: false, task: task))),
-                // IconButton(
-                //   icon: Icon(Icons.add_rounded),
-                //   tooltip: 'Add Subtask',
-                //   onPressed: () {},
-                // ),
-                IconButton(
-                  icon: Icon(Icons.alarm_rounded),
-                  tooltip: 'Edit Due Date',
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete_rounded),
-                  tooltip: 'Delete Task',
-                  onPressed: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Delete Task: ${task.taskName}?'),
-                          content: ListTile(
-                            title: Text(
-                                'This will permanently delete this task.\nIt will not effect related time entries or projects.'),
-                          ),
-                          actions: [
-                            OutlinedButton.icon(
-                              icon: Icon(Icons.cancel_rounded),
-                              label: Text('Cancel'),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            ElevatedButton.icon(
-                                icon: Icon(Icons.check_circle_outline_rounded),
-                                label: Text('Delete'),
-                                onPressed: () {
-                                  taskService.deleteTask(taskID: task.taskID);
-                                  Navigator.pop(context);
-                                })
-                          ],
-                        );
+                        bottomSheet:
+                            TaskEditBottomSheet(isUpdate: true, task: task)),
+                  ),
+                  StatusPickerDropDown(task: task, icon: Icon(Icons.done_rounded),)
+                ]),
+            children: [
+              ListTile(
+                leading: OutlinedButton.icon(
+                  icon: Icon(Icons.topic_rounded, color: Color(task.project.projectColor)),
+                  label: Text(task.project.projectName, style: Theme.of(context).textTheme.subtitle1),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                        return ProjectPage(project: task.project);
                       }),
+                    );
+                  },
                 ),
-                IconButton(
-                  icon: Icon(Icons.edit_rounded),
-                  tooltip: 'Edit Task',
-                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                      context: context,
-                      bottomSheet:
-                          TaskEditBottomSheet(isUpdate: true, task: task)),
-                ),
-                StatusPickerDropDown(task: task, icon: Icon(Icons.done_rounded),)
-              ]),
-          children: [
-            ListTile(
-              title: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RichText(
-                      text: TextSpan(
-                          text: 'Project: ',
-                          style: Theme.of(context).textTheme.subtitle1,
-                          children: <TextSpan>[
-                        TextSpan(
-                            text: task.project.projectName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .copyWith(
-                                    color: Color(task.project.projectColor)))
-                      ])),
-                  RichText(
-                      text: TextSpan(
-                          text: 'Status: ',
-                          style: Theme.of(context).textTheme.subtitle1,
-                          children: <TextSpan>[
-                        TextSpan(
-                            text: task.status.statusName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .copyWith(
-                                    color: Color(task.status.statusColor)))
-                      ])),
-                ],
+                trailing: RichText(
+                    text: TextSpan(
+                        text: 'Status: ',
+                        style: Theme.of(context).textTheme.subtitle1,
+                        children: <TextSpan>[
+                      TextSpan(
+                          text: task.status.statusName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(
+                                  color: Color(task.status.statusColor)))
+                    ])),
+                
               ),
-            ),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text('Subtasks: ',
-                      style: Theme.of(context).textTheme.subtitle1),
-                  Text(
-                      'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
-                      style: Theme.of(context).textTheme.subtitle1),
-                ],
+              ListTile(
+                leading: Text('Subtasks: ',
+                        style: Theme.of(context).textTheme.subtitle1),
+                trailing: Text(
+                        'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
+                        style: Theme.of(context).textTheme.subtitle1),
               ),
-            ),
-            ListTile(
-              title: Text(
-                  task.dueDate.year == 0
-                      ? 'Due: '
-                      : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
-                  style: Theme.of(context).textTheme.subtitle1),
-            ),
-            Text(
-                'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
-                style: Theme.of(context).textTheme.caption),
-          ],
+              ListTile(
+                title: Text(
+                    task.dueDate.year == 0
+                        ? 'Due: '
+                        : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                    style: Theme.of(context).textTheme.subtitle1),
+              ),
+              Text(
+                  'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
+                  style: Theme.of(context).textTheme.caption),
+            ],
+          ),
         )
       ],
     );
