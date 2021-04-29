@@ -5,7 +5,7 @@ import 'package:productivity_app/Shared/screens/components/page_body.dart';
 import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:productivity_app/Shared/widgets/stopwatch_snackbar.dart';
+import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -48,11 +48,16 @@ class BaseFramework extends StatelessWidget {
                   child: SafeArea(
                     child: Scaffold(
                       extendBody: true,
-                      body: PageBody(),
+                      body: Column(
+                        children: [
+                          stopwatchState.stopwatch.isRunning
+                          ? StopWatchTile()
+                          : Container(),
+                          Expanded(child: PageBody())
+                        ]  
+                      ),
                       bottomNavigationBar: NavigationBar(),
-                      bottomSheet: stopwatchState.stopwatch.isRunning
-                          ? StopwatchBottomSheet()
-                          : null
+                      // bottomSheet: 
                       // drawer: ,
                     ),
                   ));
