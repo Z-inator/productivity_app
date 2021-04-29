@@ -22,8 +22,12 @@ class TimeEntryExpansionTile extends StatelessWidget {
           icon: Icon(Icons.circle),
           color: Color(entry.project.projectColor),
           onPressed: () {}),
-      title: Text(entry.entryName),
-      subtitle: Text(entry.project.projectName,
+      title: Text(entry.entryName.isEmpty
+          ? 'Add Entry Name'
+          : entry.entryName),
+      subtitle: Text(entry.project.projectName.isEmpty
+          ? 'No Assigned Project'
+          : entry.project.projectName,
           style: TextStyle(color: Color(entry.project.projectColor))),
       trailing: Text(TimeFunctions().timeToText(seconds: entry.elapsedTime)),
       children: [
