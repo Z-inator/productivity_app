@@ -15,7 +15,7 @@ ThemeData appTheme() {
     ),
     
     textTheme: TextTheme(
-      subtitle1: TextStyle(color: Color(0x8a000000)),
+      subtitle1: TextStyle(color: Colors.grey[800]),
       subtitle2: TextStyle(color: Colors.white)
     ),
 

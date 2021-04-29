@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
-import 'package:productivity_app/Shared/widgets/stopwatch_snackbar.dart';
+import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
@@ -36,13 +36,13 @@ class AddSpeedDial extends StatelessWidget {
     //     getSpeedDialChildren(context, options);
     return SpeedDial(
       icon: Icons.add_rounded,
-      iconTheme: IconThemeData(size: 40),
+      iconTheme: IconThemeData(size: 45),
       activeIcon: Icons.close_rounded,
       renderOverlay: false,
       curve: Curves.bounceIn,
       tooltip: 'Add Menu',
-      // buttonSize: 40,
-      // childrenButtonSize: 40,
+      buttonSize: 45,
+      childrenButtonSize: 45,
       backgroundColor: Theme.of(context).accentColor,
       foregroundColor: Theme.of(context).primaryColor,
       elevation: 0,
