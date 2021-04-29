@@ -7,7 +7,7 @@ import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/providers/stopwatch_state.dart';
+import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Users/models/user_model.dart';
 import 'package:provider/provider.dart';

@@ -24,6 +24,7 @@ class StopwatchState extends ChangeNotifier {
   }
 
   void startStopwatch() {
+    timeEntry = TimeEntry();
     elapsedTicks = 0;
     stopwatch.start();
     timeEntry.startTime = DateTime.now();
