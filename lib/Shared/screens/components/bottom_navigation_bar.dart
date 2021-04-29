@@ -10,24 +10,17 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     PageState state = Provider.of<PageState>(context);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0, 0),
-            spreadRadius: 0,
-            blurRadius: 5
-          )
-        ]
+        border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
               icon: Icon(Icons.dashboard_rounded),
-              iconSize: 30,
+
               color: state.page == 0
                   ? Colors.black
                   : Theme.of(context).unselectedWidgetColor,
@@ -36,7 +29,7 @@ class NavigationBar extends StatelessWidget {
               }),
           IconButton(
               icon: Icon(Icons.rule_rounded),
-              iconSize: 30,
+
               color: state.page == 2
                   ? Colors.black
                   : Theme.of(context).unselectedWidgetColor,
@@ -46,7 +39,7 @@ class NavigationBar extends StatelessWidget {
           AddSpeedDial(),
           IconButton(
               icon: Icon(Icons.timer_rounded),
-              iconSize: 30,
+
               color: state.page == 1
                   ? Colors.black
                   : Theme.of(context).unselectedWidgetColor,
@@ -55,7 +48,7 @@ class NavigationBar extends StatelessWidget {
               }),
           IconButton(
               icon: Icon(Icons.bar_chart_rounded),
-              iconSize: 30,
+
               color: state.page == 3
                   ? Colors.black
                   : Theme.of(context).unselectedWidgetColor,
