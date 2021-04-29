@@ -18,8 +18,8 @@ class TimeEntryEditState with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateEntryProject(Project projectName) {
-    newEntry.project = projectName;
+  void updateEntryProject(Project project) {
+    newEntry.project = project;
     notifyListeners();
   }
 

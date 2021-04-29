@@ -36,16 +36,17 @@ class TaskEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TaskEditState(),
       builder: (context, child) {
-        final TaskEditState state = Provider.of<TaskEditState>(context);
+        final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
+        taskEditState.createNewTask();
         final TaskService taskService = Provider.of<TaskService>(context);
         if (task != null) {
-          state.updateTask(task);
+          taskEditState.updateTask(task);
         }
         if (project != null) {
-          state.updateTaskProject(project);
+          taskEditState.updateTaskProject(project);
         }
         if (status != null) {
-          state.updateTaskStatus(status);
+          taskEditState.updateTaskStatus(status);
         }
         return Container(
             margin: EdgeInsets.all(20),
@@ -58,31 +59,31 @@ class TaskEditBottomSheet extends StatelessWidget {
                   return null;
                 },
                 decoration: InputDecoration(
-                    hintText: state.newTask.taskName.isEmpty
+                    hintText: taskEditState.newTask.taskName.isEmpty
                         ? 'Enter Task Name'
-                        : state.newTask.taskName),
+                        : taskEditState.newTask.taskName),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
-                  state.updateTaskName(newText);
+                  taskEditState.updateTaskName(newText);
                 },
               ),
               ProjectPicker(
-                saveProject: state.updateTaskProject,
+                saveProject: taskEditState.updateTaskProject,
                 child: ListTile(
                   leading: Icon(
                     Icons.circle,
-                    color: Color(state.newTask.project.projectColor),
+                    color: Color(taskEditState.newTask.project.projectColor),
                   ),
                   title: Text(
-                      state.newTask.project.projectName.isEmpty
+                      taskEditState.newTask.project.projectName.isEmpty
                           ? 'Add Project'
-                          : state.newTask.project.projectName,
+                          : taskEditState.newTask.project.projectName,
                       style: Theme.of(context).textTheme.subtitle1),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
                       color: Theme.of(context).unselectedWidgetColor),
                 ),
               ),
-              StatusPicker(saveStatus: state.updateTaskStatus),
+              StatusPicker(saveStatus: taskEditState.updateTaskStatus),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -90,63 +91,65 @@ class TaskEditBottomSheet extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
-                        initialDate: state.newTask.dueDate.year == 0
+                        initialDate: taskEditState.newTask.dueDate.year == 0
                             ? DateTime.now()
-                            : state.newTask.dueDate,
-                        saveDate: state.updateTaskDueDate),
+                            : taskEditState.newTask.dueDate,
+                        saveDate: taskEditState.updateTaskDueDate),
                     icon: Icon(Icons.today_rounded),
-                    label: Text(state.newTask.dueDate.year == 0
+                    label: Text(taskEditState.newTask.dueDate.year == 0
                         ? 'Add Due Date'
-                        : DateTimeFunctions()
-                            .dateTimeToTextDate(date: state.newTask.dueDate)),
+                        : DateTimeFunctions().dateTimeToTextDate(
+                            date: taskEditState.newTask.dueDate)),
                   ),
                   OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectTime(
                         context: context,
-                        initialTime: state.newTask.dueDate.hour == 0
+                        initialTime: taskEditState.newTask.dueDate.microsecond == 555
                             ? TimeOfDay.now()
-                            : TimeOfDay.fromDateTime(state.newTask.dueDate),
-                        saveTime: state.updateTaskDueTime),
+                            : TimeOfDay.fromDateTime(
+                                taskEditState.newTask.dueDate),
+                        saveTime: taskEditState.updateTaskDueTime),
                     icon: Icon(Icons.alarm_rounded),
-                    label: Text(state.newTask.dueDate.hour !=
-                            0 // TODO: change to where you can set dueDate to midnight
+                    label: Text(taskEditState.newTask.dueDate.microsecond !=
+                            555 // TODO: change to where you can set dueDate to midnight
                         ? DateTimeFunctions().dateTimeToTextTime(
-                            date: state.newTask.dueDate, context: context)
+                            date: taskEditState.newTask.dueDate,
+                            context: context)
                         : 'Add Due Time'),
                   ),
                 ],
               ),
               Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: 
-                  // Row(
-                  //   mainAxisSize: MainAxisSize.max,
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: [
-                  //     OutlinedButton.icon(
-                  //       icon: Icon(Icons.cancel_rounded),
-                  //       label: Text('Cancel'),
-                  //       onPressed: () {
-                  //         // state.disposeOfState();
-                  //         Navigator.pop(context);
-                  //       },
-                  //     ),
-                      ElevatedButton.icon(
-                        icon: Icon(Icons.check_circle_outline_rounded),
-                        label: Text(isUpdate ? 'Update' : 'Add'),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            isUpdate
-                              ? taskService.updateTask(
-                                  taskID: task.taskID,
-                                  updateData: state.newTask.toFirestore())
-                              : taskService.addTask(
-                                  addData: state.newTask.toFirestore());
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                  )
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child:
+                    // Row(
+                    //   mainAxisSize: MainAxisSize.max,
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     OutlinedButton.icon(
+                    //       icon: Icon(Icons.cancel_rounded),
+                    //       label: Text('Cancel'),
+                    //       onPressed: () {
+                    //         // state.disposeOfState();
+                    //         Navigator.pop(context);
+                    //       },
+                    //     ),
+                    ElevatedButton.icon(
+                  icon: Icon(Icons.check_circle_outline_rounded),
+                  label: Text(isUpdate ? 'Update' : 'Add'),
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      isUpdate
+                          ? taskService.updateTask(
+                              taskID: task.taskID,
+                              updateData: taskEditState.newTask.toFirestore())
+                          : taskService.addTask(
+                              addData: taskEditState.newTask.toFirestore());
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              )
             ]));
       },
     );

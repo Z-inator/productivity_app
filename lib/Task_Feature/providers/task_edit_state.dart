@@ -7,7 +7,10 @@ import 'package:provider/provider.dart';
 
 class TaskEditState with ChangeNotifier {
   Task newTask;
-  TaskEditState() : newTask = Task();
+
+  void createNewTask() {
+    newTask = Task();
+  }
 
   void updateTask(Task task) {
     newTask = task;
@@ -29,7 +32,7 @@ class TaskEditState with ChangeNotifier {
   }
 
   void updateTaskDueDate(DateTime dueDate) {
-    if (newTask.dueDate.hour == 0) {
+    if (newTask.dueDate.microsecond == 555) {
       newTask.dueDate = dueDate;
     } else {
       final DateTime temp = newTask.dueDate;
@@ -47,9 +50,6 @@ class TaskEditState with ChangeNotifier {
       newTask.dueDate = DateTime(
           temp.year, temp.month, temp.day, dueTime.hour, dueTime.minute);
     }
-    final DateTime temp = newTask.dueDate;
-    newTask.dueDate =
-        DateTime(temp.year, temp.month, temp.day, dueTime.hour, dueTime.minute);
     notifyListeners();
   }
 

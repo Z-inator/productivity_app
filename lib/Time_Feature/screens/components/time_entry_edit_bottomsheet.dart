@@ -14,6 +14,7 @@ import 'package:productivity_app/Task_Feature/screens/components/status_picker.d
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
+import 'package:productivity_app/Time_Feature/screens/components/task_picker.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
@@ -35,16 +36,16 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TimeEntryEditState(),
       builder: (context, child) {
-        final TimeEntryEditState state =
+        final TimeEntryEditState timeEntryEditState =
             Provider.of<TimeEntryEditState>(context);
         if (entry != null) {
-          state.updateEntry(entry);
+          timeEntryEditState.updateEntry(entry);
         }
         if (project != null) {
-          state.updateEntryProject(project);
+          timeEntryEditState.updateEntryProject(project);
         }
         if (task != null) {
-          state.updateEntryTask(task);
+          timeEntryEditState.updateEntryTask(task);
         }
         return Container(
             margin: EdgeInsets.all(20),
@@ -59,61 +60,61 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                     return null;
                   },
                   decoration: InputDecoration(
-                      hintText: state.newEntry.entryName.isEmpty
+                      hintText: timeEntryEditState.newEntry.entryName.isEmpty
                           ? 'Enter Time Entry Name'
-                          : state.newEntry.entryName),
+                          : timeEntryEditState.newEntry.entryName),
                   textAlign: TextAlign.center,
                   onChanged: (newText) {
-                    state.updateEntryName(newText);
+                    timeEntryEditState.updateEntryName(newText);
                   },
                 ),
                 ProjectPicker(
-                  saveProject: state.updateEntryProject,
+                  saveProject: timeEntryEditState.updateEntryProject,
                   child: ListTile(
                     leading: Icon(
                       Icons.circle,
-                      color: Color(state.newEntry.project.projectColor),
+                      color: Color(timeEntryEditState.newEntry.project.projectColor),
                     ),
                     title: Text(
-                        state.newEntry.project.projectName.isEmpty
+                        timeEntryEditState.newEntry.project.projectName.isEmpty
                             ? 'Add Project'
-                            : state.newEntry.project.projectName,
+                            : timeEntryEditState.newEntry.project.projectName,
                         style: Theme.of(context).textTheme.subtitle1),
                     trailing: Icon(Icons.arrow_drop_down_rounded,
                         color: Theme.of(context).unselectedWidgetColor),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('Date:    ',
-                        style: Theme.of(context).textTheme.subtitle1),
-                    OutlinedButton.icon(
+                TaskPicker(
+                  saveTask: timeEntryEditState.updateEntryTask,
+                  child: ListTile(
+                    leading: Icon(Icons.check_circle_rounded,
+                        color: Color(timeEntryEditState.newEntry.task.status.statusColor)),
+                    title: Text(timeEntryEditState.newEntry.task.taskName.isEmpty
+                        ? 'Add Task'
+                        : timeEntryEditState.newEntry.task.taskName),
+                    trailing: Icon(Icons.arrow_drop_down_rounded,
+                        color: Theme.of(context).unselectedWidgetColor),
+                  ),
+                ),
+                ListTile(
+                  leading: OutlinedButton.icon(
                         onPressed: () => DateAndTimePickers().selectDate(
                             context: context,
                             initialDate: isUpdate
-                                ? state.newEntry.startTime
+                                ? timeEntryEditState.newEntry.startTime
                                 : DateTime.now(),
-                            saveDate: state.updateDate),
+                            saveDate: timeEntryEditState.updateDate),
                         icon: Icon(Icons.today_rounded),
                         label: Text(DateTimeFunctions().dateTimeToTextDate(
-                            date: state.newEntry.startTime))),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('Time:    ',
-                        style: Theme.of(context).textTheme.subtitle1),
-                    OutlinedButton.icon(
+                            date: timeEntryEditState.newEntry.startTime))),
+                  trailing: OutlinedButton.icon(
                         onPressed: () => DateAndTimePickers()
                             .buildTimeRangePicker(
                                 context: context,
-                                saveTimeRange: state.updateStartEndTime),
+                                saveTimeRange: timeEntryEditState.updateStartEndTime),
                         icon: Icon(Icons.timelapse_rounded),
                         label: Text(
-                            '${TimeOfDay.fromDateTime(state.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(state.newEntry.endTime).format(context)}'))
-                  ],
+                            '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime).format(context)}')),
                 ),
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
@@ -125,9 +126,9 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                           isUpdate
                               ? TimeService().updateTimeEntry(
                                   timeEntryID: entry.entryID,
-                                  updateData: state.newEntry.toFirestore())
+                                  updateData: timeEntryEditState.newEntry.toFirestore())
                               : TimeService().addTimeEntry(
-                                  addData: state.newEntry.toFirestore());
+                                  addData: timeEntryEditState.newEntry.toFirestore());
                           Navigator.pop(context);
                         }
                       },
