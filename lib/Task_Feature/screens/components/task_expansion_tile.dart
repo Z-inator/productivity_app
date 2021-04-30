@@ -35,8 +35,9 @@ class TaskExpansionTile extends StatelessWidget {
     List<TimeEntry> timeEntries = timeService.getTimeEntriesByTask(
         Provider.of<List<TimeEntry>>(context), task);
     int recordedTime = taskService.getRecordedTime(timeEntries, task);
+    int subtaskCount = 0;   // TODO: implement Subtasks
     return ExpansionTile(
-      leading: Icon(Icons.circle, color: Color(task.status.statusColor)),
+      leading: Icon(Icons.check_circle_rounded, color: Color(task.status.statusColor)),
       title: Text(task.taskName),
       subtitle: Text(task.project.projectName,
           style: TextStyle(color: Color(task.project.projectColor))),
@@ -59,7 +60,7 @@ class TaskExpansionTile extends StatelessWidget {
                       onPressed: () => EditBottomSheet().buildEditBottomSheet(
                           context: context,
                           bottomSheet: TimeEntryEditBottomSheet(
-                              isUpdate: false, task: task))),
+                              isUpdate: false, entry: TimeEntry(task: task)))),
                   // IconButton(
                   //   icon: Icon(Icons.add_rounded),
                   //   tooltip: 'Add Subtask',
@@ -89,7 +90,8 @@ class TaskExpansionTile extends StatelessWidget {
                                 onPressed: () => Navigator.pop(context),
                               ),
                               ElevatedButton.icon(
-                                  icon: Icon(Icons.check_circle_outline_rounded),
+                                  icon:
+                                      Icon(Icons.check_circle_outline_rounded),
                                   label: Text('Delete'),
                                   onPressed: () {
                                     taskService.deleteTask(taskID: task.taskID);
@@ -107,13 +109,19 @@ class TaskExpansionTile extends StatelessWidget {
                         bottomSheet:
                             TaskEditBottomSheet(isUpdate: true, task: task)),
                   ),
-                  StatusPickerDropDown(task: task, icon: Icon(Icons.done_rounded),)
+                  StatusPickerDropDown(
+                    task: task,
+                    icon: Icon(Icons.done_rounded),
+                  )
                 ]),
             children: [
               ListTile(
                 leading: OutlinedButton.icon(
-                  icon: Icon(Icons.topic_rounded, color: Color(task.project.projectColor)),
-                  label: Text(task.project.projectName, style: Theme.of(context).textTheme.subtitle1),
+                  style: Theme.of(context).outlinedButtonTheme.style,
+                  icon: Icon(Icons.topic_rounded,
+                      color: Color(task.project.projectColor)),
+                  label: Text(task.project.projectName,
+                      style: Theme.of(context).textTheme.subtitle1),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -133,17 +141,15 @@ class TaskExpansionTile extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .subtitle1
-                              .copyWith(
-                                  color: Color(task.status.statusColor)))
+                              .copyWith(color: Color(task.status.statusColor)))
                     ])),
-                
               ),
               ListTile(
-                leading: Text('Subtasks: ',
-                        style: Theme.of(context).textTheme.subtitle1),
+                leading: Text('Subtasks: $subtaskCount',
+                    style: Theme.of(context).textTheme.subtitle1),
                 trailing: Text(
-                        'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
-                        style: Theme.of(context).textTheme.subtitle1),
+                    'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
+                    style: Theme.of(context).textTheme.subtitle1),
               ),
               ListTile(
                 title: Text(
