@@ -29,14 +29,10 @@ import 'package:productivity_app/Time_Feature/screens/time_screen.dart';
 class BaseFramework extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<List<Task>>(context);
-    List<Project> projects = Provider.of<List<Project>>(context);
-    List<Status> statuses = Provider.of<List<Status>>(context);
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    return tasks == null ||
-            projects == null ||
-            statuses == null ||
-            timeEntries == null
+    return Provider.of<List<Task>>(context) == null ||
+            Provider.of<List<Project>>(context) == null ||
+            Provider.of<List<Status>>(context) == null ||
+            Provider.of<List<TimeEntry>>(context) == null
         ? Center(child: CircularProgressIndicator())
         : ChangeNotifierProvider(
             create: (context) => PageState(page: 0, widget: HomeScreen()),
