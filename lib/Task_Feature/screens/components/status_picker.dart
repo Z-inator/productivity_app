@@ -6,14 +6,13 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 
 class StatusPicker extends StatelessWidget {
-  const StatusPicker({Key key, this.saveStatus}) : super(key: key);
-
   final Function(Status) saveStatus;
+  final Task task;
+  const StatusPicker({Key key, this.saveStatus, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<Status> statuses = Provider.of<List<Status>>(context);
-    final state = Provider.of<TaskEditState>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
       scrollDirection: Axis.horizontal,
@@ -25,7 +24,7 @@ class StatusPicker extends StatelessWidget {
               onPressed: () {
                 saveStatus(status);
               },
-              icon: state.newTask.status.statusID == status.statusID
+              icon: task.status.statusID == status.statusID
                   ? Icon(Icons.check_circle_rounded,
                       color: Color(status.statusColor))
                   : Icon(Icons.circle, color: Color(status.statusColor)),
@@ -47,7 +46,7 @@ class StatusPickerDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Status> statuses = Provider.of<List<Status>>(context);
-    final TaskService state = Provider.of<TaskService>(context);
+    final TaskService taskService = Provider.of<TaskService>(context);
     return PopupMenuButton(
         icon: icon,
         tooltip: 'Change Status',
@@ -64,7 +63,7 @@ class StatusPickerDropDown extends StatelessWidget {
                         .subtitle1
                         .copyWith(color: Color(status.statusColor))),
                 onTap: () {
-                  state.updateTask(
+                  taskService.updateTask(
                       taskID: task.taskID,
                       updateData: {'status': status.statusName});
                   Navigator.pop(context);

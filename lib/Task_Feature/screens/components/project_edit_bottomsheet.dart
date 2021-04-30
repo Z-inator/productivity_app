@@ -20,12 +20,9 @@ class ProjectEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProjectEditState(),
+      create: (context) => ProjectEditState(newProject: project),
       builder: (context, child) {
         final state = Provider.of<ProjectEditState>(context);
-        if (project != null) {
-          state.updateProject(project);
-        }
         return Container(
           margin: EdgeInsets.all(20),
           child: Form(

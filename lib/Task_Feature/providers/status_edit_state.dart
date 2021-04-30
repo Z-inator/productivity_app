@@ -3,7 +3,7 @@ import 'package:productivity_app/Task_Feature/models/status.dart';
 
 class StatusEditState extends ChangeNotifier {
   Status newStatus;
-  StatusEditState() : newStatus = Status();
+  StatusEditState({newStatus}) : newStatus = newStatus as Status ?? Status();
 
   void updateStatus(Status status) {
     newStatus = status;

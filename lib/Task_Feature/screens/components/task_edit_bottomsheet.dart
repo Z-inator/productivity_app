@@ -16,21 +16,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 
-// class TaskEditChangeNotifier extends StatefulWidget {
-//   TaskEditChangeNotifier({Key key}) : super(key: key);
-
-//   @override
-//   _TaskEditChangeNotifierState createState() => _TaskEditChangeNotifierState();
-// }
-
-// class _TaskEditChangeNotifierState extends State<TaskEditChangeNotifier> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider(create: (context) => TaskEditState(),
-//     builder: (context, child) => TaskEditBottomSheet())
-//   }
-// }
-
 class TaskEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final Task task;
@@ -50,17 +35,13 @@ class TaskEditBottomSheet extends StatelessWidget {
       builder: (context, child) {
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
         final TaskService taskService = Provider.of<TaskService>(context);
-        // if (task != null) {
-        //   taskEditState.newTask = task;
-        // }
-        print(taskEditState.newTask.project.projectName);
         return Container(
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please Enter Project Name';
+                    return 'Please Enter Task Name';
                   }
                   return null;
                 },
@@ -77,7 +58,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                 saveProject: taskEditState.updateTaskProject,
                 child: ListTile(
                   leading: Icon(
-                    Icons.circle,
+                    Icons.topic_rounded,
                     color: Color(taskEditState.newTask.project.projectColor),
                   ),
                   title: Text(
@@ -89,7 +70,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                       color: Theme.of(context).unselectedWidgetColor),
                 ),
               ),
-              StatusPicker(saveStatus: taskEditState.updateTaskStatus),
+              StatusPicker(saveStatus: taskEditState.updateTaskStatus, task: taskEditState.newTask),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -128,18 +109,6 @@ class TaskEditBottomSheet extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child:
-                    // Row(
-                    //   mainAxisSize: MainAxisSize.max,
-                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     OutlinedButton.icon(
-                    //       icon: Icon(Icons.cancel_rounded),
-                    //       label: Text('Cancel'),
-                    //       onPressed: () {
-                    //         // state.disposeOfState();
-                    //         Navigator.pop(context);
-                    //       },
-                    //     ),
                     ElevatedButton.icon(
                   icon: Icon(Icons.check_circle_outline_rounded),
                   label: Text(isUpdate ? 'Update' : 'Add'),
@@ -161,3 +130,169 @@ class TaskEditBottomSheet extends StatelessWidget {
     );
   }
 }
+
+
+// class TaskEditBottomSheet extends StatefulWidget {
+//   final bool isUpdate;
+//   final Task task;
+
+//   TaskEditBottomSheet({
+//     Key key,
+//     this.isUpdate,
+//     this.task,
+//   }) : super(key: key);
+
+//   @override
+//   _TaskEditBottomSheetState createState() => _TaskEditBottomSheetState();
+// }
+
+// class _TaskEditBottomSheetState extends State<TaskEditBottomSheet> {
+//   Task newTask = Task();
+//   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+//   void updateProject(Project project) {
+//     setState(() {
+//       newTask.project = project;
+//     });
+//   }
+
+//   void updateStatus(Status status) {
+//     setState(() {
+//       newTask.status = status;
+//     });
+//   }
+
+//   void updateTaskDueDate(DateTime dueDate) {
+//     if (newTask.dueDate.microsecond == 555) {
+//       newTask.dueDate = dueDate;
+//     } else {
+//       final DateTime temp = newTask.dueDate;
+//       newTask.dueDate = DateTime(
+//           dueDate.year, dueDate.month, dueDate.day, temp.hour, temp.minute);
+//     }
+//   }
+
+//   void updateTaskDueTime(TimeOfDay dueTime) {
+//     if (newTask.dueDate.year == 0) {
+//       newTask.dueDate = DateTime(0, 0, 0, dueTime.hour, dueTime.minute);
+//     } else {
+//       final DateTime temp = newTask.dueDate;
+//       newTask.dueDate = DateTime(
+//           temp.year, temp.month, temp.day, dueTime.hour, dueTime.minute);
+//     }
+//   }
+
+//   @override
+//   void initState() {
+//     if (widget.task != null) {
+//       newTask = widget.task;
+//     }
+//     super.initState();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final TaskService taskService = Provider.of<TaskService>(context);
+//     return SafeArea(
+//           child: Scaffold(
+//             appBar: AppBar(
+//               title: Text(newTask.taskName.isEmpty
+//                             ? 'Add Task'
+//                             : newTask.taskName),
+//             ),
+//                       body: Container(
+//                 margin: EdgeInsets.all(20),
+//                 child: Column(mainAxisSize: MainAxisSize.min, children: [
+//                   TextFormField(
+//                     validator: (value) {
+//                       if (value == null || value.isEmpty) {
+//                         return 'Please Enter Task Name';
+//                       }
+//                       return null;
+//                     },
+//                     decoration: InputDecoration(
+//                         hintText: newTask.taskName.isEmpty
+//                             ? 'Enter Task Name'
+//                             : newTask.taskName),
+//                     textAlign: TextAlign.center,
+//                     onChanged: (newText) {
+//                       newTask.taskName = newText;
+//                     },
+//                   ),
+//                   ProjectPicker(
+//                     saveProject: updateProject,
+//                     child: ListTile(
+//                       leading: Icon(
+//                         Icons.circle,
+//                         color: Color(newTask.project.projectColor),
+//                       ),
+//                       title: Text(
+//                           newTask.project.projectName.isEmpty
+//                               ? 'Add Project'
+//                               : newTask.project.projectName,
+//                           style: Theme.of(context).textTheme.subtitle1),
+//                       trailing: Icon(Icons.arrow_drop_down_rounded,
+//                           color: Theme.of(context).unselectedWidgetColor),
+//                     ),
+//                   ),
+//                   StatusPicker(saveStatus: updateStatus, task: newTask),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                     children: [
+//                       Text('Due: ', style: Theme.of(context).textTheme.subtitle1),
+//                       OutlinedButton.icon(
+//                         onPressed: () => DateAndTimePickers().selectDate(
+//                             context: context,
+//                             initialDate: newTask.dueDate.year == 1
+//                                 ? DateTime.now()
+//                                 : newTask.dueDate,
+//                             saveDate: updateTaskDueDate),
+//                         icon: Icon(Icons.today_rounded),
+//                         label: Text(newTask.dueDate.year == 1
+//                             ? 'Add Due Date'
+//                             : DateTimeFunctions().dateTimeToTextDate(
+//                                 date: newTask.dueDate)),
+//                       ),
+//                       OutlinedButton.icon(
+//                         onPressed: () => DateAndTimePickers().selectTime(
+//                             context: context,
+//                             initialTime:
+//                                 newTask.dueDate.microsecond == 555
+//                                     ? TimeOfDay.now()
+//                                     : TimeOfDay.fromDateTime(
+//                                         newTask.dueDate),
+//                             saveTime: updateTaskDueTime),
+//                         icon: Icon(Icons.alarm_rounded),
+//                         label: Text(newTask.dueDate.microsecond != 555
+//                             ? DateTimeFunctions().dateTimeToTextTime(
+//                                 date: newTask.dueDate,
+//                                 context: context)
+//                             : 'Add Due Time'),
+//                       ),
+//                     ],
+//                   ),
+//                   Container(
+//                     padding: EdgeInsets.symmetric(vertical: 20),
+//                     child:
+//                         ElevatedButton.icon(
+//                       icon: Icon(Icons.check_circle_outline_rounded),
+//                       label: Text(widget.isUpdate ? 'Update' : 'Add'),
+//                       onPressed: () {
+//                         if (_formKey.currentState.validate()) {
+//                           widget.isUpdate
+//                               ? taskService.updateTask(
+//                                   taskID: widget.task.taskID,
+//                                   updateData: newTask.toFirestore())
+//                               : taskService.addTask(
+//                                   addData: newTask.toFirestore());
+//                           Navigator.pop(context);
+//                         }
+//                       },
+//                     ),
+//                   )
+//                 ])),
+//           ),
+//     );
+//   }
+// }
+// 

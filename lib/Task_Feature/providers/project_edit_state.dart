@@ -4,7 +4,7 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 class ProjectEditState extends ChangeNotifier {
   Project newProject;
 
-  ProjectEditState() : newProject = Project();
+  ProjectEditState({newProject}) : newProject = newProject as Project ?? Project();
 
   void updateProject(Project project) {
     newProject = project;

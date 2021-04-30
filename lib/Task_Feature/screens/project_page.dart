@@ -32,18 +32,6 @@ class ProjectPage extends StatelessWidget {
   final Project project;
   const ProjectPage({this.project});
 
-  List<Task> filteredTasks(List<Task> tasks) {
-    return tasks
-        .where((task) => task.project.projectName == project.projectName)
-        .toList();
-  }
-
-  List<TimeEntry> filteredTimeEntries(List<TimeEntry> timeEntries) {
-    return timeEntries
-        .where((entry) => entry.project.projectName == project.projectName)
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     TaskService taskService = Provider.of<TaskService>(context);
@@ -134,7 +122,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(
-                    isUpdate: false, project: project))),
+                    isUpdate: false, entry: TimeEntry(project: project)))),
         SpeedDialChild(
             child:
                 Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),

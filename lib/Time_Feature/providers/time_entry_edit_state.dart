@@ -7,7 +7,7 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 class TimeEntryEditState extends ChangeNotifier {
   TimeEntry newEntry;
 
-  TimeEntryEditState() : newEntry = TimeEntry();
+  TimeEntryEditState({newEntry}) : newEntry = newEntry as TimeEntry ?? TimeEntry();
 
   void updateEntry(TimeEntry entry) {
     newEntry = entry;

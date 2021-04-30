@@ -22,11 +22,9 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 class TimeEntryEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final TimeEntry entry;
-  final Project project;
-  final Task task;
 
   TimeEntryEditBottomSheet(
-      {Key key, this.isUpdate, this.entry, this.project, this.task})
+      {Key key, this.isUpdate, this.entry})
       : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -34,19 +32,10 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TimeEntryEditState(),
+      create: (context) => TimeEntryEditState(newEntry: entry),
       builder: (context, child) {
         final TimeEntryEditState timeEntryEditState =
             Provider.of<TimeEntryEditState>(context);
-        if (entry != null) {
-          timeEntryEditState.updateEntry(entry);
-        }
-        if (project != null) {
-          timeEntryEditState.updateEntryProject(project);
-        }
-        if (task != null) {
-          timeEntryEditState.updateEntryTask(task);
-        }
         return Container(
             margin: EdgeInsets.all(20),
             child: Form(
@@ -72,7 +61,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                   saveProject: timeEntryEditState.updateEntryProject,
                   child: ListTile(
                     leading: Icon(
-                      Icons.circle,
+                      Icons.topic_rounded,
                       color: Color(timeEntryEditState.newEntry.project.projectColor),
                     ),
                     title: Text(

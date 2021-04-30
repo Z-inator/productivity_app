@@ -12,8 +12,7 @@ import 'package:provider/provider.dart';
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
-  final int statusOrder;
-  StatusEditBottomSheet({Key key, this.status, this.isUpdate, this.statusOrder})
+  StatusEditBottomSheet({Key key, this.status, this.isUpdate})
       : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -22,16 +21,10 @@ class StatusEditBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return ChangeNotifierProvider(
-      create: (context) => StatusEditState(),
+      create: (context) => StatusEditState(newStatus: status),
       builder: (context, child) {
         final StatusEditState state = Provider.of<StatusEditState>(context);
         final StatusService statusService = Provider.of<StatusService>(context);
-        if (status != null) {
-          state.updateStatus(status);
-        }
-        if (statusOrder != null) {
-          state.updateStatusOrder(statusOrder);
-        }
         return Container(
           margin: EdgeInsets.all(20),
           child: Column(
