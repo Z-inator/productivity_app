@@ -19,15 +19,11 @@ class TimeEntryExpansionTile extends StatelessWidget {
     TimeService timeService = Provider.of<TimeService>(context);
     return ExpansionTile(
       leading: IconButton(
-          icon: Icon(Icons.circle),
+          icon: Icon(Icons.topic_rounded),
           color: Color(entry.project.projectColor),
           onPressed: () {}),
-      title: Text(entry.entryName.isEmpty
-          ? 'Add Entry Name'
-          : entry.entryName),
-      subtitle: Text(entry.project.projectName.isEmpty
-          ? 'No Assigned Project'
-          : entry.project.projectName,
+      title: Text(entry.entryName),
+      subtitle: Text(entry.project.projectName,
           style: TextStyle(color: Color(entry.project.projectColor))),
       trailing: Text(TimeFunctions().timeToText(seconds: entry.elapsedTime)),
       children: [
@@ -89,6 +85,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
               ),
               ListTile(
                 leading: OutlinedButton.icon(
+                  style: Theme.of(context).outlinedButtonTheme.style,
                   icon: Icon(Icons.topic_rounded, color: Color(entry.project.projectColor)),
                   label: Text(entry.project.projectName, style: Theme.of(context).textTheme.subtitle1),
                   onPressed: () {

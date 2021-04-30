@@ -19,7 +19,7 @@ class FilterButtonRow extends StatelessWidget {
               onPressed: () {
                 taskBodyState.changePage(0);
               },
-              icon: Icon(Icons.label_rounded),
+              icon: Icon(Icons.check_circle_rounded),
               label: Text('Status'),
               style: OutlinedButton.styleFrom(
                 primary: taskBodyState.page == 0 ? Theme.of(context).primaryColor : null,

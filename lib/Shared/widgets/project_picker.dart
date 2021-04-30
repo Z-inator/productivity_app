@@ -21,7 +21,7 @@ class ProjectPicker extends StatelessWidget {
           PopupMenuItem(
             child: ListTile(
               leading: Icon(
-                Icons.circle,
+                Icons.topic_rounded,
                 color: Color(4285887861),
               ),
               title: Text('No Project',
@@ -41,7 +41,7 @@ class ProjectPicker extends StatelessWidget {
                 children: projects.map((project) {
                   return ListTile(
                     leading: Icon(
-                      Icons.circle,
+                      Icons.topic_rounded,
                       color: Color(project.projectColor),
                     ),
                     title: Text(project.projectName,

@@ -37,7 +37,7 @@ class ProjectExpansionTile extends StatelessWidget {
       data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         leading: Icon(
-          Icons.circle,
+          Icons.topic_rounded,
           color: Color(project.projectColor),
         ),
         title: Text(
@@ -61,7 +61,7 @@ class ProjectExpansionTile extends StatelessWidget {
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
                         context: context,
                         bottomSheet: TimeEntryEditBottomSheet(
-                            isUpdate: false, project: project))),
+                            isUpdate: false, entry: TimeEntry(project: project)))),
                 IconButton(
                   icon: Icon(Icons.delete_rounded),
                   tooltip: 'Delete Project',
@@ -129,22 +129,12 @@ class ProjectExpansionTile extends StatelessWidget {
                     'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
                     style: Theme.of(context).textTheme.subtitle1),
               ),
-              ListTile(
+              project.projectClient.isNotEmpty
+              ? ListTile(
                 title: Text('Client: ${project.projectClient}',
                     style: Theme.of(context).textTheme.subtitle1),
-              ),
-              // ElevatedButton.icon(
-              //   icon: Icon(Icons.open_with_rounded),
-              //   label: Text('Project Page'),
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (BuildContext context) {
-              //         return ProjectPage(project: project);
-              //       }),
-              //     );
-              //   },
-              // ),
+              )
+              : Container(),
             ],
           ),
         ],
