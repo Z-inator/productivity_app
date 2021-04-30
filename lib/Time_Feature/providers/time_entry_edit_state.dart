@@ -4,7 +4,7 @@ import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
-class TimeEntryEditState with ChangeNotifier {
+class TimeEntryEditState extends ChangeNotifier {
   TimeEntry newEntry;
 
   TimeEntryEditState() : newEntry = TimeEntry();

@@ -20,7 +20,7 @@ class EditBottomSheet {
           return bottomSheet;
         });
   }
-  
+
   // void buildEditBottomSheet({BuildContext context, Widget bottomSheet}) {
   //   Future modalFuture = showModalBottomSheet(
   //       context: context,
@@ -35,15 +35,7 @@ class EditBottomSheet {
   //         return bottomSheet;
   //       });
   //   modalFuture.then((value) {
-  //     TaskEditState taskEditState = Provider.of<TaskEditState>(context);
-  //     taskEditState.dispose();
-  //     TimeEntryEditState timeEntryEditState =
-  //         Provider.of<TimeEntryEditState>(context);
-  //     timeEntryEditState.dispose();
-  //     ProjectEditState projectEditState =
-  //         Provider.of<ProjectEditState>(context);
-  //     projectEditState.dispose();
+  //     print(Provider.of<TaskEditState>(context, listen: false).newTask.project.projectName);
   //   });
   // }
-
 }

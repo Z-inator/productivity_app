@@ -90,7 +90,7 @@ class StatusExpansionTile extends StatelessWidget {
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
                         context: context,
                         bottomSheet: TaskEditBottomSheet(
-                            isUpdate: false, status: status)),
+                            isUpdate: false, task: Task(status: status))),
                   )
                 ],
               ),

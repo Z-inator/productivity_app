@@ -107,7 +107,7 @@ class ProjectExpansionTile extends StatelessWidget {
                   onPressed: () => EditBottomSheet().buildEditBottomSheet(
                       context: context,
                       bottomSheet: TaskEditBottomSheet(
-                          isUpdate: false, project: project)),
+                          isUpdate: false, task: Task(project: project))),
                 ),
                 IconButton(
                   icon: Icon(Icons.topic_rounded),

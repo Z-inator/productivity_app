@@ -19,7 +19,7 @@ class Task {
         taskName = taskName as String ?? '',
         project = project as Project ?? Project(),
         status = status as Status ?? Status(),
-        dueDate = dueDate as DateTime ?? DateTime(0, 0, 0, 0, 0, 0, 0, 555),
+        dueDate = dueDate as DateTime ?? DateTime(0001, 01, 01, 0, 0, 0, 0, 555),
         createDate = createDate as DateTime ?? DateTime.now();
 
   factory Task.fromFirestore(
@@ -30,7 +30,7 @@ class Task {
         taskName: data['taskName'] as String ?? '',
         project: project ?? Project(),
         status: status ?? Status(),
-        dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(0),
+        dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(0001, 01, 01, 01, 0, 0, 0, 555),
         createDate:
             (data['createDate'] as Timestamp).toDate() ?? DateTime.now());
   }

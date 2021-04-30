@@ -15,18 +15,30 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
+
+// class TaskEditChangeNotifier extends StatefulWidget {
+//   TaskEditChangeNotifier({Key key}) : super(key: key);
+
+//   @override
+//   _TaskEditChangeNotifierState createState() => _TaskEditChangeNotifierState();
+// }
+
+// class _TaskEditChangeNotifierState extends State<TaskEditChangeNotifier> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider(create: (context) => TaskEditState(),
+//     builder: (context, child) => TaskEditBottomSheet())
+//   }
+// }
+
 class TaskEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final Task task;
-  final Project project;
-  final Status status;
 
   TaskEditBottomSheet({
     Key key,
     this.isUpdate,
     this.task,
-    this.project,
-    this.status,
   }) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -34,20 +46,14 @@ class TaskEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TaskEditState(),
+      create: (context) => TaskEditState(newTask: task),
       builder: (context, child) {
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
-        taskEditState.createNewTask();
         final TaskService taskService = Provider.of<TaskService>(context);
-        if (task != null) {
-          taskEditState.updateTask(task);
-        }
-        if (project != null) {
-          taskEditState.updateTaskProject(project);
-        }
-        if (status != null) {
-          taskEditState.updateTaskStatus(status);
-        }
+        // if (task != null) {
+        //   taskEditState.newTask = task;
+        // }
+        print(taskEditState.newTask.project.projectName);
         return Container(
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -91,12 +97,12 @@ class TaskEditBottomSheet extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
-                        initialDate: taskEditState.newTask.dueDate.year == 0
+                        initialDate: taskEditState.newTask.dueDate.year == 1
                             ? DateTime.now()
                             : taskEditState.newTask.dueDate,
                         saveDate: taskEditState.updateTaskDueDate),
                     icon: Icon(Icons.today_rounded),
-                    label: Text(taskEditState.newTask.dueDate.year == 0
+                    label: Text(taskEditState.newTask.dueDate.year == 1
                         ? 'Add Due Date'
                         : DateTimeFunctions().dateTimeToTextDate(
                             date: taskEditState.newTask.dueDate)),
@@ -104,14 +110,14 @@ class TaskEditBottomSheet extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectTime(
                         context: context,
-                        initialTime: taskEditState.newTask.dueDate.microsecond == 555
-                            ? TimeOfDay.now()
-                            : TimeOfDay.fromDateTime(
-                                taskEditState.newTask.dueDate),
+                        initialTime:
+                            taskEditState.newTask.dueDate.microsecond == 555
+                                ? TimeOfDay.now()
+                                : TimeOfDay.fromDateTime(
+                                    taskEditState.newTask.dueDate),
                         saveTime: taskEditState.updateTaskDueTime),
                     icon: Icon(Icons.alarm_rounded),
-                    label: Text(taskEditState.newTask.dueDate.microsecond !=
-                            555 // TODO: change to where you can set dueDate to midnight
+                    label: Text(taskEditState.newTask.dueDate.microsecond != 555
                         ? DateTimeFunctions().dateTimeToTextTime(
                             date: taskEditState.newTask.dueDate,
                             context: context)

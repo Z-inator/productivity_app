@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 
-class ProjectEditState with ChangeNotifier {
+class ProjectEditState extends ChangeNotifier {
   Project newProject;
 
   ProjectEditState() : newProject = Project();

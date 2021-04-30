@@ -142,7 +142,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet:
-                    TaskEditBottomSheet(isUpdate: false, project: project))),
+                    TaskEditBottomSheet(isUpdate: false, task: Task(project: project)))),
       ],
       // TODO: Implement Goal/Habits
       // SpeedDialChild(
