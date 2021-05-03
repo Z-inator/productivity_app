@@ -46,11 +46,12 @@ class TimeChartRow extends StatelessWidget {
                   title: Text('Recorded Time',
                       style: Theme.of(context).textTheme.headline5),
                   subtitle: Text(TimeFunctions().timeToText(seconds: totalTimeRangeTime)),
-                  trailing: IconButton(
-                    icon: Icon(Icons.insights_rounded),
-                    tooltip: 'Reports',
-                    onPressed: () {},
-                  ),
+                  // TODO: implement a report screen
+                  // trailing: IconButton(
+                  //   icon: Icon(Icons.insights_rounded),
+                  //   tooltip: 'Reports',
+                  //   onPressed: () {},
+                  // ),
                 ),
                 Expanded(child: PageViewRow(pages: pages(timeRangeEntries, currentWeek[0], currentWeek[1]))),
               ],

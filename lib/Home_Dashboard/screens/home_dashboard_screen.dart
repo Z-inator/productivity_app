@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/status_tile.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/task_row.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/time_chart_row.dart';
@@ -47,7 +48,8 @@ class HomeDashBoard extends StatelessWidget {
                           .dateTimeToTextDate(date: DateTime.now())),
                       trailing: IconButton(
                         icon: Icon(Icons.settings_rounded),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        onPressed: () => Provider.of<AuthService>(context, listen: false).signOut()
+                        // Scaffold.of(context).openDrawer(),
                       )),
                   Text(
                       'The secret of your future is hidden in your daily routine.',
