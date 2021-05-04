@@ -10,6 +10,9 @@ class UserModel {
   UserModel({this.userID, this.email, this.displayName});
 
   factory UserModel.fromFirestore(User user) {
-    return UserModel(userID: user.uid, displayName: user.displayName);
+    return UserModel(
+      userID: user.uid, 
+      email: user.email,
+      displayName: user.displayName);
   }
 }

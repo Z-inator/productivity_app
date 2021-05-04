@@ -47,6 +47,7 @@ class AddSpeedDial extends StatelessWidget {
       foregroundColor: Theme.of(context).primaryColor,
       elevation: 0,
       shape: CircleBorder(),
+      openCloseDial: ,
       children: [
         SpeedDialChild(
             child:

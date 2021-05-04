@@ -20,13 +20,7 @@ class _SignInPageState extends State<SignInPage> {
     Image(image: AssetImage('assets/images/TimeList.png')),
   ];
 
-  bool isRegister;
-
-  @override
-  void initState() {
-    isRegister = false;
-    super.initState();
-  }
+  bool isRegister = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +44,7 @@ class _SignInPageState extends State<SignInPage> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                   panelSnapping: true,
                   minHeight: 80,
+                  maxHeight: MediaQuery.of(context).size.height - 105,
                   backdropEnabled: true,
                   backdropTapClosesPanel: true,
                   onPanelOpened: () {
@@ -166,75 +161,116 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   String email;
-
   String password;
+  bool signingIn = false;
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthService>(context, listen: false);
-    return Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(hintText: 'Enter your Email'),
-              textAlign: TextAlign.center,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
+    return signingIn
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+          height: MediaQuery.of(context).size.height - 200,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+              children: [
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              hintText: 'Enter your Email',
+                              icon: Icon(Icons.send_rounded)),
+                          textAlign: TextAlign.center,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              email = value;
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText: 'Enter your Password',
+                              icon: Icon(Icons.lock_rounded)),
+                          textAlign: TextAlign.center,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              password = value;
+                            });
+                          },
+                        ),
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.check_circle_outline_rounded),
+                          label: Text('Sign In'),
+                          onPressed: () async {
+                            FocusScopeNode currentFocus = FocusScope.of(context);
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                signingIn = true;
+                              });
+                              dynamic result = await auth
+                                  .signInWithEmailAndPassword(email, password);
+                              if (result != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(result.toString())));
+                              }
+                              setState(() {
+                                signingIn = false;
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    )),
+                GestureDetector(
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        leading: Image(
+                            image: AssetImage('assets/logos/google_logo.png')),
+                        title: Text('Sign In using Google',
+                            style: Theme.of(context).textTheme.headline6),
+                      ),
+                    ),
+                  ),
+                  onTap: () async {
+                    setState(() {
+                      signingIn = true;
+                    });
+                    var result = await auth.googleSignIn();
+                    if (result != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(result.toString())));
+                    }
+                    setState(() {
+                      signingIn = false;
+                    });
+                  },
+                )
+              ],
             ),
-            TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: 'Enter your Password',
-              ),
-              textAlign: TextAlign.center,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
-            ),
-            ElevatedButton.icon(
-              icon: Icon(Icons.check_circle_outline_rounded),
-              label: Text('Sign In'),
-              onPressed: () async {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.unfocus();
-                }
-                if (_formKey.currentState.validate()) {
-                  try {
-                    dynamic result =
-                        await auth.signInWithEmailAndPassword(email, password);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(result.toString())));
-                  } catch (e) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(e.toString())));
-                  }
-                }
-              },
-            )
-          ],
-        ));
+        );
   }
 }
 
@@ -246,36 +282,157 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  int _index = 0;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String email;
+  String password;
+  bool signingIn = false;
+  Icon passwordNotValid = Icon(Icons.close_rounded, color: Colors.red);
+  Icon passwordValid = Icon(Icons.check_rounded, color: Colors.green);
+  bool password1Valid;
+  bool password2Matches;
 
   @override
   Widget build(BuildContext context) {
-    return Stepper(
-        currentStep: _index,
-        onStepCancel: () {
-          if (_index <= 0) {
-            return;
-          }
-          setState(() {
-            _index--;
-          });
-        },
-        onStepContinue: () {
-          if (_index >= 1) {
-            return;
-          }
-          setState(() {
-            _index++;
-          });
-        },
-        onStepTapped: (index) {
-          setState(() {
-            _index = index;
-          });
-        },
-        steps: [
-          Step(title: Text('Choose Register Method'), content: Row(children: [],))
-        ]);
+    final auth = Provider.of<AuthService>(context, listen: false);
+    return signingIn
+        ? Center(child: CircularProgressIndicator())
+        : Container(
+          height: MediaQuery.of(context).size.height - 200,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              hintText: 'Enter your Email',
+                              icon: Icon(Icons.send_rounded)),
+                          textAlign: TextAlign.center,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              email = value;
+                            });
+                          },
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText: 'Enter your Password',
+                              helperText:
+                                  'Passwords must be at least 8 characters long and include an uppercase letter, lowercase letter, number, and special character.',
+                              helperMaxLines: 3,
+                              icon: password1Valid == null
+                                  ? Icon(Icons.lock_rounded)
+                                  : password1Valid
+                                      ? passwordValid
+                                      : passwordNotValid),
+                          textAlign: TextAlign.center,
+                          validator: (password) =>
+                              auth.passwordValidation(password),
+                          onChanged: (value) {
+                            if (auth.passwordValidation(value) == null) {
+                              setState(() {
+                                password1Valid = true;
+                                password = value;
+                              });
+                            } else {
+                              setState(() {
+                                password1Valid = false;
+                                password = value;
+                              });
+                            }
+                          },
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText: 'Re-enter your Password',
+                              helperText: 'Passwords must match',
+                              icon: password2Matches == null
+                                  ? Icon(Icons.lock_rounded)
+                                  : password2Matches
+                                      ? passwordValid
+                                      : passwordNotValid),
+                          textAlign: TextAlign.center,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please re-enter your password';
+                            } else if (value == password) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value == password) {
+                              setState(() {
+                                password2Matches = true;
+                              });
+                            } else {
+                              setState(() {
+                                password2Matches = false;
+                              });
+                            }
+                          },
+                        ),
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.check_circle_outline_rounded),
+                          label: Text('Register'),
+                          onPressed: () async {
+                            FocusScopeNode currentFocus = FocusScope.of(context);
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                            if (_formKey.currentState.validate()) {
+                              dynamic result = await auth
+                                  .signInWithEmailAndPassword(email, password);
+                              if (result != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(result.toString())));
+                              }
+                            }
+                          },
+                        ),
+                      ],
+                    )),
+                GestureDetector(
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        leading: Image(
+                            image: AssetImage('assets/logos/google_logo.png')),
+                        title: Text('Register using Google',
+                            style: Theme.of(context).textTheme.headline6),
+                      ),
+                    ),
+                  ),
+                  onTap: () async {
+                    setState(() {
+                      signingIn = true;
+                    });
+                    var result = await auth.googleSignIn();
+                    if (result != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(result.toString())));
+                    }
+                    setState(() {
+                      signingIn = false;
+                    });
+                  },
+                )
+              ],
+            ),
+        );
   }
 }
 

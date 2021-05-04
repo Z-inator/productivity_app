@@ -32,13 +32,30 @@ class AuthService {
     }
   }
 
+  String passwordValidation(String password) {
+    int passwordMinLength = 8;
+    if (password == null || password.isEmpty) {
+      return 'Please enter your password';
+    } else if (!password.contains(RegExp(r'[A-Z]'))) {
+      return 'Please include an uppercase letter';
+    } else if (!password.contains(RegExp(r'[a-z]'))) {
+      return 'Please include a lowercase letter';
+    } else if (!password.contains(RegExp(r'[0-9]'))) {
+      return 'Please include a number';
+    } else if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return 'Please include a special character';
+    } else if (password.length < passwordMinLength) {
+      return 'Password does not meet length requirements';
+    }
+    return null;
+  }
+
   // Sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
       final UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
       if (userCredential != null) {
-        return 'Successfully Signed In';
       }
     } on FirebaseAuthException catch (errorrror) {
       if (errorrror.code == 'user-not-found') {
@@ -50,151 +67,73 @@ class AuthService {
   }
 
   // Register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(
+      String email, String password, String displayName) async {
     try {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((UserCredential userCredential) => {
-                userCredential.user.sendEmailVerification(),
-                DatabaseService().buildUser(
-                    uid: userCredential.user.uid,
-                    firstName: 'Butt',
-                    lastName: 'Face')
-              });
-
-      // // Send verification email
-      // if (!userCredential.user.emailVerified) {
-      //   user.sendEmailVerification();
-      // }
-
-      // // Create a new document for the user with the uid
-      // await DatabaseService()
-      //     .buildUser(uid: user.uid, lastName: 'Face', firstName: 'Butt');
-      // return user;
-    } on FirebaseAuthException catch (errorrror) {
-      if (errorrror.code == 'weak-password') {
-        print('Password is too weak');
-      } else if (errorrror.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'weak-password') {
+        return 'Password is too weak';
+      } else if (error.code == 'email-already-in-use') {
+        return 'The account already exists for that email.';
       }
-    } catch (errorrror) {
-      print(errorrror);
+    } catch (error) {
+      return error.toString();
     }
-  }
-
-  // sign in with Google
-  Future<User> googleSignIn() async {
     try {
-      final GoogleSignInAccount googleSignInAccount =
-          await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleSignInAccount.authentication;
-
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
-      final User user = (await _auth.signInWithCredential(credential)).user;
-      print(user);
-      return user;
-    } catch (errorrror) {
-      print(errorrror);
-      return null;
+      await user.updateProfile(displayName: displayName);
+    } catch (error) {
+      return error.toString();
     }
   }
 
-  static SnackBar customSnackBar({String content}) {
-    return SnackBar(
-      content: Text(
-        content,
-      ),
-    );
-  }
-
-  Future<User> signInWithGoogle({BuildContext context}) async {
-    User user;
-
+  // Sign in with Google
+  Future googleSignIn() async {
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
-
       try {
         final UserCredential userCredential =
             await _auth.signInWithPopup(authProvider);
-
-        user = userCredential.user;
       } catch (error) {
         print(error);
       }
     } else {
-
       final GoogleSignInAccount googleSignInAccount =
           await _googleSignIn.signIn();
-
       if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
+        final GoogleSignInAuthentication googleAuth =
             await googleSignInAccount.authentication;
-
         final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-
+            accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
         try {
-          final UserCredential userCredential =
-              await _auth.signInWithCredential(credential);
-          user = userCredential.user;
+          await _auth.signInWithCredential(credential);
         } on FirebaseAuthException catch (error) {
-          if (error.code == 'account-exists-with-different-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              customSnackBar(
-                content:
-                    'The account already exists with a different credential',
-              ),
-            );
-          } else if (error.code == 'invalid-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              customSnackBar(
-                content:
-                    'Invalid credentials. Try again.',
-              ),
-            );
+          switch (error.code) {
+            case 'account-exists-with-different-credential':
+              return 'The account already exists using a different register method';
+            case 'invalid-credential':
+              return 'Invalid credentials. Try again.';
+            default:
+              return 'Error using Google Sign In. Try again.';
           }
         } catch (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            customSnackBar(
-              content: 'Error using Google Sign In. Try again.',
-            ),
-          );
+          return 'Error using Google Sign In. Try again.';
         }
       }
     }
-
-    return user;
   }
 
-  Future<void> signOut({BuildContext context}) async {
-
+  // Sign Out
+  Future signOut() async {
     try {
       if (!kIsWeb) {
         await _googleSignIn.signOut();
       }
       await _auth.signOut();
+      return 'Successfully Signed Out';
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        customSnackBar(
-          content: 'Error signing out. Try again.',
-        ),
-      );
+      return 'Error signing out. Try again.';
     }
   }
-
-
-  // Sign out
-  // Future signOut() async {
-  //   try {
-  //     return await _auth.signOut();
-  //   } catch (errorrror) {
-  //     print(errorrror);
-  //     return null;
-  //   }
-  // }
 }
