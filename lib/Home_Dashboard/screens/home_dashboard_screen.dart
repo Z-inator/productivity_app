@@ -47,10 +47,15 @@ class HomeDashBoard extends StatelessWidget {
                       subtitle: Text(DateTimeFunctions()
                           .dateTimeToTextDate(date: DateTime.now())),
                       trailing: IconButton(
-                        icon: Icon(Icons.settings_rounded),
-                        onPressed: () => Provider.of<AuthService>(context, listen: false).signOut()
-                        // Scaffold.of(context).openDrawer(),
-                      )),
+                          icon: Icon(Icons.settings_rounded),
+                          onPressed: () {
+                            var result =
+                                Provider.of<AuthService>(context, listen: false).signOut();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(result.toString())));
+                          }
+                          // Scaffold.of(context).openDrawer(),
+                          )),
                   Text(
                       'The secret of your future is hidden in your daily routine.',
                       textAlign: TextAlign.center,
@@ -65,8 +70,8 @@ class HomeDashBoard extends StatelessWidget {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: TimeChartRow()),
+                height: MediaQuery.of(context).size.height / 1.5,
+                child: TimeChartRow()),
             // ListTile(
             //   title: Text('Recorded Time',
             //       style: Theme.of(context).textTheme.headline5),
@@ -92,8 +97,8 @@ class HomeDashBoard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 1.5,
                 child: TaskDueRow()),
             ListTile(
-              title:
-                  Text('Statuses', style: Theme.of(context).textTheme.headline5),
+              title: Text('Statuses',
+                  style: Theme.of(context).textTheme.headline5),
               trailing: IconButton(
                 icon: Icon(Icons.edit_rounded),
                 onPressed: () {

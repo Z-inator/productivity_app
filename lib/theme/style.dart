@@ -8,11 +8,11 @@ ThemeData appTheme() {
     primaryColor: primaryColor,
     accentColor: accentColor,
 
-    appBarTheme: AppBarTheme(
-      iconTheme: IconThemeData(
-        color: Color(0x8a000000)
-      )
-    ),
+    // appBarTheme: AppBarTheme(
+    //   iconTheme: IconThemeData(
+    //     color: Color(0x8a000000)
+    //   )
+    // ),
     
     textTheme: TextTheme(
       subtitle1: TextStyle(color: Colors.grey[800]),
@@ -29,7 +29,7 @@ ThemeData appTheme() {
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))),
-          elevation: 4,
+      elevation: 4,
     ),
 
     outlinedButtonTheme: OutlinedButtonThemeData(
