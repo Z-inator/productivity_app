@@ -50,11 +50,17 @@ class _SignInPageState extends State<SignInPage> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                   panelSnapping: true,
                   minHeight: 80,
+                  backdropEnabled: true,
+                  backdropTapClosesPanel: true,
+                  onPanelOpened: () {
+                    setState(() {});
+                  },
                   onPanelClosed: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
                     if (!currentFocus.hasPrimaryFocus) {
                       currentFocus.unfocus();
                     }
+                    setState(() {});
                   },
                   panel: Container(
                     margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -72,6 +78,7 @@ class _SignInPageState extends State<SignInPage> {
                                 setState(() {
                                   isRegister = !isRegister;
                                 });
+                                print('button is pressed');
                               },
                             )),
                         isRegister ? RegisterForm() : SignInForm(),
@@ -209,6 +216,10 @@ class _SignInFormState extends State<SignInForm> {
               icon: Icon(Icons.check_circle_outline_rounded),
               label: Text('Sign In'),
               onPressed: () async {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
                 if (_formKey.currentState.validate()) {
                   try {
                     dynamic result =
@@ -227,12 +238,44 @@ class _SignInFormState extends State<SignInForm> {
   }
 }
 
-class RegisterForm extends StatelessWidget {
-  const RegisterForm({Key key}) : super(key: key);
+class RegisterForm extends StatefulWidget {
+  RegisterForm({Key key}) : super(key: key);
+
+  @override
+  _RegisterFormState createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Stepper(
+        currentStep: _index,
+        onStepCancel: () {
+          if (_index <= 0) {
+            return;
+          }
+          setState(() {
+            _index--;
+          });
+        },
+        onStepContinue: () {
+          if (_index >= 1) {
+            return;
+          }
+          setState(() {
+            _index++;
+          });
+        },
+        onStepTapped: (index) {
+          setState(() {
+            _index = index;
+          });
+        },
+        steps: [
+          Step(title: Text('Choose Register Method'), content: Row(children: [],))
+        ]);
   }
 }
 
