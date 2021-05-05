@@ -13,8 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 
 class AddSpeedDial extends StatelessWidget {
-  Map<IconData, Future> options;
-  AddSpeedDial({this.options});
 
   // List<SpeedDialChild> getSpeedDialChildren(
   //     BuildContext context, Map<IconData, Future> options) {
@@ -47,7 +45,7 @@ class AddSpeedDial extends StatelessWidget {
       foregroundColor: Theme.of(context).primaryColor,
       elevation: 0,
       shape: CircleBorder(),
-      openCloseDial: ,
+      // openCloseDial: ValueNotifier(_value),
       children: [
         SpeedDialChild(
             child:

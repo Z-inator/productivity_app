@@ -12,12 +12,9 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   List<Widget> pages = [
-    Image(image: AssetImage('assets/images/TimeDashboard1.png')),
-    Image(image: AssetImage('assets/images/TimeDashboard2.png')),
-    Image(image: AssetImage('assets/images/TaskDashboard.png')),
-    Image(image: AssetImage('assets/images/TaskList.png')),
-    Image(image: AssetImage('assets/images/ProjectList.png')),
-    Image(image: AssetImage('assets/images/TimeList.png')),
+    Image(image: AssetImage('assets/images/dashboard.png')),
+    Image(image: AssetImage('assets/images/tasks.png')),
+    Image(image: AssetImage('assets/images/timer.png')),
   ];
 
   bool isRegister = false;
@@ -113,40 +110,8 @@ class _SignInPageState extends State<SignInPage> {
                             maxLines: 3),
                       ),
                     ),
-                    ListTile(
-                      title: Text('Features',
-                          style: Theme.of(context).textTheme.headline6),
-                    ),
-                    Expanded(
-                      child: DefaultTabController(
-                          length: 4,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TabBar(
-                                  unselectedLabelColor:
-                                      Theme.of(context).unselectedWidgetColor,
-                                  labelColor: Theme.of(context).accentColor,
-                                  labelPadding:
-                                      EdgeInsets.fromLTRB(5, 20, 5, 10),
-                                  tabs: [
-                                    Text('Dashboard'),
-                                    Text('Tasks'),
-                                    Text('Timer'),
-                                    Text('Goals')
-                                  ]),
-                              Expanded(
-                                  child: TabBarView(
-                                children: [
-                                  DashboardTimeFeatureSnippet1(),
-                                  TaskFeatureSnippet(),
-                                  TimeFeatureSnippet(),
-                                  GoalFeatureSnippet()
-                                ],
-                              )),
-                            ],
-                          )),
-                    ),
+                    Expanded(child: PageViewRow(pages: pages)),
+                    Container(height: 185)
                   ]),
                 ))));
   }
@@ -438,81 +403,6 @@ class _RegisterFormState extends State<RegisterForm> {
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class DashboardTimeFeatureSnippet1 extends StatelessWidget {
-  const DashboardTimeFeatureSnippet1({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Image(image: AssetImage('assets/images/TimeDashboard1.png')),
-    );
-  }
-}
-
-class DashboardTimeFeatureSnippet2 extends StatelessWidget {
-  const DashboardTimeFeatureSnippet2({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Image(image: AssetImage('assets/images/TimeDashboard2.png')),
-    );
-  }
-}
-
-class DashboardTaskFeatureSnippet extends StatelessWidget {
-  const DashboardTaskFeatureSnippet({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Image(image: AssetImage('assets/images/TaskDashboard.png')),
-    );
-  }
-}
-
-class TaskFeatureSnippet extends StatelessWidget {
-  const TaskFeatureSnippet({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Image(image: AssetImage('assets/images/TaskList.png')),
-    );
-  }
-}
-
-class ProjectFeatureSnippet extends StatelessWidget {
-  const ProjectFeatureSnippet({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Image(image: AssetImage('assets/images/ProjectList.png')),
-    );
-  }
-}
-
-class TimeFeatureSnippet extends StatelessWidget {
-  const TimeFeatureSnippet({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Image(image: AssetImage('assets/images/TimeList.png')),
-    );
-  }
-}
-
-class GoalFeatureSnippet extends StatelessWidget {
-  const GoalFeatureSnippet({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

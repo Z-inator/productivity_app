@@ -67,12 +67,21 @@ class _ProductivityAppState extends State<ProductivityApp> {
     return Provider(
       create: (context) => AuthService(),
       child: AuthWidgetBuilder(builder: (context, userSnapshot) {
-        return MaterialApp(
-          title: 'Productivity App',
-          theme: appTheme(),
-          home: AuthWidget(userSnapshot: userSnapshot),
-          // onGenerateRoute: generateRoute,
-          // initialRoute: '/',
+        return GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+              
+            }
+          },
+          child: MaterialApp(
+            title: 'Productivity App',
+            theme: appTheme(),
+            home: AuthWidget(userSnapshot: userSnapshot),
+            // onGenerateRoute: generateRoute,
+            // initialRoute: '/',
+          ),
         );
       }),
     );
