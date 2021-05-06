@@ -59,6 +59,9 @@ dependencies:
   # Sliding Up panel
   sliding_up_panel: ^1.0.2
 
+  # Dynamic Theme
+  dynamic_themes: ^1.1.0
+
 
 dev_dependencies:
   flutter_test:

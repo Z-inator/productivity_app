@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Authentification/screens/auth_widget_builder.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
+import 'package:productivity_app/Theme/style.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/routes.dart';
 import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
@@ -20,10 +21,10 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Authentification/screens/auth_widget.dart';
 import 'dart:io' show Platform;
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'theme/style.dart';
 import 'Shared/screens/error_screen.dart';
 import 'Shared/screens/loading_screen.dart';
 import 'package:flutter/foundation.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,12 +77,12 @@ class _ProductivityAppState extends State<ProductivityApp> {
             }
           },
           child: MaterialApp(
-            title: 'Productivity App',
-            theme: appTheme(),
-            home: AuthWidget(userSnapshot: userSnapshot),
-            // onGenerateRoute: generateRoute,
-            // initialRoute: '/',
-          ),
+              title: 'Productivity App',
+              theme: appTheme(),
+              home: AuthWidget(userSnapshot: userSnapshot),
+              // onGenerateRoute: generateRoute,
+              // initialRoute: '/',
+            ),
         );
       }),
     );
