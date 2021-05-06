@@ -33,7 +33,6 @@ class TestScreen extends StatelessWidget {
 }
 
 class FunctionalityButtonList extends StatefulWidget {
-  
   @override
   _FunctionalityButtonListState createState() =>
       _FunctionalityButtonListState();
@@ -64,9 +63,9 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
       children: [
         ElevatedButton(
             onPressed: () {
-              print(user.emailVerified);
+              user.updateProfile(displayName: 'Z-inator');
             },
-            child: Text('Print user\'s verification')),
+            child: Text('Update display name')),
         ElevatedButton(
             onPressed: () {
               AuthService()
@@ -216,7 +215,6 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //           .update({'dueDate': newDate});
         //     },
         //     child: Text('update due date without time')),
-
       ],
     );
   }

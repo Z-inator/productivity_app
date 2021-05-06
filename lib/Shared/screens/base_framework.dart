@@ -19,7 +19,7 @@ import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
-import 'package:productivity_app/Shared/widgets/settings_drawer_widget.dart';
+import 'package:productivity_app/Home_Dashboard/screens/components/settings_drawer_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
