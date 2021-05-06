@@ -12,7 +12,6 @@ import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/screens/base_framework.dart';
-import 'package:productivity_app/Users/models/user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:productivity_app/test_screen.dart';
 
@@ -24,7 +23,7 @@ import 'package:productivity_app/test_screen.dart';
  
 class AuthWidget extends StatelessWidget {
   const AuthWidget({Key key, @required this.userSnapshot}) : super(key: key);
-  final AsyncSnapshot<UserModel> userSnapshot;
+  final AsyncSnapshot<User> userSnapshot;
 
   @override
   Widget build(BuildContext context) {

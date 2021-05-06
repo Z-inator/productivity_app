@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:productivity_app/Authentification/services/database.dart';
-import 'package:productivity_app/Users/models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,9 +15,9 @@ class AuthService {
   }
 
   // Authentification change user stream
-  Stream<UserModel> get onAuthStateChanged {
+  Stream<User> get onAuthStateChanged {
     return _auth.authStateChanges().map((user) {
-      return user == null ? null : UserModel.fromFirestore(user);
+      return user == null ? null : user;
     });
   }
 

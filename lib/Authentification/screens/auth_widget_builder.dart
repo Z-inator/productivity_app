@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -9,7 +10,6 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:productivity_app/Users/models/user_model.dart';
 import 'package:provider/provider.dart';
 
 /// Used to create user-dependant objects that need to be accessible by all widgets.
@@ -18,21 +18,21 @@ import 'package:provider/provider.dart';
 
 class AuthWidgetBuilder extends StatelessWidget {
   const AuthWidgetBuilder({Key key, @required this.builder}) : super(key: key);
-  final Widget Function(BuildContext, AsyncSnapshot<UserModel>) builder;
+  final Widget Function(BuildContext, AsyncSnapshot<User>) builder;
 
   @override
   Widget build(BuildContext context) {
     print('AuthWidgetBuilder rebuild');
     final authService = Provider.of<AuthService>(context, listen: false);
-    return StreamBuilder<UserModel>(
+    return StreamBuilder<User>(
       stream: authService.onAuthStateChanged,
       builder: (context, snapshot) {
         print('StreamBuilder: ${snapshot.connectionState}');
-        final UserModel user = snapshot.data;
+        final User user = snapshot.data;
         if (user != null) {
           return MultiProvider(
             providers: [
-              Provider<UserModel>.value(value: user),
+              Provider<User>.value(value: user),
               Provider(create: (context) => ProjectService()),
               Provider(create: (context) => StatusService()),
               Provider(create: (context) => TaskService()),
