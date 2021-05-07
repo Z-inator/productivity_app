@@ -38,8 +38,12 @@ class TaskExpansionTile extends StatelessWidget {
     int subtaskCount = 0;   // TODO: implement Subtasks
     return ExpansionTile(
       leading: Icon(Icons.check_circle_rounded, color: Color(task.status.statusColor)),
-      title: Text(task.taskName),
-      subtitle: Text(task.project.projectName,
+      title: Text(task.taskName.isEmpty
+          ? 'NO TASK TITLE'
+          : task.taskName),
+      subtitle: Text(task.project.projectID.isEmpty
+          ? 'NO PROJECT'
+          : task.project.projectName,
           style: TextStyle(color: Color(task.project.projectColor))),
       children: [
         Theme(

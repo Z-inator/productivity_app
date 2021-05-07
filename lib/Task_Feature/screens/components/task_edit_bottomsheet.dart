@@ -26,25 +26,18 @@ class TaskEditBottomSheet extends StatelessWidget {
     this.task,
   }) : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TaskEditState(newTask: task),
+      create: (context) => TaskEditState(oldTask: task),
       builder: (context, child) {
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
         final TaskService taskService = Provider.of<TaskService>(context);
         return Container(
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-              TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please Enter Task Name';
-                  }
-                  return null;
-                },
+              TextField(
+                controller: TextEditingController(text: taskEditState.newTask.taskName),
                 decoration: InputDecoration(
                     hintText: taskEditState.newTask.taskName.isEmpty
                         ? 'Enter Task Name'
@@ -113,8 +106,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                   icon: Icon(Icons.check_circle_outline_rounded),
                   label: Text(isUpdate ? 'Update' : 'Add'),
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      isUpdate
+                    isUpdate
                           ? taskService.updateTask(
                               taskID: task.taskID,
                               updateData: taskEditState.newTask.toFirestore())
@@ -122,7 +114,6 @@ class TaskEditBottomSheet extends StatelessWidget {
                               addData: taskEditState.newTask.toFirestore());
                       Navigator.pop(context);
                     }
-                  },
                 ),
               )
             ]));

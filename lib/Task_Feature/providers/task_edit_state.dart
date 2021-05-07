@@ -7,8 +7,15 @@ import 'package:provider/provider.dart';
 
 class TaskEditState extends ChangeNotifier {
   Task newTask;
+  final Task oldTask;
 
-  TaskEditState({newTask}) : newTask = newTask as Task ?? Task();
+  TaskEditState({this.oldTask}) {
+    if (oldTask != null) {
+      newTask = oldTask;
+    } else {
+      newTask = Task();
+    }
+  }
 
   void updateTaskName(String taskName) {
     newTask.taskName = taskName;

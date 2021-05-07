@@ -14,13 +14,19 @@ class Task {
   DateTime dueDate;
   DateTime createDate;
 
-  Task({taskID, taskName, project, status, dueDate, createDate})
-      : taskID = taskID as String ?? '',
-        taskName = taskName as String ?? '',
-        project = project as Project ?? Project(),
-        status = status as Status ?? Status(),
-        dueDate = dueDate as DateTime ?? DateTime(0001, 01, 01, 0, 0, 0, 0, 555),
-        createDate = createDate as DateTime ?? DateTime.now();
+  Task(
+      {String taskID,
+      String taskName,
+      Project project,
+      Status status,
+      DateTime dueDate,
+      DateTime createDate})
+      : taskID = taskID ?? '',
+        taskName = taskName ?? '',
+        project = project ?? Project(),
+        status = status ?? Status(),
+        dueDate = dueDate ?? DateTime(0001, 01, 01, 0, 0, 0, 0, 555),
+        createDate = createDate ?? DateTime.now();
 
   factory Task.fromFirestore(
       DocumentSnapshot snapshot, Project project, Status status) {
@@ -30,7 +36,8 @@ class Task {
         taskName: data['taskName'] as String ?? '',
         project: project ?? Project(),
         status: status ?? Status(),
-        dueDate: (data['dueDate'] as Timestamp).toDate() ?? DateTime(0001, 01, 01, 01, 0, 0, 0, 555),
+        dueDate: (data['dueDate'] as Timestamp).toDate() ??
+            DateTime(0001, 01, 01, 01, 0, 0, 0, 555),
         createDate:
             (data['createDate'] as Timestamp).toDate() ?? DateTime.now());
   }
@@ -38,10 +45,9 @@ class Task {
   Map<String, dynamic> toFirestore() {
     return {
       'taskName': taskName,
-      'projectName': project.projectID,
+      'project': project.projectID,
       'status': status.statusID,
       'dueDate': dueDate,
-      'createDate': createDate,
-    };
+      'createDate': createDate,};
   }
 }
