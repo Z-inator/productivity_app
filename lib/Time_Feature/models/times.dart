@@ -50,4 +50,15 @@ class TimeEntry {
       'endTime': endTime,
     };
   }
+
+  TimeEntry copyTimeEntry() {
+    return TimeEntry(
+        entryID: entryID ?? '',
+        entryName: entryName ?? '',
+        project: project ?? Project(),
+        task: task ?? Task(),
+        startTime: startTime ?? DateTime.now(),
+        endTime: endTime ?? DateTime.now().add(Duration(hours: 1)),
+        elapsedTime: elapsedTime ?? 0);
+  }
 }

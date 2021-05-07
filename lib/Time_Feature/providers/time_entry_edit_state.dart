@@ -6,8 +6,15 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class TimeEntryEditState extends ChangeNotifier {
   TimeEntry newEntry;
+  final TimeEntry oldEntry;
 
-  TimeEntryEditState({newEntry}) : newEntry = newEntry as TimeEntry ?? TimeEntry();
+  TimeEntryEditState({this.oldEntry}) {
+    if (oldEntry != null) {
+      newEntry = oldEntry.copyTimeEntry();
+    } else {
+      newEntry = TimeEntry();
+    }
+  }
 
   void updateEntry(TimeEntry entry) {
     newEntry = entry;

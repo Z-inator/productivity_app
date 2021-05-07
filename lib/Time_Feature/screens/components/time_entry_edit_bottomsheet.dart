@@ -32,7 +32,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TimeEntryEditState(newEntry: entry),
+      create: (context) => TimeEntryEditState(oldEntry: entry),
       builder: (context, child) {
         final TimeEntryEditState timeEntryEditState =
             Provider.of<TimeEntryEditState>(context);
