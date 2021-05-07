@@ -48,6 +48,17 @@ class Task {
       'project': project.projectID,
       'status': status.statusID,
       'dueDate': dueDate,
-      'createDate': createDate,};
+      'createDate': createDate,
+    };
+  }
+
+  Task copyTask() {
+    return Task(
+        taskID: taskID ?? '',
+        taskName: taskName ?? '',
+        project: project ?? Project(),
+        status: status ?? Status(),
+        dueDate: dueDate ?? DateTime(0001, 01, 01, 0, 0, 0, 0, 555),
+        createDate: createDate ?? DateTime.now());
   }
 }

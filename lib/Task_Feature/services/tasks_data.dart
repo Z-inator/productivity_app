@@ -99,7 +99,7 @@ class TaskService {
     return _getTaskReference()
         .doc(taskID)
         .update(updateData)
-        .then((value) => print('Task:$taskID Updated'))
+        .then((value) => print('Task Updated'))
         .catchError((error) => print('Failed to update task: $error'));
   }
 

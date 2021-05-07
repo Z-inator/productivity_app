@@ -11,7 +11,7 @@ class TaskEditState extends ChangeNotifier {
 
   TaskEditState({this.oldTask}) {
     if (oldTask != null) {
-      newTask = oldTask;
+      newTask = oldTask.copyTask();
     } else {
       newTask = Task();
     }

@@ -37,7 +37,6 @@ class TaskEditBottomSheet extends StatelessWidget {
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextField(
-                controller: TextEditingController(text: taskEditState.newTask.taskName),
                 decoration: InputDecoration(
                     hintText: taskEditState.newTask.taskName.isEmpty
                         ? 'Enter Task Name'
