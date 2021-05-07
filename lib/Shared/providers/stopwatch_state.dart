@@ -40,11 +40,6 @@ class StopwatchState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getTicks() {
-    elapsedTicks = stopwatch.elapsedTicks;
-    notifyListeners();
-  }
-
   void onTick() {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       elapsedTicks = stopwatch.elapsed.inSeconds;
