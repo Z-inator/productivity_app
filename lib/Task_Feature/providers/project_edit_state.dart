@@ -3,8 +3,15 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 
 class ProjectEditState extends ChangeNotifier {
   Project newProject;
+  final Project oldProject;
 
-  ProjectEditState({newProject}) : newProject = newProject as Project ?? Project();
+  ProjectEditState({this.oldProject}) {
+    if (oldProject != null) {
+      newProject = oldProject.copyProject();
+    } else {
+      newProject = Project();
+    }
+  }
 
   void updateProject(Project project) {
     newProject = project;

@@ -31,4 +31,13 @@ class Project {
       'projectColor': projectColor
     };
   }
+
+  Project copyProject() {
+    return Project(
+      projectID: projectID ?? '',
+      projectName: projectName ?? '',
+      projectClient: projectClient ?? '',
+      projectColor: projectColor ?? 4285887861,
+    );
+  }
 }

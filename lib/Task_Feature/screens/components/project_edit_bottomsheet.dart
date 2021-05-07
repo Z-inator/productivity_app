@@ -20,7 +20,7 @@ class ProjectEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProjectEditState(newProject: project),
+      create: (context) => ProjectEditState(oldProject: project),
       builder: (context, child) {
         final state = Provider.of<ProjectEditState>(context);
         return Container(
