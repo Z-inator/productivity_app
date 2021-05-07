@@ -6,13 +6,20 @@ class Status {
   int statusColor;
   int statusOrder;
   bool equalToComplete;
+  String statusDescription;
 
-  Status({statusID, statusName, statusColor, statusOrder, equalToComplete})
-      : statusID = statusID as String ?? '',
-        statusName = statusName as String ?? '',
-        statusColor = statusColor as int ?? 4285887861,
-        statusOrder = statusOrder as int ?? 0,
-        equalToComplete = equalToComplete as bool ?? false;
+  Status({String statusID,
+      String statusName,
+      int statusColor,
+      int statusOrder,
+      bool equalToComplete,
+      String statusDescription})
+      : statusID = statusID ?? '',
+        statusName = statusName ?? '',
+        statusColor = statusColor ?? 4285887861,
+        statusOrder = statusOrder ?? 0,
+        equalToComplete = equalToComplete ?? false,
+        statusDescription = statusDescription ?? '';
 
   factory Status.fromFirestore(DocumentSnapshot snapshot) {
     final Map data = snapshot.data();
@@ -22,7 +29,8 @@ class Status {
         statusName: data['statusName'].toString() ?? '',
         statusColor: data['statusColor'] as int ?? 4285887861,
         statusOrder: data['statusOrder'] as int ?? 0,
-        equalToComplete: data['equalToComplete'] as bool ?? false);
+        equalToComplete: data['equalToComplete'] as bool ?? false,
+        statusDescription: data['statusDescription'] as String ?? '');
   }
 
   Map<String, dynamic> toFirestore() {
@@ -30,7 +38,8 @@ class Status {
       'statusName': statusName,
       'statusColor': statusColor,
       'statusOrder': statusOrder,
-      'equalToComplete': equalToComplete
+      'equalToComplete': equalToComplete,
+      'statusDescription': statusDescription
     };
   }
 
@@ -40,6 +49,7 @@ class Status {
         statusName: statusName ?? '',
         statusColor: statusColor ?? 4285887861,
         statusOrder: statusOrder ?? 0,
-        equalToComplete: equalToComplete ?? false);
+        equalToComplete: equalToComplete ?? false,
+        statusDescription: statusDescription ?? '');
   }
 }

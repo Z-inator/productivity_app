@@ -35,4 +35,9 @@ class StatusEditState extends ChangeNotifier {
     newStatus.equalToComplete = equalToComplete;
     notifyListeners();
   }
+
+  void updateStatusDescription(String statusDescription) {
+    newStatus.statusDescription = statusDescription;
+    notifyListeners();
+  }
 }

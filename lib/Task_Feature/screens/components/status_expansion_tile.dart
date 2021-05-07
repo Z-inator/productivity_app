@@ -10,6 +10,7 @@ import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
+import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
@@ -41,50 +42,10 @@ class StatusExpansionTile extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           children: [
-            ExpansionTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.edit_rounded),
-                      tooltip: 'Edit Status',
-                      onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                          context: context,
-                          bottomSheet: StatusEditBottomSheet(
-                              isUpdate: true, status: status))),
-                  IconButton(
-                    icon: Icon(Icons.delete_rounded),
-                    tooltip: 'Delete Status',
-                    onPressed: () => showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Delete Status: ${status.statusName}?'),
-                            content: ListTile(
-                              title: Text(
-                                  'This will permanently delete this status.\nIt will not effect related tasks.'),
-                            ),
-                            actions: [
-                              OutlinedButton.icon(
-                                icon: Icon(Icons.cancel_rounded),
-                                label: Text('Cancel'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                              ElevatedButton.icon(
-                                  icon:
-                                      Icon(Icons.check_circle_outline_rounded),
-                                  label: Text('Delete'),
-                                  onPressed: () {
-                                    statusService.deleteStatus(
-                                        statusID: status.statusID);
-                                    Navigator.pop(context);
-                                  })
-                            ],
-                          );
-                        }),
-                  ),
-                  IconButton(
+                ListTile(
+                  title: Text('Tasks: $taskCount',
+                      style: Theme.of(context).textTheme.subtitle1),
+                  trailing: IconButton(
                     icon: Icon(Icons.add_rounded),
                     tooltip: 'Add Task',
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
@@ -92,12 +53,6 @@ class StatusExpansionTile extends StatelessWidget {
                         bottomSheet: TaskEditBottomSheet(
                             isUpdate: false, task: Task(status: status))),
                   )
-                ],
-              ),
-              children: [
-                ListTile(
-                  title: Text('Tasks: $taskCount',
-                      style: Theme.of(context).textTheme.subtitle1),
                 ),
                 ListTile(
                   title: Text('Description:',
@@ -106,10 +61,12 @@ class StatusExpansionTile extends StatelessWidget {
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
                       overflow: TextOverflow.fade,
                       maxLines: 3),
+                  trailing: IconButton(
+                    icon: Icon(Icons.edit_rounded),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => StatusEditPage())),
+                  ),
                 )
               ],
-            )
-          ],
         ));
   }
 }

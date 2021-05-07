@@ -21,35 +21,43 @@ class StatusEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => StatusEditState(oldStatus: status),
       builder: (context, child) {
-        final StatusEditState state = Provider.of<StatusEditState>(context);
+        final StatusEditState statusEditState = Provider.of<StatusEditState>(context);
         final StatusService statusService = Provider.of<StatusService>(context);
         return Container(
           margin: EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                title: Text(state.newStatus.statusName.isEmpty
-                    ? 'Add Status'
-                    : state.newStatus.statusName,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),),
-              ),
               TextField(
-                decoration: InputDecoration(hintText: 'Status Name'),
+                decoration: InputDecoration(
+                  hintText: statusEditState.newStatus.statusName.isEmpty
+                    ? 'Enter Status Name'
+                    : statusEditState.newStatus.statusName),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
-                  state.updateStatusName(newText);
+                  statusEditState.updateStatusName(newText);
                 },
               ),
               ColorSelector(
-                  saveColor: state.updateStatusColor,
-                  matchColor: state.newStatus.statusColor),
+                  saveColor: statusEditState.updateStatusColor,
+                  matchColor: statusEditState.newStatus.statusColor),
               CheckboxListTile(
-                  value: state.newStatus.equalToComplete,
+                  value: statusEditState.newStatus.equalToComplete,
                   title: Text('This Status represents Task Complete:',
                       style: Theme.of(context).textTheme.subtitle1),
-                  onChanged: (bool value) => state.updateStatusComplete(value)),
+                  onChanged: (bool value) => statusEditState.updateStatusComplete(value)),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: statusEditState.newStatus.statusDescription.isEmpty
+                    ? 'Enter Status Description'
+                    : statusEditState.newStatus.statusDescription),
+                textAlign: TextAlign.center,
+                maxLength: 150,
+                maxLines: 3,
+                onChanged: (newText) {
+                  statusEditState.updateStatusDescription(newText);
+                },
+              ),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
@@ -59,9 +67,9 @@ class StatusEditBottomSheet extends StatelessWidget {
                       isUpdate
                             ? statusService.updateStatus(
                                 statusID: status.statusID,
-                                updateData: state.newStatus.toFirestore())
+                                updateData: statusEditState.newStatus.toFirestore())
                             : statusService.addStatus(
-                                addData: state.newStatus.toFirestore());
+                                addData: statusEditState.newStatus.toFirestore());
                         Navigator.pop(context);
                       }
                   ))
@@ -73,7 +81,7 @@ class StatusEditBottomSheet extends StatelessWidget {
   }
 }
 
-// class StatusEditBottomSheet extends StatefulWidget {
+// class StatusEditBottomSheet extends statusEditStatefulWidget {
 //   final Status status;
 
 //   StatusEditBottomSheet({this.status});
@@ -82,7 +90,7 @@ class StatusEditBottomSheet extends StatelessWidget {
 //   _StatusEditBottomSheetState createState() => _StatusEditBottomSheetState();
 // }
 
-// class _StatusEditBottomSheetState extends State<StatusEditBottomSheet> {
+// class _StatusEditBottomSheetState extends statusEditState<StatusEditBottomSheet> {
 //   String newStatusName;
 //   Color newStatusColor;
 //   int newStatusColorValue;
@@ -102,8 +110,8 @@ class StatusEditBottomSheet extends StatelessWidget {
 //               newStatusName = newText;
 //             },
 //           ),
-//           StatefulBuilder(
-//               builder: (BuildContext context, StateSetter modalSetState) {
+//           statusEditStatefulBuilder(
+//               builder: (BuildContext context, statusEditStateSetter modalSetState) {
 //             return SingleChildScrollView(
 //               padding: EdgeInsets.symmetric(vertical: 20),
 //               scrollDirection: Axis.horizontal,

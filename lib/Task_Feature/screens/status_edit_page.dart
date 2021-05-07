@@ -14,37 +14,117 @@ class StatusEditPage extends StatefulWidget {
 }
 
 class _StatusEditPageState extends State<StatusEditPage> {
+  List<Status> statuses;
+
   @override
   Widget build(BuildContext context) {
-    List<Status> statuses = Provider.of<List<Status>>(context);
+    statuses = Provider.of<List<Status>>(context);
     StatusService statusService = Provider.of<StatusService>(context);
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            statuses.forEach((status) {
+              status.statusOrder = statuses.indexOf(status) + 1;
+              statusService.updateStatus(
+                  statusID: status.statusID, updateData: status.toFirestore());
+            });
+            Navigator.pop(context);
+          },
+        ),
         title: Text('Edit Statuses'),
       ),
       body: Stack(children: [
         ReorderableListView(
+          onReorder: (int oldIndex, int newIndex) {
+            if (newIndex > oldIndex) {
+              newIndex -= 1;
+            }
+            setState(() {
+              Status statusToRemove = statuses[oldIndex];
+              statuses.removeAt(oldIndex);
+              statuses.insert(newIndex, statusToRemove);
+            });
+          },
           header: ListTile(
             title: Text(
                 'Statuses are used to track the completion state of a task.'),
             subtitle: Text('Long press on status to drag to reorder.'),
           ),
           children: statuses.map((status) {
-            return StatusExpansionTile(
-              status: status,
+            return ExpansionTile(
               key: Key(status.statusID),
+              leading: Icon(Icons.circle, color: Color(status.statusColor)),
+              title: Text(
+                status.statusName,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              children: [
+                ListTile(
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                      IconButton(
+                        icon: Icon(Icons.delete_rounded),
+                        tooltip: 'Delete Status',
+                        onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text(
+                                    'Delete Status: ${status.statusName}?'),
+                                content: ListTile(
+                                  title: Text(
+                                      'This will permanently delete this status.\nIt will not effect related tasks.'),
+                                ),
+                                actions: [
+                                  OutlinedButton.icon(
+                                    icon: Icon(Icons.cancel_rounded),
+                                    label: Text('Cancel'),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  ElevatedButton.icon(
+                                      icon: Icon(
+                                          Icons.check_circle_outline_rounded),
+                                      label: Text('Delete'),
+                                      onPressed: () {
+                                        statuses.removeWhere((removeStatus) =>
+                                            removeStatus.statusID ==
+                                            status.statusID);
+                                        statusService.deleteStatus(
+                                            statusID: status.statusID);
+                                        statuses.forEach((status) {
+                                          status.statusOrder =
+                                              statuses.indexOf(status) + 1;
+                                        });
+                                        Navigator.pop(context);
+                                      })
+                                ],
+                              );
+                            }),
+                      ),
+                      IconButton(
+                          icon: Icon(Icons.edit_rounded),
+                          tooltip: 'Edit Status',
+                          onPressed: () => EditBottomSheet()
+                              .buildEditBottomSheet(
+                                  context: context,
+                                  bottomSheet: StatusEditBottomSheet(
+                                      isUpdate: true, status: status))),
+                    ])),
+                ListTile(
+                  title: Text('Description:',
+                      style: Theme.of(context).textTheme.subtitle1),
+                  subtitle: Text(status.statusDescription,
+                      overflow: TextOverflow.fade, maxLines: 3),
+                )
+              ],
             );
           }).toList(),
-          onReorder: (int oldIndex, int newIndex) {
-            setState(() {
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              final Status statusTile = statuses.removeAt(oldIndex);
-              statuses.insert(newIndex, statusTile);
-            });
-          },
         ),
         Positioned(
           bottom: 0,
@@ -76,6 +156,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
                           statusID: status.statusID,
                           updateData: status.toFirestore());
                     });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Updated Statuses')));
                   },
                 ),
               ],
