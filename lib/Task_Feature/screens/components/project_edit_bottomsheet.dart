@@ -15,8 +15,6 @@ class ProjectEditBottomSheet extends StatelessWidget {
   ProjectEditBottomSheet({Key key, this.isUpdate, this.project})
       : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -25,60 +23,49 @@ class ProjectEditBottomSheet extends StatelessWidget {
         final state = Provider.of<ProjectEditState>(context);
         return Container(
           margin: EdgeInsets.all(20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Enter a Task name';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      hintText: state.newProject.projectName.isEmpty
-                          ? 'Project Name'
-                          : state.newProject.projectName),
-                  textAlign: TextAlign.center,
-                  onChanged: (newText) {
-                    state.updateProjectName(newText);
-                  },
-                ),
-                ColorSelector(
-                  saveColor: state.updateProjectColor,
-                  matchColor: state.newProject.projectColor,
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                      hintText: state.newProject.projectClient.isEmpty
-                          ? 'Client Name'
-                          : state.newProject.projectClient),
-                  textAlign: TextAlign.center,
-                  onChanged: (newText) {
-                    state.updateProjectClient(newText);
-                  },
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: ElevatedButton.icon(
-                      icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          isUpdate
-                              ? ProjectService().updateProject(
-                                  projectID: project.projectID,
-                                  updateData: state.newProject.toFirestore())
-                              : ProjectService().addProject(
-                                  addData: state.newProject.toFirestore());
-                          Navigator.pop(context);
-                        }
-                      },
-                    ))
-              ],
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                    hintText: state.newProject.projectName.isEmpty
+                        ? 'Project Name'
+                        : state.newProject.projectName),
+                textAlign: TextAlign.center,
+                onChanged: (newText) {
+                  state.updateProjectName(newText);
+                },
+              ),
+              ColorSelector(
+                saveColor: state.updateProjectColor,
+                matchColor: state.newProject.projectColor,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    hintText: state.newProject.projectClient.isEmpty
+                        ? 'Add Client'
+                        : state.newProject.projectClient),
+                textAlign: TextAlign.center,
+                onChanged: (newText) {
+                  state.updateProjectClient(newText);
+                },
+              ),
+              Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.check_circle_outline_rounded),
+                    label: Text(isUpdate ? 'Update' : 'Add'),
+                    onPressed: () {
+                      isUpdate
+                            ? ProjectService().updateProject(
+                                projectID: project.projectID,
+                                updateData: state.newProject.toFirestore())
+                            : ProjectService().addProject(
+                                addData: state.newProject.toFirestore());
+                        Navigator.pop(context);
+                      }
+                  ))
+            ],
           ),
         );
       },

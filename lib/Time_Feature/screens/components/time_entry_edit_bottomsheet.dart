@@ -27,8 +27,6 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
       {Key key, this.isUpdate, this.entry})
       : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -38,92 +36,81 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
             Provider.of<TimeEntryEditState>(context);
         return Container(
             margin: EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Enter an Entry Name';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      hintText: timeEntryEditState.newEntry.entryName.isEmpty
-                          ? 'Enter Time Entry Name'
-                          : timeEntryEditState.newEntry.entryName),
-                  textAlign: TextAlign.center,
-                  onChanged: (newText) {
-                    timeEntryEditState.updateEntryName(newText);
-                  },
-                ),
-                ProjectPicker(
-                  saveProject: timeEntryEditState.updateEntryProject,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.topic_rounded,
-                      color: Color(timeEntryEditState.newEntry.project.projectColor),
-                    ),
-                    title: Text(
-                        timeEntryEditState.newEntry.project.projectName.isEmpty
-                            ? 'Add Project'
-                            : timeEntryEditState.newEntry.project.projectName,
-                        style: Theme.of(context).textTheme.subtitle1),
-                    trailing: Icon(Icons.arrow_drop_down_rounded,
-                        color: Theme.of(context).unselectedWidgetColor),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              TextField(
+                decoration: InputDecoration(
+                    hintText: timeEntryEditState.newEntry.entryName.isEmpty
+                        ? 'Enter Time Entry Name'
+                        : timeEntryEditState.newEntry.entryName),
+                textAlign: TextAlign.center,
+                onChanged: (newText) {
+                  timeEntryEditState.updateEntryName(newText);
+                },
+              ),
+              ProjectPicker(
+                saveProject: timeEntryEditState.updateEntryProject,
+                child: ListTile(
+                  leading: Icon(
+                    Icons.topic_rounded,
+                    color: Color(timeEntryEditState.newEntry.project.projectColor),
                   ),
+                  title: Text(
+                      timeEntryEditState.newEntry.project.projectName.isEmpty
+                          ? 'Add Project'
+                          : timeEntryEditState.newEntry.project.projectName,
+                      style: Theme.of(context).textTheme.subtitle1),
+                  trailing: Icon(Icons.arrow_drop_down_rounded,
+                      color: Theme.of(context).unselectedWidgetColor),
                 ),
-                TaskPicker(
-                  saveTask: timeEntryEditState.updateEntryTask,
-                  child: ListTile(
-                    leading: Icon(Icons.check_circle_rounded,
-                        color: Color(timeEntryEditState.newEntry.task.status.statusColor)),
-                    title: Text(timeEntryEditState.newEntry.task.taskName.isEmpty
-                        ? 'Add Task'
-                        : timeEntryEditState.newEntry.task.taskName),
-                    trailing: Icon(Icons.arrow_drop_down_rounded,
-                        color: Theme.of(context).unselectedWidgetColor),
-                  ),
+              ),
+              TaskPicker(
+                saveTask: timeEntryEditState.updateEntryTask,
+                child: ListTile(
+                  leading: Icon(Icons.check_circle_rounded,
+                      color: Color(timeEntryEditState.newEntry.task.status.statusColor)),
+                  title: Text(timeEntryEditState.newEntry.task.taskName.isEmpty
+                      ? 'Add Task'
+                      : timeEntryEditState.newEntry.task.taskName),
+                  trailing: Icon(Icons.arrow_drop_down_rounded,
+                      color: Theme.of(context).unselectedWidgetColor),
                 ),
-                ListTile(
-                  leading: OutlinedButton.icon(
-                        onPressed: () => DateAndTimePickers().selectDate(
-                            context: context,
-                            initialDate: isUpdate
-                                ? timeEntryEditState.newEntry.startTime
-                                : DateTime.now(),
-                            saveDate: timeEntryEditState.updateDate),
-                        icon: Icon(Icons.today_rounded),
-                        label: Text(DateTimeFunctions().dateTimeToTextDate(
-                            date: timeEntryEditState.newEntry.startTime))),
-                  trailing: OutlinedButton.icon(
-                        onPressed: () => DateAndTimePickers()
-                            .buildTimeRangePicker(
-                                context: context,
-                                saveTimeRange: timeEntryEditState.updateStartEndTime),
-                        icon: Icon(Icons.timelapse_rounded),
-                        label: Text(
-                            '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime).format(context)}')),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: ElevatedButton.icon(
-                      icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          isUpdate
-                              ? TimeService().updateTimeEntry(
-                                  timeEntryID: entry.entryID,
-                                  updateData: timeEntryEditState.newEntry.toFirestore())
-                              : TimeService().addTimeEntry(
-                                  addData: timeEntryEditState.newEntry.toFirestore());
-                          Navigator.pop(context);
-                        }
-                      },
-                    ))
-              ]),
-            ));
+              ),
+              ListTile(
+                leading: OutlinedButton.icon(
+                      onPressed: () => DateAndTimePickers().selectDate(
+                          context: context,
+                          initialDate: isUpdate
+                              ? timeEntryEditState.newEntry.startTime
+                              : DateTime.now(),
+                          saveDate: timeEntryEditState.updateDate),
+                      icon: Icon(Icons.today_rounded),
+                      label: Text(DateTimeFunctions().dateTimeToTextDate(
+                          date: timeEntryEditState.newEntry.startTime))),
+                trailing: OutlinedButton.icon(
+                      onPressed: () => DateAndTimePickers()
+                          .buildTimeRangePicker(
+                              context: context,
+                              saveTimeRange: timeEntryEditState.updateStartEndTime),
+                      icon: Icon(Icons.timelapse_rounded),
+                      label: Text(
+                          '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime).format(context)}')),
+              ),
+              Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.check_circle_outline_rounded),
+                    label: Text(isUpdate ? 'Update' : 'Add'),
+                    onPressed: () {
+                      isUpdate
+                            ? TimeService().updateTimeEntry(
+                                timeEntryID: entry.entryID,
+                                updateData: timeEntryEditState.newEntry.toFirestore())
+                            : TimeService().addTimeEntry(
+                                addData: timeEntryEditState.newEntry.toFirestore());
+                        Navigator.pop(context);
+                      }
+                  ))
+            ]));
       },
     );
   }

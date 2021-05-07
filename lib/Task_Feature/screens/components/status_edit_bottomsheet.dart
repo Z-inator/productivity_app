@@ -15,8 +15,6 @@ class StatusEditBottomSheet extends StatelessWidget {
   StatusEditBottomSheet({Key key, this.status, this.isUpdate})
       : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     
@@ -37,20 +35,12 @@ class StatusEditBottomSheet extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold),),
               ),
-              TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please Enter Status Name';
-                  }
-                  return null;
-                },
+              TextField(
                 decoration: InputDecoration(hintText: 'Status Name'),
                 textAlign: TextAlign.center,
-                // onChanged: (newText) {
-                //   state.updateStatusName(newText);
-                // },
-                onSaved: (value) =>
-                    state.updateStatusName(value),
+                onChanged: (newText) {
+                  state.updateStatusName(newText);
+                },
               ),
               ColorSelector(
                   saveColor: state.updateStatusColor,
@@ -66,8 +56,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                     icon: Icon(Icons.check_circle_outline_rounded),
                     label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        isUpdate
+                      isUpdate
                             ? statusService.updateStatus(
                                 statusID: status.statusID,
                                 updateData: state.newStatus.toFirestore())
@@ -75,7 +64,6 @@ class StatusEditBottomSheet extends StatelessWidget {
                                 addData: state.newStatus.toFirestore());
                         Navigator.pop(context);
                       }
-                    },
                   ))
             ],
           ),
