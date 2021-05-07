@@ -33,4 +33,13 @@ class Status {
       'equalToComplete': equalToComplete
     };
   }
+
+  Status copyStatus() {
+    return Status(
+        statusID: statusID,
+        statusName: statusName ?? '',
+        statusColor: statusColor ?? 4285887861,
+        statusOrder: statusOrder ?? 0,
+        equalToComplete: equalToComplete ?? false);
+  }
 }

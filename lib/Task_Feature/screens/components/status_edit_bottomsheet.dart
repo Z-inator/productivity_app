@@ -21,7 +21,7 @@ class StatusEditBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return ChangeNotifierProvider(
-      create: (context) => StatusEditState(newStatus: status),
+      create: (context) => StatusEditState(oldStatus: status),
       builder: (context, child) {
         final StatusEditState state = Provider.of<StatusEditState>(context);
         final StatusService statusService = Provider.of<StatusService>(context);
