@@ -1,5 +1,3 @@
-
-
 class AppColors {
   final List<int> colorList = [
     // 20
