@@ -48,7 +48,6 @@ class DatabaseService {
           statusDescription:
               'This status represents tasks that have been completed.')
     ];
-
     statuses.forEach((status) {
       batch.set(
           userDocument.collection('statuses').doc(), status.toFirestore());
@@ -56,7 +55,7 @@ class DatabaseService {
   }
 
   // Add item to Firestore
-  Future<void> addItem(String type, Map<String, dynamic> addData) async {
+  Future<void> addItem({String type, Map<String, dynamic> addData}) async {
     return rootCollection
         .doc(_user.uid)
         .collection(type)
@@ -66,8 +65,8 @@ class DatabaseService {
   }
 
   // Update item in Firestore
-  Future<void> updateItem(
-      String type, String itemID, Map<String, dynamic> updateData) async {
+  Future<void> updateItem({
+      String type, String itemID, Map<String, dynamic> updateData}) async {
     return rootCollection
         .doc(_user.uid)
         .collection(type)
@@ -95,7 +94,7 @@ class DatabaseService {
   }
 
   // Delete item out of Firestore
-  Future<void> deleteItem(String type, String itemID) async {
+  Future<void> deleteItem({String type, String itemID}) async {
     return rootCollection
         .doc(_user.uid)
         .collection(type)
