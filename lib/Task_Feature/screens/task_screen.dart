@@ -29,7 +29,10 @@ class TaskScreen extends StatelessWidget {
           TaskBodyState state = Provider.of<TaskBodyState>(context);
           return Column(
               mainAxisSize: MainAxisSize.max,
-              children: [FilterButtonRow(), Expanded(child: state.widget)]);
+              children: [
+                FilterButtonRow(), 
+                Expanded(child: state.widget)
+              ]);
         });
   }
 }

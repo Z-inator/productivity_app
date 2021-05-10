@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
@@ -39,7 +40,9 @@ class TimeEntryExpansionTile extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.play_arrow_rounded),
                     tooltip: 'Start Timer',
-                    onPressed: () {},
+                    onPressed: () => 
+                        Provider.of<StopwatchState>(context, listen: false)
+                            .startStopwatch(oldEntry: entry),
                 ),
                 IconButton(
                     icon: Icon(Icons.delete_rounded),

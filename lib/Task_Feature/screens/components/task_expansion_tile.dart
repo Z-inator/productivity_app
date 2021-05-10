@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
+import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -57,7 +58,9 @@ class TaskExpansionTile extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.play_arrow_rounded),
                     tooltip: 'Start Timer',
-                    onPressed: () {},
+                    onPressed: () =>
+                        Provider.of<StopwatchState>(context, listen: false)
+                            .startStopwatch(oldEntry: TimeEntry(task: task, project: task.project)),
                   ),
                   IconButton(
                       icon: Icon(Icons.timelapse_rounded),
@@ -65,7 +68,7 @@ class TaskExpansionTile extends StatelessWidget {
                       onPressed: () => EditBottomSheet().buildEditBottomSheet(
                           context: context,
                           bottomSheet: TimeEntryEditBottomSheet(
-                              isUpdate: false, entry: TimeEntry(task: task)))),
+                              isUpdate: false, entry: TimeEntry(task: task, project: task.project)))),
                   // IconButton(
                   //   icon: Icon(Icons.add_rounded),
                   //   tooltip: 'Add Subtask',

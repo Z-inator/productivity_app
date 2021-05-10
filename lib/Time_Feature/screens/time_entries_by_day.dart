@@ -30,17 +30,12 @@ class TimeEntriesByDay extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ListTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(DateTimeFunctions()
-                                    .dateTimeToTextDate(date: day)),
-                                Text(TimeFunctions().timeToText(
-                                    seconds: timeService.getDailyRecordedTime(
-                                        timeEntries, day)))
-                              ],
-                            ),
-                          ),
+                              title: Text(DateTimeFunctions()
+                                  .dateTimeToTextDate(date: day)),
+                              trailing: Text(TimeFunctions().timeToText(
+                                  seconds: timeService.getDailyRecordedTime(
+                                      timeEntries, day)),
+                                  style: Theme.of(context).textTheme.subtitle1)),
                           GroupedTimeEntries(
                             timeEntries: timeService.filteredTimeEntries(
                                 timeEntries, day),

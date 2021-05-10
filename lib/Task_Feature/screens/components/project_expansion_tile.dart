@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -55,7 +56,9 @@ class ProjectExpansionTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.play_arrow_rounded),
                   tooltip: 'Start Timer',
-                  onPressed: () {},
+                  onPressed: () =>
+                        Provider.of<StopwatchState>(context, listen: false)
+                            .startStopwatch(oldEntry: TimeEntry(project: project)),
                 ),
                 IconButton(
                     icon: Icon(Icons.timelapse_rounded),
