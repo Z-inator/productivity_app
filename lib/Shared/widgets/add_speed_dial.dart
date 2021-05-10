@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
@@ -37,6 +38,9 @@ class AddSpeedDial extends StatelessWidget {
       icon: Icons.add_rounded,
       iconTheme: IconThemeData(size: 45),
       activeIcon: Icons.close_rounded,
+      // openCloseDial: Provider.of<AuthService>(context).isDialOpen,
+      // onOpen: () => Provider.of<AuthService>(context, listen: false).isDialOpen.value = true,
+      // onClose: () => Provider.of<AuthService>(context, listen: false).isDialOpen.value = false,
       renderOverlay: false,
       curve: Curves.bounceIn,
       tooltip: 'Add Menu',
@@ -52,7 +56,7 @@ class AddSpeedDial extends StatelessWidget {
             child:
                 Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
             backgroundColor: Theme.of(context).cardColor,
-            onTap: () => Provider.of<StopwatchState>(context, listen: false).startStopwatch(TimeEntry())),
+            onTap: () => Provider.of<StopwatchState>(context, listen: false).startStopwatch(oldEntry: TimeEntry())),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded,
                 color: Theme.of(context).accentColor),

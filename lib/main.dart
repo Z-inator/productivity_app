@@ -25,7 +25,6 @@ import 'Shared/screens/error_screen.dart';
 import 'Shared/screens/loading_screen.dart';
 import 'package:flutter/foundation.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(ProductivityApp());
@@ -68,12 +67,21 @@ class _ProductivityAppState extends State<ProductivityApp> {
     return Provider(
       create: (context) => AuthService(),
       child: AuthWidgetBuilder(builder: (context, userSnapshot) {
-          return MaterialApp(
-              title: 'Productivity App',
-              theme: appTheme(),
-              home: AuthWidget(userSnapshot: userSnapshot),
-              // onGenerateRoute: generateRoute,
-              // initialRoute: '/',
+        return GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                currentFocus.unfocus();
+                // Provider.of<AuthService>(context, listen: false).isDialOpen.value = false;
+              }
+            },
+          child: MaterialApp(
+            title: 'Productivity App',
+            theme: appTheme(),
+            home: AuthWidget(userSnapshot: userSnapshot),
+            // onGenerateRoute: generateRoute,
+            // initialRoute: '/',
+          ),
         );
       }),
     );

@@ -10,6 +10,8 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+
   User get user {
     return _auth.currentUser;
   }
@@ -54,8 +56,7 @@ class AuthService {
     try {
       final UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
-      if (userCredential != null) {
-      }
+      if (userCredential != null) {}
     } on FirebaseAuthException catch (errorrror) {
       if (errorrror.code == 'user-not-found') {
         return 'User not found';
