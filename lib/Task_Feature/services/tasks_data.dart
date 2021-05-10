@@ -62,15 +62,52 @@ class TaskService {
   }
 
   List<Task> getTasksByStatus(List<Task> tasks, Status status) {
-    return tasks
-        .where((task) => task.status.id == status.id)
-        .toList();
+    return tasks.where((task) => task.status.id == status.id).toList();
   }
 
   List<Task> getTasksByProject(List<Task> tasks, Project project) {
-    return tasks
-        .where((task) => task.project.id == project.id)
-        .toList();
+    return tasks.where((task) => task.project.id == project.id).toList();
+  }
+
+  List<DateTime> getDays(List<Task> tasks, bool byDueDate) {
+    List<DateTime> days = [];
+    DateTime tempDate;
+    tasks.forEach((task) {
+      if (byDueDate) {
+        tempDate =
+            DateTime(task.dueDate.year, task.dueDate.month, task.dueDate.day);
+      } else {
+        tempDate = DateTime(
+            task.createDate.year, task.createDate.month, task.createDate.day);
+      }
+      if (!days.contains(tempDate)) {
+        days.add(tempDate);
+      }
+    });
+    if (byDueDate) {
+      days.sort((a, b) => a.compareTo(b));
+    } else {
+      days.sort((a, b) => b.compareTo(a));
+    }
+    return days;
+  }
+
+  List<Task> getTasksByDate(List<Task> tasks, DateTime day, bool byDueDate) {
+    if (byDueDate) {
+      return tasks
+          .where((task) =>
+              task.dueDate.year == day.year &&
+              task.dueDate.month == day.month &&
+              task.dueDate.day == day.day)
+          .toList();
+    } else {
+      return tasks
+          .where((task) =>
+              task.createDate.year == day.year &&
+              task.createDate.month == day.month &&
+              task.createDate.day == day.day)
+          .toList();
+    }
   }
 
   int getSubtaskCount(List<Subtask> subtasks, Task task) {
@@ -84,31 +121,4 @@ class TaskService {
     });
     return recordedTime;
   }
-
-  // // Add Task
-  // Future<void> addTask({Map<String, dynamic> addData}) async {
-  //   return _getTaskReference()
-  //       .add(addData)
-  //       .then((value) => print('Task Added'))
-  //       .catchError((error) => print('Failed to add task: $error'));
-  // }
-
-  // // Update Task
-  // Future<void> updateTask(
-  //     {String taskID, Map<String, dynamic> updateData}) async {
-  //   return _getTaskReference()
-  //       .doc(taskID)
-  //       .update(updateData)
-  //       .then((value) => print('Task Updated'))
-  //       .catchError((error) => print('Failed to update task: $error'));
-  // }
-
-  // // Delete Task
-  // Future<void> deleteTask({String taskID}) async {
-  //   return _getTaskReference()
-  //       .doc(taskID)
-  //       .delete()
-  //       .then((value) => print('Task Deleted'))
-  //       .catchError((error) => print('Failed to delete task: $error'));
-  // }
 }

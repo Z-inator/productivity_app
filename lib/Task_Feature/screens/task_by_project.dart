@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
+import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
+import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
@@ -34,10 +37,11 @@ class TasksByProject extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ProjectExpansionTile(
-                              project: project,
-                          ),    
+                            project: project,
+                          ),
                           GroupedTasks(
-                              associatedTasks: taskService.getTasksByProject(tasks, project))
+                              associatedTasks:
+                                  taskService.getTasksByProject(tasks, project))
                         ],
                       ),
                     ),
@@ -46,3 +50,33 @@ class TasksByProject extends StatelessWidget {
               );
   }
 }
+
+// class TasksByDynamic extends StatelessWidget {
+//   const TasksByDynamic({Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
+//     return ListView(
+//       padding: EdgeInsets.only(bottom: 100),
+//       children: taskBodyState.currentList.map((item) {
+//         return Container(
+//           padding: EdgeInsets.all(10),
+//           child: Card(
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               mainAxisAlignment: MainAxisAlignment.spaceAround,
+//               children: [
+
+//               ],
+//             ),
+//           ),
+//         );
+//       }).toList(),
+//     );
+//   }
+
+//   Widget byStatus(BuildContext context, Status status) {
+//     return StatusExpansionTile(status: status);
+//   }
+// }
