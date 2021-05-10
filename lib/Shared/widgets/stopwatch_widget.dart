@@ -3,6 +3,7 @@ import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/project_picker.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -16,8 +17,9 @@ class StopWatchTile extends StatelessWidget {
     return Container(
       child: Card(
         margin: EdgeInsets.all(0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero)),
-              child: ListTile(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero)),
+        child: ListTile(
           leading: IconButton(
               icon: Icon(Icons.stop_rounded, color: Colors.red),
               onPressed: () {
@@ -26,12 +28,16 @@ class StopWatchTile extends StatelessWidget {
                     context: context,
                     bottomSheet: TimeEntryEditBottomSheet(
                       isUpdate: false,
-                      entry: stopwatchState.timeEntry,
+                      entry: stopwatchState.newEntry,
                     ));
               }),
           title: Text(
               TimeFunctions().timeToText(seconds: stopwatchState.elapsedTicks)),
-          trailing: Text(stopwatchState.timeEntry.project.projectName, style: TextStyle(color: Color(stopwatchState.timeEntry.project.projectColor)),),
+          trailing: Text(
+            stopwatchState.newEntry.project.projectName,
+            style: TextStyle(
+                color: Color(stopwatchState.newEntry.project.projectColor)),
+          ),
         ),
       ),
     );

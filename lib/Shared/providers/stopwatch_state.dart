@@ -9,25 +9,18 @@ class StopwatchState extends ChangeNotifier {
   Stopwatch stopwatch = Stopwatch();
   Timer timer;
   int elapsedTicks = 0;
-  TimeEntry timeEntry;
+  TimeEntry newEntry;
 
-  StopwatchState() : timeEntry = TimeEntry();
 
-  void updateEntryTask(Task task) {
-    timeEntry.task = task;
-    notifyListeners();
-  }
-
-  void updateEntryProject(Project project) {
-    timeEntry.project = project;
-    notifyListeners();
-  }
-
-  void startStopwatch() {
-    timeEntry = TimeEntry();
+  void startStopwatch(TimeEntry oldEntry) {
+    if (oldEntry != null) {
+      newEntry = oldEntry.copyTimeEntry();
+    } else {
+      newEntry = TimeEntry();
+    }
     elapsedTicks = 0;
     stopwatch.start();
-    timeEntry.startTime = DateTime.now();
+    newEntry.startTime = DateTime.now();
     onTick();
     notifyListeners();
   }
@@ -36,7 +29,7 @@ class StopwatchState extends ChangeNotifier {
     stopwatch.stop();
     stopwatch.reset();
     timer.cancel();
-    timeEntry.endTime = DateTime.now();
+    newEntry.endTime = DateTime.now();
     notifyListeners();
   }
 

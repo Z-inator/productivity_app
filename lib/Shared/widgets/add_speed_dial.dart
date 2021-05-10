@@ -7,6 +7,7 @@ import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
+import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ class AddSpeedDial extends StatelessWidget {
             child:
                 Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
             backgroundColor: Theme.of(context).cardColor,
-            onTap: () => Provider.of<StopwatchState>(context, listen: false).startStopwatch()),
+            onTap: () => Provider.of<StopwatchState>(context, listen: false).startStopwatch(TimeEntry())),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded,
                 color: Theme.of(context).accentColor),
