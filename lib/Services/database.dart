@@ -7,6 +7,8 @@ import 'package:productivity_app/Task_Feature/models/tasks.dart';
 
 class DatabaseService {
   final User _user = FirebaseAuth.instance.currentUser;
+  final FirebaseFirestore instance = FirebaseFirestore.instance;
+
   // Collection reference
   final CollectionReference rootCollection =
       FirebaseFirestore.instance.collection('users');
@@ -32,9 +34,16 @@ class DatabaseService {
           statusDescription:
               'This status represents tasks that have been started but not completed.'),
       Status(
+          statusName: 'Review',
+          statusColor: 4294917376,
+          statusOrder: 3,
+          equalToComplete: false,
+          statusDescription:
+              'This status represents tasks that have been completed.'),
+      Status(
           statusName: 'Done',
           statusColor: 4279828479,
-          statusOrder: 3,
+          statusOrder: 4,
           equalToComplete: true,
           statusDescription:
               'This status represents tasks that have been completed.')
@@ -66,6 +75,23 @@ class DatabaseService {
         .update(updateData)
         .then((value) => print('$type Added'))
         .catchError((error) => print('Failed to add $type: $error'));
+  }
+
+  // Update batch items in Firestore
+  Future<void> updateBatchItems(String type, List<dynamic> itemsToUpdate) {
+    WriteBatch batch = instance.batch();
+    for (dynamic item in itemsToUpdate) {
+      DocumentReference documentReference = rootCollection
+          .doc(_user.uid)
+          .collection(type)
+          .doc(item.id.toString());
+      Map<String, dynamic> mapOfItem = item.toFirestore();
+      batch.update(documentReference, mapOfItem);
+    }
+    return batch
+        .commit()
+        .then((value) => print('Batch Update Complete'))
+        .catchError((error) => print('Failes Batch Update: $error'));
   }
 
   // Delete item out of Firestore
