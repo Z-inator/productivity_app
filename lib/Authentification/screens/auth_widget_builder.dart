@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -33,6 +34,7 @@ class AuthWidgetBuilder extends StatelessWidget {
           return MultiProvider(
             providers: [
               Provider<User>.value(value: user),
+              Provider(create: (context) => DatabaseService()),
               Provider(create: (context) => ProjectService()),
               Provider(create: (context) => StatusService()),
               Provider(create: (context) => TaskService()),
