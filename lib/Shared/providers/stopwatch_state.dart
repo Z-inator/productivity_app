@@ -12,7 +12,7 @@ class StopwatchState extends ChangeNotifier {
   TimeEntry newEntry;
 
 
-  void startStopwatch(TimeEntry oldEntry) {
+  void startStopwatch({TimeEntry oldEntry}) {
     if (oldEntry != null) {
       newEntry = oldEntry.copyTimeEntry();
     } else {
