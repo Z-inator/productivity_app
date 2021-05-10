@@ -103,7 +103,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                     onPressed: () {
                       isUpdate
                             ? TimeService().updateTimeEntry(
-                                timeEntryID: entry.entryID,
+                                timeEntryID: entry.id,
                                 updateData: timeEntryEditState.newEntry.toFirestore())
                             : TimeService().addTimeEntry(
                                 addData: timeEntryEditState.newEntry.toFirestore());

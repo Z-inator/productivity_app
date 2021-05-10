@@ -107,7 +107,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                   onPressed: () {
                     isUpdate
                           ? taskService.updateTask(
-                              taskID: task.taskID,
+                              taskID: task.id,
                               updateData: taskEditState.newTask.toFirestore())
                           : taskService.addTask(
                               addData: taskEditState.newTask.toFirestore());

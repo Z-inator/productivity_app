@@ -6,7 +6,7 @@ import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 
 class TimeEntry {
-  String entryID;
+  String id;
   DateTime startTime;
   DateTime endTime;
   int elapsedTime;
@@ -14,8 +14,8 @@ class TimeEntry {
   Project project;
   Task task;
 
-  TimeEntry({entryID, entryName, project, task, startTime, endTime, elapsedTime})
-      : entryID = entryID as String ?? '',
+  TimeEntry({id, entryName, project, task, startTime, endTime, elapsedTime})
+      : id = id as String ?? '',
         entryName = entryName as String ?? '',
         project = project as Project ?? Project(),
         task = task as Task ?? Task(),
@@ -30,7 +30,7 @@ class TimeEntry {
   ) {
     final Map data = Map.from(snapshot.data());
     return TimeEntry(
-        entryID: snapshot.id ?? '',
+        id: snapshot.id ?? '',
         entryName: data['entryName'] as String ?? '',
         project: project ?? Project(),
         task: task ?? Task(),
@@ -44,8 +44,8 @@ class TimeEntry {
   Map<String, dynamic> toFirestore() {
     return {
       'entryName': entryName,
-      'project': project.projectID,
-      'task': task.taskID,
+      'project': project.id,
+      'task': task.id,
       'startTime': startTime,
       'endTime': endTime,
     };
@@ -53,7 +53,7 @@ class TimeEntry {
 
   TimeEntry copyTimeEntry() {
     return TimeEntry(
-        entryID: entryID ?? '',
+        id: id ?? '',
         entryName: entryName ?? '',
         project: project ?? Project(),
         task: task ?? Task(),

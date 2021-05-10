@@ -24,7 +24,7 @@ class StatusPicker extends StatelessWidget {
               onPressed: () {
                 saveStatus(status);
               },
-              icon: task.status.statusID == status.statusID
+              icon: task.status.id == status.id
                   ? Icon(Icons.check_circle_rounded,
                       color: Color(status.statusColor))
                   : Icon(Icons.circle, color: Color(status.statusColor)),
@@ -64,7 +64,7 @@ class StatusPickerDropDown extends StatelessWidget {
                         .copyWith(color: Color(status.statusColor))),
                 onTap: () {
                   taskService.updateTask(
-                      taskID: task.taskID,
+                      taskID: task.id,
                       updateData: {'status': status.statusName});
                   Navigator.pop(context);
                 },

@@ -58,7 +58,7 @@ class ProjectEditBottomSheet extends StatelessWidget {
                     onPressed: () {
                       isUpdate
                             ? ProjectService().updateProject(
-                                projectID: project.projectID,
+                                projectID: project.id,
                                 updateData: state.newProject.toFirestore())
                             : ProjectService().addProject(
                                 addData: state.newProject.toFirestore());

@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Status {
-  String statusID;
+  String id;
   String statusName;
   int statusColor;
   int statusOrder;
   bool equalToComplete;
   String statusDescription;
 
-  Status({String statusID,
+  Status({String id,
       String statusName,
       int statusColor,
       int statusOrder,
       bool equalToComplete,
       String statusDescription})
-      : statusID = statusID ?? '',
+      : id = id ?? '',
         statusName = statusName ?? '',
         statusColor = statusColor ?? 4285887861,
         statusOrder = statusOrder ?? 0,
@@ -25,7 +25,7 @@ class Status {
     final Map data = snapshot.data();
 
     return Status(
-        statusID: snapshot.id,
+        id: snapshot.id,
         statusName: data['statusName'].toString() ?? '',
         statusColor: data['statusColor'] as int ?? 4285887861,
         statusOrder: data['statusOrder'] as int ?? 0,
@@ -45,7 +45,7 @@ class Status {
 
   Status copyStatus() {
     return Status(
-        statusID: statusID,
+        id: id,
         statusName: statusName ?? '',
         statusColor: statusColor ?? 4285887861,
         statusOrder: statusOrder ?? 0,

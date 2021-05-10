@@ -86,7 +86,7 @@ class ProjectExpansionTile extends StatelessWidget {
                                 label: Text('Delete'),
                                 onPressed: () {
                                   projectService.deleteProject(
-                                      projectID: project.projectID);
+                                      projectID: project.id);
                                   Navigator.pop(context);
                                 })
                           ],

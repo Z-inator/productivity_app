@@ -40,10 +40,10 @@ class TimeService {
         (QuerySnapshot querySnapshot) =>
             querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
               final Project project = projects.firstWhere((project) =>
-                  project.projectID ==
+                  project.id ==
                   queryDocument.data()['project'].toString());
               final Task task = tasks.firstWhere((task) =>
-                  task.taskID == queryDocument.data()['task'].toString());
+                  task.id == queryDocument.data()['task'].toString());
               return TimeEntry.fromFirestore(queryDocument, project, task);
             }).toList());
   }
@@ -99,7 +99,7 @@ class TimeService {
   List<TimeEntry> getTimeEntriesByProject(
       List<TimeEntry> timeEntries, Project project) {
     return timeEntries
-        .where((entry) => entry.project.projectID == project.projectID)
+        .where((entry) => entry.project.id == project.id)
         .toList();
   }
 

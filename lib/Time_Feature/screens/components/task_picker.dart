@@ -14,10 +14,10 @@ class TaskPicker extends StatelessWidget {
     TimeEntryEditState timeEntryEditState =
         Provider.of<TimeEntryEditState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
-    if (timeEntryEditState.newEntry.project.projectID.isNotEmpty) {
+    if (timeEntryEditState.newEntry.project.id.isNotEmpty) {
       tasks = tasks.where((task) =>
-          task.project.projectID ==
-          timeEntryEditState.newEntry.project.projectID)
+          task.project.id ==
+          timeEntryEditState.newEntry.project.id)
           .toList();
     }
     return PopupMenuButton(

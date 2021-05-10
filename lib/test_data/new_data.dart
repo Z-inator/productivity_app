@@ -56,11 +56,11 @@ class NewDataUpload {
   //         .collection('tasks')
   //         .where('taskName', isEqualTo: map['taskName'])
   //         .get();
-  //     String taskID = taskDoc.docs.first.id;
+  //     String id = taskDoc.docs.first.id;
   //     TimeService().addTimeEntry(addData: {
   //       'entryName': map['taskName'] as String,
   //       'project': map['project'] as String,
-  //       'task': taskID as String,
+  //       'task': id as String,
   //       'startTime': DateTime(2021, 6, 20, 7, 30),
   //       'endTime': DateTime(2021, 6, 20, 8, 30),
   //     });
@@ -74,8 +74,8 @@ class NewDataUpload {
         case 0:
           TimeService().addTimeEntry(addData: {
             'entryName': task.taskName as String,
-            'project': task.project.projectID as String,
-            'task': task.taskID as String,
+            'project': task.project.id as String,
+            'task': task.id as String,
             'startTime': DateTime(2021, 5, 3, 7, 30),
             'endTime': DateTime(2021, 5, 3, 8, 30),
           });
@@ -83,8 +83,8 @@ class NewDataUpload {
         case 1:
           TimeService().addTimeEntry(addData: {
             'entryName': task.taskName as String,
-            'project': task.project.projectID as String,
-            'task': task.taskID as String,
+            'project': task.project.id as String,
+            'task': task.id as String,
             'startTime': DateTime(2021, 5, 4, 7, 30),
             'endTime': DateTime(2021, 5, 4, 8, 30),
           });
@@ -92,8 +92,8 @@ class NewDataUpload {
           case 2:
             TimeService().addTimeEntry(addData: {
               'entryName': task.taskName as String,
-              'project': task.project.projectID as String,
-              'task': task.taskID as String,
+              'project': task.project.id as String,
+              'task': task.id as String,
               'startTime': DateTime(2021, 5, 5, 7, 30),
               'endTime': DateTime(2021, 5, 5, 8, 30),
             });
@@ -101,8 +101,8 @@ class NewDataUpload {
           case 3:
             TimeService().addTimeEntry(addData: {
               'entryName': task.taskName as String,
-              'project': task.project.projectID as String,
-              'task': task.taskID as String,
+              'project': task.project.id as String,
+              'task': task.id as String,
               'startTime': DateTime(2021, 5, 6, 7, 30),
               'endTime': DateTime(2021, 5, 6, 8, 30),
             });
@@ -110,8 +110,8 @@ class NewDataUpload {
           case 4:
             TimeService().addTimeEntry(addData: {
               'entryName': task.taskName as String,
-              'project': task.project.projectID as String,
-              'task': task.taskID as String,
+              'project': task.project.id as String,
+              'task': task.id as String,
               'startTime': DateTime(2021, 5, 7, 7, 30),
               'endTime': DateTime(2021, 5, 7, 8, 30),
             });
@@ -119,8 +119,8 @@ class NewDataUpload {
         default:
           TimeService().addTimeEntry(addData: {
             'entryName': task.taskName as String,
-            'project': task.project.projectID as String,
-            'task': task.taskID as String,
+            'project': task.project.id as String,
+            'task': task.id as String,
             'startTime': DateTime(2021, 5, 8, 7, 30),
             'endTime': DateTime(2021, 5, 8, 8, 30),
           });

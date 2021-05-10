@@ -3,13 +3,13 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 
 class Project {
-  String projectID;
+  String id;
   String projectName;
   String projectClient;
   int projectColor;
 
-  Project({projectID, projectName, projectColor, projectClient})
-      : projectID = projectID as String ?? '',
+  Project({id, projectName, projectColor, projectClient})
+      : id = id as String ?? '',
         projectName = projectName as String ?? '',
         projectColor = projectColor as int ?? 4285887861,
         projectClient = projectClient as String ?? '';
@@ -17,7 +17,7 @@ class Project {
   factory Project.fromFirestore(DocumentSnapshot snapshot) {
     final Map data = snapshot.data();
     return Project(
-      projectID: snapshot.id ?? '',
+      id: snapshot.id ?? '',
       projectName: data['projectName'] as String ?? '',
       projectClient: data['projectClient'] as String ?? '',
       projectColor: data['projectColor'] as int ?? 4285887861,
@@ -34,7 +34,7 @@ class Project {
 
   Project copyProject() {
     return Project(
-      projectID: projectID ?? '',
+      id: id ?? '',
       projectName: projectName ?? '',
       projectClient: projectClient ?? '',
       projectColor: projectColor ?? 4285887861,

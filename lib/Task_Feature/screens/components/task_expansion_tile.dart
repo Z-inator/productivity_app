@@ -41,7 +41,7 @@ class TaskExpansionTile extends StatelessWidget {
       title: Text(task.taskName.isEmpty
           ? 'NO TASK TITLE'
           : task.taskName),
-      subtitle: Text(task.project.projectID.isEmpty
+      subtitle: Text(task.project.id.isEmpty
           ? 'NO PROJECT'
           : task.project.projectName,
           style: TextStyle(color: Color(task.project.projectColor))),
@@ -98,7 +98,7 @@ class TaskExpansionTile extends StatelessWidget {
                                       Icon(Icons.check_circle_outline_rounded),
                                   label: Text('Delete'),
                                   onPressed: () {
-                                    taskService.deleteTask(taskID: task.taskID);
+                                    taskService.deleteTask(taskID: task.id);
                                     Navigator.pop(context);
                                   })
                             ],

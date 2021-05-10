@@ -45,6 +45,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                   value: statusEditState.newStatus.equalToComplete,
                   title: Text('This Status represents Task Complete:',
                       style: Theme.of(context).textTheme.subtitle1),
+                  subtitle: Text('Checking this box will keep tasks related to this status from displaying as late tasks.'),
                   onChanged: (bool value) => statusEditState.updateStatusComplete(value)),
               TextField(
                 decoration: InputDecoration(
@@ -66,7 +67,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                     onPressed: () {
                       isUpdate
                             ? statusService.updateStatus(
-                                statusID: status.statusID,
+                                statusID: status.id,
                                 updateData: statusEditState.newStatus.toFirestore())
                             : statusService.addStatus(
                                 addData: statusEditState.newStatus.toFirestore());

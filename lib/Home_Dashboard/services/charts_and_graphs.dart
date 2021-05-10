@@ -63,7 +63,7 @@ class TimeGraphs {
     List<Project> projects = getProjects(timeEntries);
     for (Project project in projects) {
       int projectTime = projectService.getRecordedTime(timeEntries
-          .where((entry) => entry.project.projectID == project.projectID)
+          .where((entry) => entry.project.id == project.id)
           .toList());
       recordedProjectTime.add({project: projectTime ?? 0});
     }

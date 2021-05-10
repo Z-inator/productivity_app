@@ -7,7 +7,7 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:provider/provider.dart';
 
 class Task {
-  String taskID;
+  String id;
   String taskName;
   Project project;
   Status status;
@@ -15,13 +15,13 @@ class Task {
   DateTime createDate;
 
   Task(
-      {String taskID,
+      {String id,
       String taskName,
       Project project,
       Status status,
       DateTime dueDate,
       DateTime createDate})
-      : taskID = taskID ?? '',
+      : id = id ?? '',
         taskName = taskName ?? '',
         project = project ?? Project(),
         status = status ?? Status(),
@@ -32,7 +32,7 @@ class Task {
       DocumentSnapshot snapshot, Project project, Status status) {
     final Map data = snapshot.data();
     return Task(
-        taskID: snapshot.id ?? '',
+        id: snapshot.id ?? '',
         taskName: data['taskName'] as String ?? '',
         project: project ?? Project(),
         status: status ?? Status(),
@@ -45,8 +45,8 @@ class Task {
   Map<String, dynamic> toFirestore() {
     return {
       'taskName': taskName,
-      'project': project.projectID,
-      'status': status.statusID,
+      'project': project.id,
+      'status': status.id,
       'dueDate': dueDate,
       'createDate': createDate,
     };
@@ -54,7 +54,7 @@ class Task {
 
   Task copyTask() {
     return Task(
-        taskID: taskID ?? '',
+        id: id ?? '',
         taskName: taskName ?? '',
         project: project ?? Project(),
         status: status ?? Status(),

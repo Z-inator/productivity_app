@@ -61,7 +61,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                                   icon: Icon(Icons.check_circle_outline_rounded),
                                   label: Text('Delete'),
                                   onPressed: () {
-                                    timeService.deleteTimeEntry(timeEntryID: entry.entryID);
+                                    timeService.deleteTimeEntry(timeEntryID: entry.id);
                                     Navigator.pop(context);
                                   })
                             ],
