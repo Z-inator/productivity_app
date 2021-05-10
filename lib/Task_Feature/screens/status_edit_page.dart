@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_edit_bottomsheet.dart';
@@ -15,11 +17,14 @@ class StatusEditPage extends StatefulWidget {
 
 class _StatusEditPageState extends State<StatusEditPage> {
   List<Status> statuses;
+  FirebaseFirestore instance = FirebaseFirestore.instance;
+  WriteBatch batch;
 
   @override
   Widget build(BuildContext context) {
-    statuses = Provider.of<List<Status>>(context);
+    DatabaseService databaseService = Provider.of<DatabaseService>(context);
     StatusService statusService = Provider.of<StatusService>(context);
+    statuses = Provider.of<List<Status>>(context);
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -29,9 +34,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
           onPressed: () {
             statuses.forEach((status) {
               status.statusOrder = statuses.indexOf(status) + 1;
-              statusService.updateStatus(
-                  statusID: status.statusID, updateData: status.toFirestore());
             });
+            databaseService.updateBatchItems('statuses', statuses);
             Navigator.pop(context);
           },
         ),
@@ -56,7 +60,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
           ),
           children: statuses.map((status) {
             return ExpansionTile(
-              key: Key(status.statusID),
+              key: Key(status.id),
               leading: Icon(Icons.circle, color: Color(status.statusColor)),
               title: Text(
                 status.statusName,
@@ -92,11 +96,10 @@ class _StatusEditPageState extends State<StatusEditPage> {
                                           Icons.check_circle_outline_rounded),
                                       label: Text('Delete'),
                                       onPressed: () {
-                                        statuses.removeWhere((removeStatus) =>
-                                            removeStatus.statusID ==
-                                            status.statusID);
                                         statusService.deleteStatus(
-                                            statusID: status.statusID);
+                                            statusID: status.id);
+                                        statuses.removeWhere((removeStatus) =>
+                                            removeStatus.id == status.id);
                                         statuses.forEach((status) {
                                           status.statusOrder =
                                               statuses.indexOf(status) + 1;
@@ -152,10 +155,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
                   onPressed: () {
                     statuses.forEach((status) {
                       status.statusOrder = statuses.indexOf(status) + 1;
-                      statusService.updateStatus(
-                          statusID: status.statusID,
-                          updateData: status.toFirestore());
                     });
+                    databaseService.updateBatchItems('statuses', statuses);
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Updated Statuses')));
                   },
