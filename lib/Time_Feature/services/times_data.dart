@@ -109,32 +109,32 @@ class TimeService {
         .toList();
   }
 
-  // Add Time Entry
-  Future<void> addTimeEntry({Map<String, dynamic> addData}) async {
-    return _getTimeEntryReference()
-        .add(addData)
-        .then((value) => print('Time Entry Added'))
-        .catchError((error) => print('Failed to add time entry: $error'));
-  }
+  // // Add Time Entry
+  // Future<void> addTimeEntry({Map<String, dynamic> addData}) async {
+  //   return _getTimeEntryReference()
+  //       .add(addData)
+  //       .then((value) => print('Time Entry Added'))
+  //       .catchError((error) => print('Failed to add time entry: $error'));
+  // }
 
-  // Update Time Entry
-  Future<void> updateTimeEntry(
-      {String timeEntryID, Map<String, dynamic> updateData}) async {
-    return _getTimeEntryReference()
-        .doc(timeEntryID)
-        .update(updateData)
-        .then((value) => print('Time Entry Updated'))
-        .catchError((error) => print('Failed to update time entry: $error'));
-  }
+  // // Update Time Entry
+  // Future<void> updateTimeEntry(
+  //     {String timeEntryID, Map<String, dynamic> updateData}) async {
+  //   return _getTimeEntryReference()
+  //       .doc(timeEntryID)
+  //       .update(updateData)
+  //       .then((value) => print('Time Entry Updated'))
+  //       .catchError((error) => print('Failed to update time entry: $error'));
+  // }
 
-  // Delete Time Entry
-  Future<void> deleteTimeEntry({String timeEntryID}) async {
-    return _getTimeEntryReference()
-        .doc(timeEntryID)
-        .delete()
-        .then((value) => print('Time Entry Deleted'))
-        .catchError((error) => print('Failed to delete time entry: $error'));
-  }
+  // // Delete Time Entry
+  // Future<void> deleteTimeEntry({String timeEntryID}) async {
+  //   return _getTimeEntryReference()
+  //       .doc(timeEntryID)
+  //       .delete()
+  //       .then((value) => print('Time Entry Deleted'))
+  //       .catchError((error) => print('Failed to delete time entry: $error'));
+  // }
 }
 
 // class TimeEntryStream extends StatelessWidget {

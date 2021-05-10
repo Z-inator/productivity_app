@@ -41,30 +41,30 @@ class StatusService {
     return tasks.length;
   }
 
-  // Add Status
-  Future<void> addStatus({Map<String, dynamic> addData}) async {
-    return _getStatusReference()
-        .add(addData)
-        .then((value) => print('Status Added'))
-        .catchError((error) => print('Failed to add status: $error'));
-  }
+  // // Add Status
+  // Future<void> addStatus({Map<String, dynamic> addData}) async {
+  //   return _getStatusReference()
+  //       .add(addData)
+  //       .then((value) => print('Status Added'))
+  //       .catchError((error) => print('Failed to add status: $error'));
+  // }
 
-  // Update Status
-  Future<void> updateStatus(
-      {String statusID, Map<String, dynamic> updateData}) async {
-    return _getStatusReference()
-        .doc(statusID)
-        .update(updateData)
-        .then((value) => print('Status Updated'))
-        .catchError((error) => print('Failed to update status: $error'));
-  }
+  // // Update Status
+  // Future<void> updateStatus(
+  //     {String statusID, Map<String, dynamic> updateData}) async {
+  //   return _getStatusReference()
+  //       .doc(statusID)
+  //       .update(updateData)
+  //       .then((value) => print('Status Updated'))
+  //       .catchError((error) => print('Failed to update status: $error'));
+  // }
 
-  // Delete Status
-  Future<void> deleteStatus({String statusID}) async {
-    return _getStatusReference()
-        .doc(statusID)
-        .delete()
-        .then((value) => print('Status Deleted'))
-        .catchError((error) => print('Failed to delete status: $error'));
-  }
+  // // Delete Status
+  // Future<void> deleteStatus({String statusID}) async {
+  //   return _getStatusReference()
+  //       .doc(statusID)
+  //       .delete()
+  //       .then((value) => print('Status Deleted'))
+  //       .catchError((error) => print('Failed to delete status: $error'));
+  // }
 }

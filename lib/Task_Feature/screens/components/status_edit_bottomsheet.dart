@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/providers/status_edit_state.dart';
@@ -22,7 +23,9 @@ class StatusEditBottomSheet extends StatelessWidget {
       create: (context) => StatusEditState(oldStatus: status),
       builder: (context, child) {
         final StatusEditState statusEditState = Provider.of<StatusEditState>(context);
-        final StatusService statusService = Provider.of<StatusService>(context);
+                final DatabaseService databaseService =
+            Provider.of<DatabaseService>(context);
+        // final StatusService statusService = Provider.of<StatusService>(context);
         return Container(
           margin: EdgeInsets.all(20),
           child: Column(
@@ -66,10 +69,12 @@ class StatusEditBottomSheet extends StatelessWidget {
                     label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
                       isUpdate
-                            ? statusService.updateStatus(
-                                statusID: status.id,
+                            ? databaseService.updateItem(
+                                type: 'statuses',
+                                itemID: status.id,
                                 updateData: statusEditState.newStatus.toFirestore())
-                            : statusService.addStatus(
+                            : databaseService.addItem(
+                                type: 'statuses',
                                 addData: statusEditState.newStatus.toFirestore());
                         Navigator.pop(context);
                       }

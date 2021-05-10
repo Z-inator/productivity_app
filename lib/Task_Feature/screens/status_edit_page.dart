@@ -96,8 +96,9 @@ class _StatusEditPageState extends State<StatusEditPage> {
                                           Icons.check_circle_outline_rounded),
                                       label: Text('Delete'),
                                       onPressed: () {
-                                        statusService.deleteStatus(
-                                            statusID: status.id);
+                                        databaseService.deleteItem(
+                                            type: 'statuses',
+                                            itemID: status.id);
                                         statuses.removeWhere((removeStatus) =>
                                             removeStatus.id == status.id);
                                         statuses.forEach((status) {

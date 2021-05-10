@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
@@ -30,20 +31,20 @@ class TaskExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService =
+        Provider.of<DatabaseService>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
     final TimeService timeService = Provider.of<TimeService>(context);
     List<TimeEntry> timeEntries = timeService.getTimeEntriesByTask(
         Provider.of<List<TimeEntry>>(context), task);
     int recordedTime = taskService.getRecordedTime(timeEntries, task);
-    int subtaskCount = 0;   // TODO: implement Subtasks
+    int subtaskCount = 0; // TODO: implement Subtasks
     return ExpansionTile(
-      leading: Icon(Icons.check_circle_rounded, color: Color(task.status.statusColor)),
-      title: Text(task.taskName.isEmpty
-          ? 'NO TASK TITLE'
-          : task.taskName),
-      subtitle: Text(task.project.id.isEmpty
-          ? 'NO PROJECT'
-          : task.project.projectName,
+      leading: Icon(Icons.check_circle_rounded,
+          color: Color(task.status.statusColor)),
+      title: Text(task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName),
+      subtitle: Text(
+          task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
           style: TextStyle(color: Color(task.project.projectColor))),
       children: [
         Theme(
@@ -98,7 +99,8 @@ class TaskExpansionTile extends StatelessWidget {
                                       Icon(Icons.check_circle_outline_rounded),
                                   label: Text('Delete'),
                                   onPressed: () {
-                                    taskService.deleteTask(taskID: task.id);
+                                    databaseService.deleteItem(
+                                        type: 'tasks', itemID: task.id);
                                     Navigator.pop(context);
                                   })
                             ],

@@ -50,34 +50,30 @@ class ProjectService {
     return recordedTime;
   }
 
-  // Add Project
-  Future<void> addProject({Map<String, dynamic> addData}) async {
-    return _getProjectReference()
-        .add(addData)
-        .then((value) => print('Project Added'))
-        .catchError((error) => print('Failed to add project: $error'));
-  }
-  // // Add Task to Project
-  // Future<void> addTaskToProject({String projectID, String taskID, String taskName, String status='To Do',}) {
-
+  // // Add Project
+  // Future<void> addProject({Map<String, dynamic> addData}) async {
+  //   return _getProjectReference()
+  //       .add(addData)
+  //       .then((value) => print('Project Added'))
+  //       .catchError((error) => print('Failed to add project: $error'));
   // }
 
-  // Update Project
-  Future<void> updateProject(
-      {String projectID, Map<String, dynamic> updateData}) async {
-    return _getProjectReference()
-        .doc(projectID)
-        .update(updateData)
-        .then((value) => print('Project Updated'))
-        .catchError((error) => print('Failed to update project: $error'));
-  }
+  // // Update Project
+  // Future<void> updateProject(
+  //     {String projectID, Map<String, dynamic> updateData}) async {
+  //   return _getProjectReference()
+  //       .doc(projectID)
+  //       .update(updateData)
+  //       .then((value) => print('Project Updated'))
+  //       .catchError((error) => print('Failed to update project: $error'));
+  // }
 
-  // Delete Project
-  Future<void> deleteProject({String projectID}) async {
-    return _getProjectReference()
-        .doc(projectID)
-        .delete()
-        .then((value) => print('Project Deleted'))
-        .catchError((error) => print('Failed to delete project: $error'));
-  }
+  // // Delete Project
+  // Future<void> deleteProject({String projectID}) async {
+  //   return _getProjectReference()
+  //       .doc(projectID)
+  //       .delete()
+  //       .then((value) => print('Project Deleted'))
+  //       .catchError((error) => print('Failed to delete project: $error'));
+  // }
 }

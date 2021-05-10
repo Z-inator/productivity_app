@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -24,6 +25,7 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService = Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
     final TimeService timeService = Provider.of<TimeService>(context);
@@ -85,8 +87,9 @@ class ProjectExpansionTile extends StatelessWidget {
                                 icon: Icon(Icons.check_circle_outline_rounded),
                                 label: Text('Delete'),
                                 onPressed: () {
-                                  projectService.deleteProject(
-                                      projectID: project.id);
+                                  databaseService.deleteItem(
+                                      type: 'projects',
+                                      itemID: project.id);
                                   Navigator.pop(context);
                                 })
                           ],

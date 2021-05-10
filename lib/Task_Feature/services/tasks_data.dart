@@ -85,30 +85,30 @@ class TaskService {
     return recordedTime;
   }
 
-  // Add Task
-  Future<void> addTask({Map<String, dynamic> addData}) async {
-    return _getTaskReference()
-        .add(addData)
-        .then((value) => print('Task Added'))
-        .catchError((error) => print('Failed to add task: $error'));
-  }
+  // // Add Task
+  // Future<void> addTask({Map<String, dynamic> addData}) async {
+  //   return _getTaskReference()
+  //       .add(addData)
+  //       .then((value) => print('Task Added'))
+  //       .catchError((error) => print('Failed to add task: $error'));
+  // }
 
-  // Update Task
-  Future<void> updateTask(
-      {String taskID, Map<String, dynamic> updateData}) async {
-    return _getTaskReference()
-        .doc(taskID)
-        .update(updateData)
-        .then((value) => print('Task Updated'))
-        .catchError((error) => print('Failed to update task: $error'));
-  }
+  // // Update Task
+  // Future<void> updateTask(
+  //     {String taskID, Map<String, dynamic> updateData}) async {
+  //   return _getTaskReference()
+  //       .doc(taskID)
+  //       .update(updateData)
+  //       .then((value) => print('Task Updated'))
+  //       .catchError((error) => print('Failed to update task: $error'));
+  // }
 
-  // Delete Task
-  Future<void> deleteTask({String taskID}) async {
-    return _getTaskReference()
-        .doc(taskID)
-        .delete()
-        .then((value) => print('Task Deleted'))
-        .catchError((error) => print('Failed to delete task: $error'));
-  }
+  // // Delete Task
+  // Future<void> deleteTask({String taskID}) async {
+  //   return _getTaskReference()
+  //       .doc(taskID)
+  //       .delete()
+  //       .then((value) => print('Task Deleted'))
+  //       .catchError((error) => print('Failed to delete task: $error'));
+  // }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/project_picker.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -31,6 +32,7 @@ class TaskEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TaskEditState(oldTask: task),
       builder: (context, child) {
+        final DatabaseService databaseService = Provider.of<DatabaseService>(context);
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
         final TaskService taskService = Provider.of<TaskService>(context);
         return Container(
@@ -106,10 +108,12 @@ class TaskEditBottomSheet extends StatelessWidget {
                   label: Text(isUpdate ? 'Update' : 'Add'),
                   onPressed: () {
                     isUpdate
-                          ? taskService.updateTask(
-                              taskID: task.id,
+                          ? databaseService.updateItem(
+                              type: 'tasks',
+                              itemID: task.id,
                               updateData: taskEditState.newTask.toFirestore())
-                          : taskService.addTask(
+                          : databaseService.addItem(
+                              type: 'tasks',
                               addData: taskEditState.newTask.toFirestore());
                       Navigator.pop(context);
                     }

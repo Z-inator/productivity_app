@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
@@ -45,6 +46,8 @@ class StatusPickerDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService =
+        Provider.of<DatabaseService>(context);
     final List<Status> statuses = Provider.of<List<Status>>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
     return PopupMenuButton(
@@ -63,8 +66,9 @@ class StatusPickerDropDown extends StatelessWidget {
                         .subtitle1
                         .copyWith(color: Color(status.statusColor))),
                 onTap: () {
-                  taskService.updateTask(
-                      taskID: task.id,
+                  databaseService.updateItem(
+                      type: 'tasks',
+                      itemID: task.id,
                       updateData: {'status': status.statusName});
                   Navigator.pop(context);
                 },

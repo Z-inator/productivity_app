@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
@@ -20,6 +21,8 @@ class ProjectEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProjectEditState(oldProject: project),
       builder: (context, child) {
+        final DatabaseService databaseService =
+            Provider.of<DatabaseService>(context);
         final state = Provider.of<ProjectEditState>(context);
         return Container(
           margin: EdgeInsets.all(20),
@@ -53,18 +56,19 @@ class ProjectEditBottomSheet extends StatelessWidget {
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.check_circle_outline_rounded),
-                    label: Text(isUpdate ? 'Update' : 'Add'),
-                    onPressed: () {
-                      isUpdate
-                            ? ProjectService().updateProject(
-                                projectID: project.id,
+                      icon: Icon(Icons.check_circle_outline_rounded),
+                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      onPressed: () {
+                        isUpdate
+                            ? databaseService.updateItem(
+                                type: 'projects',
+                                itemID: project.id,
                                 updateData: state.newProject.toFirestore())
-                            : ProjectService().addProject(
+                            : databaseService.addItem(
+                                type: 'projects',
                                 addData: state.newProject.toFirestore());
                         Navigator.pop(context);
-                      }
-                  ))
+                      }))
             ],
           ),
         );

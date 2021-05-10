@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
@@ -16,6 +17,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService = Provider.of<DatabaseService>(context);
     TimeService timeService = Provider.of<TimeService>(context);
     return ExpansionTile(
       leading: IconButton(
@@ -61,7 +63,9 @@ class TimeEntryExpansionTile extends StatelessWidget {
                                   icon: Icon(Icons.check_circle_outline_rounded),
                                   label: Text('Delete'),
                                   onPressed: () {
-                                    timeService.deleteTimeEntry(timeEntryID: entry.id);
+                                    databaseService.deleteItem(
+                                        type: 'timeEntries',
+                                        itemID: entry.id);
                                     Navigator.pop(context);
                                   })
                             ],
