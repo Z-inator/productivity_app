@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'animated_child.dart';
@@ -171,7 +172,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   @override
   void didChangeDependencies() {
-    _dark = Theme.of(context).brightness == Brightness.dark;
+    _dark = DynamicColorTheme.of(context).data.brightness == Brightness.dark;
     super.didChangeDependencies();
   }
 
@@ -204,7 +205,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 
   @override
   void didUpdateWidget(SpeedDial oldWidget) {
-    _dark = Theme.of(context).brightness == Brightness.dark;
+    _dark = DynamicColorTheme.of(context).data.brightness == Brightness.dark;
     if (oldWidget.children.length != widget.children.length) {
       _controller.duration = _calculateMainControllerDuration();
     }
@@ -389,8 +390,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           )
         : AnimatedBuilder(
             animation: _controller,
-            builder: (BuildContext context, Widget _widget) =>
-                Transform.rotate(
+            builder: (BuildContext context, Widget _widget) => Transform.rotate(
               angle:
                   (widget.activeChild != null || widget.activeIcon != null) &&
                           widget.useRotationAnimation

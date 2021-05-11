@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
@@ -12,46 +13,41 @@ class NavigationBar extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))
-      ),
+          color: DynamicColorTheme.of(context).data.cardColor,
+          border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
               icon: Icon(Icons.dashboard_rounded),
-
               color: state.page == 0
-                  ? Colors.black
-                  : Theme.of(context).unselectedWidgetColor,
+                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
               onPressed: () {
                 state.changePage(0);
               }),
           IconButton(
               icon: Icon(Icons.rule_rounded),
-
               color: state.page == 2
-                  ? Colors.black
-                  : Theme.of(context).unselectedWidgetColor,
+                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
               onPressed: () {
                 state.changePage(2);
               }),
           AddSpeedDial(),
           IconButton(
               icon: Icon(Icons.timer_rounded),
-
               color: state.page == 1
-                  ? Colors.black
-                  : Theme.of(context).unselectedWidgetColor,
+                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
               onPressed: () {
                 state.changePage(1);
               }),
           IconButton(
               icon: Icon(Icons.bar_chart_rounded),
-
               color: state.page == 3
-                  ? Colors.black
-                  : Theme.of(context).unselectedWidgetColor,
+                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
               onPressed: () {
                 state.changePage(3);
               }),
@@ -82,7 +78,7 @@ class NavigationBar extends StatelessWidget {
 //                   icon: Icon(Icons.dashboard_rounded),
 //                   color: state.page == 0
 //                       ? Colors.black
-//                       : Theme.of(context).unselectedWidgetColor,
+//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(0);
 //                   }),
@@ -90,7 +86,7 @@ class NavigationBar extends StatelessWidget {
 //                   icon: Icon(Icons.timer_rounded),
 //                   color: state.page == 1
 //                       ? Colors.black
-//                       : Theme.of(context).unselectedWidgetColor,
+//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(1);
 //                   }),
@@ -114,7 +110,7 @@ class NavigationBar extends StatelessWidget {
 //                   icon: Icon(Icons.rule_rounded),
 //                   color: state.page == 2
 //                       ? Colors.black
-//                       : Theme.of(context).unselectedWidgetColor,
+//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(2);
 //                   }),
@@ -122,7 +118,7 @@ class NavigationBar extends StatelessWidget {
 //                   icon: Icon(Icons.bar_chart_rounded),
 //                   color: state.page == 3
 //                       ? Colors.black
-//                       : Theme.of(context).unselectedWidgetColor,
+//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(3);
 //                   }),

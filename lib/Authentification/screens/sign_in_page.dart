@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/screens/about.dart';
@@ -28,10 +29,8 @@ class _SignInPageState extends State<SignInPage> {
         child: SafeArea(
             child: Scaffold(
                 appBar: AppBar(
-                  backgroundColor: Theme.of(context).accentColor,
-                  title: Text('Welcome to the AppName',
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color)),
+                  backgroundColor: DynamicColorTheme.of(context).data.accentColor,
+                  title: Text('Welcome to the AppName'),
                   actions: [
                     IconButton(
                       icon: Icon(Icons.help_rounded),
@@ -63,7 +62,7 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         ListTile(
                             title: Text(isRegister ? 'Register' : 'Sign In',
-                                style: Theme.of(context).textTheme.headline6),
+                                style: DynamicColorTheme.of(context).data.textTheme.headline6),
                             trailing: OutlinedButton.icon(
                               icon: Icon(isRegister
                                   ? Icons.account_circle_rounded
@@ -85,9 +84,9 @@ class _SignInPageState extends State<SignInPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25))),
                       child: ListTile(
-                        tileColor: Theme.of(context).cardColor,
+                        tileColor: DynamicColorTheme.of(context).data.cardColor,
                         title: Text('Sign In or Register to get Started',
-                            style: Theme.of(context).textTheme.headline6),
+                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
                       )),
                   header: Container(
                     width: MediaQuery.of(context).size.width,
@@ -98,7 +97,7 @@ class _SignInPageState extends State<SignInPage> {
                         height: 10,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
-                          color: Theme.of(context).accentColor,
+                          color: DynamicColorTheme.of(context).data.accentColor,
                         ),
                       ),
                     ),

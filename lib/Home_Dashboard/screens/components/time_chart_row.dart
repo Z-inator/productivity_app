@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,11 @@ import 'package:provider/provider.dart';
 class TimeChartRow extends StatelessWidget {
   TimeChartRow({Key key}) : super(key: key);
 
-  List<Widget> pages(List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
+  List<Widget> pages(
+      List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
     return [
-      TimeBarChart(timeEntries: timeEntries, startDay: startDay, endDay: endDay),
+      TimeBarChart(
+          timeEntries: timeEntries, startDay: startDay, endDay: endDay),
       TimePieChart(timeEntries: timeEntries),
       RecentTimeList(timeEntries: timeEntries)
     ];
@@ -39,22 +42,31 @@ class TimeChartRow extends StatelessWidget {
     return timeRangeEntries == null
         ? Center(child: CircularProgressIndicator())
         : timeRangeEntries.isEmpty
-            ? Center(child: Text('Add Time Entries to this week to see Recorded Data'))
+            ? Center(
+                child:
+                    Text('Add Time Entries to this week to see Recorded Data'))
             : Column(
-              children: [
-                ListTile(
-                  title: Text('Recorded Time',
-                      style: Theme.of(context).textTheme.headline5),
-                  subtitle: Text(TimeFunctions().timeToText(seconds: totalTimeRangeTime)),
-                  // TODO: implement a report screen
-                  // trailing: IconButton(
-                  //   icon: Icon(Icons.insights_rounded),
-                  //   tooltip: 'Reports',
-                  //   onPressed: () {},
-                  // ),
-                ),
-                Expanded(child: PageViewRow(pages: pages(timeRangeEntries, currentWeek[0], currentWeek[1]))),
-              ],
-            );
+                children: [
+                  ListTile(
+                    title: Text('Recorded Time',
+                        style: DynamicColorTheme.of(context)
+                            .data
+                            .textTheme
+                            .headline5),
+                    subtitle: Text(TimeFunctions()
+                        .timeToText(seconds: totalTimeRangeTime)),
+                    // TODO: implement a report screen
+                    // trailing: IconButton(
+                    //   icon: Icon(Icons.insights_rounded),
+                    //   tooltip: 'Reports',
+                    //   onPressed: () {},
+                    // ),
+                  ),
+                  Expanded(
+                      child: PageViewRow(
+                          pages: pages(timeRangeEntries, currentWeek[0],
+                              currentWeek[1]))),
+                ],
+              );
   }
 }

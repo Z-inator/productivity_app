@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -31,7 +32,8 @@ class TaskByDueDate extends StatelessWidget {
             : ListView(
                 padding: EdgeInsets.only(bottom: 100),
                 children: days.map((day) {
-                  List<Task> associatedTasks = taskService.getTasksByDate(tasks, day, true);
+                  List<Task> associatedTasks =
+                      taskService.getTasksByDate(tasks, day, true);
                   return Container(
                     padding: EdgeInsets.all(10),
                     child: Card(
@@ -43,7 +45,10 @@ class TaskByDueDate extends StatelessWidget {
                             title: Text(DateTimeFunctions()
                                 .dateTimeToTextDate(date: day)),
                             trailing: Text(associatedTasks.length.toString(),
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: DynamicColorTheme.of(context)
+                                    .data
+                                    .textTheme
+                                    .subtitle1),
                           ),
                           GroupedTasks(associatedTasks: associatedTasks)
                         ],

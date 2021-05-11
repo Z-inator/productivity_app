@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -18,83 +19,100 @@ class TimeEntryExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService databaseService = Provider.of<DatabaseService>(context);
+    final DatabaseService databaseService =
+        Provider.of<DatabaseService>(context);
     TimeService timeService = Provider.of<TimeService>(context);
     return ExpansionTile(
-      leading: IconButton(
-          icon: Icon(Icons.topic_rounded),
-          color: Color(entry.project.projectColor),
-          onPressed: () {}),
+      leading: Icon(Icons.check_circle_rounded,
+          color: Color(entry.task.status.statusColor)),
       title: Text(entry.entryName),
       subtitle: Text(entry.project.projectName,
-          style: TextStyle(color: Color(entry.project.projectColor))),
-      trailing: Text(TimeFunctions().timeToText(seconds: entry.elapsedTime)),
+          style: DynamicColorTheme.of(context)
+              .data
+              .textTheme
+              .subtitle1
+              .copyWith(color: Color(entry.project.projectColor))),
+      trailing: Text(TimeFunctions().timeToText(seconds: entry.elapsedTime),
+          style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
       children: [
         Theme(
-          data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          data: DynamicColorTheme.of(context)
+              .data
+              .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                    icon: Icon(Icons.play_arrow_rounded),
-                    tooltip: 'Start Timer',
-                    onPressed: () => 
-                        Provider.of<StopwatchState>(context, listen: false)
-                            .startStopwatch(oldEntry: entry),
+                  icon: Icon(Icons.play_arrow_rounded),
+                  tooltip: 'Start Timer',
+                  onPressed: () =>
+                      Provider.of<StopwatchState>(context, listen: false)
+                          .startStopwatch(oldEntry: entry),
                 ),
                 IconButton(
-                    icon: Icon(Icons.delete_rounded),
-                    tooltip: 'Delete Time Entry',
-                    onPressed: () => showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Delete Time Entry: ${entry.entryName}?'),
-                            content: ListTile(
-                              title: Text(
-                                  'This will permanently delete this time entry.\nIt will remove this recorded time from projects and tasks.'),
+                  icon: Icon(Icons.delete_rounded),
+                  tooltip: 'Delete Time Entry',
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Delete Time Entry: ${entry.entryName}?'),
+                          content: ListTile(
+                            title: Text(
+                                'This will permanently delete this time entry.\nIt will remove this recorded time from projects and tasks.'),
+                          ),
+                          actions: [
+                            OutlinedButton.icon(
+                              icon: Icon(Icons.cancel_rounded),
+                              label: Text('Cancel'),
+                              onPressed: () => Navigator.pop(context),
                             ),
-                            actions: [
-                              OutlinedButton.icon(
-                                icon: Icon(Icons.cancel_rounded),
-                                label: Text('Cancel'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                              ElevatedButton.icon(
-                                  icon: Icon(Icons.check_circle_outline_rounded),
-                                  label: Text('Delete'),
-                                  onPressed: () {
-                                    databaseService.deleteItem(
-                                        type: 'timeEntries',
-                                        itemID: entry.id);
-                                    Navigator.pop(context);
-                                  })
-                            ],
-                          );
-                        }),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.edit_rounded),
-                    tooltip: 'Edit Time Entry',
-                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                        context: context,
-                        bottomSheet:
-                            TimeEntryEditBottomSheet(isUpdate: true, entry: entry)),
-                  ),
+                            ElevatedButton.icon(
+                                icon: Icon(Icons.check_circle_outline_rounded),
+                                label: Text('Delete'),
+                                onPressed: () {
+                                  databaseService.deleteItem(
+                                      type: 'timeEntries', itemID: entry.id);
+                                  Navigator.pop(context);
+                                })
+                          ],
+                        );
+                      }),
+                ),
+                IconButton(
+                  icon: Icon(Icons.edit_rounded),
+                  tooltip: 'Edit Time Entry',
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                      context: context,
+                      bottomSheet: TimeEntryEditBottomSheet(
+                          isUpdate: true, entry: entry)),
+                ),
               ],
             ),
             children: [
               ListTile(
-                title: Text(DateTimeFunctions().dateTimeToTextDate(date: entry.endTime)),
-                trailing: Text('${DateFormat.jm().format(entry.startTime)} - ${DateFormat.jm().format(entry.endTime)}', style: Theme.of(context).textTheme.subtitle1),
+                title: Text(DateTimeFunctions()
+                    .dateTimeToTextDate(date: entry.endTime)),
+                trailing: Text(
+                    '${DateFormat.jm().format(entry.startTime)} - ${DateFormat.jm().format(entry.endTime)}',
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
               ),
               ListTile(
                 leading: OutlinedButton.icon(
-                  style: Theme.of(context).outlinedButtonTheme.style,
-                  icon: Icon(Icons.topic_rounded, color: Color(entry.project.projectColor)),
-                  label: Text(entry.project.projectName, style: Theme.of(context).textTheme.subtitle1),
+                  style: DynamicColorTheme.of(context)
+                      .data
+                      .outlinedButtonTheme
+                      .style,
+                  icon: Icon(Icons.topic_rounded,
+                      color: Color(entry.project.projectColor)),
+                  label: Text(entry.project.projectName,
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -106,7 +124,6 @@ class TimeEntryExpansionTile extends StatelessWidget {
                 ),
                 // trailing: Text('Task Status: ${entry.task.taskName}'),
               ),
-              
             ],
           ),
         )

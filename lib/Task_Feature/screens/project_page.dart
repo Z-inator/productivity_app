@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,7 +54,8 @@ class ProjectPage extends StatelessWidget {
             IconButton(
                 icon: Icon(
                   Icons.edit_rounded,
-                  color: Theme.of(context).unselectedWidgetColor,
+                  color:
+                      DynamicColorTheme.of(context).data.unselectedWidgetColor,
                 ),
                 onPressed: () => EditBottomSheet().buildEditBottomSheet(
                     context: context,
@@ -61,7 +63,8 @@ class ProjectPage extends StatelessWidget {
                         isUpdate: true, project: project))),
           ],
           bottom: TabBar(
-              unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
+              unselectedLabelColor:
+                  DynamicColorTheme.of(context).data.unselectedWidgetColor,
               labelColor: Colors.black,
               tabs: [
                 Tab(icon: Icon(Icons.dashboard_rounded)),
@@ -104,39 +107,39 @@ class ProjectPageSpeedDial extends StatelessWidget {
       tooltip: 'Add Menu',
       buttonSize: 40,
       childrenButtonSize: 40,
-      backgroundColor: Theme.of(context).accentColor,
-      foregroundColor: Theme.of(context).primaryColor,
+      backgroundColor: DynamicColorTheme.of(context).data.accentColor,
+      foregroundColor: DynamicColorTheme.of(context).data.primaryColor,
       elevation: 4,
       shape: CircleBorder(),
       children: [
         SpeedDialChild(
-            child:
-                Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
+            child: Icon(Icons.timer_rounded,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
             onTap: () {} //TODO: add timer start here
             ),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded,
-                color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(
                     isUpdate: false, entry: TimeEntry(project: project)))),
         SpeedDialChild(
-            child:
-                Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
+            child: Icon(Icons.rule_rounded,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
-                bottomSheet:
-                    TaskEditBottomSheet(isUpdate: false, task: Task(project: project)))),
+                bottomSheet: TaskEditBottomSheet(
+                    isUpdate: false, task: Task(project: project)))),
       ],
       // TODO: Implement Goal/Habits
       // SpeedDialChild(
       //     child: Icon(Icons.bar_chart_rounded,
-      //         color: Theme.of(context).accentColor),
-      //     backgroundColor: Theme.of(context).cardColor,
+      //         color: DynamicColorTheme.of(context).data.accentColor),
+      //     backgroundColor: DynamicColorTheme.of(context).data.cardColor,
       //     onTap: () {})
     );
   }
@@ -178,9 +181,9 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //         children: [
 //           project.projectClient != null
 //               ? Text('Client: ${project.projectClient}',
-//                   style: Theme.of(context).textTheme.subtitle1)
+//                   style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
 //               : Text(''),
-//           Text('Tasks: 10', style: Theme.of(context).textTheme.subtitle1),
+//           Text('Tasks: 10', style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //         ],
 //       ),
 //     ),
@@ -190,7 +193,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //         children: [
 //           Text('Time: ${project.projectTime}',
-//               style: Theme.of(context).textTheme.subtitle1),
+//               style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //           OutlinedButton.icon(
 //             icon: Icon(Icons.playlist_add_check_rounded),
 //             label: Text('Tasks\n10'), // TODO: make this a live number
@@ -224,9 +227,9 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //           children: [
 //             project.projectClient != null
 //                 ? Text('Client: ${project.projectClient}',
-//                     style: Theme.of(context).textTheme.subtitle1)
+//                     style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
 //                 : Text(''),
-//             Text('Tasks: 10', style: Theme.of(context).textTheme.subtitle1),
+//             Text('Tasks: 10', style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //           ],
 //         ),
 //       ),
@@ -236,7 +239,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //           children: [
 //             Text('Time: ${project.projectTime}',
-//                 style: Theme.of(context).textTheme.subtitle1),
+//                 style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //             OutlinedButton.icon(
 //               icon: Icon(Icons.playlist_add_check_rounded),
 //               label: Text('Tasks\n10'), // TODO: make this a live number
@@ -257,7 +260,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //   padding: EdgeInsets.all(20),
 //   minHeight: 100,
 //   maxHeight: MediaQuery.of(context).size.height / 5,
-//   header: Text(project.projectName, style: Theme.of(context).textTheme.headline5.copyWith(color: Color(project.projectColor), fontWeight: FontWeight.bold)),
+//   header: Text(project.projectName, style: DynamicColorTheme.of(context).data.textTheme.headline5.copyWith(color: Color(project.projectColor), fontWeight: FontWeight.bold)),
 //   // collapsed: Container(
 //   //   decoration: BoxDecoration(
 //   //     borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),

@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Services/database.dart';
@@ -24,8 +25,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final TimeEntry entry;
 
-  TimeEntryEditBottomSheet(
-      {Key key, this.isUpdate, this.entry})
+  TimeEntryEditBottomSheet({Key key, this.isUpdate, this.entry})
       : super(key: key);
 
   @override
@@ -33,7 +33,8 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TimeEntryEditState(oldEntry: entry),
       builder: (context, child) {
-        final DatabaseService databaseService = Provider.of<DatabaseService>(context);
+        final DatabaseService databaseService =
+            Provider.of<DatabaseService>(context);
         final TimeEntryEditState timeEntryEditState =
             Provider.of<TimeEntryEditState>(context);
         return Container(
@@ -54,66 +55,75 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(
                     Icons.topic_rounded,
-                    color: Color(timeEntryEditState.newEntry.project.projectColor),
+                    color:
+                        Color(timeEntryEditState.newEntry.project.projectColor),
                   ),
                   title: Text(
                       timeEntryEditState.newEntry.project.projectName.isEmpty
                           ? 'Add Project'
                           : timeEntryEditState.newEntry.project.projectName,
-                      style: Theme.of(context).textTheme.subtitle1),
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: Theme.of(context).unselectedWidgetColor),
+                      color: DynamicColorTheme.of(context)
+                          .data
+                          .unselectedWidgetColor),
                 ),
               ),
               TaskPicker(
                 saveTask: timeEntryEditState.updateEntryTask,
                 child: ListTile(
                   leading: Icon(Icons.check_circle_rounded,
-                      color: Color(timeEntryEditState.newEntry.task.status.statusColor)),
+                      color: Color(
+                          timeEntryEditState.newEntry.task.status.statusColor)),
                   title: Text(timeEntryEditState.newEntry.task.taskName.isEmpty
                       ? 'Add Task'
                       : timeEntryEditState.newEntry.task.taskName),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: Theme.of(context).unselectedWidgetColor),
+                      color: DynamicColorTheme.of(context)
+                          .data
+                          .unselectedWidgetColor),
                 ),
               ),
               ListTile(
                 leading: OutlinedButton.icon(
-                      onPressed: () => DateAndTimePickers().selectDate(
-                          context: context,
-                          initialDate: isUpdate
-                              ? timeEntryEditState.newEntry.startTime
-                              : DateTime.now(),
-                          saveDate: timeEntryEditState.updateDate),
-                      icon: Icon(Icons.today_rounded),
-                      label: Text(DateTimeFunctions().dateTimeToTextDate(
-                          date: timeEntryEditState.newEntry.startTime))),
+                    onPressed: () => DateAndTimePickers().selectDate(
+                        context: context,
+                        initialDate: isUpdate
+                            ? timeEntryEditState.newEntry.startTime
+                            : DateTime.now(),
+                        saveDate: timeEntryEditState.updateDate),
+                    icon: Icon(Icons.today_rounded),
+                    label: Text(DateTimeFunctions().dateTimeToTextDate(
+                        date: timeEntryEditState.newEntry.startTime))),
                 trailing: OutlinedButton.icon(
-                      onPressed: () => DateAndTimePickers()
-                          .buildTimeRangePicker(
-                              context: context,
-                              saveTimeRange: timeEntryEditState.updateStartEndTime),
-                      icon: Icon(Icons.timelapse_rounded),
-                      label: Text(
-                          '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime).format(context)}')),
+                    onPressed: () => DateAndTimePickers().buildTimeRangePicker(
+                        context: context,
+                        saveTimeRange: timeEntryEditState.updateStartEndTime),
+                    icon: Icon(Icons.timelapse_rounded),
+                    label: Text(
+                        '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime).format(context)}')),
               ),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.check_circle_outline_rounded),
-                    label: Text(isUpdate ? 'Update' : 'Add'),
-                    onPressed: () {
-                      isUpdate
+                      icon: Icon(Icons.check_circle_outline_rounded),
+                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      onPressed: () {
+                        isUpdate
                             ? databaseService.updateItem(
                                 type: 'timeEntries',
                                 itemID: entry.id,
-                                updateData: timeEntryEditState.newEntry.toFirestore())
+                                updateData:
+                                    timeEntryEditState.newEntry.toFirestore())
                             : databaseService.addItem(
                                 type: 'timeEntries',
-                                addData: timeEntryEditState.newEntry.toFirestore());
+                                addData:
+                                    timeEntryEditState.newEntry.toFirestore());
                         Navigator.pop(context);
-                      }
-                  ))
+                      }))
             ]));
       },
     );

@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
 import 'package:provider/provider.dart';
@@ -22,9 +23,9 @@ class FilterButtonRow extends StatelessWidget {
       icon: Icon(Icons.check_circle_rounded),
       label: Text('Status'),
       style: OutlinedButton.styleFrom(
-        primary: taskBodyState.page == 0 ? Theme.of(context).primaryColor : null,
+        primary: taskBodyState.page == 0 ? DynamicColorTheme.of(context).data.primaryColor : DynamicColorTheme.of(context).data.accentColor,
         backgroundColor:
-            taskBodyState.page == 0 ? Theme.of(context).accentColor : null,
+            taskBodyState.page == 0 ? DynamicColorTheme.of(context).data.accentColor : DynamicColorTheme.of(context).data.primaryColor,
       ),
     ),
             ),
@@ -37,9 +38,9 @@ class FilterButtonRow extends StatelessWidget {
       icon: Icon(Icons.topic_rounded),
       label: Text('Project'),
       style: OutlinedButton.styleFrom(
-        primary: taskBodyState.page == 1 ? Theme.of(context).primaryColor : null,
+        primary: taskBodyState.page == 1 ? DynamicColorTheme.of(context).data.primaryColor : DynamicColorTheme.of(context).data.accentColor,
         backgroundColor:
-            taskBodyState.page == 1 ? Theme.of(context).accentColor : null,
+            taskBodyState.page == 1 ? DynamicColorTheme.of(context).data.accentColor : DynamicColorTheme.of(context).data.primaryColor,
       ),
     ),
             ),
@@ -52,9 +53,9 @@ class FilterButtonRow extends StatelessWidget {
       icon: Icon(Icons.notification_important_rounded),
       label: Text('Due Date'),
       style: OutlinedButton.styleFrom(
-        primary: taskBodyState.page == 2 ? Theme.of(context).primaryColor : null,
+        primary: taskBodyState.page == 2 ? DynamicColorTheme.of(context).data.primaryColor : DynamicColorTheme.of(context).data.accentColor,
         backgroundColor:
-            taskBodyState.page == 2 ? Theme.of(context).accentColor : null,
+            taskBodyState.page == 2 ? DynamicColorTheme.of(context).data.accentColor : DynamicColorTheme.of(context).data.primaryColor,
       ),
     ),
             ),
@@ -67,9 +68,9 @@ class FilterButtonRow extends StatelessWidget {
       icon: Icon(Icons.playlist_add_rounded),
       label: Text('Create Date'),
       style: OutlinedButton.styleFrom(
-        primary: taskBodyState.page == 3 ? Theme.of(context).primaryColor : null,
+        primary: taskBodyState.page == 3 ? DynamicColorTheme.of(context).data.primaryColor : DynamicColorTheme.of(context).data.accentColor,
         backgroundColor:
-            taskBodyState.page == 3 ? Theme.of(context).accentColor : null,
+            taskBodyState.page == 3 ? DynamicColorTheme.of(context).data.accentColor : DynamicColorTheme.of(context).data.primaryColor,
       ),
     ),
             ),

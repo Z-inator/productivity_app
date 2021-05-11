@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,7 @@ class PageViewDots extends StatelessWidget {
       width: state.activePage == index ? 12 : 8,
       decoration: BoxDecoration(
           color: state.activePage == index
-              ? Theme.of(context).accentColor
+              ? DynamicColorTheme.of(context).data.accentColor
               : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(25))),
     );

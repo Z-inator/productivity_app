@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
@@ -15,14 +16,13 @@ import 'package:provider/provider.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 
 class AddSpeedDial extends StatelessWidget {
-
   // List<SpeedDialChild> getSpeedDialChildren(
   //     BuildContext context, Map<IconData, Future> options) {
   //   List<SpeedDialChild> children = [];
   //   options.forEach((key, value) {
   //     SpeedDialChild temp = SpeedDialChild(
-  //       child: Icon(key, color: Theme.of(context).accentColor),
-  //       backgroundColor: Theme.of(context).cardColor,
+  //       child: Icon(key, color: DynamicColorTheme.of(context).data.accentColor),
+  //       backgroundColor: DynamicColorTheme.of(context).data.cardColor,
   //       onTap: () => value,
   //     );
   //     children.add(temp);
@@ -46,35 +46,36 @@ class AddSpeedDial extends StatelessWidget {
       tooltip: 'Add Menu',
       buttonSize: 45,
       childrenButtonSize: 45,
-      backgroundColor: Theme.of(context).accentColor,
-      foregroundColor: Theme.of(context).primaryColor,
+      backgroundColor: DynamicColorTheme.of(context).data.accentColor,
+      foregroundColor: DynamicColorTheme.of(context).data.primaryColor,
       elevation: 0,
       shape: CircleBorder(),
       // openCloseDial: ValueNotifier(_value),
       children: [
         SpeedDialChild(
-            child:
-                Icon(Icons.timer_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
-            onTap: () => Provider.of<StopwatchState>(context, listen: false).startStopwatch(oldEntry: TimeEntry())),
+            child: Icon(Icons.timer_rounded,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            onTap: () => Provider.of<StopwatchState>(context, listen: false)
+                .startStopwatch(oldEntry: TimeEntry())),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded,
-                color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(isUpdate: false))),
         SpeedDialChild(
-            child:
-                Icon(Icons.rule_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
+            child: Icon(Icons.rule_rounded,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TaskEditBottomSheet(isUpdate: false))),
         SpeedDialChild(
-            child:
-                Icon(Icons.topic_rounded, color: Theme.of(context).accentColor),
-            backgroundColor: Theme.of(context).cardColor,
+            child: Icon(Icons.topic_rounded,
+                color: DynamicColorTheme.of(context).data.accentColor),
+            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: ProjectEditBottomSheet(isUpdate: false))),
@@ -82,8 +83,8 @@ class AddSpeedDial extends StatelessWidget {
       // TODO: Implement Goal/Habits
       // SpeedDialChild(
       //     child: Icon(Icons.bar_chart_rounded,
-      //         color: Theme.of(context).accentColor),
-      //     backgroundColor: Theme.of(context).cardColor,
+      //         color: DynamicColorTheme.of(context).data.accentColor),
+      //     backgroundColor: DynamicColorTheme.of(context).data.cardColor,
       //     onTap: () {})
     );
   }

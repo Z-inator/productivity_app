@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
@@ -49,11 +50,11 @@ class TimeBarChart extends StatelessWidget {
                         border: Border(
                             left: BorderSide(
                                 width: 5,
-                                color: Theme.of(context).unselectedWidgetColor),
+                                color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
                             bottom: BorderSide(
                                 width: 5,
                                 color:
-                                    Theme.of(context).unselectedWidgetColor))),
+                                    DynamicColorTheme.of(context).data.unselectedWidgetColor))),
                     gridData: FlGridData(
                         show: true,
                         drawHorizontalLine: true,
@@ -71,7 +72,7 @@ class TimeBarChart extends StatelessWidget {
                           margin: 10,
                           showTitles: true,
                           getTextStyles: (value) =>
-                              Theme.of(context).textTheme.subtitle1,
+                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
                           getTitles: (value) {
                             int newValue = value.toInt() + 7;
                             int dayValue = newValue % 7;
@@ -100,7 +101,7 @@ class TimeBarChart extends StatelessWidget {
                           margin: 10,
                           interval: (2 * (60 * 60)).toDouble(),
                           getTextStyles: (value) =>
-                              Theme.of(context).textTheme.subtitle1,
+                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
                           getTitles: (value) {
                             int hourValue = value ~/ (60 * 60);
                             if (value == 0) {
@@ -122,7 +123,7 @@ class TimeBarChart extends StatelessWidget {
                             .timeToText(seconds: entry.values.first);
                         return BarTooltipItem(
                             '${day.month} / ${day.day}\n$dayTime',
-                            Theme.of(context)
+                            DynamicColorTheme.of(context).data
                                 .textTheme
                                 .subtitle1
                                 .copyWith(color: Colors.white),

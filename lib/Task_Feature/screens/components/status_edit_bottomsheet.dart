@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
@@ -18,12 +19,12 @@ class StatusEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return ChangeNotifierProvider(
       create: (context) => StatusEditState(oldStatus: status),
       builder: (context, child) {
-        final StatusEditState statusEditState = Provider.of<StatusEditState>(context);
-                final DatabaseService databaseService =
+        final StatusEditState statusEditState =
+            Provider.of<StatusEditState>(context);
+        final DatabaseService databaseService =
             Provider.of<DatabaseService>(context);
         // final StatusService statusService = Provider.of<StatusService>(context);
         return Container(
@@ -33,9 +34,9 @@ class StatusEditBottomSheet extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  hintText: statusEditState.newStatus.statusName.isEmpty
-                    ? 'Enter Status Name'
-                    : statusEditState.newStatus.statusName),
+                    hintText: statusEditState.newStatus.statusName.isEmpty
+                        ? 'Enter Status Name'
+                        : statusEditState.newStatus.statusName),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
                   statusEditState.updateStatusName(newText);
@@ -47,14 +48,20 @@ class StatusEditBottomSheet extends StatelessWidget {
               CheckboxListTile(
                   value: statusEditState.newStatus.equalToComplete,
                   title: Text('This Status represents Task Complete:',
-                      style: Theme.of(context).textTheme.subtitle1),
-                  subtitle: Text('Checking this box will keep tasks related to this status from displaying as late tasks.'),
-                  onChanged: (bool value) => statusEditState.updateStatusComplete(value)),
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
+                  subtitle: Text(
+                      'Checking this box will keep tasks related to this status from displaying as late tasks.'),
+                  onChanged: (bool value) =>
+                      statusEditState.updateStatusComplete(value)),
               TextField(
                 decoration: InputDecoration(
-                  hintText: statusEditState.newStatus.statusDescription.isEmpty
-                    ? 'Enter Status Description'
-                    : statusEditState.newStatus.statusDescription),
+                    hintText:
+                        statusEditState.newStatus.statusDescription.isEmpty
+                            ? 'Enter Status Description'
+                            : statusEditState.newStatus.statusDescription),
                 textAlign: TextAlign.center,
                 maxLength: 150,
                 maxLines: 3,
@@ -65,20 +72,21 @@ class StatusEditBottomSheet extends StatelessWidget {
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.check_circle_outline_rounded),
-                    label: Text(isUpdate ? 'Update' : 'Add'),
-                    onPressed: () {
-                      isUpdate
+                      icon: Icon(Icons.check_circle_outline_rounded),
+                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      onPressed: () {
+                        isUpdate
                             ? databaseService.updateItem(
                                 type: 'statuses',
                                 itemID: status.id,
-                                updateData: statusEditState.newStatus.toFirestore())
+                                updateData:
+                                    statusEditState.newStatus.toFirestore())
                             : databaseService.addItem(
                                 type: 'statuses',
-                                addData: statusEditState.newStatus.toFirestore());
+                                addData:
+                                    statusEditState.newStatus.toFirestore());
                         Navigator.pop(context);
-                      }
-                  ))
+                      }))
             ],
           ),
         );

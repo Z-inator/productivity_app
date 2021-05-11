@@ -18,11 +18,11 @@ class SettingsDrawer extends StatelessWidget {
         child: Column(
       children: [
         DrawerHeader(
-            decoration: BoxDecoration(color: Theme.of(context).accentColor),
+            decoration: BoxDecoration(color: DynamicColorTheme.of(context).data.accentColor),
             child: ListTile(
               title: Text(user.displayName,
                   style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2.color,
+                      color: DynamicColorTheme.of(context).data.textTheme.subtitle2.color,
                       fontSize: 24)),
               trailing: IconButton(
                   icon: Icon(Icons.cancel_rounded),
@@ -74,6 +74,7 @@ class ThemeSettings extends StatelessWidget {
         SwitchListTile(
           title: Text('Dark Mode'),
           value: DynamicColorTheme.of(context).isDark,
+          activeColor: DynamicColorTheme.of(context).data.accentColor,
           onChanged: (value) => DynamicColorTheme.of(context).setIsDark(isDark: value, shouldSave: true),
         ),
         ListTile(

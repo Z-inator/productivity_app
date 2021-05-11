@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -43,13 +44,13 @@ class HomeScreen extends StatelessWidget {
                   Text(
                       'The secret of your future is hidden in your daily routine.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
+                      style: DynamicColorTheme.of(context).data
                           .textTheme
                           .subtitle1
                           .copyWith(fontStyle: FontStyle.italic)),
                   Text('Mike Murdock',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle1)
+                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
                 ],
               ),
             ),
@@ -61,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                 child: TaskDueRow()),
             ListTile(
               title: Text('Statuses',
-                  style: Theme.of(context).textTheme.headline5),
+                  style: DynamicColorTheme.of(context).data.textTheme.headline5),
               trailing: IconButton(
                 icon: Icon(Icons.edit_rounded),
                 onPressed: () {

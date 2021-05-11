@@ -42,7 +42,7 @@
 //           return AlertDialog(
 //             title: Text('Enter Time',
 //                 style:
-//                     TextStyle(color: Theme.of(context).unselectedWidgetColor)),
+//                     TextStyle(color: DynamicColorTheme.of(context).data.unselectedWidgetColor)),
 //             shape: RoundedRectangleBorder(
 //                 borderRadius: BorderRadius.all(Radius.circular(25))),
 //             content: Row(
@@ -56,14 +56,14 @@
 //                     // controller: _textEditingControllerHour,
 //                     style: TextStyle(
 //                       fontSize: 50,
-//                       color: Theme.of(context).unselectedWidgetColor,
+//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                     ),
 //                     decoration: InputDecoration(
 //                         counterText: '',
 //                         contentPadding: EdgeInsets.all(5),
 //                         focusedBorder: OutlineInputBorder(
 //                             borderSide: BorderSide(
-//                                 color: Theme.of(context).accentColor)),
+//                                 color: DynamicColorTheme.of(context).data.accentColor)),
 //                         border: OutlineInputBorder()),
 //                     keyboardType: TextInputType.number,
 //                     inputFormatters: [
@@ -92,7 +92,7 @@
 //                     child: Text(
 //                       ':',
 //                       textAlign: TextAlign.center,
-//                       style: Theme.of(context).textTheme.headline3,
+//                       style: DynamicColorTheme.of(context).data.textTheme.headline3,
 //                     )),
 //                 Expanded(
 //                   child: TextField(
@@ -101,14 +101,14 @@
 //                     // controller: _textEditingControllerMinute,
 //                     style: TextStyle(
 //                       fontSize: 50,
-//                       color: Theme.of(context).unselectedWidgetColor,
+//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                     ),
 //                     decoration: InputDecoration(
 //                         counterText: '',
 //                         contentPadding: EdgeInsets.all(5),
 //                         focusedBorder: OutlineInputBorder(
 //                             borderSide: BorderSide(
-//                                 color: Theme.of(context).accentColor)),
+//                                 color: DynamicColorTheme.of(context).data.accentColor)),
 //                         border: OutlineInputBorder()),
 //                     keyboardType: TextInputType.number,
 //                     inputFormatters: [
@@ -117,7 +117,7 @@
 //                     ],
 //                     onChanged: (value) {
 //                       setState(() {
-                        
+
 //                       });
 //                     },
 //                     // onEditingComplete: () {
@@ -146,7 +146,7 @@
 //                         onPressed: () {},
 //                         icon: Icon(
 //                           Icons.access_time_rounded,
-//                           color: Theme.of(context).unselectedWidgetColor,
+//                           color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
 //                         )),
 //                   ),
 //                   Container(

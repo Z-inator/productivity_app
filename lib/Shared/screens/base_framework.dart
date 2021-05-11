@@ -1,4 +1,5 @@
 // import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/screens/components/bottom_navigation_bar.dart';
 import 'package:productivity_app/Shared/screens/components/page_body.dart';
@@ -38,23 +39,22 @@ class BaseFramework extends StatelessWidget {
         : ChangeNotifierProvider(
             create: (context) => PageState(page: 0, widget: HomeScreen()),
             builder: (context, child) {
-              StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
+              StopwatchState stopwatchState =
+                  Provider.of<StopwatchState>(context);
               return Container(
-                  decoration:
-                      BoxDecoration(color: Theme.of(context).canvasColor),
+                  decoration: BoxDecoration(
+                      color: DynamicColorTheme.of(context).data.canvasColor),
                   child: SafeArea(
                     child: Scaffold(
                       extendBody: true,
-                      body: Column(
-                        children: [
-                          stopwatchState.stopwatch.isRunning
-                          ? StopWatchTile()
-                          : Container(),
-                          Expanded(child: PageBody())
-                        ]  
-                      ),
+                      body: Column(children: [
+                        stopwatchState.stopwatch.isRunning
+                            ? StopWatchTile()
+                            : Container(),
+                        Expanded(child: PageBody())
+                      ]),
                       bottomNavigationBar: NavigationBar(),
-                      // bottomSheet: 
+                      // bottomSheet:
                       drawer: SettingsDrawer(),
                     ),
                   ));
@@ -69,7 +69,7 @@ class BaseFramework extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return AppBar(
-      
+
 //     );
 //   }
 // }

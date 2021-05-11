@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -22,15 +23,20 @@ class GroupedTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return associatedTasks == null 
-    ? Center(child: CircularProgressIndicator(),)
-    : associatedTasks.isEmpty
-        ? Center(child: Text('No Tasks Yet', style: Theme.of(context).textTheme.caption,))
-        : ListBody(
-            children: associatedTasks.map((task) {
-              return TaskExpansionTile(task: task);
-            }).toList(),
-          );
+    return associatedTasks == null
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : associatedTasks.isEmpty
+            ? Center(
+                child: Text(
+                'No Tasks Yet',
+                style: DynamicColorTheme.of(context).data.textTheme.caption,
+              ))
+            : ListBody(
+                children: associatedTasks.map((task) {
+                  return TaskExpansionTile(task: task);
+                }).toList(),
+              );
   }
 }

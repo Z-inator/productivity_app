@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Services/database.dart';
@@ -16,7 +17,6 @@ import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
-
 class TaskEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final Task task;
@@ -32,7 +32,8 @@ class TaskEditBottomSheet extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TaskEditState(oldTask: task),
       builder: (context, child) {
-        final DatabaseService databaseService = Provider.of<DatabaseService>(context);
+        final DatabaseService databaseService =
+            Provider.of<DatabaseService>(context);
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
         final TaskService taskService = Provider.of<TaskService>(context);
         return Container(
@@ -59,16 +60,27 @@ class TaskEditBottomSheet extends StatelessWidget {
                       taskEditState.newTask.project.projectName.isEmpty
                           ? 'Add Project'
                           : taskEditState.newTask.project.projectName,
-                      style: Theme.of(context).textTheme.subtitle1),
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: Theme.of(context).unselectedWidgetColor),
+                      color: DynamicColorTheme.of(context)
+                          .data
+                          .unselectedWidgetColor),
                 ),
               ),
-              StatusPicker(saveStatus: taskEditState.updateTaskStatus, task: taskEditState.newTask),
+              StatusPicker(
+                  saveStatus: taskEditState.updateTaskStatus,
+                  task: taskEditState.newTask),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('Due: ', style: Theme.of(context).textTheme.subtitle1),
+                  Text('Due: ',
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
                   OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
@@ -102,12 +114,11 @@ class TaskEditBottomSheet extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child:
-                    ElevatedButton.icon(
-                  icon: Icon(Icons.check_circle_outline_rounded),
-                  label: Text(isUpdate ? 'Update' : 'Add'),
-                  onPressed: () {
-                    isUpdate
+                child: ElevatedButton.icon(
+                    icon: Icon(Icons.check_circle_outline_rounded),
+                    label: Text(isUpdate ? 'Update' : 'Add'),
+                    onPressed: () {
+                      isUpdate
                           ? databaseService.updateItem(
                               type: 'tasks',
                               itemID: task.id,
@@ -116,15 +127,13 @@ class TaskEditBottomSheet extends StatelessWidget {
                               type: 'tasks',
                               addData: taskEditState.newTask.toFirestore());
                       Navigator.pop(context);
-                    }
-                ),
+                    }),
               )
             ]));
       },
     );
   }
 }
-
 
 // class TaskEditBottomSheet extends StatefulWidget {
 //   final bool isUpdate;
@@ -224,16 +233,16 @@ class TaskEditBottomSheet extends StatelessWidget {
 //                           newTask.project.projectName.isEmpty
 //                               ? 'Add Project'
 //                               : newTask.project.projectName,
-//                           style: Theme.of(context).textTheme.subtitle1),
+//                           style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //                       trailing: Icon(Icons.arrow_drop_down_rounded,
-//                           color: Theme.of(context).unselectedWidgetColor),
+//                           color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
 //                     ),
 //                   ),
 //                   StatusPicker(saveStatus: updateStatus, task: newTask),
 //                   Row(
 //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                     children: [
-//                       Text('Due: ', style: Theme.of(context).textTheme.subtitle1),
+//                       Text('Due: ', style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //                       OutlinedButton.icon(
 //                         onPressed: () => DateAndTimePickers().selectDate(
 //                             context: context,
@@ -289,4 +298,4 @@ class TaskEditBottomSheet extends StatelessWidget {
 //     );
 //   }
 // }
-// 
+//

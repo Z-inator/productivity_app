@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
@@ -33,40 +34,48 @@ class StatusExpansionTile extends StatelessWidget {
         taskService.getTasksByStatus(Provider.of<List<Task>>(context), status);
     int taskCount = statusService.getTaskCount(tasks, status);
     return Theme(
-        data: ThemeData().copyWith(dividerColor: Colors.transparent),
+        data: DynamicColorTheme.of(context)
+            .data
+            .copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           key: key,
           leading: Icon(Icons.circle, color: Color(status.statusColor)),
           title: Text(
             status.statusName,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: DynamicColorTheme.of(context)
+                .data
+                .textTheme
+                .subtitle1
+                .copyWith(fontWeight: FontWeight.bold),
           ),
           children: [
-                ListTile(
-                  title: Text('Tasks: $taskCount',
-                      style: Theme.of(context).textTheme.subtitle1),
-                  trailing: IconButton(
-                    icon: Icon(Icons.add_rounded),
-                    tooltip: 'Add Task',
-                    onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                        context: context,
-                        bottomSheet: TaskEditBottomSheet(
-                            isUpdate: false, task: Task(status: status))),
-                  )
-                ),
-                ListTile(
-                  title: Text('Description:',
-                      style: Theme.of(context).textTheme.subtitle1),
-                  subtitle: Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
-                      overflow: TextOverflow.fade,
-                      maxLines: 3),
-                  trailing: IconButton(
-                    icon: Icon(Icons.edit_rounded),
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => StatusEditPage())),
-                  ),
-                )
-              ],
+            ListTile(
+                title: Text('Tasks: $taskCount',
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                trailing: IconButton(
+                  icon: Icon(Icons.add_rounded),
+                  tooltip: 'Add Task',
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                      context: context,
+                      bottomSheet: TaskEditBottomSheet(
+                          isUpdate: false, task: Task(status: status))),
+                )),
+            ListTile(
+              title: Text('Description:',
+                  style:
+                      DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              subtitle: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
+                  overflow: TextOverflow.fade,
+                  maxLines: 3),
+              trailing: IconButton(
+                icon: Icon(Icons.edit_rounded),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => StatusEditPage())),
+              ),
+            )
+          ],
         ));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
@@ -26,7 +27,8 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService databaseService = Provider.of<DatabaseService>(context);
+    final DatabaseService databaseService =
+        Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
     final TimeService timeService = Provider.of<TimeService>(context);
@@ -37,15 +39,23 @@ class ProjectExpansionTile extends StatelessWidget {
         Provider.of<List<TimeEntry>>(context), project);
     int recordedTime = projectService.getRecordedTime(timeEntries);
     return Theme(
-      data: ThemeData().copyWith(dividerColor: Colors.transparent),
+      data: DynamicColorTheme.of(context)
+          .data
+          .copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         leading: Icon(
           Icons.topic_rounded,
           color: Color(project.projectColor),
         ),
         title: Text(
-          project.projectName,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          project.projectName.isEmpty
+              ? 'NO PROJECT TITLES'
+              : project.projectName,
+          style: DynamicColorTheme.of(context)
+              .data
+              .textTheme
+              .subtitle1
+              .copyWith(fontWeight: FontWeight.bold),
         ),
         children: [
           ExpansionTile(
@@ -56,9 +66,9 @@ class ProjectExpansionTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.play_arrow_rounded),
                   tooltip: 'Start Timer',
-                  onPressed: () =>
-                        Provider.of<StopwatchState>(context, listen: false)
-                            .startStopwatch(oldEntry: TimeEntry(project: project)),
+                  onPressed: () => Provider.of<StopwatchState>(context,
+                          listen: false)
+                      .startStopwatch(oldEntry: TimeEntry(project: project)),
                 ),
                 IconButton(
                     icon: Icon(Icons.timelapse_rounded),
@@ -66,7 +76,8 @@ class ProjectExpansionTile extends StatelessWidget {
                     onPressed: () => EditBottomSheet().buildEditBottomSheet(
                         context: context,
                         bottomSheet: TimeEntryEditBottomSheet(
-                            isUpdate: false, entry: TimeEntry(project: project)))),
+                            isUpdate: false,
+                            entry: TimeEntry(project: project)))),
                 IconButton(
                   icon: Icon(Icons.delete_rounded),
                   tooltip: 'Delete Project',
@@ -91,8 +102,7 @@ class ProjectExpansionTile extends StatelessWidget {
                                 label: Text('Delete'),
                                 onPressed: () {
                                   databaseService.deleteItem(
-                                      type: 'projects',
-                                      itemID: project.id);
+                                      type: 'projects', itemID: project.id);
                                   Navigator.pop(context);
                                 })
                           ],
@@ -116,31 +126,35 @@ class ProjectExpansionTile extends StatelessWidget {
                           isUpdate: false, task: Task(project: project))),
                 ),
                 IconButton(
-                  icon: Icon(Icons.topic_rounded),
-                  tooltip: 'Project Page',
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return ProjectPage(project: project);
-                    }),
-                  )
-                ),
+                    icon: Icon(Icons.topic_rounded),
+                    tooltip: 'Project Page',
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                            return ProjectPage(project: project);
+                          }),
+                        )),
               ],
             ),
             children: [
               ListTile(
                 leading: Text('Tasks: $taskCount',
-                    style: Theme.of(context).textTheme.subtitle1),
-                    trailing: Text(
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                trailing: Text(
                     'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
-                    style: Theme.of(context).textTheme.subtitle1),
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
               ),
               project.projectClient.isNotEmpty
-              ? ListTile(
-                title: Text('Client: ${project.projectClient}',
-                    style: Theme.of(context).textTheme.subtitle1),
-              )
-              : Container(),
+                  ? ListTile(
+                      title: Text('Client: ${project.projectClient}',
+                          style: DynamicColorTheme.of(context)
+                              .data
+                              .textTheme
+                              .subtitle1),
+                    )
+                  : Container(),
             ],
           ),
         ],

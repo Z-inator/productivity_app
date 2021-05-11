@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
@@ -15,9 +16,9 @@ class TaskPicker extends StatelessWidget {
         Provider.of<TimeEntryEditState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
     if (timeEntryEditState.newEntry.project.id.isNotEmpty) {
-      tasks = tasks.where((task) =>
-          task.project.id ==
-          timeEntryEditState.newEntry.project.id)
+      tasks = tasks
+          .where((task) =>
+              task.project.id == timeEntryEditState.newEntry.project.id)
           .toList();
     }
     return PopupMenuButton(
@@ -26,19 +27,19 @@ class TaskPicker extends StatelessWidget {
         itemBuilder: (BuildContext context) {
           return <PopupMenuEntry>[
             PopupMenuItem(
-              child: ListTile(
-                leading: Icon(
-                  Icons.circle,
-                  color: Color(4285887861),
-                ),
-                title: Text('No Task',
-                    style: Theme.of(context).textTheme.subtitle1),
-                onTap: () {
-                  saveTask(Task());
-                  Navigator.pop(context);
-                },
-              )
-            ),
+                child: ListTile(
+              leading: Icon(
+                Icons.circle,
+                color: Color(4285887861),
+              ),
+              title: Text('No Task',
+                  style:
+                      DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              onTap: () {
+                saveTask(Task());
+                Navigator.pop(context);
+              },
+            )),
             PopupMenuDivider(),
             PopupMenuItem(
               child: Container(
@@ -52,7 +53,10 @@ class TaskPicker extends StatelessWidget {
                         color: Color(task.status.statusColor),
                       ),
                       title: Text(task.taskName,
-                          style: Theme.of(context).textTheme.subtitle1),
+                          style: DynamicColorTheme.of(context)
+                              .data
+                              .textTheme
+                              .subtitle1),
                       onTap: () {
                         saveTask(task);
                         Navigator.pop(context);

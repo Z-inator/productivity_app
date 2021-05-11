@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
@@ -43,13 +44,21 @@ class TaskExpansionTile extends StatelessWidget {
     return ExpansionTile(
       leading: Icon(Icons.check_circle_rounded,
           color: Color(task.status.statusColor)),
-      title: Text(task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName),
+      title: Text(
+        task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
+      ),
       subtitle: Text(
           task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
-          style: TextStyle(color: Color(task.project.projectColor))),
+          style: DynamicColorTheme.of(context)
+              .data
+              .textTheme
+              .subtitle1
+              .copyWith(color: Color(task.project.projectColor))),
       children: [
         Theme(
-          data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          data: DynamicColorTheme.of(context)
+              .data
+              .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -58,9 +67,11 @@ class TaskExpansionTile extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.play_arrow_rounded),
                     tooltip: 'Start Timer',
-                    onPressed: () =>
-                        Provider.of<StopwatchState>(context, listen: false)
-                            .startStopwatch(oldEntry: TimeEntry(task: task, project: task.project)),
+                    onPressed: () => Provider.of<StopwatchState>(context,
+                            listen: false)
+                        .startStopwatch(
+                            oldEntry:
+                                TimeEntry(task: task, project: task.project)),
                   ),
                   IconButton(
                       icon: Icon(Icons.timelapse_rounded),
@@ -68,7 +79,9 @@ class TaskExpansionTile extends StatelessWidget {
                       onPressed: () => EditBottomSheet().buildEditBottomSheet(
                           context: context,
                           bottomSheet: TimeEntryEditBottomSheet(
-                              isUpdate: false, entry: TimeEntry(task: task, project: task.project)))),
+                              isUpdate: false,
+                              entry: TimeEntry(
+                                  task: task, project: task.project)))),
                   // IconButton(
                   //   icon: Icon(Icons.add_rounded),
                   //   tooltip: 'Add Subtask',
@@ -126,11 +139,17 @@ class TaskExpansionTile extends StatelessWidget {
             children: [
               ListTile(
                 leading: OutlinedButton.icon(
-                  style: Theme.of(context).outlinedButtonTheme.style,
+                  style: DynamicColorTheme.of(context)
+                      .data
+                      .outlinedButtonTheme
+                      .style,
                   icon: Icon(Icons.topic_rounded,
                       color: Color(task.project.projectColor)),
                   label: Text(task.project.projectName,
-                      style: Theme.of(context).textTheme.subtitle1),
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -143,33 +162,39 @@ class TaskExpansionTile extends StatelessWidget {
                 trailing: RichText(
                     text: TextSpan(
                         text: 'Status: ',
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: DynamicColorTheme.of(context)
+                            .data
+                            .textTheme
+                            .subtitle1,
                         children: <TextSpan>[
                       TextSpan(
                           text: task.status.statusName,
-                          style: Theme.of(context)
+                          style: DynamicColorTheme.of(context)
+                              .data
                               .textTheme
                               .subtitle1
                               .copyWith(color: Color(task.status.statusColor)))
                     ])),
               ),
               ListTile(
-                leading: Text('Subtasks: $subtaskCount',
-                    style: Theme.of(context).textTheme.subtitle1),
-                trailing: Text(
+                // leading: Text('Subtasks: $subtaskCount',
+                //     style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                leading: Text(
                     'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
-                    style: Theme.of(context).textTheme.subtitle1),
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
               ),
               ListTile(
                 title: Text(
                     task.dueDate.year == 0
                         ? 'Due: '
                         : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
-                    style: Theme.of(context).textTheme.subtitle1),
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
               ),
               Text(
                   'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
-                  style: Theme.of(context).textTheme.caption),
+                  style: DynamicColorTheme.of(context).data.textTheme.caption),
             ],
           ),
         )

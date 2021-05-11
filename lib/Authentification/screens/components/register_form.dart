@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:provider/provider.dart';
@@ -159,7 +160,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         leading: Image(
                             image: AssetImage('assets/logos/google_logo.png')),
                         title: Text('Register using Google',
-                            style: Theme.of(context).textTheme.headline6),
+                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
                       ),
                     ),
                   ),

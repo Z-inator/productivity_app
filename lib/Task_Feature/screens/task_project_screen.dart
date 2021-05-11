@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/screens/project_screen.dart';
 import 'package:productivity_app/Task_Feature/screens/task_screen.dart';
@@ -12,8 +13,9 @@ class TaskProjectScreen extends StatelessWidget {
       child: Column(
         children: [
         TabBar(
-          unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-          labelColor: Colors.black,
+          unselectedLabelColor: DynamicColorTheme.of(context).data.unselectedWidgetColor,
+          labelColor: DynamicColorTheme.of(context).data.textTheme.subtitle1.color,
+          indicatorColor: DynamicColorTheme.of(context).data.accentColor,
           labelPadding: EdgeInsets.fromLTRB(5, 20, 5, 10),
             tabs: [
               Text('Projects'),

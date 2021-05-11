@@ -5,17 +5,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 ThemeData buildLightTheme(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
   Color primaryColor = isDark ? Colors.grey[850] : Colors.white;
+  // Color primaryTextColor = isDark ? Colors.white : Colors.black;
+  // Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
   return base.copyWith(
       primaryColor: primaryColor,
       accentColor: accentColor,
       // textTheme: TextTheme(
-      //     subtitle1: TextStyle(color: Colors.grey[800]),
-      //     subtitle2: TextStyle(color: primaryColor)),
+      //     subtitle1: TextStyle(
+      //       fontSize: 16.0,
+      //       fontWeight: FontWeight.normal,
+      //       letterSpacing: .15,
+      //       color: primaryTextColor),
+      //     subtitle2: base.textTheme.subtitle1.copyWith(color: secondaryTextColor)),
       inputDecorationTheme: InputDecorationTheme(
         focusedBorder:
             UnderlineInputBorder(borderSide: BorderSide(color: accentColor)),
         contentPadding: EdgeInsets.all(10),
       ),
+      // iconTheme: IconThemeData(color: primaryTextColor),
       cardTheme: CardTheme(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))),
@@ -28,6 +35,12 @@ ThemeData buildLightTheme(Color accentColor, bool isDark) {
       buttonBarTheme:
           ButtonBarThemeData(alignment: MainAxisAlignment.spaceAround));
 }
+
+// TextTheme buildTextTheme(Color accentColor, bool isDark, TextTheme base) {
+//   return base.copyWith(
+
+//   )
+// }
 
 // class AppThemes {
 //   static const lightTheme = 0;

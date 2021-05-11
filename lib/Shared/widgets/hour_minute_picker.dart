@@ -1,7 +1,7 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-
 
 class ManualTimePicker extends StatefulWidget {
   final Function(int) saveManualTime;
@@ -35,7 +35,9 @@ class _ManualTimePickerState extends State<ManualTimePicker> {
                         contentPadding: EdgeInsets.all(5),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Theme.of(context).accentColor)),
+                                color: DynamicColorTheme.of(context)
+                                    .data
+                                    .accentColor)),
                       ),
                       keyboardType: TextInputType.number,
                       inputFormatters: [
@@ -66,7 +68,9 @@ class _ManualTimePickerState extends State<ManualTimePicker> {
                         contentPadding: EdgeInsets.all(5),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Theme.of(context).accentColor)),
+                                color: DynamicColorTheme.of(context)
+                                    .data
+                                    .accentColor)),
                       ),
                       keyboardType: TextInputType.number,
                       inputFormatters: [

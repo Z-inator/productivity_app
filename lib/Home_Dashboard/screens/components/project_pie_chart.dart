@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
@@ -34,8 +35,8 @@ class TimePieChart extends StatelessWidget {
                           sections: generatePieSections(
                               projectData,
                               totalTimeRangeTime,
-                              Theme.of(context).textTheme.subtitle2,
-                              Theme.of(context).textTheme.subtitle1,
+                              DynamicColorTheme.of(context).data.textTheme.subtitle2,
+                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
                               constraints.maxHeight / 2.25)),
                       swapAnimationDuration:
                           Duration(microseconds: 500),

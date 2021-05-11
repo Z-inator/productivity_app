@@ -55,7 +55,7 @@ class StopWatchTile extends StatelessWidget {
 //     return SlidingUpPanel(
 //       panelSnapping: true,
 //       borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
-//       color: Theme.of(context).cardColor,
+//       color: DynamicColorTheme.of(context).data.cardColor,
 //       minHeight: 70,
 //       slideDirection: SlideDirection.DOWN,
 //       header: Container(
@@ -76,7 +76,7 @@ class StopWatchTile extends StatelessWidget {
 //               height: 5,
 //               decoration: BoxDecoration(
 //                 borderRadius: BorderRadius.all(Radius.circular(25)),
-//                 color: Theme.of(context).accentColor,
+//                 color: DynamicColorTheme.of(context).data.accentColor,
 //               ),
 //             ),
 //           ],
@@ -99,9 +99,9 @@ class StopWatchTile extends StatelessWidget {
 //                       stopwatchState.timeEntry.project.projectName.isEmpty
 //                           ? 'Add Project'
 //                           : stopwatchState.timeEntry.project.projectName,
-//                       style: Theme.of(context).textTheme.subtitle1),
+//                       style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
 //                   trailing: Icon(Icons.arrow_drop_down_rounded,
-//                       color: Theme.of(context).unselectedWidgetColor),
+//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
 //                 )),
 //             // TaskPicker(),
 //           ],
@@ -119,7 +119,7 @@ class StopWatchTile extends StatelessWidget {
 //     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
 //     return SnackBar(
 //         content: ListTile(
-//       tileColor: Theme.of(context).shadowColor,
+//       tileColor: DynamicColorTheme.of(context).data.shadowColor,
 //       leading: IconButton(
 //         icon: Icon(Icons.stop_rounded, color: Colors.red),
 //         onPressed: () => stopwatchState.stopStopwatch(),

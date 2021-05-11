@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
@@ -122,7 +123,10 @@ class _StatusEditPageState extends State<StatusEditPage> {
                     ])),
                 ListTile(
                   title: Text('Description:',
-                      style: Theme.of(context).textTheme.subtitle1),
+                      style: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle1),
                   subtitle: Text(status.statusDescription,
                       overflow: TextOverflow.fade, maxLines: 3),
                 )
