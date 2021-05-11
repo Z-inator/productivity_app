@@ -39,7 +39,7 @@ class TimeChartRow extends StatelessWidget {
     return timeRangeEntries == null
         ? Center(child: CircularProgressIndicator())
         : timeRangeEntries.isEmpty
-            ? Center(child: Text('Add Time Entries to see Recorded Data'))
+            ? Center(child: Text('Add Time Entries to this week to see Recorded Data'))
             : Column(
               children: [
                 ListTile(
