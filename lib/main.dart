@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,7 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Authentification/screens/auth_widget.dart';
 import 'dart:io' show Platform;
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Shared/screens/error_screen.dart';
 import 'Shared/screens/loading_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -38,6 +41,7 @@ class ProductivityApp extends StatefulWidget {
 class _ProductivityAppState extends State<ProductivityApp> {
   bool _initialized = false;
   bool _error = false;
+  var preference;
 
   void initializeFlutterFire() async {
     try {
@@ -50,8 +54,13 @@ class _ProductivityAppState extends State<ProductivityApp> {
     }
   }
 
+  Future getPreferences() async {
+    preference = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
+    getPreferences();
     initializeFlutterFire();
     super.initState();
   }
@@ -67,21 +76,30 @@ class _ProductivityAppState extends State<ProductivityApp> {
     return Provider(
       create: (context) => AuthService(),
       child: AuthWidgetBuilder(builder: (context, userSnapshot) {
-        return GestureDetector(
-            onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-                // Provider.of<AuthService>(context, listen: false).isDialOpen.value = false;
-              }
-            },
-          child: MaterialApp(
-            title: 'Productivity App',
-            theme: appTheme(),
-            home: AuthWidget(userSnapshot: userSnapshot),
-            // onGenerateRoute: generateRoute,
-            // initialRoute: '/',
-          ),
+        return DynamicColorTheme(
+          data: (color, isDark) => buildLightTheme(color, isDark),
+          defaultColor: Colors.blue,
+          defaultIsDark: false,
+          themedWidgetBuilder: (context, theme) {
+            return 
+            // GestureDetector(
+            //   onTap: () {
+            //     FocusScopeNode currentFocus = FocusScope.of(context);
+            //     if (!currentFocus.hasPrimaryFocus) {
+            //       currentFocus.unfocus();
+            //       // Provider.of<AuthService>(context, listen: false).isDialOpen.value = false;
+            //     }
+            //   },
+            //   child: 
+              MaterialApp(
+                title: 'Productivity App',
+                theme: theme,
+                home: AuthWidget(userSnapshot: userSnapshot),
+                // onGenerateRoute: generateRoute,
+                // initialRoute: '/',
+              // ),
+          );
+          },
         );
       }),
     );
