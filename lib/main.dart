@@ -77,7 +77,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
       create: (context) => AuthService(),
       child: AuthWidgetBuilder(builder: (context, userSnapshot) {
         return DynamicColorTheme(
-          data: (color, isDark) => buildLightTheme(color, isDark),
+          data: (color, isDark) => buildThemeData(color, isDark),
           defaultColor: Colors.blue,
           defaultIsDark: false,
           themedWidgetBuilder: (context, theme) {
