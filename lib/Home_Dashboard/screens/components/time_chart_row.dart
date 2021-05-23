@@ -38,35 +38,33 @@ class TimeChartRow extends StatelessWidget {
     List<DateTime> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
     List<TimeEntry> timeRangeEntries = timeGraphsState.getTimeRangeData(
         timeEntries, currentWeek[0], currentWeek[1]);
-    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries);
+    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeRangeEntries);
     return timeRangeEntries == null
         ? Center(child: CircularProgressIndicator())
-        : timeRangeEntries.isEmpty
-            ? Center(
-                child:
-                    Text('Add Time Entries to this week to see Recorded Data'))
-            : Column(
-                children: [
-                  ListTile(
-                    title: Text('Recorded Time',
-                        style: DynamicColorTheme.of(context)
-                            .data
-                            .textTheme
-                            .headline5),
-                    subtitle: Text(TimeFunctions()
-                        .timeToText(seconds: totalTimeRangeTime)),
-                    // TODO: implement a report screen
-                    // trailing: IconButton(
-                    //   icon: Icon(Icons.insights_rounded),
-                    //   tooltip: 'Reports',
-                    //   onPressed: () {},
-                    // ),
-                  ),
-                  Expanded(
-                      child: PageViewRow(
+        : Column(
+            children: [
+              ListTile(
+                title: Text('Recorded Time',
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.headline5),
+                subtitle: Text(
+                    TimeFunctions().timeToText(seconds: totalTimeRangeTime)),
+                // TODO: implement a report screen
+                // trailing: IconButton(
+                //   icon: Icon(Icons.insights_rounded),
+                //   tooltip: 'Reports',
+                //   onPressed: () {},
+                // ),
+              ),
+              Expanded(
+                  child: timeRangeEntries.isEmpty
+                      ? Center(
+                          child: Text(
+                              'Add Time Entries to this week to see Recorded Data'))
+                      : PageViewRow(
                           pages: pages(timeRangeEntries, currentWeek[0],
                               currentWeek[1]))),
-                ],
-              );
+            ],
+          );
   }
 }
