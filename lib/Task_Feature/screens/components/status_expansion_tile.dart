@@ -46,16 +46,16 @@ class StatusExpansionTile extends StatelessWidget {
                 .data
                 .textTheme
                 .subtitle1
-                .copyWith(fontWeight: FontWeight.bold),
           ),
           children: [
             ListTile(
                 title: Text('Tasks: $taskCount',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: IconButton(
                   icon: Icon(Icons.add_rounded),
                   tooltip: 'Add Task',
+                  color: DynamicColorTheme.of(context).data.iconTheme.color,
                   onPressed: () => EditBottomSheet().buildEditBottomSheet(
                       context: context,
                       bottomSheet: TaskEditBottomSheet(
@@ -64,13 +64,16 @@ class StatusExpansionTile extends StatelessWidget {
             ListTile(
               title: Text('Description:',
                   style:
-                      DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                      DynamicColorTheme.of(context).data.textTheme.subtitle2),
               subtitle: Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
+                  style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
                   overflow: TextOverflow.fade,
                   maxLines: 3),
               trailing: IconButton(
                 icon: Icon(Icons.edit_rounded),
+                tooltip: 'Edit Statuses',
+                color: DynamicColorTheme.of(context).data.iconTheme.color,
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => StatusEditPage())),
               ),

@@ -47,11 +47,17 @@ class ImportantTaskListTile extends StatelessWidget {
             Icons.check_circle_rounded,
             color: Color(task.status.statusColor),
           )),
-      title: Text(task.taskName, style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
-      subtitle: Text(
-        task.project.projectName,
-        style: TextStyle(color: Color(task.project.projectColor)),
+      title: Text(
+        task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
+        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
+      subtitle: Text(
+          task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
+          style: DynamicColorTheme.of(context)
+              .data
+              .textTheme
+              .subtitle1
+              .copyWith(color: Color(task.project.projectColor))),
       trailing: IconButton(
           icon: Icon(Icons.edit_rounded),
           onPressed: () => EditBottomSheet().buildEditBottomSheet(

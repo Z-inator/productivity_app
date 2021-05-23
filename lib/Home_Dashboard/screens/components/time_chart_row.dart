@@ -38,7 +38,8 @@ class TimeChartRow extends StatelessWidget {
     List<DateTime> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
     List<TimeEntry> timeRangeEntries = timeGraphsState.getTimeRangeData(
         timeEntries, currentWeek[0], currentWeek[1]);
-    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeRangeEntries);
+    int totalTimeRangeTime =
+        timeGraphsState.getTotalTimeRangeTime(timeRangeEntries);
     return timeRangeEntries == null
         ? Center(child: CircularProgressIndicator())
         : Column(
@@ -49,7 +50,8 @@ class TimeChartRow extends StatelessWidget {
                         DynamicColorTheme.of(context).data.textTheme.headline4),
                 subtitle: Text(
                     TimeFunctions().timeToText(seconds: totalTimeRangeTime),
-                    style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 // TODO: implement a report screen
                 // trailing: IconButton(
                 //   icon: Icon(Icons.insights_rounded),

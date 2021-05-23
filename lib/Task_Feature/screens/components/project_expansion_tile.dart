@@ -140,11 +140,11 @@ class ProjectExpansionTile extends StatelessWidget {
               ListTile(
                 leading: Text('Tasks: $taskCount',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: Text(
                     'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               project.projectClient.isNotEmpty
                   ? ListTile(

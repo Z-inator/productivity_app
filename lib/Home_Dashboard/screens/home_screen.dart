@@ -33,12 +33,17 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                      leading: Icon(Icons.account_circle_rounded),
-                      title: Text(user.displayName),
+                      leading: Icon(
+                        Icons.account_circle_rounded,
+                        color: DynamicColorTheme.of(context).data.iconTheme.color),
+                      title: Text(user.displayName,
+                        style: DynamicColorTheme.of(context).data.textTheme.headline5),
                       subtitle: Text(DateTimeFunctions()
-                          .dateTimeToTextDate(date: DateTime.now())),
+                          .dateTimeToTextDate(date: DateTime.now()),
+                          style: DynamicColorTheme.of(context).data.textTheme.bodyText2),
                       trailing: IconButton(
                         icon: Icon(Icons.settings_rounded),
+                        color: DynamicColorTheme.of(context).data.iconTheme.color,
                         onPressed: () => Scaffold.of(context).openDrawer(),
                       )),
                   Text(
@@ -46,11 +51,11 @@ class HomeScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: DynamicColorTheme.of(context).data
                           .textTheme
-                          .subtitle1
+                          .subtitle2
                           .copyWith(fontStyle: FontStyle.italic)),
                   Text('Mike Murdock',
                       textAlign: TextAlign.center,
-                      style: DynamicColorTheme.of(context).data.textTheme.subtitle2)
+                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
                 ],
               ),
             ),

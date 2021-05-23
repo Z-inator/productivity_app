@@ -40,12 +40,13 @@ class TaskExpansionTile extends StatelessWidget {
     List<TimeEntry> timeEntries = timeService.getTimeEntriesByTask(
         Provider.of<List<TimeEntry>>(context), task);
     int recordedTime = taskService.getRecordedTime(timeEntries, task);
-    int subtaskCount = 0; // TODO: implement Subtasks
+    // int subtaskCount = 0; // TODO: implement Subtasks
     return ExpansionTile(
       leading: Icon(Icons.check_circle_rounded,
           color: Color(task.status.statusColor)),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
+        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
       subtitle: Text(
           task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
@@ -138,6 +139,7 @@ class TaskExpansionTile extends StatelessWidget {
                 ]),
             children: [
               ListTile(
+                dense: true,
                 leading: OutlinedButton.icon(
                   style: DynamicColorTheme.of(context)
                       .data
@@ -149,7 +151,7 @@ class TaskExpansionTile extends StatelessWidget {
                       style: DynamicColorTheme.of(context)
                           .data
                           .textTheme
-                          .subtitle1),
+                          .subtitle2),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -165,7 +167,7 @@ class TaskExpansionTile extends StatelessWidget {
                         style: DynamicColorTheme.of(context)
                             .data
                             .textTheme
-                            .subtitle1,
+                            .subtitle2,
                         children: <TextSpan>[
                       TextSpan(
                           text: task.status.statusName,
@@ -177,20 +179,22 @@ class TaskExpansionTile extends StatelessWidget {
                     ])),
               ),
               ListTile(
+                dense: true,
                 // leading: Text('Subtasks: $subtaskCount',
                 //     style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
-                leading: Text(
+                title: Text(
                     'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               ListTile(
+                dense: true,
                 title: Text(
                     task.dueDate.year == 0
                         ? 'Due: '
                         : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               Text(
                   'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',

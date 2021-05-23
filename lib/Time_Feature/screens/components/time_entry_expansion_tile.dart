@@ -25,7 +25,10 @@ class TimeEntryExpansionTile extends StatelessWidget {
     return ExpansionTile(
       leading: Icon(Icons.check_circle_rounded,
           color: Color(entry.task.status.statusColor)),
-      title: Text(entry.entryName),
+      title: Text(
+        entry.entryName,
+        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
+      ),
       subtitle: Text(entry.project.projectName,
           style: DynamicColorTheme.of(context)
               .data
@@ -33,7 +36,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
               .subtitle1
               .copyWith(color: Color(entry.project.projectColor))),
       trailing: Text(TimeFunctions().timeToText(seconds: entry.elapsedTime),
-          style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+          style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
       children: [
         Theme(
           data: DynamicColorTheme.of(context)
@@ -93,14 +96,6 @@ class TimeEntryExpansionTile extends StatelessWidget {
             ),
             children: [
               ListTile(
-                title: Text(DateTimeFunctions()
-                    .dateTimeToTextDate(date: entry.endTime)),
-                trailing: Text(
-                    '${DateFormat.jm().format(entry.startTime)} - ${DateFormat.jm().format(entry.endTime)}',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
-              ),
-              ListTile(
                 leading: OutlinedButton.icon(
                   style: DynamicColorTheme.of(context)
                       .data
@@ -112,7 +107,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                       style: DynamicColorTheme.of(context)
                           .data
                           .textTheme
-                          .subtitle1),
+                          .subtitle2),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -122,7 +117,10 @@ class TimeEntryExpansionTile extends StatelessWidget {
                     );
                   },
                 ),
-                // trailing: Text('Task Status: ${entry.task.taskName}'),
+                trailing: Text(
+                    '${DateFormat.jm().format(entry.startTime)} - ${DateFormat.jm().format(entry.endTime)}',
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
               ),
             ],
           ),
