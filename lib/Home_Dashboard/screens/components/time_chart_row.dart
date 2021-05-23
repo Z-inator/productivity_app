@@ -46,9 +46,10 @@ class TimeChartRow extends StatelessWidget {
               ListTile(
                 title: Text('Recorded Time',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.headline5),
+                        DynamicColorTheme.of(context).data.textTheme.headline4),
                 subtitle: Text(
-                    TimeFunctions().timeToText(seconds: totalTimeRangeTime)),
+                    TimeFunctions().timeToText(seconds: totalTimeRangeTime),
+                    style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 // TODO: implement a report screen
                 // trailing: IconButton(
                 //   icon: Icon(Icons.insights_rounded),

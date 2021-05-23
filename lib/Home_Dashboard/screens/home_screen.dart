@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                           .copyWith(fontStyle: FontStyle.italic)),
                   Text('Mike Murdock',
                       textAlign: TextAlign.center,
-                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+                      style: DynamicColorTheme.of(context).data.textTheme.subtitle2)
                 ],
               ),
             ),
@@ -60,20 +60,6 @@ class HomeScreen extends StatelessWidget {
             Container(
                 height: MediaQuery.of(context).size.height / 1.5,
                 child: TaskDueRow()),
-            ListTile(
-              title: Text('Statuses',
-                  style: DynamicColorTheme.of(context).data.textTheme.headline5),
-              trailing: IconButton(
-                icon: Icon(Icons.edit_rounded),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StatusEditPage(),
-                      ));
-                },
-              ),
-            ),
             StatusList(),
             SizedBox(height: 100)
           ],

@@ -21,7 +21,7 @@ class TaskDueRow extends StatelessWidget {
       children: [
         ListTile(
           title: Text('Important Tasks',
-              style: DynamicColorTheme.of(context).data.textTheme.headline5),
+              style: DynamicColorTheme.of(context).data.textTheme.headline4),
           // trailing: IconButton(
           //   icon: Icon(Icons.insights_rounded),
           //   tooltip: 'Reports',
@@ -47,7 +47,7 @@ class ImportantTaskListTile extends StatelessWidget {
             Icons.check_circle_rounded,
             color: Color(task.status.statusColor),
           )),
-      title: Text(task.taskName),
+      title: Text(task.taskName, style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
       subtitle: Text(
         task.project.projectName,
         style: TextStyle(color: Color(task.project.projectColor)),
@@ -79,9 +79,9 @@ class TaskDueToday extends StatelessWidget {
           child: tasks == null
               ? Center(child: CircularProgressIndicator())
               : tasks.isEmpty
-                  ? ListTile(
-                      title: Text('No Tasks Due Today',
-                          style: DynamicColorTheme.of(context).data.textTheme.subtitle1))
+                  ? Center(
+                      child: Text('No Tasks Due Today',
+                          style: DynamicColorTheme.of(context).data.textTheme.subtitle2))
                   : Card(
                       child: ListView(
                         children: tasks
@@ -113,9 +113,9 @@ class TaskDueThisWeek extends StatelessWidget {
           child: tasks == null
               ? Center(child: CircularProgressIndicator())
               : tasks.isEmpty
-                  ? ListTile(
-                      title: Text('No Tasks Due This Week',
-                          style: DynamicColorTheme.of(context).data.textTheme.subtitle1))
+                  ? Center(
+                      child: Text('No Tasks Due This Week',
+                          style: DynamicColorTheme.of(context).data.textTheme.subtitle2))
                   : Card(
                       child: ListView(
                         children: tasks
@@ -147,9 +147,9 @@ class TaskPastDue extends StatelessWidget {
           child: tasks == null
               ? Center(child: CircularProgressIndicator())
               : tasks.isEmpty
-                  ? ListTile(
-                      title: Text('No Late Tasks',
-                          style: DynamicColorTheme.of(context).data.textTheme.subtitle1))
+                  ? Center(
+                      child: Text('No Late Tasks',
+                          style: DynamicColorTheme.of(context).data.textTheme.subtitle2))
                   : Card(
                       child: ListView(
                         children: tasks
