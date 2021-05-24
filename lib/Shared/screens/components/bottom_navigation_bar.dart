@@ -10,52 +10,61 @@ class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PageState state = Provider.of<PageState>(context);
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 2),
-      decoration: BoxDecoration(
-          color: DynamicColorTheme.of(context).data.cardColor,
-          border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          IconButton(
-              icon: Icon(Icons.dashboard_rounded),
-              color: state.page == 0
-                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-              onPressed: () {
-                state.changePage(0);
-              }),
-          IconButton(
-              icon: Icon(Icons.rule_rounded),
-              color: state.page == 2
-                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-              onPressed: () {
-                state.changePage(2);
-              }),
-          AddSpeedDial(),
-          IconButton(
-              icon: Icon(Icons.timer_rounded),
-              color: state.page == 1
-                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-              onPressed: () {
-                state.changePage(1);
-              }),
-          IconButton(
-              icon: Icon(Icons.bar_chart_rounded),
-              color: state.page == 3
-                  ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                  : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-              onPressed: () {
-                state.changePage(3);
-              }),
-        ],
+    return BottomAppBar(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 2),
+        decoration: BoxDecoration(
+            color: DynamicColorTheme.of(context).data.cardColor,
+            border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+                icon: Icon(Icons.dashboard_rounded),
+                tooltip: 'Dashboard',
+                color: state.page == 0
+                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+                onPressed: () {
+                  state.changePage(0);
+                }),
+            IconButton(
+                icon: Icon(Icons.rule_rounded),
+                tooltip: 'Tasks',
+                color: state.page == 2
+                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+                onPressed: () {
+                  state.changePage(2);
+                }),
+            AddSpeedDial(),
+            IconButton(
+                icon: Icon(Icons.timer_rounded),
+                tooltip: 'Time Log',
+                color: state.page == 1
+                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+                onPressed: () {
+                  state.changePage(1);
+                }),
+            IconButton(
+                icon: Icon(Icons.bar_chart_rounded),
+                tooltip: 'Goals',
+                color: state.page == 3
+                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+                onPressed: () {
+                  state.changePage(3);
+                }),
+          ],
+        ),
       ),
     );
   }
 }
+
+
+
 
 // This is my floating bottom navigation bar.
 // I found it beautiful but it didn't fit the rest of the app.
