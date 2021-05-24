@@ -2,7 +2,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:productivity_app/Shared/providers/page_state.dart';
 import 'package:productivity_app/Shared/screens/components/bottom_navigation_bar.dart';
-import 'package:productivity_app/Shared/screens/components/page_body.dart';
+
 import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
@@ -35,10 +35,11 @@ class BaseFramework extends StatelessWidget {
             Provider.of<List<Project>>(context) == null ||
             Provider.of<List<Status>>(context) == null ||
             Provider.of<List<TimeEntry>>(context) == null
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: CircularProgressIndicator())        // TODO: Add logo animation
         : ChangeNotifierProvider(
             create: (context) => PageState(page: 0, widget: HomeScreen()),
             builder: (context, child) {
+              PageState pageState = Provider.of<PageState>(context);
               StopwatchState stopwatchState =
                   Provider.of<StopwatchState>(context);
               return Container(
@@ -51,11 +52,12 @@ class BaseFramework extends StatelessWidget {
                         stopwatchState.stopwatch.isRunning
                             ? StopWatchTile()
                             : Container(),
-                        Expanded(child: PageBody())
+                        Expanded(child: pageState.widget)
                       ]),
                       bottomNavigationBar: NavigationBar(),
                       // bottomSheet:
                       drawer: SettingsDrawer(),
+                      onDrawerChanged: (isOpened) => pageState.changePage(0),
                     ),
                   ));
             },

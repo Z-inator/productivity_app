@@ -36,15 +36,15 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
 
 TextTheme buildTextTheme({TextTheme base, Color color}) {
   return base.copyWith(
-      button: base.button.copyWith(color: color),
-      caption: base.caption.copyWith(color: color),
-      subtitle1: base.subtitle1.copyWith(fontWeight: FontWeight.bold, fontSize: 16, color: color),
-      subtitle2: base.subtitle1.copyWith(fontWeight: FontWeight.normal, fontSize: 16, color: color),
+      // button: base.button.copyWith(color: color),
+      // caption: base.caption.copyWith(color: color),
+      subtitle1: base.subtitle1.copyWith(fontWeight: FontWeight.bold, fontSize: 16,),
+      subtitle2: base.subtitle1.copyWith(fontWeight: FontWeight.normal, fontSize: 16,),
       // bodyText1: base.bodyText1.copyWith(),
-      bodyText2: base.bodyText2.copyWith(fontSize: 14, color: color),
-      headline4: base.headline4.copyWith(fontSize: 34, color: color),
-      headline5: base.headline5.copyWith(fontSize: 24, color: color),
-      headline6: base.headline6.copyWith(fontSize: 20, color: color)
+      bodyText2: base.bodyText2.copyWith(fontSize: 14,),
+      headline4: base.headline4.copyWith(fontSize: 34,),
+      headline5: base.headline5.copyWith(fontSize: 24,),
+      headline6: base.headline6.copyWith(fontSize: 20,)
       );
 }
 

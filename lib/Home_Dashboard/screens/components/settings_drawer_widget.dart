@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/color_picker_dialog.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,11 +19,16 @@ class SettingsDrawer extends StatelessWidget {
         child: Column(
       children: [
         DrawerHeader(
-            decoration: BoxDecoration(color: DynamicColorTheme.of(context).data.accentColor),
+            decoration: BoxDecoration(
+                color: DynamicColorTheme.of(context).data.accentColor),
             child: ListTile(
               title: Text(user.displayName,
                   style: TextStyle(
-                      color: DynamicColorTheme.of(context).data.textTheme.subtitle2.color,
+                      color: DynamicColorTheme.of(context)
+                          .data
+                          .textTheme
+                          .subtitle2
+                          .color,
                       fontSize: 24)),
               trailing: IconButton(
                   icon: Icon(Icons.cancel_rounded),
@@ -75,24 +81,53 @@ class ThemeSettings extends StatelessWidget {
           title: Text('Dark Mode'),
           value: DynamicColorTheme.of(context).isDark,
           activeColor: DynamicColorTheme.of(context).data.accentColor,
-          onChanged: (value) => DynamicColorTheme.of(context).setIsDark(isDark: value, shouldSave: true),
+          onChanged: (value) {
+            DynamicColorTheme.of(context)
+                .setIsDark(isDark: value, shouldSave: true);
+          },
         ),
         ListTile(
-          title: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-            children: colorList.map((color) {
-          return IconButton(
-            icon: Icon(
-              DynamicColorTheme.of(context).color.value == color ? Icons.check_circle_rounded : Icons.circle,
-              color: Color(color),
-              size: 36,
-            ),
-            onPressed: () => DynamicColorTheme.of(context).setColor(color: Color(color), shouldSave: true)
+          title: TextButton(onPressed: () {
+            showDialog(
+            builder: (BuildContext context) {
+              return WillPopScope(
+                child: ColorPickerDialog(
+                  defaultColor: Colors.blue,
+                  defaultIsDark: false,
+                  title: 'Choose your Destiny',
+                  cancelButtonText: 'NEVERMIND',
+                  confirmButtonText: 'SOUNDS GOOD',
+                  shouldAutoDetermineDarkMode: true,
+                  shouldShowLabel: true,
+                ),
+                onWillPop: () async {
+                  DynamicColorTheme.of(context).resetToSharedPrefsValues();
+                  return true;
+                },
+              );
+            },
+            context: context,
           );
-        }).toList()))
-        ),
+        },
+        child: Text('Launch color picker'),
+      ),),
+        ListTile(
+            title: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    children: colorList.map((color) {
+                  return IconButton(
+                      icon: Icon(
+                        DynamicColorTheme.of(context).color.value == color
+                            ? Icons.check_circle_rounded
+                            : Icons.circle,
+                        color: Color(color),
+                        size: 36,
+                      ),
+                      onPressed: () => DynamicColorTheme.of(context)
+                          .setColor(color: Color(color), shouldSave: true));
+                }).toList()))),
       ],
     );
   }
