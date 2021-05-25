@@ -18,8 +18,17 @@ import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends StatefulWidget {
   const TaskScreen({Key key}) : super(key: key);
+
+  @override
+  _TaskScreenState createState() => _TaskScreenState();
+}
+
+class _TaskScreenState extends State<TaskScreen> with AutomaticKeepAliveClientMixin {
+    
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

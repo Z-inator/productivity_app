@@ -6,7 +6,16 @@ import 'package:provider/provider.dart';
 
 
 
-class TimeScreen extends StatelessWidget {
+class TimeScreen extends StatefulWidget {
+  @override
+  _TimeScreenState createState() => _TimeScreenState();
+}
+
+class _TimeScreenState extends State<TimeScreen> with AutomaticKeepAliveClientMixin {
+  
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);

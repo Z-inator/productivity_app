@@ -13,8 +13,18 @@ import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
-class ProjectScreen extends StatelessWidget {
+class ProjectScreen extends StatefulWidget {
   const ProjectScreen({Key key}) : super(key: key);
+
+  @override
+  _ProjectScreenState createState() => _ProjectScreenState();
+}
+
+class _ProjectScreenState extends State<ProjectScreen> with AutomaticKeepAliveClientMixin {
+    
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

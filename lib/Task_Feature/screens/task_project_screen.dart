@@ -4,8 +4,16 @@ import 'package:productivity_app/Task_Feature/screens/project_screen.dart';
 import 'package:productivity_app/Task_Feature/screens/task_screen.dart';
 import 'package:provider/provider.dart';
 
-// TODO: look at using an Animated Switcher instead of Provider
-class TaskProjectScreen extends StatelessWidget {
+class TaskProjectScreen extends StatefulWidget {
+  @override
+  _TaskProjectScreenState createState() => _TaskProjectScreenState();
+}
+
+class _TaskProjectScreenState extends State<TaskProjectScreen> with AutomaticKeepAliveClientMixin {
+  
+  @override
+  bool get wantKeepAlive => true;
+  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
