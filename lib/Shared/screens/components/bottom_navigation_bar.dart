@@ -1,68 +1,73 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/providers/page_state.dart';
-import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
-import 'package:provider/provider.dart';
+// This is my original Navigation Bar. It used Provider to manage the pages.
+// However, when the theme was updated, the homepage would not update its text
+// color to reflect dark/light mode. I switched to a TabBar/TabBarView solution
+// and it works perfectly fine.
 
-class NavigationBar extends StatelessWidget {
-  const NavigationBar({Key key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    PageState state = Provider.of<PageState>(context);
-    return BottomAppBar(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 2),
-        decoration: BoxDecoration(
-            color: DynamicColorTheme.of(context).data.cardColor,
-            border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-                icon: Icon(Icons.dashboard_rounded),
-                tooltip: 'Dashboard',
-                color: state.page == 0
-                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-                onPressed: () {
-                  state.changePage(0);
-                }),
-            IconButton(
-                icon: Icon(Icons.rule_rounded),
-                tooltip: 'Tasks',
-                color: state.page == 2
-                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-                onPressed: () {
-                  state.changePage(2);
-                }),
-            AddSpeedDial(),
-            IconButton(
-                icon: Icon(Icons.timer_rounded),
-                tooltip: 'Time Log',
-                color: state.page == 1
-                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-                onPressed: () {
-                  state.changePage(1);
-                }),
-            IconButton(
-                icon: Icon(Icons.bar_chart_rounded),
-                tooltip: 'Goals',
-                color: state.page == 3
-                    ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-                    : DynamicColorTheme.of(context).data.unselectedWidgetColor,
-                onPressed: () {
-                  state.changePage(3);
-                }),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+// import 'package:flutter/material.dart';
+// import 'package:productivity_app/Shared/providers/page_state.dart';
+// import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
+// import 'package:provider/provider.dart';
 
+// class NavigationBar extends StatelessWidget {
+//   const NavigationBar({Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     PageState state = Provider.of<PageState>(context);
+//     return BottomAppBar(
+//       child: Container(
+//         padding: EdgeInsets.symmetric(vertical: 2),
+//         decoration: BoxDecoration(
+//             color: DynamicColorTheme.of(context).data.cardColor,
+//             border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             IconButton(
+//                 icon: Icon(Icons.dashboard_rounded),
+//                 tooltip: 'Dashboard',
+//                 color: state.page == 0
+//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                 onPressed: () {
+//                   state.changePage(0);
+//                 }),
+//             IconButton(
+//                 icon: Icon(Icons.rule_rounded),
+//                 tooltip: 'Tasks',
+//                 color: state.page == 2
+//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                 onPressed: () {
+//                   state.changePage(2);
+//                 }),
+//             AddSpeedDial(),
+//             IconButton(
+//                 icon: Icon(Icons.timer_rounded),
+//                 tooltip: 'Time Log',
+//                 color: state.page == 1
+//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                 onPressed: () {
+//                   state.changePage(1);
+//                 }),
+//             IconButton(
+//                 icon: Icon(Icons.bar_chart_rounded),
+//                 tooltip: 'Goals',
+//                 color: state.page == 3
+//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
+//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                 onPressed: () {
+//                   state.changePage(3);
+//                 }),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 
