@@ -51,79 +51,76 @@ class _BaseFrameworkState extends State<BaseFramework>
 
   @override
   Widget build(BuildContext context) {
+    StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Provider.of<List<Task>>(context) == null ||
             Provider.of<List<Project>>(context) == null ||
             Provider.of<List<Status>>(context) == null ||
             Provider.of<List<TimeEntry>>(context) == null
         ? Center(child: CircularProgressIndicator()) // TODO: Add logo animation
-        : ChangeNotifierProvider(
-            create: (context) => PageState(page: 0, widget: HomeScreen()),
-            builder: (context, child) {
-              PageState pageState = Provider.of<PageState>(context);
-              StopwatchState stopwatchState =
-                  Provider.of<StopwatchState>(context);
-              return Container(
-                  decoration: BoxDecoration(
-                      color: DynamicColorTheme.of(context).data.canvasColor),
-                  child: SafeArea(
-                    child: Scaffold(
-                      extendBody: true,
-                      body: Column(children: [
-                        stopwatchState.stopwatch.isRunning
-                            ? StopWatchTile()
-                            : Container(),
-                        Expanded(
-                            child: TabBarView(
-                                controller: _tabController,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: [
-                                  HomeScreen(),
-                                  TaskProjectScreen(),
-                                  Container(),
-                                  TimeScreen(),
-                                  TestScreen()
-                                ]))
+        : Container(
+            decoration: BoxDecoration(
+                color: DynamicColorTheme.of(context).data.canvasColor),
+            child: SafeArea(
+              child: Scaffold(
+                extendBody: true,
+                body: Column(children: [
+                  stopwatchState.stopwatch.isRunning
+                      ? StopWatchTile()
+                      : Container(),
+                  Expanded(
+                      child: TabBarView(
+                          controller: _tabController,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: [
+                        HomeScreen(),
+                        TaskProjectScreen(),
+                        Container(),
+                        TimeScreen(),
+                        TestScreen()
+                      ]))
+                ]),
+                bottomNavigationBar: BottomAppBar(
+                    child: Container(
+                  padding: EdgeInsets.only(
+                      top: 2), // Added to counteract the TabBar indicator line
+                  child: TabBar(
+                      controller: _tabController,
+                      indicatorColor: Colors.transparent,
+                      labelColor: DynamicColorTheme.of(context)
+                          .data
+                          .primaryIconTheme
+                          .color,
+                      tabs: [
+                        IconButton(
+                            icon: Icon(Icons.dashboard_rounded),
+                            tooltip: 'Dashboard',
+                            onPressed: () {
+                              _tabController.animateTo(0);
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.rule_rounded),
+                            tooltip: 'Tasks',
+                            onPressed: () {
+                              _tabController.animateTo(1);
+                            }),
+                        AddSpeedDial(),
+                        IconButton(
+                            icon: Icon(Icons.timer_rounded),
+                            tooltip: 'Time Log',
+                            onPressed: () {
+                              _tabController.animateTo(3);
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.bar_chart_rounded),
+                            tooltip: 'Goals',
+                            onPressed: () {
+                              _tabController.animateTo(4);
+                            }),
                       ]),
-                      bottomNavigationBar: BottomAppBar(
-                          child: Container(
-                            padding: EdgeInsets.only(top: 2),                   // Added to counteract the TabBar indicator line
-                            child: TabBar(
-                              controller: _tabController,
-                              indicatorColor: Colors.transparent,
-                              labelColor: DynamicColorTheme.of(context).data.primaryIconTheme.color,
-                              tabs: [
-                                IconButton(
-                                    icon: Icon(Icons.dashboard_rounded),
-                                    tooltip: 'Dashboard',
-                                    onPressed: () {
-                                      _tabController.animateTo(0);
-                                    }),
-                                IconButton(
-                                    icon: Icon(Icons.rule_rounded),
-                                    tooltip: 'Tasks',
-                                    onPressed: () {
-                                      _tabController.animateTo(1);
-                                    }),
-                                AddSpeedDial(),
-                                IconButton(
-                                    icon: Icon(Icons.timer_rounded),
-                                    tooltip: 'Time Log',
-                                    onPressed: () {
-                                      _tabController.animateTo(3);
-                                    }),
-                                IconButton(
-                                    icon: Icon(Icons.bar_chart_rounded),
-                                    tooltip: 'Goals',
-                                    onPressed: () {
-                                      _tabController.animateTo(4);
-                                    }),
-                              ]),
-                          )),
-                      drawer: SettingsDrawer(),
-                    ),
-                  ));
-            },
-          );
+                )),
+                drawer: SettingsDrawer(),
+              ),
+            ));
   }
 }
 
