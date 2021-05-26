@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -13,7 +14,10 @@ import 'package:productivity_app/Task_Feature/screens/task_screen.dart';
 import 'package:provider/provider.dart';
 
 class TaskBodyState extends ChangeNotifier {
-  TaskBodyState({this.tasks, this.statuses, this.projects});
+  TaskBodyState({this.tasks, this.statuses, this.projects}) {
+    changePage(0);
+  }
+
   int page = 0;
   List<Task> tasks;
   List<Status> statuses;
@@ -30,15 +34,18 @@ class TaskBodyState extends ChangeNotifier {
   Widget getWidget(dynamic item, int numberOfTasks) {
     switch (options[page]) {
       case 'Status':
-        return StatusExpansionTile(status: item as Status, numberOfTasks: numberOfTasks);
+        return StatusExpansionTile(
+            status: item as Status, numberOfTasks: numberOfTasks);
       case 'Project':
-        return ProjectExpansionTile(project: item as Project, numberOfTasks: numberOfTasks);
+        return ProjectExpansionTile(
+            project: item as Project, numberOfTasks: numberOfTasks);
       case 'Due Date':
         return DayTile(day: item as String, numberOfTasks: numberOfTasks);
-      case ' Create Date':
+      case 'Create Date':
         return DayTile(day: item as String, numberOfTasks: numberOfTasks);
       default:
-        return StatusExpansionTile(status: item as Status, numberOfTasks: numberOfTasks);
+        return StatusExpansionTile(
+            status: item as Status, numberOfTasks: numberOfTasks);
     }
   }
 
@@ -53,7 +60,7 @@ class TaskBodyState extends ChangeNotifier {
       case 'Due Date':
         currentTaskList = getTasksByDueDate(tasks);
         break;
-      case ' Create Date':
+      case 'Create Date':
         currentTaskList = getTasksByCreateDate(tasks);
         break;
       default:
@@ -66,45 +73,34 @@ class TaskBodyState extends ChangeNotifier {
   List<Map<Status, List<Task>>> getTasksByStatus(
       List<Task> tasks, List<Status> statuses) {
     List<Map<Status, List<Task>>> statusMapList = [];
+    List<Task> noStatusTasks = [];
     for (Status status in statuses) {
-      List<Task> tempTasks = [];
-      for (Task task in tasks) {
-        if (task.status.id == status.id) {
-          tempTasks.add(task);
-          tasks.remove(task);
-          tasks.join(', ');
-        }
-      }
+      List<Task> tempTasks =
+          tasks.where((task) => task.status.id == status.id).toList();
       statusMapList.add({status: tempTasks});
     }
-    if (tasks.isNotEmpty) {
-      statusMapList.add({Status(statusName: 'No Status'): tasks});
-    }
+    noStatusTasks.addAll(tasks.where((task) => task.project.id.isEmpty));
+    statusMapList.add({Status(statusName: 'No Project'): noStatusTasks});
     return statusMapList;
   }
 
   List<Map<Project, List<Task>>> getTasksByProject(
       List<Task> tasks, List<Project> projects) {
     List<Map<Project, List<Task>>> projectMapList = [];
+    List<Task> noProjectTasks = [];
     for (Project project in projects) {
-      List<Task> tempTasks = [];
-      for (Task task in tasks) {
-        if (task.project.id == project.id) {
-          tempTasks.add(task);
-          tasks.remove(task);
-          tasks.join(', ');
-        }
-      }
+      List<Task> tempTasks =
+          tasks.where((task) => task.project.id == project.id).toList();
       projectMapList.add({project: tempTasks});
     }
-    if (tasks.isNotEmpty) {
-      projectMapList.add({Project(projectName: 'No Project'): tasks});
-    }
+    noProjectTasks.addAll(tasks.where((task) => task.project.id.isEmpty));
+    projectMapList.add({Project(projectName: 'No Project'): noProjectTasks});
     return projectMapList;
   }
 
   List<Map<String, List<Task>>> getTasksByDueDate(List<Task> tasks) {
     List<Map<String, List<Task>>> dueDateMapList = [];
+    List<Task> noDueDateTasks = [];
     List<DateTime> days = [];
     for (Task task in tasks) {
       DateTime tempDate =
@@ -115,22 +111,18 @@ class TaskBodyState extends ChangeNotifier {
     }
     days.sort((a, b) => a.compareTo(b));
     for (DateTime day in days) {
-      List<Task> tempTasks = [];
-      for (Task task in tasks) {
-        if (task.dueDate.year == day.year &&
-            task.dueDate.month == day.month &&
-            task.dueDate.day == day.day) {
-          tempTasks.add(task);
-          tasks.remove(task);
-          tasks.join(', ');
-        }
-      }
+      List<Task> tempTasks = tasks
+          .where((task) =>
+              task.dueDate.year == day.year &&
+              task.dueDate.month == day.month &&
+              task.dueDate.day == day.day)
+          .toList();
       dueDateMapList
-          .add({DateTimeFunctions().dateToText(date: day): tempTasks});
-      if (tasks.isNotEmpty) {
-        dueDateMapList.add({'No Due Date': tasks});
-      }
+          .add({DateTimeFunctions().dateTimeToTextDate(date: day): tempTasks});
     }
+    noDueDateTasks
+        .addAll(tasks.where((task) => task.dueDate.microsecond == 555));
+    dueDateMapList.add({'No Due Date': noDueDateTasks});
     return dueDateMapList;
   }
 
@@ -139,28 +131,21 @@ class TaskBodyState extends ChangeNotifier {
     List<DateTime> days = [];
     for (Task task in tasks) {
       DateTime tempDate =
-          DateTime(task.dueDate.year, task.dueDate.month, task.dueDate.day);
+          DateTime(task.createDate.year, task.createDate.month, task.createDate.day);
       if (!days.contains(tempDate)) {
         days.add(tempDate);
       }
     }
     days.sort((a, b) => b.compareTo(a));
     for (DateTime day in days) {
-      List<Task> tempTasks = [];
-      for (Task task in tasks) {
-        if (task.createDate.year == day.year &&
-            task.createDate.month == day.month &&
-            task.createDate.day == day.day) {
-          tempTasks.add(task);
-          tasks.remove(task);
-          tasks.join(', ');
-        }
-      }
+      List<Task> tempTasks = tasks
+          .where((task) =>
+              task.createDate.year == day.year &&
+              task.createDate.month == day.month &&
+              task.createDate.day == day.day)
+          .toList();
       createDateMapList
-          .add({DateTimeFunctions().dateToText(date: day): tempTasks});
-      if (tasks.isNotEmpty) {
-        createDateMapList.add({'No Create Date': tasks});
-      }
+          .add({DateTimeFunctions().dateTimeToTextDate(date: day): tempTasks});
     }
     return createDateMapList;
   }

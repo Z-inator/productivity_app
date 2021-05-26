@@ -37,19 +37,22 @@ class FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskBodyState taskBodyState;
+    TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
     isSelected = index == taskBodyState.page;
-    return OutlinedButton.icon(
-        icon: Icon(icon),
-        label: Text(filterName),
-        onPressed: () => whenPressed(index),
-        style: OutlinedButton.styleFrom(
-          primary: isSelected
-              ? DynamicColorTheme.of(context).data.primaryColor
-              : DynamicColorTheme.of(context).data.accentColor,
-          backgroundColor: isSelected
-              ? DynamicColorTheme.of(context).data.accentColor
-              : DynamicColorTheme.of(context).data.primaryColor,
-        ));
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: OutlinedButton.icon(
+          icon: Icon(icon),
+          label: Text(filterName),
+          onPressed: () => whenPressed(index),
+          style: OutlinedButton.styleFrom(
+            primary: isSelected
+                ? DynamicColorTheme.of(context).data.primaryColor
+                : DynamicColorTheme.of(context).data.accentColor,
+            backgroundColor: isSelected
+                ? DynamicColorTheme.of(context).data.accentColor
+                : DynamicColorTheme.of(context).data.primaryColor,
+          )),
+    );
   }
 }

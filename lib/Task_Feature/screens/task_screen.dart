@@ -7,6 +7,7 @@ import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
+import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_create_date.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_due_date.dart';
@@ -40,36 +41,35 @@ class _TaskScreenState extends State<TaskScreen>
     List<Project> projects = Provider.of<List<Project>>(context);
     List<Status> statuses = Provider.of<List<Status>>(context);
     return ChangeNotifierProvider(
-        create: (context) => TaskBodyState(),
+        create: (context) =>
+            TaskBodyState(tasks: tasks, statuses: statuses, projects: projects),
         builder: (context, child) {
           TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
-          return Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                FilterButtonRow(), 
-                Expanded(
-                  child: TaskList(
-                    tasks: taskBodyState.currentTaskList.
-                  )
-                )]);
+          return Column(mainAxisSize: MainAxisSize.max, children: [
+            FilterButtonRow(),
+            Expanded(
+                child: tasks.isEmpty
+                    ? Center(child: Text('Add Tasks to see them listed here.'))
+                    : TaskList(
+                        taskMap: taskBodyState.currentTaskList,
+                        getWidget: taskBodyState.getWidget,
+                      ))
+          ]);
         });
   }
 }
-  // Working on being able to use TaskList on Project Page as well.
+// Working on being able to use TaskList on Project Page as well.
 
 class TaskList extends StatelessWidget {
-  List<Task> tasks;
-  Function getTasks;
-  Widget groupingWidget;
-  TaskList({Key key, this.tasks, this.getTasks, this.groupingWidget}) : super(key: key);
+  List<Map<dynamic, List<Task>>> taskMap;
+  Function(dynamic item, int numberOfTasks) getWidget;
+  TaskList({Key key, this.taskMap, this.getWidget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
-      children:
-          taskBodyState.currentTaskList.map((Map<dynamic, List<Task>> item) {
+      children: taskMap.map((Map<dynamic, List<Task>> item) {
         return Container(
           padding: EdgeInsets.all(10),
           child: Card(
@@ -77,7 +77,7 @@ class TaskList extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                taskBodyState.getWidget(item.keys.single, item.values.length),
+                getWidget(item.keys.single, item.values.length) as Widget,
                 GroupedTasks(tasks: item.values.single)
               ],
             ),
@@ -85,30 +85,6 @@ class TaskList extends StatelessWidget {
         );
       }).toList(),
     );
-  }
-}
-
-class GroupedTasks extends StatelessWidget {
-  final List<Task> tasks;
-  const GroupedTasks({this.tasks});
-
-  @override
-  Widget build(BuildContext context) {
-    return tasks == null
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : tasks.isEmpty
-            ? Center(
-                child: Text(
-                'No Tasks Yet',
-                style: DynamicColorTheme.of(context).data.textTheme.caption,
-              ))
-            : ListBody(
-                children: tasks.map((task) {
-                  return TaskExpansionTile(task: task);
-                }).toList(),
-              );
   }
 }
 

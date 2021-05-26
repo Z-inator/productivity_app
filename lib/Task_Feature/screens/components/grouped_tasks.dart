@@ -18,23 +18,23 @@ import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class GroupedTasks extends StatelessWidget {
-  final List<Task> associatedTasks;
-  const GroupedTasks({this.associatedTasks});
+  final List<Task> tasks;
+  const GroupedTasks({this.tasks});
 
   @override
   Widget build(BuildContext context) {
-    return associatedTasks == null
+    return tasks == null
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : associatedTasks.isEmpty
+        : tasks.isEmpty
             ? Center(
                 child: Text(
                 'No Tasks Yet',
                 style: DynamicColorTheme.of(context).data.textTheme.caption,
               ))
             : ListBody(
-                children: associatedTasks.map((task) {
+                children: tasks.map((task) {
                   return TaskExpansionTile(task: task);
                 }).toList(),
               );

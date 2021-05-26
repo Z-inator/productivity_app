@@ -8,12 +8,15 @@ import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
+import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
+import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_status.dart';
@@ -28,15 +31,40 @@ import 'package:productivity_app/Time_Feature/screens/time_entries_by_day.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:productivity_app/Task_Feature/screens/task_screen.dart';
 
 class ProjectPage extends StatelessWidget {
   final Project project;
-  const ProjectPage({this.project});
+  List<Map<dynamic, List<Task>>> taskMap = [];
+  List<Task> tasks;
+  List<Status> statuses;
+  List<TimeEntry> timeEntries;
+  ProjectPage({this.project});
+
+  List<Map<Status, List<Task>>> getTasksByStatus(
+      List<Task> tasks, List<Status> statuses) {
+    List<Map<Status, List<Task>>> statusMapList = [];
+    List<Task> noStatusTasks = [];
+    for (Status status in statuses) {
+      List<Task> tempTasks =
+          tasks.where((task) => task.status.id == status.id).toList();
+      statusMapList.add({status: tempTasks});
+    }
+    noStatusTasks.addAll(tasks.where((task) => task.project.id.isEmpty));
+    statusMapList.add({Status(statusName: 'No Project'): noStatusTasks});
+    return statusMapList;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Task> tasks = Provider.of<List<Task>>(context).where((task) => task.project.id == project.id).toList();
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context).where((entry) => entry.project.id == project.id).toList();
+    List<Task> tasks = Provider.of<List<Task>>(context)
+        .where((task) => task.project.id == project.id)
+        .toList();
+    List<Status> statuses = Provider.of<List<Status>>(context);
+    taskMap = getTasksByStatus(tasks, statuses);
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
+        .where((entry) => entry.project.id == project.id)
+        .toList();
     return SafeArea(
         child: DefaultTabController(
       length: 4,
@@ -64,20 +92,20 @@ class ProjectPage extends StatelessWidget {
               labelColor: Colors.black,
               tabs: [
                 Tab(icon: Icon(Icons.dashboard_rounded)),
-                Tab(icon: Icon(Icons.timer_rounded)),
                 Tab(icon: Icon(Icons.playlist_add_check_rounded)),
+                Tab(icon: Icon(Icons.timer_rounded)),
                 Tab(icon: Icon(Icons.bar_chart_rounded))
               ]),
         ),
         body: TabBarView(children: [
           HomeScreen(),
-          (timeEntries.isEmpty
+          tasks.isEmpty
+              ? Center(child: Text('No Tasks for ${project.projectName}'))
+              : TaskList(taskMap: taskMap, getWidget: (item, numberOfTasks) => StatusExpansionTile(status: item as Status, numberOfTasks: numberOfTasks)),
+          timeEntries.isEmpty
               ? Center(
                   child: Text('No Time Recorded for ${project.projectName}'))
-              : TimeEntriesByDay(timeEntries: timeEntries)),
-          (tasks.isEmpty
-              ? Center(child: Text('No Tasks for ${project.projectName}'))
-              : TasksByStatus(associatedTasks: tasks)),
+              : TimeEntriesByDay(timeEntries: timeEntries),
           HomeScreen()
         ]),
         floatingActionButton: ProjectPageSpeedDial(project: project),
