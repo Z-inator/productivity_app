@@ -24,15 +24,12 @@ import 'package:provider/provider.dart';
 
 class StatusExpansionTile extends StatelessWidget {
   final Status status;
-  const StatusExpansionTile({Key key, this.status}) : super(key: key);
+  final int numberOfTasks;
+  const StatusExpansionTile({Key key, this.status, this.numberOfTasks})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final StatusService statusService = Provider.of<StatusService>(context);
-    final TaskService taskService = Provider.of<TaskService>(context);
-    List<Task> tasks =
-        taskService.getTasksByStatus(Provider.of<List<Task>>(context), status);
-    int taskCount = statusService.getTaskCount(tasks, status);
     return Theme(
         data: DynamicColorTheme.of(context)
             .data
@@ -40,16 +37,11 @@ class StatusExpansionTile extends StatelessWidget {
         child: ExpansionTile(
           key: key,
           leading: Icon(Icons.circle, color: Color(status.statusColor)),
-          title: Text(
-            status.statusName,
-            style: DynamicColorTheme.of(context)
-                .data
-                .textTheme
-                .subtitle1
-          ),
+          title: Text(status.statusName,
+              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
           children: [
             ListTile(
-                title: Text('Tasks: $taskCount',
+                title: Text('Tasks: $numberOfTasks',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: IconButton(

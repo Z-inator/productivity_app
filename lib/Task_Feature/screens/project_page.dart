@@ -35,12 +35,8 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskService taskService = Provider.of<TaskService>(context);
-    List<Task> tasks = taskService.getTasksByProject(
-        Provider.of<List<Task>>(context), project);
-    TimeService timeService = Provider.of<TimeService>(context);
-    List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
-        Provider.of<List<TimeEntry>>(context), project);
+    List<Task> tasks = Provider.of<List<Task>>(context).where((task) => task.project.id == project.id).toList();
+    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context).where((entry) => entry.project.id == project.id).toList();
     return SafeArea(
         child: DefaultTabController(
       length: 4,

@@ -23,18 +23,15 @@ import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
-  const ProjectExpansionTile({Key key, this.project}) : super(key: key);
+  final int numberOfTasks;
+  const ProjectExpansionTile({Key key, this.project, this.numberOfTasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);
-    final TaskService taskService = Provider.of<TaskService>(context);
     final TimeService timeService = Provider.of<TimeService>(context);
-    List<Task> tasks = taskService.getTasksByProject(
-        Provider.of<List<Task>>(context), project);
-    int taskCount = projectService.getTaskCount(tasks);
     List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
         Provider.of<List<TimeEntry>>(context), project);
     int recordedTime = projectService.getRecordedTime(timeEntries);
@@ -138,7 +135,7 @@ class ProjectExpansionTile extends StatelessWidget {
             ),
             children: [
               ListTile(
-                leading: Text('Tasks: $taskCount',
+                leading: Text('Tasks: $numberOfTasks',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: Text(

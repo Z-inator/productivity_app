@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Task_Feature/models/projects.dart';
+import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
+import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_create_date.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_due_date.dart';
 import 'package:productivity_app/Task_Feature/screens/task_by_project.dart';
@@ -25,24 +29,102 @@ class TaskScreen extends StatefulWidget {
   _TaskScreenState createState() => _TaskScreenState();
 }
 
-class _TaskScreenState extends State<TaskScreen> with AutomaticKeepAliveClientMixin {
-    
+class _TaskScreenState extends State<TaskScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    List<Project> projects = Provider.of<List<Project>>(context);
+    List<Status> statuses = Provider.of<List<Status>>(context);
     return ChangeNotifierProvider(
         create: (context) => TaskBodyState(),
         builder: (context, child) {
-          TaskBodyState state = Provider.of<TaskBodyState>(context);
+          TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
           return Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 FilterButtonRow(), 
-                Expanded(child: state.widget)
-              ]);
+                Expanded(
+                  child: TaskList(
+                    tasks: taskBodyState.currentTaskList.
+                  )
+                )]);
         });
+  }
+}
+  // Working on being able to use TaskList on Project Page as well.
+
+class TaskList extends StatelessWidget {
+  List<Task> tasks;
+  Function getTasks;
+  Widget groupingWidget;
+  TaskList({Key key, this.tasks, this.getTasks, this.groupingWidget}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
+    return ListView(
+      padding: EdgeInsets.only(bottom: 100),
+      children:
+          taskBodyState.currentTaskList.map((Map<dynamic, List<Task>> item) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                taskBodyState.getWidget(item.keys.single, item.values.length),
+                GroupedTasks(tasks: item.values.single)
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class GroupedTasks extends StatelessWidget {
+  final List<Task> tasks;
+  const GroupedTasks({this.tasks});
+
+  @override
+  Widget build(BuildContext context) {
+    return tasks == null
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : tasks.isEmpty
+            ? Center(
+                child: Text(
+                'No Tasks Yet',
+                style: DynamicColorTheme.of(context).data.textTheme.caption,
+              ))
+            : ListBody(
+                children: tasks.map((task) {
+                  return TaskExpansionTile(task: task);
+                }).toList(),
+              );
+  }
+}
+
+class DayTile extends StatelessWidget {
+  final String day;
+  final int numberOfTasks;
+  const DayTile({Key key, this.day, this.numberOfTasks}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(day), Text(numberOfTasks.toString())],
+      ),
+    );
   }
 }
 
