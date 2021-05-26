@@ -61,55 +61,6 @@ class TaskService {
     return statuses;
   }
 
-  List<Task> getTasksByStatus(List<Task> tasks, Status status) {
-    return tasks.where((task) => task.status.id == status.id).toList();
-  }
-
-  List<Task> getTasksByProject(List<Task> tasks, Project project) {
-    return tasks.where((task) => task.project.id == project.id).toList();
-  }
-
-  List<DateTime> getDays(List<Task> tasks, bool byDueDate) {
-    List<DateTime> days = [];
-    DateTime tempDate;
-    tasks.forEach((task) {
-      if (byDueDate) {
-        tempDate =
-            DateTime(task.dueDate.year, task.dueDate.month, task.dueDate.day);
-      } else {
-        tempDate = DateTime(
-            task.createDate.year, task.createDate.month, task.createDate.day);
-      }
-      if (!days.contains(tempDate)) {
-        days.add(tempDate);
-      }
-    });
-    if (byDueDate) {
-      days.sort((a, b) => a.compareTo(b));
-    } else {
-      days.sort((a, b) => b.compareTo(a));
-    }
-    return days;
-  }
-
-  List<Task> getTasksByDate(List<Task> tasks, DateTime day, bool byDueDate) {
-    if (byDueDate) {
-      return tasks
-          .where((task) =>
-              task.dueDate.year == day.year &&
-              task.dueDate.month == day.month &&
-              task.dueDate.day == day.day)
-          .toList();
-    } else {
-      return tasks
-          .where((task) =>
-              task.createDate.year == day.year &&
-              task.createDate.month == day.month &&
-              task.createDate.day == day.day)
-          .toList();
-    }
-  }
-
   int getSubtaskCount(List<Subtask> subtasks, Task task) {
     return subtasks.length;
   }
