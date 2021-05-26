@@ -92,26 +92,34 @@ class _BaseFrameworkState extends State<BaseFramework>
                           .color,
                       tabs: [
                         IconButton(
-                            icon: Icon(Icons.dashboard_rounded),
+                            icon: _tabController.index == 0               // I am trying to copy the approach that YouTube uses where the tab you are on is filled and the others are outlined, but my icon choices don't have those options.
+                              ? Icon(Icons.dashboard_rounded)
+                              : Icon(Icons.dashboard_outlined),
                             tooltip: 'Dashboard',
                             onPressed: () {
                               _tabController.animateTo(0);
                             }),
                         IconButton(
-                            icon: Icon(Icons.rule_rounded),
+                            icon: _tabController.index == 1
+                              ? Icon(Icons.rule_rounded)
+                              : Icon(Icons.rule_outlined),
                             tooltip: 'Tasks',
                             onPressed: () {
                               _tabController.animateTo(1);
                             }),
                         AddSpeedDial(),
                         IconButton(
-                            icon: Icon(Icons.timer_rounded),
+                            icon: _tabController.index == 3
+                              ? Icon(Icons.timelapse_rounded)
+                              : Icon(Icons.timelapse_outlined),
                             tooltip: 'Time Log',
                             onPressed: () {
                               _tabController.animateTo(3);
                             }),
                         IconButton(
-                            icon: Icon(Icons.bar_chart_rounded),
+                            icon: _tabController.index == 4
+                              ? Icon(Icons.bar_chart_rounded)
+                              : Icon(Icons.bar_chart_outlined),
                             tooltip: 'Goals',
                             onPressed: () {
                               _tabController.animateTo(4);
