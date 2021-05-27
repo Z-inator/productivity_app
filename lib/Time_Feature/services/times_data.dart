@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
@@ -40,10 +41,9 @@ class TimeService {
         (QuerySnapshot querySnapshot) =>
             querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
               final Project project = projects.firstWhere((project) =>
-                  project.id ==
-                  queryDocument.data()['project'].toString());
-              final Task task = tasks.firstWhere((task) =>
-                  task.id == queryDocument.data()['task'].toString());
+                  project.id == queryDocument.data()['project'].toString());
+              final Task task = tasks.firstWhere(
+                  (task) => task.id == queryDocument.data()['task'].toString());
               return TimeEntry.fromFirestore(queryDocument, project, task);
             }).toList());
   }
@@ -60,40 +60,37 @@ class TimeService {
     return tasks;
   }
 
-  List<TimeEntry> filteredTimeEntries(
-      List<TimeEntry> timeEntries, DateTime day) {
-    return timeEntries
-        .where((entry) =>
-            entry.endTime.year == day.year &&
-            entry.endTime.month == day.month &&
-            entry.endTime.day == day.day)
-        .toList();
-  }
-
-  List<DateTime> getDays(List<TimeEntry> timeEntries) {
-    final List<DateTime> days = [];
-    timeEntries.forEach((entry) {
-      DateTime tempEntry =
+  List<Map<String, List<TimeEntry>>> getTimeEntriesByDay(
+      List<TimeEntry> entries) {
+    List<Map<String, List<TimeEntry>>> entryMapList = [];
+    List<DateTime> days = [];
+    for (TimeEntry entry in entries) {
+      DateTime tempDate =
           DateTime(entry.endTime.year, entry.endTime.month, entry.endTime.day);
-      if (!days.contains(tempEntry)) {
-        days.add(tempEntry);
+      if (!days.contains(tempDate)) {
+        days.add(tempDate);
       }
-    });
+    }
     days.sort((a, b) => b.compareTo(a));
-    return days;
+    for (DateTime day in days) {
+      List<TimeEntry> tempEntries = entries
+          .where((entry) =>
+              entry.endTime.year == day.year &&
+              entry.endTime.month == day.month &&
+              entry.endTime.day == day.day)
+          .toList();
+      entryMapList.add(
+          {DateTimeFunctions().dateTimeToTextDate(date: day): tempEntries});
+    }
+    return entryMapList;
   }
 
-  int getDailyRecordedTime(List<TimeEntry> timeEntries, DateTime day) {
+  String getDailyRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
-    Iterable<TimeEntry> dailyEntries;
-    dailyEntries = timeEntries.where((entry) =>
-        entry.endTime.year == day.year &&
-        entry.endTime.month == day.month &&
-        entry.endTime.day == day.day);
-    for (TimeEntry entry in dailyEntries) {
+    for (TimeEntry entry in timeEntries) {
       recordedTime += entry.elapsedTime;
     }
-    return recordedTime;
+    return TimeFunctions().timeToText(seconds: recordedTime);
   }
 
   List<TimeEntry> getTimeEntriesByProject(

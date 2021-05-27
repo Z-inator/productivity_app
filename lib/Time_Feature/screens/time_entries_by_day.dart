@@ -9,20 +9,20 @@ import 'package:provider/provider.dart';
 
 class TimeEntriesByDay extends StatelessWidget {
   final List<TimeEntry> timeEntries;
-  const TimeEntriesByDay({Key key, this.timeEntries}) : super(key: key);
+  List<Map<String, List<TimeEntry>>> entryMapList;
+  TimeEntriesByDay({Key key, this.timeEntries}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final TimeService timeService = Provider.of<TimeService>(context);
-
-    List<DateTime> days = timeService.getDays(timeEntries);
-    return days == null
+    entryMapList = timeService.getTimeEntriesByDay(timeEntries);
+    return entryMapList == null
         ? Center(child: CircularProgressIndicator())
-        : days.isEmpty
-            ? Center(child: Text('Record Time Worked to View Here.'))
+        : entryMapList.isEmpty
+            ? Center(child: Text('Record time-tracked to view here.'))
             : ListView(
                 padding: EdgeInsets.only(bottom: 100),
-                children: days.map((day) {
+                children: entryMapList.map((Map<String, List<TimeEntry>> item) {
                   return Container(
                     padding: EdgeInsets.all(10),
                     child: Card(
@@ -31,16 +31,15 @@ class TimeEntriesByDay extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ListTile(
-                              title: Text(DateTimeFunctions()
-                                  .dateTimeToTextDate(date: day)),
-                              trailing: Text(TimeFunctions().timeToText(
-                                  seconds: timeService.getDailyRecordedTime(
-                                      timeEntries, day)),
-                                  style: DynamicColorTheme.of(context).data.textTheme.subtitle1)),
-                          GroupedTimeEntries(
-                            timeEntries: timeService.filteredTimeEntries(
-                                timeEntries, day),
-                          )
+                              title: Text(item.keys.single),
+                              trailing: Text(
+                                  timeService
+                                      .getDailyRecordedTime(item.values.single),
+                                  style: DynamicColorTheme.of(context)
+                                      .data
+                                      .textTheme
+                                      .subtitle1)),
+                          GroupedTimeEntries(timeEntries: item.values.single),
                         ],
                       ),
                     ),
