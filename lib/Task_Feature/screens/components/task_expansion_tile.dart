@@ -10,12 +10,11 @@ import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
-import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_screen_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
-import 'package:productivity_app/Task_Feature/screens/task_by_status.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
@@ -42,8 +41,11 @@ class TaskExpansionTile extends StatelessWidget {
     int recordedTime = taskService.getRecordedTime(timeEntries, task);
     // int subtaskCount = 0; // TODO: implement Subtasks
     return ExpansionTile(
-      leading: Icon(Icons.check_circle_rounded,
-          color: Color(task.status.statusColor)),
+      leading: Tooltip(
+        message: task.status.statusName,
+        child: Icon(Icons.check_circle_rounded,
+            color: Color(task.status.statusColor)),
+      ),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
         style: DynamicColorTheme.of(context).data.textTheme.subtitle2,

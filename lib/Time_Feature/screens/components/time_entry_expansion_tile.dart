@@ -23,8 +23,11 @@ class TimeEntryExpansionTile extends StatelessWidget {
         Provider.of<DatabaseService>(context);
     TimeService timeService = Provider.of<TimeService>(context);
     return ExpansionTile(
-      leading: Icon(Icons.check_circle_rounded,
-          color: Color(entry.task.status.statusColor)),
+      leading: Tooltip(
+        message: entry.task.status.statusName,
+        child: Icon(Icons.check_circle_rounded,
+            color: Color(entry.task.status.statusColor)),
+      ),
       title: Text(
         entry.entryName,
         style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
