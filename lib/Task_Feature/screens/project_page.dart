@@ -12,14 +12,13 @@ import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
-import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_screen_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
-import 'package:productivity_app/Task_Feature/screens/task_by_status.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
@@ -41,27 +40,14 @@ class ProjectPage extends StatelessWidget {
   List<TimeEntry> timeEntries;
   ProjectPage({this.project});
 
-  List<Map<Status, List<Task>>> getTasksByStatus(
-      List<Task> tasks, List<Status> statuses) {
-    List<Map<Status, List<Task>>> statusMapList = [];
-    List<Task> noStatusTasks = [];
-    for (Status status in statuses) {
-      List<Task> tempTasks =
-          tasks.where((task) => task.status.id == status.id).toList();
-      statusMapList.add({status: tempTasks});
-    }
-    noStatusTasks.addAll(tasks.where((task) => task.project.id.isEmpty));
-    statusMapList.add({Status(statusName: 'No Project'): noStatusTasks});
-    return statusMapList;
-  }
-
   @override
   Widget build(BuildContext context) {
+    TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project.id == project.id)
         .toList();
     List<Status> statuses = Provider.of<List<Status>>(context);
-    taskMap = getTasksByStatus(tasks, statuses);
+    taskMap = taskService.getTasksByStatus(tasks, statuses);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
         .where((entry) => entry.project.id == project.id)
         .toList();
@@ -101,7 +87,10 @@ class ProjectPage extends StatelessWidget {
           HomeScreen(),
           tasks.isEmpty
               ? Center(child: Text('No Tasks for ${project.projectName}'))
-              : TaskList(taskMap: taskMap, getWidget: (item, numberOfTasks) => StatusExpansionTile(status: item as Status, numberOfTasks: numberOfTasks)),
+              : TaskList(
+                  taskMap: taskMap,
+                  getWidget: (item, numberOfTasks) => StatusExpansionTile(
+                      status: item as Status, numberOfTasks: numberOfTasks)),
           timeEntries.isEmpty
               ? Center(
                   child: Text('No Time Recorded for ${project.projectName}'))
