@@ -2,7 +2,7 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:productivity_app/Services/database.dart';
-import 'package:productivity_app/Shared/widgets/project_picker.dart';
+import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -35,7 +35,6 @@ class TaskEditBottomSheet extends StatelessWidget {
         final DatabaseService databaseService =
             Provider.of<DatabaseService>(context);
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
-        final TaskService taskService = Provider.of<TaskService>(context);
         return Container(
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -51,6 +50,7 @@ class TaskEditBottomSheet extends StatelessWidget {
               ),
               ProjectPicker(
                 saveProject: taskEditState.updateTaskProject,
+                noProject: taskEditState.updateTaskProject,
                 child: ListTile(
                   leading: Icon(
                     Icons.topic_rounded,
@@ -82,34 +82,47 @@ class TaskEditBottomSheet extends StatelessWidget {
                           .textTheme
                           .subtitle1),
                   OutlinedButton.icon(
+                    icon: Icon(Icons.today_rounded),
+                    label: Text(taskEditState.newDueDate == null
+                        ? 'Add Due Date'
+                        : DateTimeFunctions().dateTimeToTextDate(
+                            date: taskEditState.newTask.dueDate)),
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
                         initialDate: taskEditState.newTask.dueDate.year == 1
                             ? DateTime.now()
                             : taskEditState.newTask.dueDate,
                         saveDate: taskEditState.updateTaskDueDate),
-                    icon: Icon(Icons.today_rounded),
-                    label: Text(taskEditState.newTask.dueDate.year == 1
-                        ? 'Add Due Date'
-                        : DateTimeFunctions().dateTimeToTextDate(
-                            date: taskEditState.newTask.dueDate)),
                   ),
-                  OutlinedButton.icon(
-                    onPressed: () => DateAndTimePickers().selectTime(
-                        context: context,
-                        initialTime:
-                            taskEditState.newTask.dueDate.microsecond == 555
-                                ? TimeOfDay.now()
-                                : TimeOfDay.fromDateTime(
-                                    taskEditState.newTask.dueDate),
-                        saveTime: taskEditState.updateTaskDueTime),
-                    icon: Icon(Icons.alarm_rounded),
-                    label: Text(taskEditState.newTask.dueDate.microsecond != 555
-                        ? DateTimeFunctions().dateTimeToTextTime(
-                            date: taskEditState.newTask.dueDate,
-                            context: context)
-                        : 'Add Due Time'),
-                  ),
+                  taskEditState.newDueDate != null
+                      ? IconButton(
+                          icon: Icon(Icons.delete_rounded),
+                          onPressed: () {
+                            taskEditState.updateTaskDueDate(null);
+                          })
+                      : Container(),
+                  taskEditState.newDueDate == null
+                      ? Container()
+                      : OutlinedButton.icon(
+                          icon: Icon(Icons.alarm_rounded),
+                          label: Text(taskEditState.newDueTime == null
+                              ? 'Add Due Time'
+                              : taskEditState.newDueTime.format(context)),
+                          onPressed: () => DateAndTimePickers().selectTime(
+                              context: context,
+                              initialTime: taskEditState.newDueTime == null
+                                  ? TimeOfDay.now()
+                                  : TimeOfDay.fromDateTime(
+                                      taskEditState.newTask.dueDate),
+                              saveTime: taskEditState.updateTaskDueTime),
+                        ),
+                  taskEditState.newDueTime != null
+                      ? IconButton(
+                          icon: Icon(Icons.delete_rounded),
+                          onPressed: () {
+                            taskEditState.updateTaskDueTime(null);
+                          })
+                      : Container(),
                 ],
               ),
               Container(
@@ -118,6 +131,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                     icon: Icon(Icons.check_circle_outline_rounded),
                     label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
+                      taskEditState.combineDueDate();
                       isUpdate
                           ? databaseService.updateItem(
                               type: 'tasks',
