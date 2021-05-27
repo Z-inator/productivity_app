@@ -6,13 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_screen_state.dart';
 import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_expansion_tile.dart';
-import 'package:productivity_app/Task_Feature/screens/task_by_create_date.dart';
-import 'package:productivity_app/Task_Feature/screens/task_by_due_date.dart';
-import 'package:productivity_app/Task_Feature/screens/task_by_project.dart';
-import 'package:productivity_app/Task_Feature/screens/task_by_status.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_filter_buttons.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
@@ -37,12 +33,13 @@ class _TaskScreenState extends State<TaskScreen>
 
   @override
   Widget build(BuildContext context) {
+    TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     List<Status> statuses = Provider.of<List<Status>>(context);
     return ChangeNotifierProvider(
         create: (context) =>
-            TaskBodyState(tasks: tasks, statuses: statuses, projects: projects),
+            TaskBodyState(taskService: taskService, tasks: tasks, statuses: statuses, projects: projects),
         builder: (context, child) {
           TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
           return Column(mainAxisSize: MainAxisSize.max, children: [

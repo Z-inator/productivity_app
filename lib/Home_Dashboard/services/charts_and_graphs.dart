@@ -51,7 +51,7 @@ class TimeGraphs {
     days.sort((a, b) => a.compareTo(b));
 
     for (DateTime day in days) {
-      int tempTotalTime = timeService.getDailyRecordedTime(timeEntries, day);
+      int tempTotalTime = int.parse(timeService.getDailyRecordedTime(timeEntries));
       recordedDailyTime.add({day: tempTotalTime ?? 0});
     }
     return recordedDailyTime;

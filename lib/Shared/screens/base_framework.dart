@@ -35,17 +35,17 @@ class BaseFramework extends StatefulWidget {
 
 class _BaseFrameworkState extends State<BaseFramework>
     with TickerProviderStateMixin {
-  TabController _tabController;
+  TabController tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(length: 5, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -69,7 +69,7 @@ class _BaseFrameworkState extends State<BaseFramework>
                       : Container(),
                   Expanded(
                       child: TabBarView(
-                          controller: _tabController,
+                          controller: tabController,
                           physics: NeverScrollableScrollPhysics(),
                           children: [
                         HomeScreen(),
@@ -84,7 +84,7 @@ class _BaseFrameworkState extends State<BaseFramework>
                   padding: EdgeInsets.only(
                       top: 2), // Added to counteract the TabBar indicator line
                   child: TabBar(
-                      controller: _tabController,
+                      controller: tabController,
                       indicatorColor: Colors.transparent,
                       labelColor: DynamicColorTheme.of(context)
                           .data
@@ -92,37 +92,29 @@ class _BaseFrameworkState extends State<BaseFramework>
                           .color,
                       tabs: [
                         IconButton(
-                            icon: _tabController.index == 0               // I am trying to copy the approach that YouTube uses where the tab you are on is filled and the others are outlined, but my icon choices don't have those options.
-                              ? Icon(Icons.dashboard_rounded)
-                              : Icon(Icons.dashboard_outlined),
+                            icon: Icon(Icons.dashboard_rounded),
                             tooltip: 'Dashboard',
                             onPressed: () {
-                              _tabController.animateTo(0);
+                              tabController.animateTo(0);
                             }),
                         IconButton(
-                            icon: _tabController.index == 1
-                              ? Icon(Icons.rule_rounded)
-                              : Icon(Icons.rule_outlined),
+                            icon: Icon(Icons.rule_rounded),
                             tooltip: 'Tasks',
                             onPressed: () {
-                              _tabController.animateTo(1);
+                              tabController.animateTo(1);
                             }),
                         AddSpeedDial(),
                         IconButton(
-                            icon: _tabController.index == 3
-                              ? Icon(Icons.timelapse_rounded)
-                              : Icon(Icons.timelapse_outlined),
+                            icon: Icon(Icons.timelapse_rounded),
                             tooltip: 'Time Log',
                             onPressed: () {
-                              _tabController.animateTo(3);
+                              tabController.animateTo(3);
                             }),
                         IconButton(
-                            icon: _tabController.index == 4
-                              ? Icon(Icons.bar_chart_rounded)
-                              : Icon(Icons.bar_chart_outlined),
+                            icon: Icon(Icons.bar_chart_rounded),
                             tooltip: 'Goals',
                             onPressed: () {
-                              _tabController.animateTo(4);
+                              tabController.animateTo(4);
                             }),
                       ]),
                 )),

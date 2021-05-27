@@ -35,7 +35,8 @@ void main() {
 
 class ProductivityApp extends StatefulWidget {
   @override
-  _ProductivityAppState createState() => _ProductivityAppState();
+  _ProductivityAppState createState() => _ProductivityAppState
+  ();
 }
 
 class _ProductivityAppState extends State<ProductivityApp> {

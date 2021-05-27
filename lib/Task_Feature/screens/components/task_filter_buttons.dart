@@ -1,6 +1,6 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/providers/task_page_state.dart';
+import 'package:productivity_app/Task_Feature/providers/task_screen_state.dart';
 import 'package:provider/provider.dart';
 
 class FilterButtonRow extends StatelessWidget {
