@@ -1,18 +1,13 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
+import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
-import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
-import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
+import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
-import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
-import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 
 class AddSpeedDial extends StatelessWidget {
   // List<SpeedDialChild> getSpeedDialChildren(

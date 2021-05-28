@@ -14,22 +14,12 @@ class SettingsDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthService auth = Provider.of<AuthService>(context);
-    User user = auth.user;
     return Drawer(
         child: Column(
       children: [
         DrawerHeader(
-            decoration: BoxDecoration(
-                color: DynamicColorTheme.of(context).data.accentColor),
             child: ListTile(
-              title: Text(user.displayName,
-                  style: TextStyle(
-                      color: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle2
-                          .color,
-                      fontSize: 24)),
+              title: Text('Settings'),
               trailing: IconButton(
                   icon: Icon(Icons.cancel_rounded),
                   onPressed: () => Navigator.pop(context)),
@@ -86,31 +76,6 @@ class ThemeSettings extends StatelessWidget {
                 .setIsDark(isDark: value, shouldSave: true);
           },
         ),
-        ListTile(
-          title: TextButton(onPressed: () {
-            showDialog(
-            builder: (BuildContext context) {
-              return WillPopScope(
-                child: ColorPickerDialog(
-                  defaultColor: Colors.blue,
-                  defaultIsDark: false,
-                  title: 'Choose your Destiny',
-                  cancelButtonText: 'NEVERMIND',
-                  confirmButtonText: 'SOUNDS GOOD',
-                  shouldAutoDetermineDarkMode: true,
-                  shouldShowLabel: true,
-                ),
-                onWillPop: () async {
-                  DynamicColorTheme.of(context).resetToSharedPrefsValues();
-                  return true;
-                },
-              );
-            },
-            context: context,
-          );
-        },
-        child: Text('Launch color picker'),
-      ),),
         ListTile(
             title: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(vertical: 20),
