@@ -21,7 +21,23 @@ class ProductivityApp extends StatefulWidget {
 class _ProductivityAppState extends State<ProductivityApp> {
   bool _initialized = false;
   bool _error = false;
-  var preference;
+
+  void initializeFlutterFire() async {
+    try {
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      _error = true;
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,27 +79,6 @@ class _ProductivityAppState extends State<ProductivityApp> {
     );
   }
 
-  Future getPreferences() async {
-    preference = await SharedPreferences.getInstance();
-  }
-
-  void initializeFlutterFire() async {
-    try {
-      await Firebase.initializeApp();
-      setState(() {
-        _initialized = true;
-      });
-    } catch (e) {
-      _error = true;
-    }
-  }
-
-  @override
-  void initState() {
-    getPreferences();
-    initializeFlutterFire();
-    super.initState();
-  }
 }
 
 // return StreamProvider<User>.value(

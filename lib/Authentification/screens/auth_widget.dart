@@ -1,19 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/screens/sign_in_page.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:productivity_app/Shared/screens/base_framework.dart';
-import 'package:provider/provider.dart';
-import 'package:productivity_app/test_screen.dart';
 
 
 /// Builds the signed-in or non signed-in UI, depending on the user snapshot.
