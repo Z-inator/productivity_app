@@ -1,26 +1,11 @@
-import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
-import 'package:productivity_app/Time_Feature/screens/time_screen.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
-import 'package:productivity_app/Time_Feature/timer.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:productivity_app/Shared/screens/base_framework.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/test_data/new_data.dart';
-import 'package:productivity_app/test_data/project_to_firebase.dart';
-import 'package:productivity_app/test_data/task_to_firebase.dart';
-import 'package:productivity_app/test_data/time_to_firebase.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 
 class TestScreen extends StatelessWidget {
   @override

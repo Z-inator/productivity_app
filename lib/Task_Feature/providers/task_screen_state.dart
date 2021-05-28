@@ -6,7 +6,7 @@ import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
-import 'package:productivity_app/Task_Feature/screens/task_screen.dart';
+import 'package:productivity_app/Task_Feature/screens/components/task_list_tab.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 

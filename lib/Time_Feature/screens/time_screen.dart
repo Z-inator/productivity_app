@@ -4,7 +4,7 @@ import 'package:productivity_app/Task_Feature/screens/components/project_picker.
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_screen_state.dart';
-import 'package:productivity_app/Time_Feature/screens/time_entries_by_day.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entries_list.dart';
 import 'package:provider/provider.dart';
 
 class TimeScreen extends StatefulWidget {

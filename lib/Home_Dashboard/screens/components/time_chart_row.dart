@@ -1,21 +1,13 @@
-import 'dart:math';
 
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/project_pie_chart.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/recent_time_list.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/time_bar_chart.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/pageview_position_dots.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/screens/project_screen.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
 class TimeChartRow extends StatelessWidget {
@@ -49,7 +41,7 @@ class TimeChartRow extends StatelessWidget {
                     style:
                         DynamicColorTheme.of(context).data.textTheme.headline4),
                 subtitle: Text(
-                    TimeFunctions().timeToText(seconds: totalTimeRangeTime),
+                    DateTimeFunctions().timeToText(seconds: totalTimeRangeTime),
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 // TODO: implement a report screen

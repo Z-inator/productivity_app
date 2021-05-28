@@ -11,7 +11,6 @@ import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.d
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
@@ -139,7 +138,7 @@ class ProjectExpansionTile extends StatelessWidget {
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: Text(
-                    'Recorded Time: ${TimeFunctions().timeToText(seconds: recordedTime)}',
+                    'Recorded Time: ${DateTimeFunctions().timeToText(seconds: recordedTime)}',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),

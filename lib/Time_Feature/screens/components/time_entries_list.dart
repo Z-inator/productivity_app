@@ -1,7 +1,5 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/grouped_time_entries.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';

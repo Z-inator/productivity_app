@@ -1,17 +1,15 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
-import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 class TimeEntryExpansionTile extends StatelessWidget {
   final TimeEntry entry;
@@ -38,7 +36,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
               .textTheme
               .subtitle1
               .copyWith(color: Color(entry.project.projectColor))),
-      trailing: Text(TimeFunctions().timeToText(seconds: entry.elapsedTime),
+      trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime),
           style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
       children: [
         Theme(

@@ -3,7 +3,7 @@ import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart'
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/screens/time_entries_by_day.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entries_list.dart';
 import 'package:provider/provider.dart';
 
 class RecentTimeList extends StatelessWidget {

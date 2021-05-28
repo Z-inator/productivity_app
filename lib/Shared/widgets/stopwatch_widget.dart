@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
@@ -32,7 +32,7 @@ class StopWatchTile extends StatelessWidget {
                     ));
               }),
           title: Text(
-              TimeFunctions().timeToText(seconds: stopwatchState.elapsedTicks)),
+              DateTimeFunctions().timeToText(seconds: stopwatchState.elapsedTicks)),
           trailing: Text(
             stopwatchState.newEntry.project.projectName,
             style: TextStyle(

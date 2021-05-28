@@ -1,7 +1,6 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';

@@ -1,14 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/providers/status_edit_state.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Shared/functions/time_functions.dart';
 import 'package:provider/provider.dart';
 
 class StatusEditBottomSheet extends StatelessWidget {
