@@ -15,13 +15,12 @@ class PageViewRow extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => PageViewDotsState(),
         builder: (context, child) {
-          PageViewDotsState state = Provider.of<PageViewDotsState>(context);
+          final PageViewDotsState state = Provider.of<PageViewDotsState>(context);
           return Column(
             children: [
               Expanded(
                 child: PageView.builder(
                   controller: controller,
-                  scrollDirection: Axis.horizontal,
                   onPageChanged: (int index) => state.changePage(index),
                   itemCount: pages.length,
                   itemBuilder: (context, index) {

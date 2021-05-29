@@ -1,9 +1,8 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 
@@ -62,8 +61,8 @@ class StatusPickerDropDown extends StatelessWidget {
               value: status,
               child: ListTile(
                 title: Text(status.statusName,
-                    style: DynamicColorTheme.of(context)
-                        .data
+                    style: DynamicTheme.of(context)
+                        .theme
                         .textTheme
                         .subtitle1
                         .copyWith(color: Color(status.statusColor))),

@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
@@ -12,8 +12,8 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Task_Feature/screens/components/task_list_tab.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entries_list.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
 
 class ProjectPage extends StatelessWidget {
@@ -26,13 +26,13 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskService taskService = Provider.of<TaskService>(context);
-    List<Task> tasks = Provider.of<List<Task>>(context)
+    final TaskService taskService = Provider.of<TaskService>(context);
+    final List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project.id == project.id)
         .toList();
-    List<Status> statuses = Provider.of<List<Status>>(context);
+    final List<Status> statuses = Provider.of<List<Status>>(context);
     taskMap = taskService.getTasksByStatus(tasks, statuses);
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
         .where((entry) => entry.project.id == project.id)
         .toList();
     return SafeArea(
@@ -48,8 +48,7 @@ class ProjectPage extends StatelessWidget {
             IconButton(
                 icon: Icon(
                   Icons.edit_rounded,
-                  color:
-                      DynamicColorTheme.of(context).data.unselectedWidgetColor,
+                  color: DynamicTheme.of(context).theme.unselectedWidgetColor,
                 ),
                 onPressed: () => EditBottomSheet().buildEditBottomSheet(
                     context: context,
@@ -58,7 +57,7 @@ class ProjectPage extends StatelessWidget {
           ],
           bottom: TabBar(
               unselectedLabelColor:
-                  DynamicColorTheme.of(context).data.unselectedWidgetColor,
+                  DynamicTheme.of(context).theme.unselectedWidgetColor,
               labelColor: Colors.black,
               tabs: [
                 Tab(icon: Icon(Icons.dashboard_rounded)),
@@ -69,16 +68,12 @@ class ProjectPage extends StatelessWidget {
         ),
         body: TabBarView(children: [
           HomeScreen(),
-          tasks.isEmpty
-              ? Center(child: Text('No Tasks for ${project.projectName}'))
-              : TaskList(
+          if (tasks.isEmpty) Center(child: Text('No Tasks for ${project.projectName}')) else TaskList(
                   taskMap: taskMap,
                   getWidget: (item, numberOfTasks) => StatusExpansionTile(
                       status: item as Status, numberOfTasks: numberOfTasks)),
-          timeEntries.isEmpty
-              ? Center(
-                  child: Text('No Time Recorded for ${project.projectName}'))
-              : TimeEntriesByDay(timeEntries: timeEntries),
+          if (timeEntries.isEmpty) Center(
+                  child: Text('No Time Recorded for ${project.projectName}')) else TimeEntriesByDay(timeEntries: timeEntries),
           HomeScreen()
         ]),
         floatingActionButton: ProjectPageSpeedDial(project: project),
@@ -104,29 +99,29 @@ class ProjectPageSpeedDial extends StatelessWidget {
       tooltip: 'Add Menu',
       buttonSize: 40,
       childrenButtonSize: 40,
-      backgroundColor: DynamicColorTheme.of(context).data.accentColor,
-      foregroundColor: DynamicColorTheme.of(context).data.primaryColor,
+      backgroundColor: DynamicTheme.of(context).theme.accentColor,
+      foregroundColor: DynamicTheme.of(context).theme.primaryColor,
       elevation: 4,
       shape: CircleBorder(),
       children: [
         SpeedDialChild(
             child: Icon(Icons.timer_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+                color: DynamicTheme.of(context).theme.accentColor),
+            backgroundColor: DynamicTheme.of(context).theme.cardColor,
             onTap: () {} //TODO: add timer start here
             ),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+                color: DynamicTheme.of(context).theme.accentColor),
+            backgroundColor: DynamicTheme.of(context).theme.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(
                     isUpdate: false, entry: TimeEntry(project: project)))),
         SpeedDialChild(
             child: Icon(Icons.rule_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+                color: DynamicTheme.of(context).theme.accentColor),
+            backgroundColor: DynamicTheme.of(context).theme.cardColor,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TaskEditBottomSheet(
@@ -135,8 +130,8 @@ class ProjectPageSpeedDial extends StatelessWidget {
       // TODO: Implement Goal/Habits
       // SpeedDialChild(
       //     child: Icon(Icons.bar_chart_rounded,
-      //         color: DynamicColorTheme.of(context).data.accentColor),
-      //     backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+      //         color: DynamicTheme.of(context).theme.accentColor),
+      //     backgroundColor: DynamicTheme.of(context).theme.cardColor,
       //     onTap: () {})
     );
   }
@@ -178,9 +173,9 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //         children: [
 //           project.projectClient != null
 //               ? Text('Client: ${project.projectClient}',
-//                   style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+//                   style: DynamicTheme.of(context).theme.textTheme.subtitle1)
 //               : Text(''),
-//           Text('Tasks: 10', style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//           Text('Tasks: 10', style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //         ],
 //       ),
 //     ),
@@ -190,7 +185,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //         children: [
 //           Text('Time: ${project.projectTime}',
-//               style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//               style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //           OutlinedButton.icon(
 //             icon: Icon(Icons.playlist_add_check_rounded),
 //             label: Text('Tasks\n10'), // TODO: make this a live number
@@ -224,9 +219,9 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //           children: [
 //             project.projectClient != null
 //                 ? Text('Client: ${project.projectClient}',
-//                     style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+//                     style: DynamicTheme.of(context).theme.textTheme.subtitle1)
 //                 : Text(''),
-//             Text('Tasks: 10', style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//             Text('Tasks: 10', style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //           ],
 //         ),
 //       ),
@@ -236,7 +231,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //           children: [
 //             Text('Time: ${project.projectTime}',
-//                 style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//                 style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //             OutlinedButton.icon(
 //               icon: Icon(Icons.playlist_add_check_rounded),
 //               label: Text('Tasks\n10'), // TODO: make this a live number
@@ -257,7 +252,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
 //   padding: EdgeInsets.all(20),
 //   minHeight: 100,
 //   maxHeight: MediaQuery.of(context).size.height / 5,
-//   header: Text(project.projectName, style: DynamicColorTheme.of(context).data.textTheme.headline5.copyWith(color: Color(project.projectColor), fontWeight: FontWeight.bold)),
+//   header: Text(project.projectName, style: DynamicTheme.of(context).theme.textTheme.headline5.copyWith(color: Color(project.projectColor), fontWeight: FontWeight.bold)),
 //   // collapsed: Container(
 //   //   decoration: BoxDecoration(
 //   //     borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),

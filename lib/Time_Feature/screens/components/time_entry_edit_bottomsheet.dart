@@ -1,19 +1,19 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
+import 'package:productivity_app/Task_Feature/screens/components/task_picker.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_picker.dart';
 import 'package:provider/provider.dart';
 
 class TimeEntryEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final TimeEntry entry;
 
-  TimeEntryEditBottomSheet({Key key, this.isUpdate, this.entry})
+  const TimeEntryEditBottomSheet({Key key, this.isUpdate, this.entry})
       : super(key: key);
 
   @override
@@ -50,14 +50,11 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                       timeEntryEditState.newEntry.project.projectName.isEmpty
                           ? 'Add Project'
                           : timeEntryEditState.newEntry.project.projectName,
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle1),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: DynamicColorTheme.of(context)
-                          .data
-                          .unselectedWidgetColor),
+                      color:
+                          DynamicTheme.of(context).theme.unselectedWidgetColor),
                 ),
               ),
               TaskPicker(
@@ -70,9 +67,8 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                       ? 'Add Task'
                       : timeEntryEditState.newEntry.task.taskName),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: DynamicColorTheme.of(context)
-                          .data
-                          .unselectedWidgetColor),
+                      color:
+                          DynamicTheme.of(context).theme.unselectedWidgetColor),
                 ),
               ),
               ListTile(

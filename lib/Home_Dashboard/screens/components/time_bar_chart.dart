@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
@@ -14,26 +14,16 @@ class TimeBarChart extends StatelessWidget {
   const TimeBarChart({Key key, this.timeEntries, this.startDay, this.endDay})
       : super(key: key);
 
-  List<BarChartGroupData> buildGroupData(
-      Color color, List<Map<DateTime, int>> timeData) {
-    List<BarChartGroupData> groupData = [];
-    for (var entry in timeData) {
-      groupData.add(generateBarGroup(
-          color, timeData.indexOf(entry), entry.values.first.toDouble()));
-    }
-    return groupData;
-  }
-
   @override
   Widget build(BuildContext context) {
-    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    TimeService timeService = Provider.of<TimeService>(context);
-    List<DateTime> days = timeGraphsState.getDays(startDay, endDay);
-    List<Map<DateTime, int>> timeData =
+    final TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
+    final TimeService timeService = Provider.of<TimeService>(context);
+    final List<DateTime> days = timeGraphsState.getDays(startDay, endDay);
+    final List<Map<DateTime, int>> timeData =
         timeGraphsState.getTimeBarChartData(timeService, timeEntries, days);
-    List<BarChartGroupData> groupData =
-        buildGroupData(Theme.of(context).accentColor, timeData);
-    double maxDayTime = timeGraphsState.getMaxTime(timeData);
+    final List<BarChartGroupData> groupData =
+        buildGroupData(DynamicTheme.of(context).theme.accentColor, timeData);
+    final double maxDayTime = timeGraphsState.getMaxTime(timeData);
     return Card(
       child: timeData == null
           ? Center(
@@ -50,11 +40,14 @@ class TimeBarChart extends StatelessWidget {
                         border: Border(
                             left: BorderSide(
                                 width: 5,
-                                color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
+                                color: DynamicTheme.of(context)
+                                    .theme
+                                    .unselectedWidgetColor),
                             bottom: BorderSide(
                                 width: 5,
-                                color:
-                                    DynamicColorTheme.of(context).data.unselectedWidgetColor))),
+                                color: DynamicTheme.of(context)
+                                    .theme
+                                    .unselectedWidgetColor))),
                     gridData: FlGridData(
                         show: true,
                         drawHorizontalLine: true,
@@ -67,15 +60,16 @@ class TimeBarChart extends StatelessWidget {
                         ),
                     titlesData: FlTitlesData(
                         show: true,
-                        
                         bottomTitles: SideTitles(
                           margin: 10,
                           showTitles: true,
-                          getTextStyles: (value) =>
-                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                          getTextStyles: (value) => DynamicTheme.of(context)
+                              .theme
+                              .textTheme
+                              .subtitle1,
                           getTitles: (value) {
-                            int newValue = value.toInt() + 7;
-                            int dayValue = newValue % 7;
+                            final int newValue = value.toInt() + 7;
+                            final int dayValue = newValue % 7;
                             switch (dayValue) {
                               case 0:
                                 return 'M';
@@ -100,14 +94,16 @@ class TimeBarChart extends StatelessWidget {
                           showTitles: true,
                           margin: 10,
                           interval: (2 * (60 * 60)).toDouble(),
-                          getTextStyles: (value) =>
-                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                          getTextStyles: (value) => DynamicTheme.of(context)
+                              .theme
+                              .textTheme
+                              .subtitle1,
                           getTitles: (value) {
-                            int hourValue = value ~/ (60 * 60);
+                            final int hourValue = value ~/ (60 * 60);
                             if (value == 0) {
                               return '0';
                             }
-                            return '${hourValue}';
+                            return '$hourValue';
                           },
                         )),
                     barTouchData: BarTouchData(
@@ -117,17 +113,17 @@ class TimeBarChart extends StatelessWidget {
                       tooltipRoundedRadius: 25,
                       tooltipBgColor: Colors.grey[700],
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        Map<DateTime, int> entry = timeData[groupIndex];
-                        DateTime day = entry.keys.first;
-                        String dayTime = DateTimeFunctions()
+                        final Map<DateTime, int> entry = timeData[groupIndex];
+                        final DateTime day = entry.keys.first;
+                        final String dayTime = DateTimeFunctions()
                             .timeToText(seconds: entry.values.first);
                         return BarTooltipItem(
                             '${day.month} / ${day.day}\n$dayTime',
-                            DynamicColorTheme.of(context).data
+                            DynamicTheme.of(context)
+                                .theme
                                 .textTheme
                                 .subtitle1
-                                .copyWith(color: Colors.white),
-                            textAlign: TextAlign.center);
+                                .copyWith(color: Colors.white));
                       },
                     )),
                     barGroups: groupData),
@@ -136,6 +132,16 @@ class TimeBarChart extends StatelessWidget {
               ),
             ),
     );
+  }
+
+  List<BarChartGroupData> buildGroupData(
+      Color color, List<Map<DateTime, int>> timeData) {
+    final List<BarChartGroupData> groupData = [];
+    for (final entry in timeData) {
+      groupData.add(generateBarGroup(
+          color, timeData.indexOf(entry), entry.values.first.toDouble()));
+    }
+    return groupData;
   }
 
   // List<BarChartGroupData> generateBarGroups(

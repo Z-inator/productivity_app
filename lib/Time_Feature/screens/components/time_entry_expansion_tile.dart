@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:productivity_app/Services/database.dart';
@@ -19,7 +19,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
-    TimeService timeService = Provider.of<TimeService>(context);
+    final TimeService timeService = Provider.of<TimeService>(context);
     return ExpansionTile(
       leading: Tooltip(
         message: entry.task.status.statusName,
@@ -28,24 +28,23 @@ class TimeEntryExpansionTile extends StatelessWidget {
       ),
       title: Text(
         entry.entryName,
-        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
+        style: DynamicTheme.of(context).theme.textTheme.subtitle2,
       ),
       subtitle: Text(entry.project.projectName,
-          style: DynamicColorTheme.of(context)
-              .data
+          style: DynamicTheme.of(context)
+              .theme
               .textTheme
               .subtitle1
               .copyWith(color: Color(entry.project.projectColor))),
       trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime),
-          style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
+          style: DynamicTheme.of(context).theme.textTheme.subtitle2),
       children: [
         Theme(
-          data: DynamicColorTheme.of(context)
-              .data
+          data: DynamicTheme.of(context)
+              .theme
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
@@ -98,17 +97,13 @@ class TimeEntryExpansionTile extends StatelessWidget {
             children: [
               ListTile(
                 leading: OutlinedButton.icon(
-                  style: DynamicColorTheme.of(context)
-                      .data
-                      .outlinedButtonTheme
-                      .style,
+                  style:
+                      DynamicTheme.of(context).theme.outlinedButtonTheme.style,
                   icon: Icon(Icons.topic_rounded,
                       color: Color(entry.project.projectColor)),
                   label: Text(entry.project.projectName,
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle2),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle2),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -120,8 +115,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                 ),
                 trailing: Text(
                     '${DateFormat.jm().format(entry.startTime)} - ${DateFormat.jm().format(entry.endTime)}',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                    style: DynamicTheme.of(context).theme.textTheme.subtitle1),
               ),
             ],
           ),

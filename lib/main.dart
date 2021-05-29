@@ -1,4 +1,5 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/screens/auth_widget.dart';
@@ -50,11 +51,10 @@ class _ProductivityAppState extends State<ProductivityApp> {
     return Provider(
       create: (context) => AuthService(),
       child: AuthWidgetBuilder(builder: (context, userSnapshot) {
-        return DynamicColorTheme(
-          data: (color, isDark) => buildThemeData(color, isDark),
-          defaultColor: Colors.blue,
-          defaultIsDark: false,
-          themedWidgetBuilder: (context, theme) {
+        return DynamicTheme(
+          themeCollection: themeCollection,
+          builder: (context, theme) {
+            print(theme.accentColor);
             return
                 // GestureDetector(
                 //   onTap: () {
@@ -78,7 +78,6 @@ class _ProductivityAppState extends State<ProductivityApp> {
       }),
     );
   }
-
 }
 
 // return StreamProvider<User>.value(

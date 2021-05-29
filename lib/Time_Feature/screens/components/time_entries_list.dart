@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/grouped_time_entries.dart';
@@ -33,8 +33,8 @@ class TimeEntriesByDay extends StatelessWidget {
                               trailing: Text(
                                   timeService
                                       .getDailyRecordedTime(item.values.single),
-                                  style: DynamicColorTheme.of(context)
-                                      .data
+                                  style: DynamicTheme.of(context)
+                                      .theme
                                       .textTheme
                                       .subtitle1)),
                           GroupedTimeEntries(timeEntries: item.values.single),

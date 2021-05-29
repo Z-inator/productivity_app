@@ -42,7 +42,7 @@
 //           return AlertDialog(
 //             title: Text('Enter Time',
 //                 style:
-//                     TextStyle(color: DynamicColorTheme.of(context).data.unselectedWidgetColor)),
+//                     TextStyle(color: DynamicTheme.of(context).theme.unselectedWidgetColor)),
 //             shape: RoundedRectangleBorder(
 //                 borderRadius: BorderRadius.all(Radius.circular(25))),
 //             content: Row(
@@ -56,14 +56,14 @@
 //                     // controller: _textEditingControllerHour,
 //                     style: TextStyle(
 //                       fontSize: 50,
-//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                       color: DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                     ),
 //                     decoration: InputDecoration(
 //                         counterText: '',
 //                         contentPadding: EdgeInsets.all(5),
 //                         focusedBorder: OutlineInputBorder(
 //                             borderSide: BorderSide(
-//                                 color: DynamicColorTheme.of(context).data.accentColor)),
+//                                 color: DynamicTheme.of(context).theme.accentColor)),
 //                         border: OutlineInputBorder()),
 //                     keyboardType: TextInputType.number,
 //                     inputFormatters: [
@@ -92,7 +92,7 @@
 //                     child: Text(
 //                       ':',
 //                       textAlign: TextAlign.center,
-//                       style: DynamicColorTheme.of(context).data.textTheme.headline3,
+//                       style: DynamicTheme.of(context).theme.textTheme.headline3,
 //                     )),
 //                 Expanded(
 //                   child: TextField(
@@ -101,14 +101,14 @@
 //                     // controller: _textEditingControllerMinute,
 //                     style: TextStyle(
 //                       fontSize: 50,
-//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                       color: DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                     ),
 //                     decoration: InputDecoration(
 //                         counterText: '',
 //                         contentPadding: EdgeInsets.all(5),
 //                         focusedBorder: OutlineInputBorder(
 //                             borderSide: BorderSide(
-//                                 color: DynamicColorTheme.of(context).data.accentColor)),
+//                                 color: DynamicTheme.of(context).theme.accentColor)),
 //                         border: OutlineInputBorder()),
 //                     keyboardType: TextInputType.number,
 //                     inputFormatters: [
@@ -146,7 +146,7 @@
 //                         onPressed: () {},
 //                         icon: Icon(
 //                           Icons.access_time_rounded,
-//                           color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                           color: DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                         )),
 //                   ),
 //                   Container(

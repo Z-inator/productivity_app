@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
@@ -9,14 +9,22 @@ import 'package:provider/provider.dart';
 
 class TimePieChart extends StatelessWidget {
   final List<TimeEntry> timeEntries;
-  TimePieChart({Key key, this.timeEntries}) : super(key: key);
+  const TimePieChart({Key key, this.timeEntries}) : super(key: key);
+
+  Widget badgeWidget(TextStyle textStyle, Project project) {
+    return Card(
+        child: Padding(
+      padding: EdgeInsets.all(5),
+      child: Text(project.projectName, style: textStyle),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
-    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    ProjectService projectService = Provider.of<ProjectService>(context);
-    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries);
-    List<Map<Project, int>> projectData =
+    final TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
+    final ProjectService projectService = Provider.of<ProjectService>(context);
+    final int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries);
+    final List<Map<Project, int>> projectData =
         timeGraphsState.getProjectPieChartData(projectService, timeEntries);
     return Card(
         child: projectData == null
@@ -35,11 +43,16 @@ class TimePieChart extends StatelessWidget {
                           sections: generatePieSections(
                               projectData,
                               totalTimeRangeTime,
-                              DynamicColorTheme.of(context).data.textTheme.subtitle2,
-                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                              DynamicTheme.of(context)
+                                  .theme
+                                  .textTheme
+                                  .subtitle2,
+                              DynamicTheme.of(context)
+                                  .theme
+                                  .textTheme
+                                  .subtitle1,
                               constraints.maxHeight / 2.25)),
-                      swapAnimationDuration:
-                          Duration(microseconds: 500),
+                      swapAnimationDuration: Duration(microseconds: 500),
                       swapAnimationCurve: Curves.easeInOut,
                     );
                   },
@@ -54,9 +67,9 @@ class TimePieChart extends StatelessWidget {
       TextStyle badgeStyle,
       double radius) {
     return List.generate(projectData.length, (index) {
-      Project project = projectData.elementAt(index).keys.first;
-      int recordedTime = projectData.elementAt(index).values.first;
-      int percentage = ((recordedTime / totalTimeRangeTime) * 100).toInt();
+      final Project project = projectData.elementAt(index).keys.first;
+      final int recordedTime = projectData.elementAt(index).values.first;
+      final int percentage = ((recordedTime / totalTimeRangeTime) * 100).toInt();
       return PieChartSectionData(
           color: Color(project.projectColor),
           value: recordedTime.toDouble(),
@@ -67,13 +80,5 @@ class TimePieChart extends StatelessWidget {
           badgeWidget: badgeWidget(badgeStyle, project),
           badgePositionPercentageOffset: .9);
     });
-  }
-
-  Widget badgeWidget(TextStyle textStyle, Project project) {
-    return Card(
-        child: Padding(
-      padding: EdgeInsets.all(5),
-      child: Text(project.projectName, style: textStyle),
-    ));
   }
 }

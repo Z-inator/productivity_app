@@ -61,18 +61,18 @@ class TimeService {
 
   List<Map<String, List<TimeEntry>>> getTimeEntriesByDay(
       List<TimeEntry> entries) {
-    List<Map<String, List<TimeEntry>>> entryMapList = [];
-    List<DateTime> days = [];
-    for (TimeEntry entry in entries) {
-      DateTime tempDate =
+    final List<Map<String, List<TimeEntry>>> entryMapList = [];
+    final List<DateTime> days = [];
+    for (final TimeEntry entry in entries) {
+      final DateTime tempDate =
           DateTime(entry.endTime.year, entry.endTime.month, entry.endTime.day);
       if (!days.contains(tempDate)) {
         days.add(tempDate);
       }
     }
     days.sort((a, b) => b.compareTo(a));
-    for (DateTime day in days) {
-      List<TimeEntry> tempEntries = entries
+    for (final DateTime day in days) {
+      final List<TimeEntry> tempEntries = entries
           .where((entry) =>
               entry.endTime.year == day.year &&
               entry.endTime.month == day.month &&
@@ -86,7 +86,7 @@ class TimeService {
 
   String getDailyRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
-    for (TimeEntry entry in timeEntries) {
+    for (final TimeEntry entry in timeEntries) {
       recordedTime += entry.elapsedTime;
     }
     return DateTimeFunctions().timeToText(seconds: recordedTime);

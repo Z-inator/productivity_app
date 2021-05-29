@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/color_selector.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class StatusEditBottomSheet extends StatelessWidget {
   final Status status;
   final bool isUpdate;
-  StatusEditBottomSheet({Key key, this.status, this.isUpdate})
+  const StatusEditBottomSheet({Key key, this.status, this.isUpdate})
       : super(key: key);
 
   @override
@@ -43,10 +43,8 @@ class StatusEditBottomSheet extends StatelessWidget {
               CheckboxListTile(
                   value: statusEditState.newStatus.equalToComplete,
                   title: Text('This Status represents Task Complete:',
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle1),
                   subtitle: Text(
                       'Checking this box will keep tasks related to this status from displaying as late tasks.'),
                   onChanged: (bool value) =>

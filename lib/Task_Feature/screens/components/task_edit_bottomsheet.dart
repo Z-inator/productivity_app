@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -13,7 +13,7 @@ class TaskEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final Task task;
 
-  TaskEditBottomSheet({
+  const TaskEditBottomSheet({
     Key key,
     this.isUpdate,
     this.task,
@@ -52,14 +52,11 @@ class TaskEditBottomSheet extends StatelessWidget {
                       taskEditState.newTask.project.projectName.isEmpty
                           ? 'Add Project'
                           : taskEditState.newTask.project.projectName,
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle1),
                   trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: DynamicColorTheme.of(context)
-                          .data
-                          .unselectedWidgetColor),
+                      color:
+                          DynamicTheme.of(context).theme.unselectedWidgetColor),
                 ),
               ),
               StatusPicker(
@@ -69,10 +66,8 @@ class TaskEditBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text('Due: ',
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle1),
                   OutlinedButton.icon(
                     icon: Icon(Icons.today_rounded),
                     label: Text(taskEditState.newDueDate == null
@@ -86,16 +81,12 @@ class TaskEditBottomSheet extends StatelessWidget {
                             : taskEditState.newTask.dueDate,
                         saveDate: taskEditState.updateTaskDueDate),
                   ),
-                  taskEditState.newDueDate != null
-                      ? IconButton(
+                  if (taskEditState.newDueDate != null) IconButton(
                           icon: Icon(Icons.delete_rounded),
                           onPressed: () {
                             taskEditState.updateTaskDueDate(null);
-                          })
-                      : Container(),
-                  taskEditState.newDueDate == null
-                      ? Container()
-                      : OutlinedButton.icon(
+                          }) else Container(),
+                  if (taskEditState.newDueDate == null) Container() else OutlinedButton.icon(
                           icon: Icon(Icons.alarm_rounded),
                           label: Text(taskEditState.newDueTime == null
                               ? 'Add Due Time'
@@ -108,13 +99,11 @@ class TaskEditBottomSheet extends StatelessWidget {
                                       taskEditState.newTask.dueDate),
                               saveTime: taskEditState.updateTaskDueTime),
                         ),
-                  taskEditState.newDueTime != null
-                      ? IconButton(
+                  if (taskEditState.newDueTime != null) IconButton(
                           icon: Icon(Icons.delete_rounded),
                           onPressed: () {
                             taskEditState.updateTaskDueTime(null);
-                          })
-                      : Container(),
+                          }) else Container(),
                 ],
               ),
               Container(
@@ -239,16 +228,16 @@ class TaskEditBottomSheet extends StatelessWidget {
 //                           newTask.project.projectName.isEmpty
 //                               ? 'Add Project'
 //                               : newTask.project.projectName,
-//                           style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//                           style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //                       trailing: Icon(Icons.arrow_drop_down_rounded,
-//                           color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
+//                           color: DynamicTheme.of(context).theme.unselectedWidgetColor),
 //                     ),
 //                   ),
 //                   StatusPicker(saveStatus: updateStatus, task: newTask),
 //                   Row(
 //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                     children: [
-//                       Text('Due: ', style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//                       Text('Due: ', style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //                       OutlinedButton.icon(
 //                         onPressed: () => DateAndTimePickers().selectDate(
 //                             context: context,

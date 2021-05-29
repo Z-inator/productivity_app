@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,31 +8,28 @@ import 'package:productivity_app/Home_Dashboard/screens/components/task_row.dart
 import 'package:productivity_app/Home_Dashboard/screens/components/time_chart_row.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/screens/base_framework.dart';
-import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget{
+class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin<HomeScreen>{
-  
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin<HomeScreen> {
   @override
   bool get wantKeepAlive => true;
-  
+
   @override
   Widget build(BuildContext context) {
-    AuthService auth = Provider.of<AuthService>(context);
-    User user = auth.user;
+    final AuthService auth = Provider.of<AuthService>(context);
+    final User user = auth.user;
     return MultiProvider(
       providers: [
         Provider(create: (context) => TimeGraphs()),
         Provider(create: (context) => TaskCharts())
       ],
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
@@ -42,29 +39,37 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               child: Column(
                 children: [
                   ListTile(
-                      leading: Icon(
-                        Icons.account_circle_rounded,
-                        color: DynamicColorTheme.of(context).data.iconTheme.color),
+                      leading: Icon(Icons.account_circle_rounded,
+                          color:
+                              DynamicTheme.of(context).theme.iconTheme.color),
                       title: Text(user.displayName,
-                        style: DynamicColorTheme.of(context).data.textTheme.headline5),
-                      subtitle: Text(DateTimeFunctions()
-                          .dateTimeToTextDate(date: DateTime.now()),
-                          style: DynamicColorTheme.of(context).data.textTheme.bodyText2),
+                          style: DynamicTheme.of(context)
+                              .theme
+                              .textTheme
+                              .headline5),
+                      subtitle: Text(
+                          DateTimeFunctions()
+                              .dateTimeToTextDate(date: DateTime.now()),
+                          style: DynamicTheme.of(context)
+                              .theme
+                              .textTheme
+                              .bodyText2),
                       trailing: IconButton(
                         icon: Icon(Icons.settings_rounded),
-                        color: DynamicColorTheme.of(context).data.iconTheme.color,
+                        color: DynamicTheme.of(context).theme.iconTheme.color,
                         onPressed: () => Scaffold.of(context).openDrawer(),
                       )),
                   Text(
                       'The secret of your future is hidden in your daily routine.',
                       textAlign: TextAlign.center,
-                      style: DynamicColorTheme.of(context).data
+                      style: DynamicTheme.of(context)
+                          .theme
                           .textTheme
                           .subtitle2
                           .copyWith(fontStyle: FontStyle.italic)),
                   Text('Mike Murdock',
                       textAlign: TextAlign.center,
-                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+                      style: DynamicTheme.of(context).theme.textTheme.subtitle1)
                 ],
               ),
             ),

@@ -3,7 +3,6 @@
 // color to reflect dark/light mode. I switched to a TabBar/TabBarView solution
 // and it works perfectly fine.
 
-
 // import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 // import 'package:flutter/material.dart';
 // import 'package:productivity_app/Shared/providers/page_state.dart';
@@ -20,7 +19,7 @@
 //       child: Container(
 //         padding: EdgeInsets.symmetric(vertical: 2),
 //         decoration: BoxDecoration(
-//             color: DynamicColorTheme.of(context).data.cardColor,
+//             color: DynamicTheme.of(context).theme.cardColor,
 //             border: Border.symmetric(horizontal: BorderSide(color: Colors.grey))),
 //         child: Row(
 //           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -29,8 +28,8 @@
 //                 icon: Icon(Icons.dashboard_rounded),
 //                 tooltip: 'Dashboard',
 //                 color: state.page == 0
-//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                     ? DynamicTheme.of(context).theme.textTheme.subtitle1.color
+//                     : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                 onPressed: () {
 //                   state.changePage(0);
 //                 }),
@@ -38,8 +37,8 @@
 //                 icon: Icon(Icons.rule_rounded),
 //                 tooltip: 'Tasks',
 //                 color: state.page == 2
-//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                     ? DynamicTheme.of(context).theme.textTheme.subtitle1.color
+//                     : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                 onPressed: () {
 //                   state.changePage(2);
 //                 }),
@@ -48,8 +47,8 @@
 //                 icon: Icon(Icons.timer_rounded),
 //                 tooltip: 'Time Log',
 //                 color: state.page == 1
-//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                     ? DynamicTheme.of(context).theme.textTheme.subtitle1.color
+//                     : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                 onPressed: () {
 //                   state.changePage(1);
 //                 }),
@@ -57,8 +56,8 @@
 //                 icon: Icon(Icons.bar_chart_rounded),
 //                 tooltip: 'Goals',
 //                 color: state.page == 3
-//                     ? DynamicColorTheme.of(context).data.textTheme.subtitle1.color
-//                     : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                     ? DynamicTheme.of(context).theme.textTheme.subtitle1.color
+//                     : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                 onPressed: () {
 //                   state.changePage(3);
 //                 }),
@@ -68,8 +67,6 @@
 //     );
 //   }
 // }
-
-
 
 // This is my floating bottom navigation bar.
 // I found it beautiful but it didn't fit the rest of the app.
@@ -92,7 +89,7 @@
 //                   icon: Icon(Icons.dashboard_rounded),
 //                   color: state.page == 0
 //                       ? Colors.black
-//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                       : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(0);
 //                   }),
@@ -100,7 +97,7 @@
 //                   icon: Icon(Icons.timer_rounded),
 //                   color: state.page == 1
 //                       ? Colors.black
-//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                       : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(1);
 //                   }),
@@ -124,7 +121,7 @@
 //                   icon: Icon(Icons.rule_rounded),
 //                   color: state.page == 2
 //                       ? Colors.black
-//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                       : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(2);
 //                   }),
@@ -132,7 +129,7 @@
 //                   icon: Icon(Icons.bar_chart_rounded),
 //                   color: state.page == 3
 //                       ? Colors.black
-//                       : DynamicColorTheme.of(context).data.unselectedWidgetColor,
+//                       : DynamicTheme.of(context).theme.unselectedWidgetColor,
 //                   onPressed: () {
 //                     state.changePage(3);
 //                   }),

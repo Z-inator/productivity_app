@@ -16,7 +16,7 @@ class DatabaseService {
   // Build new user collections
   Future<void> buildNewUser() async {
     final DocumentReference userDocument = rootCollection.doc(_user.uid);
-    WriteBatch batch = FirebaseFirestore.instance.batch();
+    final WriteBatch batch = FirebaseFirestore.instance.batch();
 
     final List<Status> statuses = [
       Status(
@@ -78,13 +78,13 @@ class DatabaseService {
 
   // Update batch items in Firestore
   Future<void> updateBatchItems(String type, List<dynamic> itemsToUpdate) {
-    WriteBatch batch = instance.batch();
-    for (dynamic item in itemsToUpdate) {
-      DocumentReference documentReference = rootCollection
+    final WriteBatch batch = instance.batch();
+    for (final dynamic item in itemsToUpdate) {
+      final DocumentReference documentReference = rootCollection
           .doc(_user.uid)
           .collection(type)
           .doc(item.id.toString());
-      Map<String, dynamic> mapOfItem = item.toFirestore();
+      final Map<String, dynamic> mapOfItem = item.toFirestore();
       batch.update(documentReference, mapOfItem);
     }
     return batch

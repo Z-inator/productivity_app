@@ -1,12 +1,9 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/screens/about.dart';
 import 'package:productivity_app/Authentification/screens/components/register_form.dart';
 import 'package:productivity_app/Authentification/screens/components/sign_in_form.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
-import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SignInPage extends StatefulWidget {
@@ -29,7 +26,7 @@ class _SignInPageState extends State<SignInPage> {
         child: SafeArea(
             child: Scaffold(
                 appBar: AppBar(
-                  backgroundColor: DynamicColorTheme.of(context).data.accentColor,
+                  backgroundColor: DynamicTheme.of(context).theme.accentColor,
                   title: Text('Welcome to the AppName'),
                   actions: [
                     IconButton(
@@ -41,16 +38,14 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 body: SlidingUpPanel(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-                  panelSnapping: true,
                   minHeight: 80,
                   maxHeight: MediaQuery.of(context).size.height - 105,
                   backdropEnabled: true,
-                  backdropTapClosesPanel: true,
                   onPanelOpened: () {
                     setState(() {});
                   },
                   onPanelClosed: () {
-                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    final FocusScopeNode currentFocus = FocusScope.of(context);
                     if (!currentFocus.hasPrimaryFocus) {
                       currentFocus.unfocus();
                     }
@@ -62,7 +57,10 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         ListTile(
                             title: Text(isRegister ? 'Register' : 'Sign In',
-                                style: DynamicColorTheme.of(context).data.textTheme.headline6),
+                                style: DynamicTheme.of(context)
+                                    .theme
+                                    .textTheme
+                                    .headline6),
                             trailing: OutlinedButton.icon(
                               icon: Icon(isRegister
                                   ? Icons.account_circle_rounded
@@ -75,7 +73,7 @@ class _SignInPageState extends State<SignInPage> {
                                 print('button is pressed');
                               },
                             )),
-                        isRegister ? RegisterForm() : SignInForm(),
+                        if (isRegister) RegisterForm() else SignInForm(),
                       ],
                     ),
                   ),
@@ -84,9 +82,12 @@ class _SignInPageState extends State<SignInPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25))),
                       child: ListTile(
-                        tileColor: DynamicColorTheme.of(context).data.cardColor,
+                        tileColor: DynamicTheme.of(context).theme.cardColor,
                         title: Text('Sign In or Register to get Started',
-                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
+                            style: DynamicTheme.of(context)
+                                .theme
+                                .textTheme
+                                .headline6),
                       )),
                   header: Container(
                     width: MediaQuery.of(context).size.width,
@@ -97,7 +98,7 @@ class _SignInPageState extends State<SignInPage> {
                         height: 10,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
-                          color: DynamicColorTheme.of(context).data.accentColor,
+                          color: DynamicTheme.of(context).theme.accentColor,
                         ),
                       ),
                     ),

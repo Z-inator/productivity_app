@@ -1,4 +1,4 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
@@ -24,9 +24,9 @@ class TaskExpansionTile extends StatelessWidget {
         Provider.of<DatabaseService>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
     final TimeService timeService = Provider.of<TimeService>(context);
-    List<TimeEntry> timeEntries = timeService.getTimeEntriesByTask(
+    final List<TimeEntry> timeEntries = timeService.getTimeEntriesByTask(
         Provider.of<List<TimeEntry>>(context), task);
-    int recordedTime = taskService.getRecordedTime(timeEntries, task);
+    final int recordedTime = taskService.getRecordedTime(timeEntries, task);
     // int subtaskCount = 0; // TODO: implement Subtasks
     return ExpansionTile(
       leading: Tooltip(
@@ -36,23 +36,22 @@ class TaskExpansionTile extends StatelessWidget {
       ),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
-        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
+        style: DynamicTheme.of(context).theme.textTheme.subtitle2,
       ),
       subtitle: Text(
           task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
-          style: DynamicColorTheme.of(context)
-              .data
+          style: DynamicTheme.of(context)
+              .theme
               .textTheme
               .subtitle1
               .copyWith(color: Color(task.project.projectColor))),
       children: [
         Theme(
-          data: DynamicColorTheme.of(context)
-              .data
+          data: DynamicTheme.of(context)
+              .theme
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Row(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   IconButton(
@@ -131,17 +130,13 @@ class TaskExpansionTile extends StatelessWidget {
               ListTile(
                 dense: true,
                 leading: OutlinedButton.icon(
-                  style: DynamicColorTheme.of(context)
-                      .data
-                      .outlinedButtonTheme
-                      .style,
+                  style:
+                      DynamicTheme.of(context).theme.outlinedButtonTheme.style,
                   icon: Icon(Icons.topic_rounded,
                       color: Color(task.project.projectColor)),
                   label: Text(task.project.projectName,
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle2),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle2),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -154,15 +149,13 @@ class TaskExpansionTile extends StatelessWidget {
                 trailing: RichText(
                     text: TextSpan(
                         text: 'Status: ',
-                        style: DynamicColorTheme.of(context)
-                            .data
-                            .textTheme
-                            .subtitle2,
+                        style:
+                            DynamicTheme.of(context).theme.textTheme.subtitle2,
                         children: <TextSpan>[
                       TextSpan(
                           text: task.status.statusName,
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: DynamicTheme.of(context)
+                              .theme
                               .textTheme
                               .subtitle1
                               .copyWith(color: Color(task.status.statusColor)))
@@ -171,11 +164,10 @@ class TaskExpansionTile extends StatelessWidget {
               ListTile(
                 dense: true,
                 // leading: Text('Subtasks: $subtaskCount',
-                //     style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                //     style: DynamicTheme.of(context).theme.textTheme.subtitle1),
                 title: Text(
                     'Recorded Time: ${DateTimeFunctions().timeToText(seconds: recordedTime)}',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style: DynamicTheme.of(context).theme.textTheme.subtitle2),
               ),
               ListTile(
                 dense: true,
@@ -183,12 +175,11 @@ class TaskExpansionTile extends StatelessWidget {
                     task.dueDate.year == 0
                         ? 'Due: '
                         : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style: DynamicTheme.of(context).theme.textTheme.subtitle2),
               ),
               Text(
                   'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
-                  style: DynamicColorTheme.of(context).data.textTheme.caption),
+                  style: DynamicTheme.of(context).theme.textTheme.caption),
             ],
           ),
         )

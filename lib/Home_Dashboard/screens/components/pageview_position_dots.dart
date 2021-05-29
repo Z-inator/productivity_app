@@ -1,17 +1,6 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-class PageViewDotsState extends ChangeNotifier {
-  int activePage;
-
-  PageViewDotsState() : activePage = 0;
-
-  void changePage(int index) {
-    activePage = index;
-    notifyListeners();
-  }
-}
 
 class PageViewDots extends StatelessWidget {
   int index;
@@ -19,7 +8,7 @@ class PageViewDots extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PageViewDotsState state = Provider.of<PageViewDotsState>(context);
+    final PageViewDotsState state = Provider.of<PageViewDotsState>(context);
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       margin: EdgeInsets.symmetric(horizontal: 10),
@@ -27,7 +16,7 @@ class PageViewDots extends StatelessWidget {
       width: state.activePage == index ? 12 : 8,
       decoration: BoxDecoration(
           color: state.activePage == index
-              ? DynamicColorTheme.of(context).data.accentColor
+              ? DynamicTheme.of(context).theme.accentColor
               : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(25))),
     );
@@ -40,7 +29,7 @@ class PageViewDotsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PageViewDotsState state = Provider.of<PageViewDotsState>(context);
+    final PageViewDotsState state = Provider.of<PageViewDotsState>(context);
     return ListTile(
       title: Row(
         mainAxisSize: MainAxisSize.min,
@@ -49,5 +38,16 @@ class PageViewDotsRow extends StatelessWidget {
             List.generate(numberOfPages, (index) => PageViewDots(index: index)),
       ),
     );
+  }
+}
+
+class PageViewDotsState extends ChangeNotifier {
+  int activePage;
+
+  PageViewDotsState() : activePage = 0;
+
+  void changePage(int index) {
+    activePage = index;
+    notifyListeners();
   }
 }

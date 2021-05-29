@@ -31,7 +31,7 @@ class StatusService {
   Stream<List<Status>> streamStatuses() {
     final CollectionReference ref = _getStatusReference();
 
-    return ref.orderBy('statusOrder', descending: false).snapshots()
+    return ref.orderBy('statusOrder').snapshots()
         .map((querySnapshot) => querySnapshot.docs
             .map((queryDocument) => Status.fromFirestore(queryDocument))
             .toList());

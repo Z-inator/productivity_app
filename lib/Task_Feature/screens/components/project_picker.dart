@@ -1,7 +1,6 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:provider/provider.dart';
 
 class ProjectPicker extends StatelessWidget {
@@ -26,8 +25,7 @@ class ProjectPicker extends StatelessWidget {
                 color: Color(4285887861),
               ),
               title: Text('No Project',
-                  style:
-                      DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                  style: DynamicTheme.of(context).theme.textTheme.subtitle1),
               onTap: () {
                 saveProject(Project());
                 Navigator.pop(context);
@@ -46,8 +44,8 @@ class ProjectPicker extends StatelessWidget {
                         color: Color(project.projectColor),
                       ),
                       title: Text(project.projectName,
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: DynamicTheme.of(context)
+                              .theme
                               .textTheme
                               .subtitle1),
                       onTap: () {

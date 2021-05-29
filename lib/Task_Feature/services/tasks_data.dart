@@ -64,10 +64,10 @@ class TaskService {
 
   List<Map<Status, List<Task>>> getTasksByStatus(
       List<Task> tasks, List<Status> statuses) {
-    List<Map<Status, List<Task>>> statusMapList = [];
-    List<Task> noStatusTasks = [];
-    for (Status status in statuses) {
-      List<Task> tempTasks =
+    final List<Map<Status, List<Task>>> statusMapList = [];
+    final List<Task> noStatusTasks = [];
+    for (final Status status in statuses) {
+      final List<Task> tempTasks =
           tasks.where((task) => task.status.id == status.id).toList();
       statusMapList.add({status: tempTasks});
     }
@@ -80,10 +80,10 @@ class TaskService {
 
   List<Map<Project, List<Task>>> getTasksByProject(
       List<Task> tasks, List<Project> projects) {
-    List<Map<Project, List<Task>>> projectMapList = [];
-    List<Task> noProjectTasks = [];
-    for (Project project in projects) {
-      List<Task> tempTasks =
+    final List<Map<Project, List<Task>>> projectMapList = [];
+    final List<Task> noProjectTasks = [];
+    for (final Project project in projects) {
+      final List<Task> tempTasks =
           tasks.where((task) => task.project.id == project.id).toList();
       projectMapList.add({project: tempTasks});
     }
@@ -95,19 +95,19 @@ class TaskService {
   }
 
   List<Map<String, List<Task>>> getTasksByDueDate(List<Task> tasks) {
-    List<Map<String, List<Task>>> dueDateMapList = [];
-    List<Task> noDueDateTasks = [];
-    List<DateTime> days = [];
-    for (Task task in tasks) {
-      DateTime tempDate =
+    final List<Map<String, List<Task>>> dueDateMapList = [];
+    final List<Task> noDueDateTasks = [];
+    final List<DateTime> days = [];
+    for (final Task task in tasks) {
+      final DateTime tempDate =
           DateTime(task.dueDate.year, task.dueDate.month, task.dueDate.day);
       if (!days.contains(tempDate)) {
         days.add(tempDate);
       }
     }
     days.sort((a, b) => a.compareTo(b));
-    for (DateTime day in days) {
-      List<Task> tempTasks = tasks
+    for (final DateTime day in days) {
+      final List<Task> tempTasks = tasks
           .where((task) =>
               task.dueDate.year == day.year &&
               task.dueDate.month == day.month &&
@@ -123,18 +123,18 @@ class TaskService {
   }
 
   List<Map<String, List<Task>>> getTasksByCreateDate(List<Task> tasks) {
-    List<Map<String, List<Task>>> createDateMapList = [];
-    List<DateTime> days = [];
-    for (Task task in tasks) {
-      DateTime tempDate =
+    final List<Map<String, List<Task>>> createDateMapList = [];
+    final List<DateTime> days = [];
+    for (final Task task in tasks) {
+      final DateTime tempDate =
           DateTime(task.createDate.year, task.createDate.month, task.createDate.day);
       if (!days.contains(tempDate)) {
         days.add(tempDate);
       }
     }
     days.sort((a, b) => b.compareTo(a));
-    for (DateTime day in days) {
-      List<Task> tempTasks = tasks
+    for (final DateTime day in days) {
+      final List<Task> tempTasks = tasks
           .where((task) =>
               task.createDate.year == day.year &&
               task.createDate.month == day.month &&

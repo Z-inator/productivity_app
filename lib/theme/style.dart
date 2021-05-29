@@ -3,15 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
+class AppThemes {
+    static const int LightBlue = 0;
+    static const int LightRed = 1;
+    static const int Dark = 2;
+}
+final themeCollection = ThemeCollection(
+    themes: {
+        AppThemes.LightBlue: ThemeData(primarySwatch: Colors.blue),
+        AppThemes.LightRed: ThemeData(primarySwatch: Colors.red),
+        AppThemes.Dark: ThemeData.dark(),
+    },
+    fallbackTheme: ThemeData.light(),
+);
+
 
 ThemeData buildThemeData(Color accentColor, bool isDark) {
-  ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
-  Color primaryColor = isDark ? Colors.grey[800] : Colors.white;
-  Color iconColor = isDark ? Colors.white : Colors.grey[600];
-  Color navigationBarIconColor = isDark ? Colors.white : Colors.grey[800];
-  Color primaryTextColor = isDark ? Colors.white : Colors.black;
-  Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
+  final ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
+  final Color primaryColor = isDark ? Colors.grey[800] : Colors.white;
+  final Color iconColor = isDark ? Colors.white : Colors.grey[600];
+  final Color navigationBarIconColor = isDark ? Colors.white : Colors.grey[800];
+  final Color primaryTextColor = isDark ? Colors.white : Colors.black;
+  final Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
   return base.copyWith(
+    
       primaryColor: primaryColor,
       accentColor: accentColor,
       inputDecorationTheme: InputDecorationTheme(

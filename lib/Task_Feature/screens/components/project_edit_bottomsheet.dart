@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class ProjectEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
   final Project project;
-  ProjectEditBottomSheet({Key key, this.isUpdate, this.project})
+  const ProjectEditBottomSheet({Key key, this.isUpdate, this.project})
       : super(key: key);
 
   @override

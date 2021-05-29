@@ -1,5 +1,4 @@
-
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/project_pie_chart.dart';
@@ -11,26 +10,16 @@ import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:provider/provider.dart';
 
 class TimeChartRow extends StatelessWidget {
-  TimeChartRow({Key key}) : super(key: key);
-
-  List<Widget> pages(
-      List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
-    return [
-      TimeBarChart(
-          timeEntries: timeEntries, startDay: startDay, endDay: endDay),
-      TimePieChart(timeEntries: timeEntries),
-      RecentTimeList(timeEntries: timeEntries)
-    ];
-  }
+  const TimeChartRow({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    List<DateTime> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
-    List<TimeEntry> timeRangeEntries = timeGraphsState.getTimeRangeData(
+    final TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
+    final List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
+    final List<DateTime> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
+    final List<TimeEntry> timeRangeEntries = timeGraphsState.getTimeRangeData(
         timeEntries, currentWeek[0], currentWeek[1]);
-    int totalTimeRangeTime =
+    final int totalTimeRangeTime =
         timeGraphsState.getTotalTimeRangeTime(timeRangeEntries);
     return timeRangeEntries == null
         ? Center(child: CircularProgressIndicator())
@@ -38,12 +27,10 @@ class TimeChartRow extends StatelessWidget {
             children: [
               ListTile(
                 title: Text('Recorded Time',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.headline4),
+                    style: DynamicTheme.of(context).theme.textTheme.headline4),
                 subtitle: Text(
                     DateTimeFunctions().timeToText(seconds: totalTimeRangeTime),
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style: DynamicTheme.of(context).theme.textTheme.subtitle2),
                 // TODO: implement a report screen
                 // trailing: IconButton(
                 //   icon: Icon(Icons.insights_rounded),
@@ -61,5 +48,15 @@ class TimeChartRow extends StatelessWidget {
                               currentWeek[1]))),
             ],
           );
+  }
+
+  List<Widget> pages(
+      List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
+    return [
+      TimeBarChart(
+          timeEntries: timeEntries, startDay: startDay, endDay: endDay),
+      TimePieChart(timeEntries: timeEntries),
+      RecentTimeList(timeEntries: timeEntries)
+    ];
   }
 }

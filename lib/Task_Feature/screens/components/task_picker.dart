@@ -1,8 +1,7 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
 
 class TaskPicker extends StatelessWidget {
@@ -12,7 +11,7 @@ class TaskPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TimeEntryEditState timeEntryEditState =
+    final TimeEntryEditState timeEntryEditState =
         Provider.of<TimeEntryEditState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
     if (timeEntryEditState.newEntry.project.id.isNotEmpty) {
@@ -33,8 +32,7 @@ class TaskPicker extends StatelessWidget {
                 color: Color(4285887861),
               ),
               title: Text('No Task',
-                  style:
-                      DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                  style: DynamicTheme.of(context).theme.textTheme.subtitle1),
               onTap: () {
                 saveTask(Task());
                 Navigator.pop(context);
@@ -53,8 +51,8 @@ class TaskPicker extends StatelessWidget {
                         color: Color(task.status.statusColor),
                       ),
                       title: Text(task.taskName,
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: DynamicTheme.of(context)
+                              .theme
                               .textTheme
                               .subtitle1),
                       onTap: () {

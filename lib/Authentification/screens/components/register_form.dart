@@ -1,10 +1,10 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({Key key}) : super(key: key);
+  const RegisterForm({Key key}) : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -135,14 +135,15 @@ class _RegisterFormState extends State<RegisterForm> {
                           icon: Icon(Icons.check_circle_outline_rounded),
                           label: Text('Register'),
                           onPressed: () async {
-                            FocusScopeNode currentFocus =
+                            final FocusScopeNode currentFocus =
                                 FocusScope.of(context);
                             if (!currentFocus.hasPrimaryFocus) {
                               currentFocus.unfocus();
                             }
                             if (_formKey.currentState.validate()) {
-                              dynamic result = await auth
-                                  .registerWithEmailAndPassword(email, password, displayName);
+                              final dynamic result =
+                                  await auth.registerWithEmailAndPassword(
+                                      email, password, displayName);
                               if (result != null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(result.toString())));
@@ -153,22 +154,11 @@ class _RegisterFormState extends State<RegisterForm> {
                       ],
                     )),
                 GestureDetector(
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: ListTile(
-                        leading: Image(
-                            image: AssetImage('assets/logos/google_logo.png')),
-                        title: Text('Register using Google',
-                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
-                      ),
-                    ),
-                  ),
                   onTap: () async {
                     setState(() {
                       signingIn = true;
                     });
-                    var result = await auth.googleSignIn();
+                    final result = await auth.googleSignIn();
                     if (result != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(result.toString())));
@@ -177,6 +167,20 @@ class _RegisterFormState extends State<RegisterForm> {
                       signingIn = false;
                     });
                   },
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        leading: Image(
+                            image: AssetImage('assets/logos/google_logo.png')),
+                        title: Text('Register using Google',
+                            style: DynamicTheme.of(context)
+                                .theme
+                                .textTheme
+                                .headline6),
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),

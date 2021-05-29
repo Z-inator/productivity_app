@@ -1,9 +1,8 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:provider/provider.dart';
 
 class StatusList extends StatelessWidget {
@@ -15,12 +14,11 @@ class StatusList extends StatelessWidget {
     return statuses == null
         ? Center(child: CircularProgressIndicator())
         : Column(
-          mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 title: Text('Statuses',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.headline4),
+                    style: DynamicTheme.of(context).theme.textTheme.headline4),
                 trailing: IconButton(
                   icon: Icon(Icons.edit_rounded),
                   onPressed: () {
@@ -32,17 +30,14 @@ class StatusList extends StatelessWidget {
                   },
                 ),
               ),
-              statuses.isEmpty
-                  ? Center(
+              if (statuses.isEmpty) Center(
                       child: Text('Add Statuses to view here',
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: DynamicTheme.of(context)
+                              .theme
                               .textTheme
-                              .subtitle2))
-                  : ListBody(
+                              .subtitle2)) else ListBody(
                       children: statuses
-                          .map(
-                              (status) => StatusExpansionTile(status: status))
+                          .map((status) => StatusExpansionTile(status: status))
                           .toList(),
                     )
             ],

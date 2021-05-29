@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
-import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
+import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class StopWatchTile extends StatelessWidget {
   const StopWatchTile({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
+    final StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Container(
       child: Card(
         margin: EdgeInsets.all(0),
@@ -31,8 +28,8 @@ class StopWatchTile extends StatelessWidget {
                       entry: stopwatchState.newEntry,
                     ));
               }),
-          title: Text(
-              DateTimeFunctions().timeToText(seconds: stopwatchState.elapsedTicks)),
+          title: Text(DateTimeFunctions()
+              .timeToText(seconds: stopwatchState.elapsedTicks)),
           trailing: Text(
             stopwatchState.newEntry.project.projectName,
             style: TextStyle(
@@ -55,7 +52,7 @@ class StopWatchTile extends StatelessWidget {
 //     return SlidingUpPanel(
 //       panelSnapping: true,
 //       borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
-//       color: DynamicColorTheme.of(context).data.cardColor,
+//       color: DynamicTheme.of(context).theme.cardColor,
 //       minHeight: 70,
 //       slideDirection: SlideDirection.DOWN,
 //       header: Container(
@@ -76,7 +73,7 @@ class StopWatchTile extends StatelessWidget {
 //               height: 5,
 //               decoration: BoxDecoration(
 //                 borderRadius: BorderRadius.all(Radius.circular(25)),
-//                 color: DynamicColorTheme.of(context).data.accentColor,
+//                 color: DynamicTheme.of(context).theme.accentColor,
 //               ),
 //             ),
 //           ],
@@ -99,9 +96,9 @@ class StopWatchTile extends StatelessWidget {
 //                       stopwatchState.timeEntry.project.projectName.isEmpty
 //                           ? 'Add Project'
 //                           : stopwatchState.timeEntry.project.projectName,
-//                       style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//                       style: DynamicTheme.of(context).theme.textTheme.subtitle1),
 //                   trailing: Icon(Icons.arrow_drop_down_rounded,
-//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
+//                       color: DynamicTheme.of(context).theme.unselectedWidgetColor),
 //                 )),
 //             // TaskPicker(),
 //           ],
@@ -119,7 +116,7 @@ class StopWatchTile extends StatelessWidget {
 //     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
 //     return SnackBar(
 //         content: ListTile(
-//       tileColor: DynamicColorTheme.of(context).data.shadowColor,
+//       tileColor: DynamicTheme.of(context).theme.shadowColor,
 //       leading: IconButton(
 //         icon: Icon(Icons.stop_rounded, color: Colors.red),
 //         onPressed: () => stopwatchState.stopStopwatch(),

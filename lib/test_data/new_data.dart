@@ -18,7 +18,7 @@ class NewDataUpload {
   List<Map<String, dynamic>> taskData = mock.taskData;
 
   dynamic uploadExampleProjectData() {
-    for (Map<String, dynamic> map in projectData) {
+    for (final Map<String, dynamic> map in projectData) {
       DatabaseService().addItem(type: 'projects', addData: {
         'projectName': map['projectName'] as String,
         'projectColor': map['projectColor'] as int
@@ -27,7 +27,7 @@ class NewDataUpload {
   }
 
   dynamic uploadExampleStatusData() {
-    for (Map<String, dynamic> map in statusData) {
+    for (final Map<String, dynamic> map in statusData) {
       DatabaseService().addItem(type: 'statuses', addData: {
         'statusName': map['statusName'] as String,
         'statusColor': map['statusColor'] as int,
@@ -38,7 +38,7 @@ class NewDataUpload {
   }
 
   dynamic uploadExampleTaskData() {
-    for (Map<String, dynamic> map in taskData) {
+    for (final Map<String, dynamic> map in taskData) {
       DatabaseService().addItem(type: 'tasks', addData: {
         'taskName': map['taskName'] as String,
         'project': map['project'] as String,
@@ -70,7 +70,7 @@ class NewDataUpload {
 
   dynamic uploadExampleTimeData(List<Task> tasks) {
     int count = 5;
-    for (Task task in tasks) {
+    for (final Task task in tasks) {
       switch (count.remainder(5).toInt()) {
         case 0:
           DatabaseService().addItem(type: 'timeEntries', addData: {

@@ -19,7 +19,7 @@ class AuthService {
   // Authentification change user stream
   Stream<User> get onAuthStateChanged {
     return _auth.authStateChanges().map((user) {
-      return user == null ? null : user;
+      return user ?? null;
     });
   }
 
@@ -34,7 +34,7 @@ class AuthService {
   }
 
   String passwordValidation(String password) {
-    int passwordMinLength = 8;
+    final int passwordMinLength = 8;
     if (password == null || password.isEmpty) {
       return 'Please enter your password';
     } else if (!password.contains(RegExp(r'[A-Z]'))) {
@@ -91,7 +91,7 @@ class AuthService {
   // Sign in with Google
   Future googleSignIn() async {
     if (kIsWeb) {
-      GoogleAuthProvider authProvider = GoogleAuthProvider();
+      final GoogleAuthProvider authProvider = GoogleAuthProvider();
       try {
         final UserCredential userCredential =
             await _auth.signInWithPopup(authProvider);

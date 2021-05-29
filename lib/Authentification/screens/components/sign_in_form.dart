@@ -1,10 +1,10 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
-  SignInForm({Key key}) : super(key: key);
+  const SignInForm({Key key}) : super(key: key);
 
   @override
   _SignInFormState createState() => _SignInFormState();
@@ -25,7 +25,6 @@ class _SignInFormState extends State<SignInForm> {
             height: MediaQuery.of(context).size.height - 200,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
               children: [
                 Form(
                     key: _formKey,
@@ -71,7 +70,7 @@ class _SignInFormState extends State<SignInForm> {
                           icon: Icon(Icons.check_circle_outline_rounded),
                           label: Text('Sign In'),
                           onPressed: () async {
-                            FocusScopeNode currentFocus =
+                            final FocusScopeNode currentFocus =
                                 FocusScope.of(context);
                             if (!currentFocus.hasPrimaryFocus) {
                               currentFocus.unfocus();
@@ -80,7 +79,7 @@ class _SignInFormState extends State<SignInForm> {
                               setState(() {
                                 signingIn = true;
                               });
-                              dynamic result = await auth
+                              final dynamic result = await auth
                                   .signInWithEmailAndPassword(email, password);
                               if (result != null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -95,22 +94,11 @@ class _SignInFormState extends State<SignInForm> {
                       ],
                     )),
                 GestureDetector(
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: ListTile(
-                        leading: Image(
-                            image: AssetImage('assets/logos/google_logo.png')),
-                        title: Text('Sign In using Google',
-                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
-                      ),
-                    ),
-                  ),
                   onTap: () async {
                     setState(() {
                       signingIn = true;
                     });
-                    var result = await auth.googleSignIn();
+                    final result = await auth.googleSignIn();
                     if (result != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(result.toString())));
@@ -119,6 +107,20 @@ class _SignInFormState extends State<SignInForm> {
                       signingIn = false;
                     });
                   },
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        leading: Image(
+                            image: AssetImage('assets/logos/google_logo.png')),
+                        title: Text('Sign In using Google',
+                            style: DynamicTheme.of(context)
+                                .theme
+                                .textTheme
+                                .headline6),
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),

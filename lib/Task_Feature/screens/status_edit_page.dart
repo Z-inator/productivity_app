@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_edit_bottomsheet.dart';
-import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:provider/provider.dart';
 
 class StatusEditPage extends StatefulWidget {
-  StatusEditPage({Key key}) : super(key: key);
+  const StatusEditPage({Key key}) : super(key: key);
 
   @override
   _StatusEditPageState createState() => _StatusEditPageState();
@@ -23,8 +22,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    DatabaseService databaseService = Provider.of<DatabaseService>(context);
-    StatusService statusService = Provider.of<StatusService>(context);
+    final DatabaseService databaseService = Provider.of<DatabaseService>(context);
+    final StatusService statusService = Provider.of<StatusService>(context);
     statuses = Provider.of<List<Status>>(context);
     return SafeArea(
         child: Scaffold(
@@ -49,7 +48,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
               newIndex -= 1;
             }
             setState(() {
-              Status statusToRemove = statuses[oldIndex];
+              final Status statusToRemove = statuses[oldIndex];
               statuses.removeAt(oldIndex);
               statuses.insert(newIndex, statusToRemove);
             });
@@ -71,7 +70,6 @@ class _StatusEditPageState extends State<StatusEditPage> {
                 ListTile(
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
                         children: [
                       IconButton(
                         icon: Icon(Icons.delete_rounded),
@@ -123,10 +121,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
                     ])),
                 ListTile(
                   title: Text('Description:',
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
+                      style:
+                          DynamicTheme.of(context).theme.textTheme.subtitle1),
                   subtitle: Text(status.statusDescription,
                       overflow: TextOverflow.fade, maxLines: 3),
                 )
@@ -141,7 +137,6 @@ class _StatusEditPageState extends State<StatusEditPage> {
           child: Container(
             margin: EdgeInsets.fromLTRB(40, 0, 40, 20),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton.icon(

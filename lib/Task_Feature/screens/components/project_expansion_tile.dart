@@ -1,29 +1,25 @@
-import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
-import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
-import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
   final int numberOfTasks;
-  const ProjectExpansionTile({Key key, this.project, this.numberOfTasks}) : super(key: key);
+  const ProjectExpansionTile({Key key, this.project, this.numberOfTasks})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +27,12 @@ class ProjectExpansionTile extends StatelessWidget {
         Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);
     final TimeService timeService = Provider.of<TimeService>(context);
-    List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
+    final List<TimeEntry> timeEntries = timeService.getTimeEntriesByProject(
         Provider.of<List<TimeEntry>>(context), project);
-    int recordedTime = projectService.getRecordedTime(timeEntries);
+    final int recordedTime = projectService.getRecordedTime(timeEntries);
     return Theme(
-      data: DynamicColorTheme.of(context)
-          .data
+      data: DynamicTheme.of(context)
+          .theme
           .copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         leading: Icon(
@@ -47,8 +43,8 @@ class ProjectExpansionTile extends StatelessWidget {
           project.projectName.isEmpty
               ? 'NO PROJECT TITLES'
               : project.projectName,
-          style: DynamicColorTheme.of(context)
-              .data
+          style: DynamicTheme.of(context)
+              .theme
               .textTheme
               .subtitle1
               .copyWith(fontWeight: FontWeight.bold),
@@ -57,7 +53,6 @@ class ProjectExpansionTile extends StatelessWidget {
           ExpansionTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.max,
               children: [
                 IconButton(
                   icon: Icon(Icons.play_arrow_rounded),
@@ -135,22 +130,18 @@ class ProjectExpansionTile extends StatelessWidget {
             children: [
               ListTile(
                 leading: Text('Tasks: $numberOfTasks',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style: DynamicTheme.of(context).theme.textTheme.subtitle2),
                 trailing: Text(
                     'Recorded Time: ${DateTimeFunctions().timeToText(seconds: recordedTime)}',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style: DynamicTheme.of(context).theme.textTheme.subtitle2),
               ),
-              project.projectClient.isNotEmpty
-                  ? ListTile(
+              if (project.projectClient.isNotEmpty) ListTile(
                       title: Text('Client: ${project.projectClient}',
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: DynamicTheme.of(context)
+                              .theme
                               .textTheme
                               .subtitle1),
-                    )
-                  : Container(),
+                    ) else Container(),
             ],
           ),
         ],

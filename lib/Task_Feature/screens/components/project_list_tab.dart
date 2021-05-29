@@ -27,7 +27,7 @@ class _ProjectScreenState extends State<ProjectScreen>
             : ListView(
                 padding: EdgeInsets.only(bottom: 100),
                 children: projects.map((project) {
-                  List<Task> projectTasks = tasks
+                  final List<Task> projectTasks = tasks
                       .where((task) => task.project.id == project.id)
                       .toList();
                   return Container(
