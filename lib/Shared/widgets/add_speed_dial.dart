@@ -40,36 +40,26 @@ class AddSpeedDial extends StatelessWidget {
       tooltip: 'Add Menu',
       buttonSize: 45,
       childrenButtonSize: 45,
-      backgroundColor: DynamicColorTheme.of(context).data.accentColor,
-      foregroundColor: DynamicColorTheme.of(context).data.primaryColor,
       elevation: 0,
       shape: CircleBorder(),
       // openCloseDial: ValueNotifier(_value),
       children: [
         SpeedDialChild(
-            child: Icon(Icons.timer_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            child: Icon(Icons.timer_rounded),
             onTap: () => Provider.of<StopwatchState>(context, listen: false)
                 .startStopwatch(oldEntry: TimeEntry())),
         SpeedDialChild(
-            child: Icon(Icons.timelapse_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            child: Icon(Icons.timelapse_rounded),
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(isUpdate: false))),
         SpeedDialChild(
-            child: Icon(Icons.rule_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            child: Icon(Icons.rule_rounded),
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TaskEditBottomSheet(isUpdate: false))),
         SpeedDialChild(
-            child: Icon(Icons.topic_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            child: Icon(Icons.topic_rounded),
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: ProjectEditBottomSheet(isUpdate: false))),

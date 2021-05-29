@@ -1,46 +1,88 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  List<int> colorList = [
-    Colors.red.value,
-    Colors.pink.value,
-    Colors.purple.value,
-    Colors.deepPurple.value,
-    Colors.indigo.value,
-    Colors.blue.value,
-    Colors.lightBlue.value,
-    Colors.cyan.value,
-    Colors.teal.value,
-    Colors.green.value,
-    Colors.lightGreen.value,
-    Colors.lime.value,
-    Colors.yellow.value,
-    Colors.amber.value,
-    Colors.orange.value,
-    Colors.deepOrange.value,
-    Colors.brown.value,
-    Colors.blueGrey.value
+  List<Color> colorList = [
+    Colors.red,
+    Colors.pink,
+    Colors.purple,
+    Colors.deepPurple,
+    Colors.indigo,
+    Colors.blue,
+    Colors.lightBlue,
+    Colors.cyan,
+    Colors.teal,
+    Colors.green,
+    Colors.lightGreen,
+    Colors.lime,
+    Colors.yellow,
+    Colors.amber,
+    Colors.orange,
+    Colors.deepOrange,
+    Colors.brown,
+    Colors.blueGrey
   ];
 
-  List<int> darkThemeColorList = [
-    Colors.red.shade200.value,
-    Colors.pink.shade200.value,
-    Colors.purple.shade200.value,
-    Colors.deepPurple.shade200.value,
-    Colors.indigo.shade200.value,
-    Colors.blue.shade200.value,
-    Colors.lightBlue.shade200.value,
-    Colors.cyan.shade200.value,
-    Colors.teal.shade200.value,
-    Colors.green.shade200.value,
-    Colors.lightGreen.shade200.value,
-    Colors.lime.shade200.value,
-    Colors.yellow.shade200.value,
-    Colors.amber.shade200.value,
-    Colors.orange.shade200.value,
-    Colors.deepOrange.shade200.value,
-    Colors.brown.shade200.value,
-    Colors.blueGrey.shade200.value
+  List<Color> colorListVariants = [
+    Colors.red,
+    Colors.pink,
+    Colors.purple,
+    Colors.deepPurple,
+    Colors.indigo,
+    Colors.blue,
+    Colors.lightBlue,
+    Colors.cyan,
+    Colors.teal,
+    Colors.green,
+    Colors.lightGreen,
+    Colors.lime,
+    Colors.yellow,
+    Colors.amber,
+    Colors.orange,
+    Colors.deepOrange,
+    Colors.brown,
+    Colors.blueGrey
+  ];
+
+  List<Color> darkThemeColorList = [
+    Colors.red.shade200,
+    Colors.pink.shade200,
+    Colors.purple.shade200,
+    Colors.deepPurple.shade200,
+    Colors.indigo.shade200,
+    Colors.blue.shade200,
+    Colors.lightBlue.shade200,
+    Colors.cyan.shade200,
+    Colors.teal.shade200,
+    Colors.green.shade200,
+    Colors.lightGreen.shade200,
+    Colors.lime.shade200,
+    Colors.yellow.shade200,
+    Colors.amber.shade200,
+    Colors.orange.shade200,
+    Colors.deepOrange.shade200,
+    Colors.brown.shade200,
+    Colors.blueGrey.shade200
+  ];
+
+  List<Color> darkThemeColorListVariants = [
+    Colors.red.shade200,
+    Colors.pink.shade200,
+    Colors.purple.shade200,
+    Colors.deepPurple.shade200,
+    Colors.indigo.shade200,
+    Colors.blue.shade200,
+    Colors.lightBlue.shade200,
+    Colors.cyan.shade200,
+    Colors.teal.shade200,
+    Colors.green.shade200,
+    Colors.lightGreen.shade200,
+    Colors.lime.shade200,
+    Colors.yellow.shade200,
+    Colors.amber.shade200,
+    Colors.orange.shade200,
+    Colors.deepOrange.shade200,
+    Colors.brown.shade200,
+    Colors.blueGrey.shade200
   ];
 
   // List<Map<String, Map<String, Color>>> colorMapList =[

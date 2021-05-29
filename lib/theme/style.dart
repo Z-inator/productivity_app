@@ -1,28 +1,28 @@
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
 
 ThemeData buildThemeData(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
+  ColorScheme baseColorScheme =
+      isDark ? ColorScheme.dark() : ColorScheme.light();
   Color primaryColor = isDark ? Colors.grey[800] : Colors.white;
   Color iconColor = isDark ? Colors.white : Colors.grey[600];
   Color navigationBarIconColor = isDark ? Colors.white : Colors.grey[800];
   Color primaryTextColor = isDark ? Colors.white : Colors.black;
   Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
   return base.copyWith(
-      primaryColor: primaryColor,
-      accentColor: accentColor,
+      colorScheme: buildColorScheme(
+          color: accentColor, isDark: isDark, base: baseColorScheme),
       inputDecorationTheme: InputDecorationTheme(
-        focusedBorder:
-            UnderlineInputBorder(borderSide: BorderSide(color: accentColor)),
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide()),
         contentPadding: EdgeInsets.all(10),
       ),
-      iconTheme: base.iconTheme.copyWith(color: iconColor),
-      primaryIconTheme: base.primaryIconTheme.copyWith(color: navigationBarIconColor),
+      // iconTheme: base.iconTheme.copyWith(color: iconColor),
+      // primaryIconTheme: base.primaryIconTheme.copyWith(color: navigationBarIconColor),
       cardTheme: base.cardTheme.copyWith(
-          color: primaryColor,
+          // color: primaryColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25))),
           elevation: 4),
@@ -35,6 +35,19 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
       primaryTextTheme:
           buildTextTheme(base: base.primaryTextTheme, color: primaryTextColor),
       textTheme: buildTextTheme(base: base.textTheme, color: primaryTextColor));
+}
+
+ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
+  int pickedColorIndex = Colors.primaries.indexWhere(
+      (MaterialColor materialColor) =>
+          materialColor.shade500.value == color.value);
+  Color pickedGeneralColor = AppColors().colorList[pickedColorIndex];
+  Color pickedColor =
+      isDark ? pickedGeneralColor.shade200 : pickedGeneralColor.shade500;
+  Color pickedColorVariant =
+      isDark ? pickedGeneralColor.shade50 : pickedGeneralColor.shade700;
+  return base.copyWith(
+      primary: pickedColor, primaryVariant: pickedColorVariant);
 }
 
 TextTheme buildTextTheme({TextTheme base, Color color}) {
@@ -63,5 +76,3 @@ TextTheme buildTextTheme({TextTheme base, Color color}) {
         fontSize: 20,
       ));
 }
-
-

@@ -51,6 +51,7 @@ class _BaseFrameworkState extends State<BaseFramework>
 
   @override
   Widget build(BuildContext context) {
+    print(Color(0xff2196f3).toString());
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Provider.of<List<Task>>(context) == null ||
             Provider.of<List<Project>>(context) == null ||
@@ -119,6 +120,7 @@ class _BaseFrameworkState extends State<BaseFramework>
                       ]),
                 )),
                 drawer: SettingsDrawer(),
+                // floatingActionButton: FloatingActionButton(backgroundColor: Color.fromARGB(100, 149, 0, 0), onPressed: () {},),
               ),
             ));
   }
