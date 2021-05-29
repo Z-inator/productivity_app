@@ -19,11 +19,11 @@ class SettingsDrawer extends StatelessWidget {
       children: [
         DrawerHeader(
             child: ListTile(
-          title: Text('Settings'),
-          trailing: IconButton(
-              icon: Icon(Icons.cancel_rounded),
-              onPressed: () => Navigator.pop(context)),
-        )),
+              title: Text('Settings'),
+              trailing: IconButton(
+                  icon: Icon(Icons.cancel_rounded),
+                  onPressed: () => Navigator.pop(context)),
+            )),
         ListTile(
           leading: Icon(Icons.account_circle_rounded),
           title: Text('User Settings'),
@@ -59,69 +59,38 @@ class UserSetings extends StatelessWidget {
   }
 }
 
-class ThemeSettings extends StatefulWidget {
+class ThemeSettings extends StatelessWidget {
   ThemeSettings({Key key}) : super(key: key);
-
-  @override
-  _ThemeSettingsState createState() => _ThemeSettingsState();
-}
-
-class _ThemeSettingsState extends State<ThemeSettings> {
-  List<int> colorList;
-  int currentColor;
-  int currentColorIndex;
-
-  @override
-  void initState() {
-    colorList = DynamicColorTheme.of(context).isDark
-        ? AppColors().darkThemeColorList
-        : AppColors().colorList;
-    currentColor = DynamicColorTheme.of(context).data.primaryColor.value;
-    currentColorIndex = colorList.indexOf(colorList
-        .singleWhere((int colorNumber) => colorNumber == currentColor));
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final List<MaterialColor> colorList = AppColors().colorList;
     return Column(
       children: [
         SwitchListTile(
           title: Text('Dark Mode'),
           value: DynamicColorTheme.of(context).isDark,
-          activeColor: DynamicColorTheme.of(context).data.accentColor,
           onChanged: (value) {
             DynamicColorTheme.of(context)
                 .setIsDark(isDark: value, shouldSave: true);
-            DynamicColorTheme.of(context).setColor(
-                color: Color(colorList[currentColorIndex]), shouldSave: true);
-            setState(() {
-              currentColor = colorList[currentColorIndex];
-            });
           },
         ),
         ListTile(
-            title: ListView.builder(
+            title: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: 20),
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  int color = colorList[index];
+                child: Row(
+                    children: colorList.map((color) {
                   return IconButton(
                       icon: Icon(
-                        index == currentColorIndex
+                        DynamicColorTheme.of(context).color.value == color
                             ? Icons.check_circle_rounded
                             : Icons.circle,
-                        color: Color(color),
+                        color: DynamicColorTheme.of(context).isDark ? color.shade200 : color,
                         size: 36,
                       ),
-                      onPressed: () {
-                        DynamicColorTheme.of(context)
-                            .setColor(color: Color(color), shouldSave: true);
-                        setState(() {
-                          currentColorIndex = index;
-                          currentColor = color;
-                        });
-                      });
-                })),
+                      onPressed: () => DynamicColorTheme.of(context)
+                          .setColor(color: color, shouldSave: true));
+                }).toList()))),
       ],
     );
   }

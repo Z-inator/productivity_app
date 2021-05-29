@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
@@ -12,7 +13,7 @@ class ColorSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<int> colorList = AppColors().colorList;
+    final List<MaterialColor> colorList = AppColors().colorList;
     return SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 20),
         scrollDirection: Axis.horizontal,
@@ -21,10 +22,10 @@ class ColorSelector extends StatelessWidget {
           return IconButton(
             icon: Icon(
               matchColor == color ? Icons.check_circle_rounded : Icons.circle,
-              color: Color(color),
+              color: DynamicColorTheme.of(context).isDark ? color.shade200 : color,
               size: 36,
             ),
-            onPressed: () => saveColor(color),
+            onPressed: () => saveColor(color.value),
           );
         }).toList())
         // Row(

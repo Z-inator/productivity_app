@@ -38,16 +38,14 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
 }
 
 ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
-  int pickedColorIndex = Colors.primaries.indexWhere(
-      (MaterialColor materialColor) =>
-          materialColor.shade500.value == color.value);
-  Color pickedGeneralColor = AppColors().colorList[pickedColorIndex];
-  Color pickedColor =
-      isDark ? pickedGeneralColor.shade200 : pickedGeneralColor.shade500;
-  Color pickedColorVariant =
-      isDark ? pickedGeneralColor.shade50 : pickedGeneralColor.shade700;
+  MaterialColor currentColor = AppColors().colorList.singleWhere(
+      (MaterialColor materialColor) => materialColor.value == color.value);
+  if (isDark) {
+    return base.copyWith(
+        primary: currentColor.shade200, primaryVariant: currentColor.shade50);
+  }
   return base.copyWith(
-      primary: pickedColor, primaryVariant: pickedColorVariant);
+      primary: currentColor, primaryVariant: currentColor.shade700);
 }
 
 TextTheme buildTextTheme({TextTheme base, Color color}) {
