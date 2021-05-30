@@ -14,20 +14,18 @@ class ColorSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<MaterialColor> colorList = AppColors().colorList;
-    return SingleChildScrollView(
+    return ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 20),
         scrollDirection: Axis.horizontal,
-        child: Row(
-            children: colorList.map((color) {
+        itemBuilder: (context, index) {
           return IconButton(
             icon: Icon(
-              matchColor == color ? Icons.check_circle_rounded : Icons.circle,
-              color: DynamicColorTheme.of(context).isDark ? color.shade200 : color,
+              matchColor == index ? Icons.check_circle_rounded : Icons.circle,
+              color: DynamicColorTheme.of(context).isDark ? colorList[index].shade200 : colorList[index],
               size: 36,
             ),
-            onPressed: () => saveColor(color.value),
-          );
-        }).toList())
+            onPressed: () => saveColor(index));
+        },
         // Row(
         //     children: AppColors().colorList.map((color) {
         //   print(Color(color));
