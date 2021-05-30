@@ -1,6 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/home_screen.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Shared/widgets/flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
@@ -26,6 +27,7 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project.id == project.id)
@@ -42,7 +44,7 @@ class ProjectPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             project.projectName,
-            style: TextStyle(color: Color(project.projectColor)),
+            style: TextStyle(color: colorList[project.projectColor]),
           ),
           actions: [
             IconButton(

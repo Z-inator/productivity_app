@@ -2,6 +2,7 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
@@ -35,11 +36,16 @@ class TimePieChart extends StatelessWidget {
                           sections: generatePieSections(
                               projectData,
                               totalTimeRangeTime,
-                              DynamicColorTheme.of(context).data.textTheme.subtitle2,
-                              DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                              DynamicColorTheme.of(context)
+                                  .data
+                                  .textTheme
+                                  .subtitle2,
+                              DynamicColorTheme.of(context)
+                                  .data
+                                  .textTheme
+                                  .subtitle1,
                               constraints.maxHeight / 2.25)),
-                      swapAnimationDuration:
-                          Duration(microseconds: 500),
+                      swapAnimationDuration: Duration(microseconds: 500),
                       swapAnimationCurve: Curves.easeInOut,
                     );
                   },
@@ -54,11 +60,12 @@ class TimePieChart extends StatelessWidget {
       TextStyle badgeStyle,
       double radius) {
     return List.generate(projectData.length, (index) {
+      List<MaterialColor> colorList = AppColors().colorList;
       Project project = projectData.elementAt(index).keys.first;
       int recordedTime = projectData.elementAt(index).values.first;
       int percentage = ((recordedTime / totalTimeRangeTime) * 100).toInt();
       return PieChartSectionData(
-          color: Color(project.projectColor),
+          color: colorList[project.projectColor],
           value: recordedTime.toDouble(),
           radius: radius,
           title: '$percentage%',

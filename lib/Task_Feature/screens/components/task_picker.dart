@@ -1,5 +1,6 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
@@ -12,6 +13,7 @@ class TaskPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     TimeEntryEditState timeEntryEditState =
         Provider.of<TimeEntryEditState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
@@ -30,7 +32,7 @@ class TaskPicker extends StatelessWidget {
                 child: ListTile(
               leading: Icon(
                 Icons.circle,
-                color: Color(4285887861),
+                color: Colors.grey,
               ),
               title: Text('No Task',
                   style:
@@ -50,7 +52,7 @@ class TaskPicker extends StatelessWidget {
                     return ListTile(
                       leading: Icon(
                         Icons.check_circle_rounded,
-                        color: Color(task.status.statusColor),
+                        color: colorList[task.status.statusColor],
                       ),
                       title: Text(task.taskName,
                           style: DynamicColorTheme.of(context)

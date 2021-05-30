@@ -51,7 +51,6 @@ class _BaseFrameworkState extends State<BaseFramework>
 
   @override
   Widget build(BuildContext context) {
-    print(Color(0xff2196f3).toString());
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Provider.of<List<Task>>(context) == null ||
             Provider.of<List<Project>>(context) == null ||

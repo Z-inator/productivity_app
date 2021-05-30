@@ -1,5 +1,6 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -15,13 +16,14 @@ class StatusExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     return Theme(
         data: DynamicColorTheme.of(context)
             .data
             .copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           key: key,
-          leading: Icon(Icons.circle, color: Color(status.statusColor)),
+          leading: Icon(Icons.circle, color: colorList[status.statusColor]),
           title: Text(status.statusName,
               style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
           children: [

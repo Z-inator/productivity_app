@@ -1,6 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
@@ -18,6 +19,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     return ChangeNotifierProvider(
       create: (context) => TimeEntryEditState(oldEntry: entry),
       builder: (context, child) {
@@ -44,7 +46,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                   leading: Icon(
                     Icons.topic_rounded,
                     color:
-                        Color(timeEntryEditState.newEntry.project.projectColor),
+                        colorList[timeEntryEditState.newEntry.project.projectColor],
                   ),
                   title: Text(
                       timeEntryEditState.newEntry.project.projectName.isEmpty
@@ -64,8 +66,8 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 saveTask: timeEntryEditState.updateEntryTask,
                 child: ListTile(
                   leading: Icon(Icons.check_circle_rounded,
-                      color: Color(
-                          timeEntryEditState.newEntry.task.status.statusColor)),
+                      color: colorList[
+                          timeEntryEditState.newEntry.task.status.statusColor]),
                   title: Text(timeEntryEditState.newEntry.task.taskName.isEmpty
                       ? 'Add Task'
                       : timeEntryEditState.newEntry.task.taskName),

@@ -1,6 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
@@ -20,6 +21,7 @@ class TaskExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
@@ -32,7 +34,7 @@ class TaskExpansionTile extends StatelessWidget {
       leading: Tooltip(
         message: task.status.statusName,
         child: Icon(Icons.check_circle_rounded,
-            color: Color(task.status.statusColor)),
+            color: colorList[task.status.statusColor]),
       ),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
@@ -44,7 +46,7 @@ class TaskExpansionTile extends StatelessWidget {
               .data
               .textTheme
               .subtitle1
-              .copyWith(color: Color(task.project.projectColor))),
+              .copyWith(color: colorList[task.project.projectColor])),
       children: [
         Theme(
           data: DynamicColorTheme.of(context)
@@ -136,7 +138,7 @@ class TaskExpansionTile extends StatelessWidget {
                       .outlinedButtonTheme
                       .style,
                   icon: Icon(Icons.topic_rounded,
-                      color: Color(task.project.projectColor)),
+                      color: colorList[task.project.projectColor]),
                   label: Text(task.project.projectName,
                       style: DynamicColorTheme.of(context)
                           .data
@@ -165,7 +167,7 @@ class TaskExpansionTile extends StatelessWidget {
                               .data
                               .textTheme
                               .subtitle1
-                              .copyWith(color: Color(task.status.statusColor)))
+                              .copyWith(color: colorList[task.status.statusColor]))
                     ])),
               ),
               ListTile(

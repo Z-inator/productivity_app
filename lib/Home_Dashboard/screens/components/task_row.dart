@@ -2,6 +2,7 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_picker.dart';
@@ -40,12 +41,13 @@ class ImportantTaskListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     return ListTile(
       leading: StatusPickerDropDown(
           task: task,
           icon: Icon(
             Icons.check_circle_rounded,
-            color: Color(task.status.statusColor),
+            color: colorList[task.status.statusColor],
           )),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
@@ -57,7 +59,7 @@ class ImportantTaskListTile extends StatelessWidget {
               .data
               .textTheme
               .subtitle1
-              .copyWith(color: Color(task.project.projectColor))),
+              .copyWith(color: colorList[task.project.projectColor])),
       trailing: IconButton(
           icon: Icon(Icons.edit_rounded),
           onPressed: () => EditBottomSheet().buildEditBottomSheet(

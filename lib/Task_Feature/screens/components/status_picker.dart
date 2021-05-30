@@ -1,6 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
@@ -14,6 +15,7 @@ class StatusPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     final List<Status> statuses = Provider.of<List<Status>>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -28,8 +30,8 @@ class StatusPicker extends StatelessWidget {
               },
               icon: task.status.id == status.id
                   ? Icon(Icons.check_circle_rounded,
-                      color: Color(status.statusColor))
-                  : Icon(Icons.circle, color: Color(status.statusColor)),
+                      color: colorList[status.statusColor])
+                  : Icon(Icons.circle, color: colorList[status.statusColor]),
               label: Text(status.statusName),
             ),
           );
@@ -47,6 +49,7 @@ class StatusPickerDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final List<Status> statuses = Provider.of<List<Status>>(context);
@@ -66,7 +69,7 @@ class StatusPickerDropDown extends StatelessWidget {
                         .data
                         .textTheme
                         .subtitle1
-                        .copyWith(color: Color(status.statusColor))),
+                        .copyWith(color: colorList[status.statusColor])),
                 onTap: () {
                   databaseService.updateItem(
                       type: 'tasks',

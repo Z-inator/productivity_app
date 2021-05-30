@@ -1,5 +1,6 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class ProjectPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     final List<Project> projects = Provider.of<List<Project>>(context);
     return PopupMenuButton(
         shape: RoundedRectangleBorder(
@@ -23,7 +25,7 @@ class ProjectPicker extends StatelessWidget {
                 child: ListTile(
               leading: Icon(
                 Icons.topic_rounded,
-                color: Color(4285887861),
+                color: Colors.grey,
               ),
               title: Text('No Project',
                   style:
@@ -43,7 +45,7 @@ class ProjectPicker extends StatelessWidget {
                     return ListTile(
                       leading: Icon(
                         Icons.topic_rounded,
-                        color: Color(project.projectColor),
+                        color: colorList[project.projectColor],
                       ),
                       title: Text(project.projectName,
                           style: DynamicColorTheme.of(context)

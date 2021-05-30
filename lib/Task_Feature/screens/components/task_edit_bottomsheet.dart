@@ -1,6 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
@@ -21,6 +22,7 @@ class TaskEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     return ChangeNotifierProvider(
       create: (context) => TaskEditState(oldTask: task),
       builder: (context, child) {
@@ -46,7 +48,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(
                     Icons.topic_rounded,
-                    color: Color(taskEditState.newTask.project.projectColor),
+                    color: colorList[taskEditState.newTask.project.projectColor],
                   ),
                   title: Text(
                       taskEditState.newTask.project.projectName.isEmpty

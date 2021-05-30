@@ -1,6 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
@@ -27,6 +28,7 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);
@@ -41,7 +43,7 @@ class ProjectExpansionTile extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.topic_rounded,
-          color: Color(project.projectColor),
+          color: colorList[project.projectColor],
         ),
         title: Text(
           project.projectName.isEmpty

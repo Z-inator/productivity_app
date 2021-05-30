@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
@@ -13,6 +14,7 @@ class StopWatchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> colorList = AppColors().colorList;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Container(
       child: Card(
@@ -36,7 +38,7 @@ class StopWatchTile extends StatelessWidget {
           trailing: Text(
             stopwatchState.newEntry.project.projectName,
             style: TextStyle(
-                color: Color(stopwatchState.newEntry.project.projectColor)),
+                color: colorList[stopwatchState.newEntry.project.projectColor]),
           ),
         ),
       ),
