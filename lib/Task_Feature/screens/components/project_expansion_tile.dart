@@ -28,7 +28,7 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);
@@ -43,7 +43,7 @@ class ProjectExpansionTile extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.topic_rounded,
-          color: colorList[project.projectColor],
+          color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor],
         ),
         title: Text(
           project.projectName.isEmpty

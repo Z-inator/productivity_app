@@ -12,6 +12,14 @@ class TimePieChart extends StatelessWidget {
   final List<TimeEntry> timeEntries;
   TimePieChart({Key key, this.timeEntries}) : super(key: key);
 
+  Widget badgeWidget(TextStyle textStyle, Project project) {
+    return Card(
+        child: Padding(
+      padding: EdgeInsets.all(5),
+      child: Text(project.projectName, style: textStyle),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
@@ -34,6 +42,7 @@ class TimePieChart extends StatelessWidget {
                           sectionsSpace: 0,
                           borderData: FlBorderData(show: false),
                           sections: generatePieSections(
+                              DynamicColorTheme.of(context).isDark,
                               projectData,
                               totalTimeRangeTime,
                               DynamicColorTheme.of(context)
@@ -54,18 +63,19 @@ class TimePieChart extends StatelessWidget {
   }
 
   List<PieChartSectionData> generatePieSections(
+      bool isDark,
       List<Map<Project, int>> projectData,
       int totalTimeRangeTime,
       TextStyle titleStyle,
       TextStyle badgeStyle,
       double radius) {
     return List.generate(projectData.length, (index) {
-      List<MaterialColor> colorList = AppColors().colorList;
+      List<MaterialColor> colorList = AppColors.colorList;
       Project project = projectData.elementAt(index).keys.first;
       int recordedTime = projectData.elementAt(index).values.first;
       int percentage = ((recordedTime / totalTimeRangeTime) * 100).toInt();
       return PieChartSectionData(
-          color: colorList[project.projectColor],
+          color: isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor],
           value: recordedTime.toDouble(),
           radius: radius,
           title: '$percentage%',
@@ -74,13 +84,5 @@ class TimePieChart extends StatelessWidget {
           badgeWidget: badgeWidget(badgeStyle, project),
           badgePositionPercentageOffset: .9);
     });
-  }
-
-  Widget badgeWidget(TextStyle textStyle, Project project) {
-    return Card(
-        child: Padding(
-      padding: EdgeInsets.all(5),
-      child: Text(project.projectName, style: textStyle),
-    ));
   }
 }

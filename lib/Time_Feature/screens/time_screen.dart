@@ -20,7 +20,7 @@ class _TimeScreenState extends State<TimeScreen>
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     return ChangeNotifierProvider(
@@ -38,8 +38,8 @@ class _TimeScreenState extends State<TimeScreen>
                 saveProject: timeEntryBodyState.changeEntryList,
                 child: currentProject != null
                   ? ListTile(
-                    leading: Icon(Icons.topic_rounded, color: colorList[timeEntryBodyState.currentProject.projectColor]),
-                    title: Text(timeEntryBodyState.currentProject.projectName, style: DynamicColorTheme.of(context).data.textTheme.subtitle1.copyWith(color: colorList[currentProject.projectColor]))
+                    leading: Icon(Icons.topic_rounded, color: DynamicColorTheme.of(context).isDark ? colorList[timeEntryBodyState.currentProject.projectColor].shade200 : colorList[timeEntryBodyState.currentProject.projectColor]),
+                    title: Text(timeEntryBodyState.currentProject.projectName, style: DynamicColorTheme.of(context).data.textTheme.subtitle1.copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor].shade200 : colorList[currentProject.projectColor]))
                   )
                   : ListTile(
                     leading: Icon(Icons.filter_list_rounded),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
@@ -22,7 +23,7 @@ class ProjectEditBottomSheet extends StatelessWidget {
       builder: (context, child) {
         final DatabaseService databaseService =
             Provider.of<DatabaseService>(context);
-        final state = Provider.of<ProjectEditState>(context);
+        final projectEditState = Provider.of<ProjectEditState>(context);
         return Container(
           margin: EdgeInsets.all(20),
           child: Column(
@@ -30,26 +31,30 @@ class ProjectEditBottomSheet extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                    hintText: state.newProject.projectName.isEmpty
+                    hintText: projectEditState.newProject.projectName.isEmpty
                         ? 'Project Name'
-                        : state.newProject.projectName),
+                        : projectEditState.newProject.projectName),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
-                  state.updateProjectName(newText);
+                  projectEditState.updateProjectName(newText);
                 },
               ),
               ColorSelector(
-                saveColor: state.updateProjectColor,
-                matchColor: state.newProject.projectColor,
+                matchColor: isUpdate
+                ? DynamicColorTheme.of(context).isDark
+                  ? AppColors.colorList[projectEditState.newProject.projectColor].shade200.value
+                  : AppColors.colorList[projectEditState.newProject.projectColor].value
+                : projectEditState.newProject.projectColor,
+                saveColor: projectEditState.updateProjectColor,
               ),
               TextField(
                 decoration: InputDecoration(
-                    hintText: state.newProject.projectClient.isEmpty
+                    hintText: projectEditState.newProject.projectClient.isEmpty
                         ? 'Add Client'
-                        : state.newProject.projectClient),
+                        : projectEditState.newProject.projectClient),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
-                  state.updateProjectClient(newText);
+                  projectEditState.updateProjectClient(newText);
                 },
               ),
               Container(
@@ -62,10 +67,10 @@ class ProjectEditBottomSheet extends StatelessWidget {
                             ? databaseService.updateItem(
                                 type: 'projects',
                                 itemID: project.id,
-                                updateData: state.newProject.toFirestore())
+                                updateData: projectEditState.newProject.toFirestore())
                             : databaseService.addItem(
                                 type: 'projects',
-                                addData: state.newProject.toFirestore());
+                                addData: projectEditState.newProject.toFirestore());
                         Navigator.pop(context);
                       }))
             ],

@@ -14,7 +14,7 @@ class ProjectPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     final List<Project> projects = Provider.of<List<Project>>(context);
     return PopupMenuButton(
         shape: RoundedRectangleBorder(
@@ -45,7 +45,7 @@ class ProjectPicker extends StatelessWidget {
                     return ListTile(
                       leading: Icon(
                         Icons.topic_rounded,
-                        color: colorList[project.projectColor],
+                        color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor],
                       ),
                       title: Text(project.projectName,
                           style: DynamicColorTheme.of(context)

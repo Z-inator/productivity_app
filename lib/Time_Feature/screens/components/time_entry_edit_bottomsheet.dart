@@ -19,7 +19,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     return ChangeNotifierProvider(
       create: (context) => TimeEntryEditState(oldEntry: entry),
       builder: (context, child) {
@@ -45,11 +45,12 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 child: ListTile(
                   leading: Icon(
                     Icons.topic_rounded,
-                    color:
-                        colorList[timeEntryEditState.newEntry.project.projectColor],
+                    color: timeEntryEditState.newEntry.project.id.isEmpty
+                      ? Colors.grey
+                      : DynamicColorTheme.of(context).isDark ? colorList[timeEntryEditState.newEntry.project.projectColor].shade200 : colorList[timeEntryEditState.newEntry.project.projectColor]
                   ),
                   title: Text(
-                      timeEntryEditState.newEntry.project.projectName.isEmpty
+                      timeEntryEditState.newEntry.project.id.isEmpty
                           ? 'Add Project'
                           : timeEntryEditState.newEntry.project.projectName,
                       style: DynamicColorTheme.of(context)
@@ -66,9 +67,11 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 saveTask: timeEntryEditState.updateEntryTask,
                 child: ListTile(
                   leading: Icon(Icons.check_circle_rounded,
-                      color: colorList[
+                      color: timeEntryEditState.newEntry.task.id.isEmpty
+                      ? Colors.grey
+                      : DynamicColorTheme.of(context).isDark ? colorList[timeEntryEditState.newEntry.task.status.statusColor].shade200 : colorList[
                           timeEntryEditState.newEntry.task.status.statusColor]),
-                  title: Text(timeEntryEditState.newEntry.task.taskName.isEmpty
+                  title: Text(timeEntryEditState.newEntry.task.id.isEmpty
                       ? 'Add Task'
                       : timeEntryEditState.newEntry.task.taskName),
                   trailing: Icon(Icons.arrow_drop_down_rounded,

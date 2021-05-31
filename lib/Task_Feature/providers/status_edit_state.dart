@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 
 class StatusEditState extends ChangeNotifier {
@@ -22,7 +23,9 @@ class StatusEditState extends ChangeNotifier {
   }
 
   void updateStatusColor(int statusColor) {
-    newStatus.statusColor = statusColor;
+    int index =
+        AppColors.colorList.indexWhere((color) => color.value == statusColor);
+    newStatus.statusColor = index;
     notifyListeners();
   }
 

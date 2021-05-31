@@ -66,8 +66,4 @@ class TaskEditState extends ChangeNotifier {
   void addTaskCreateDate(DateTime createDate) {
     newTask.createDate = createDate;
   }
-
-  void disposeOfState() {
-    super.dispose();
-  }
 }

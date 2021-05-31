@@ -4,7 +4,6 @@ import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +14,7 @@ class StatusPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     final List<Status> statuses = Provider.of<List<Status>>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -28,10 +27,10 @@ class StatusPicker extends StatelessWidget {
               onPressed: () {
                 saveStatus(status);
               },
-              icon: task.status.id == status.id
-                  ? Icon(Icons.check_circle_rounded,
-                      color: colorList[status.statusColor])
-                  : Icon(Icons.circle, color: colorList[status.statusColor]),
+              icon: Icon(task.status.id == status.id
+                    ? Icons.check_circle_rounded
+                    : Icons.circle,
+                      color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor]),
               label: Text(status.statusName),
             ),
           );
@@ -49,7 +48,7 @@ class StatusPickerDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final List<Status> statuses = Provider.of<List<Status>>(context);
@@ -69,7 +68,7 @@ class StatusPickerDropDown extends StatelessWidget {
                         .data
                         .textTheme
                         .subtitle1
-                        .copyWith(color: colorList[status.statusColor])),
+                        .copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor])),
                 onTap: () {
                   databaseService.updateItem(
                       type: 'tasks',

@@ -24,7 +24,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     DatabaseService databaseService = Provider.of<DatabaseService>(context);
     StatusService statusService = Provider.of<StatusService>(context);
     statuses = Provider.of<List<Status>>(context);
@@ -64,7 +64,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
           children: statuses.map((status) {
             return ExpansionTile(
               key: Key(status.id),
-              leading: Icon(Icons.circle, color: colorList[status.statusColor]),
+              leading: Icon(Icons.circle, color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor]),
               title: Text(
                 status.statusName,
                 style: TextStyle(fontWeight: FontWeight.bold),

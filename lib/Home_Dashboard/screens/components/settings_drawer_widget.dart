@@ -19,11 +19,11 @@ class SettingsDrawer extends StatelessWidget {
       children: [
         DrawerHeader(
             child: ListTile(
-              title: Text('Settings'),
-              trailing: IconButton(
-                  icon: Icon(Icons.cancel_rounded),
-                  onPressed: () => Navigator.pop(context)),
-            )),
+          title: Text('Settings'),
+          trailing: IconButton(
+              icon: Icon(Icons.cancel_rounded),
+              onPressed: () => Navigator.pop(context)),
+        )),
         ListTile(
           leading: Icon(Icons.account_circle_rounded),
           title: Text('User Settings'),
@@ -63,7 +63,7 @@ class ThemeSettings extends StatelessWidget {
   ThemeSettings({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final List<MaterialColor> colorList = AppColors().colorList;
+    final List<MaterialColor> colorList = AppColors.colorList;
     return Column(
       children: [
         SwitchListTile(
@@ -75,22 +75,14 @@ class ThemeSettings extends StatelessWidget {
           },
         ),
         ListTile(
-            title: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                    children: colorList.map((color) {
-                  return IconButton(
-                      icon: Icon(
-                        DynamicColorTheme.of(context).color.value == color
-                            ? Icons.check_circle_rounded
-                            : Icons.circle,
-                        color: DynamicColorTheme.of(context).isDark ? color.shade200 : color,
-                        size: 36,
-                      ),
-                      onPressed: () => DynamicColorTheme.of(context)
-                          .setColor(color: color, shouldSave: true));
-                }).toList()))),
+            title: ColorSelector(
+                matchColor: DynamicColorTheme.of(context)
+                    .data
+                    .colorScheme
+                    .primary
+                    .value,
+                saveColor: (int color) => DynamicColorTheme.of(context)
+                    .setColor(color: Color(color), shouldSave: true))),
       ],
     );
   }

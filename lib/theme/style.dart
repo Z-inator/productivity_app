@@ -38,7 +38,7 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
 }
 
 ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
-  MaterialColor currentColor = AppColors().colorList.singleWhere(
+  MaterialColor currentColor = AppColors.colorList.singleWhere(
       (MaterialColor materialColor) => materialColor.value == color.value);
   if (isDark) {
     return base.copyWith(

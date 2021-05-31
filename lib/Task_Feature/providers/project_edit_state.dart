@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 
 class ProjectEditState extends ChangeNotifier {
@@ -23,7 +24,9 @@ class ProjectEditState extends ChangeNotifier {
   }
 
   void updateProjectColor(int projectColor) {
-    newProject.projectColor = projectColor;
+    int index =
+        AppColors.colorList.indexWhere((color) => color.value == projectColor);
+    newProject.projectColor = index;
     notifyListeners();
   }
 

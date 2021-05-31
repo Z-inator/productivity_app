@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
@@ -13,7 +14,7 @@ class RecentTimeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     return Card(
         child: timeEntries == null
             ? Center(
@@ -31,7 +32,7 @@ class RecentTimeList extends StatelessWidget {
                       subtitle: Text(
                         entry.project.projectName,
                         style:
-                            TextStyle(color: colorList[entry.project.projectColor]),
+                            TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[entry.project.projectColor].shade200 : colorList[entry.project.projectColor]),
                       ),
                     );
                   }).toList(),

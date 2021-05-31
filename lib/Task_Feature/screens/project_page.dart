@@ -27,7 +27,7 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors().colorList;
+    List<MaterialColor> colorList = AppColors.colorList;
     TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project.id == project.id)
@@ -44,7 +44,7 @@ class ProjectPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             project.projectName,
-            style: TextStyle(color: colorList[project.projectColor]),
+            style: TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor]),
           ),
           actions: [
             IconButton(
