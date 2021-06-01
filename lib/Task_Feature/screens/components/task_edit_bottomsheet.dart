@@ -22,7 +22,7 @@ class TaskEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     return ChangeNotifierProvider(
       create: (context) => TaskEditState(oldTask: task),
       builder: (context, child) {
@@ -45,12 +45,15 @@ class TaskEditBottomSheet extends StatelessWidget {
               ProjectPicker(
                 saveProject: taskEditState.updateTaskProject,
                 child: ListTile(
-                  leading: Icon(
-                    Icons.topic_rounded,
-                    color: taskEditState.newTask.project.id.isEmpty
-                      ? Colors.grey
-                      : DynamicColorTheme.of(context).isDark ? colorList[taskEditState.newTask.project.projectColor].shade200 : colorList[taskEditState.newTask.project.projectColor]
-                  ),
+                  leading: Icon(Icons.topic_rounded,
+                      color: taskEditState.newTask.project.id.isEmpty
+                          ? Colors.grey
+                          : DynamicColorTheme.of(context).isDark
+                              ? colorList[taskEditState
+                                      .newTask.project.projectColor]
+                                  .shade200
+                              : colorList[
+                                  taskEditState.newTask.project.projectColor]),
                   title: Text(
                       taskEditState.newTask.project.id.isEmpty
                           ? 'Add Project'

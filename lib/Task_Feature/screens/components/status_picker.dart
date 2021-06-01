@@ -14,7 +14,7 @@ class StatusPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     final List<Status> statuses = Provider.of<List<Status>>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -27,10 +27,13 @@ class StatusPicker extends StatelessWidget {
               onPressed: () {
                 saveStatus(status);
               },
-              icon: Icon(task.status.id == status.id
-                    ? Icons.check_circle_rounded
-                    : Icons.circle,
-                      color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor]),
+              icon: Icon(
+                  task.status.id == status.id
+                      ? Icons.check_circle_rounded
+                      : Icons.circle,
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[status.statusColor].shade200
+                      : colorList[status.statusColor]),
               label: Text(status.statusName),
             ),
           );
@@ -48,7 +51,7 @@ class StatusPickerDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final List<Status> statuses = Provider.of<List<Status>>(context);
@@ -68,7 +71,10 @@ class StatusPickerDropDown extends StatelessWidget {
                         .data
                         .textTheme
                         .subtitle1
-                        .copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor])),
+                        .copyWith(
+                            color: DynamicColorTheme.of(context).isDark
+                                ? colorList[status.statusColor].shade200
+                                : colorList[status.statusColor])),
                 onTap: () {
                   databaseService.updateItem(
                       type: 'tasks',

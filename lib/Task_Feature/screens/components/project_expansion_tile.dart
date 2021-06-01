@@ -2,24 +2,19 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
-import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
-import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Task_Feature/screens/project_page.dart';
 import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_time_range_picker/simple_time_range_picker.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
@@ -28,7 +23,7 @@ class ProjectExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final ProjectService projectService = Provider.of<ProjectService>(context);

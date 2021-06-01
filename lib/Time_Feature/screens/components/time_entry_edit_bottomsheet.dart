@@ -5,9 +5,9 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
 import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
+import 'package:productivity_app/Task_Feature/screens/components/task_picker.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_picker.dart';
 import 'package:provider/provider.dart';
 
 class TimeEntryEditBottomSheet extends StatelessWidget {
@@ -19,7 +19,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     return ChangeNotifierProvider(
       create: (context) => TimeEntryEditState(oldEntry: entry),
       builder: (context, child) {

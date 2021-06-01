@@ -13,8 +13,8 @@ import 'package:productivity_app/Task_Feature/screens/components/task_edit_botto
 import 'package:productivity_app/Task_Feature/screens/components/task_list_tab.dart';
 import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:productivity_app/Time_Feature/screens/components/time_entries_list.dart';
+import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
 
 class ProjectPage extends StatelessWidget {
@@ -27,7 +27,7 @@ class ProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project.id == project.id)

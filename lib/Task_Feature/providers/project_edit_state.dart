@@ -18,20 +18,19 @@ class ProjectEditState extends ChangeNotifier {
     newProject = project;
   }
 
-  void updateProjectName(String projectName) {
-    newProject.projectName = projectName;
+  void updateProjectClient(String projectClient) {
+    newProject.projectClient = projectClient;
     notifyListeners();
   }
 
   void updateProjectColor(int projectColor) {
-    int index =
-        AppColors.colorList.indexWhere((color) => color.value == projectColor);
+    int index = AppColorList.indexWhere((color) => color.value == projectColor);
     newProject.projectColor = index;
     notifyListeners();
   }
 
-  void updateProjectClient(String projectClient) {
-    newProject.projectClient = projectClient;
+  void updateProjectName(String projectName) {
+    newProject.projectName = projectName;
     notifyListeners();
   }
 }

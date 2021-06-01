@@ -12,7 +12,7 @@ class TaskPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     TimeEntryEditState timeEntryEditState =
         Provider.of<TimeEntryEditState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
@@ -50,22 +50,24 @@ class TaskPicker extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: tasks.map((task) {
-                    return ListTile(
-                      leading: Icon(
-                        Icons.check_circle_rounded,
-                        color: DynamicColorTheme.of(context).isDark ? colorList[task.status.statusColor].shade200 : colorList[task.status.statusColor],
-                      ),
-                      title: Text(task.taskName,
-                          style: DynamicColorTheme.of(context)
-                              .data
-                              .textTheme
-                              .subtitle1),
-                      onTap: () {
-                        saveTask(task);
-                        Navigator.pop(context);
-                      },
-                    );
-                  }).toList(),
+                      return ListTile(
+                        leading: Icon(
+                          Icons.check_circle_rounded,
+                          color: DynamicColorTheme.of(context).isDark
+                              ? colorList[task.status.statusColor].shade200
+                              : colorList[task.status.statusColor],
+                        ),
+                        title: Text(task.taskName,
+                            style: DynamicColorTheme.of(context)
+                                .data
+                                .textTheme
+                                .subtitle1),
+                        onTap: () {
+                          saveTask(task);
+                          Navigator.pop(context);
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
               ),

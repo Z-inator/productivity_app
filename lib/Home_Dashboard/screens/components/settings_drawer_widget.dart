@@ -1,13 +1,9 @@
-import 'package:dynamic_color_theme/color_picker_dialog.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:dynamic_themes/dynamic_themes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Authentification/screens/about.dart';
 import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/widgets/color_selector.dart';
-import 'package:productivity_app/Theme/style.dart';
 import 'package:provider/provider.dart';
 
 class SettingsDrawer extends StatelessWidget {
@@ -63,7 +59,7 @@ class ThemeSettings extends StatelessWidget {
   ThemeSettings({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final List<MaterialColor> colorList = AppColors.colorList;
+    final List<MaterialColor> colorList = AppColorList;
     return Column(
       children: [
         SwitchListTile(
@@ -72,17 +68,16 @@ class ThemeSettings extends StatelessWidget {
           onChanged: (value) {
             DynamicColorTheme.of(context)
                 .setIsDark(isDark: value, shouldSave: true);
+            DynamicColorTheme.of(context).setColor(
+                color: DynamicColorTheme.of(context).color, shouldSave: true);
           },
         ),
         ListTile(
             title: ColorSelector(
-                matchColor: DynamicColorTheme.of(context)
-                    .data
-                    .colorScheme
-                    .primary
-                    .value,
+                matchColor: DynamicColorTheme.of(context).color.value,
                 saveColor: (int color) => DynamicColorTheme.of(context)
-                    .setColor(color: Color(color), shouldSave: true))),
+                    .setColor(color: Color(color), shouldSave: true),
+                colorList: AppAccentColorList)),
       ],
     );
   }

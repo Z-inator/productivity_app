@@ -5,12 +5,12 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 class ColorSelector extends StatelessWidget {
   int matchColor;
   Function saveColor;
-  ColorSelector({this.matchColor, this.saveColor});
+  List colorList;
+  ColorSelector({this.matchColor, this.saveColor, this.colorList});
 
   @override
   Widget build(BuildContext context) {
     bool isDark = DynamicColorTheme.of(context).isDark;
-    final List<MaterialColor> colorList = AppColors.colorList;
     return SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 20),
         scrollDirection: Axis.horizontal,
@@ -21,9 +21,7 @@ class ColorSelector extends StatelessWidget {
                 matchColor == (isDark ? color.shade200.value : color.value)
                     ? Icons.check_circle_rounded
                     : Icons.circle,
-                color: isDark
-                    ? color.shade200
-                    : color,
+                color: isDark ? color.shade200 : color,
                 size: 36,
               ),
               onPressed: () {
@@ -33,7 +31,7 @@ class ColorSelector extends StatelessWidget {
         }).toList()));
   }
   // Row(
-  //     children: AppColors.colorList.map((color) {
+  //     children: AppColorList.map((color) {
   //   print(Color(color));
   //   IconButton(
   //     icon: Icon(

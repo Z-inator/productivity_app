@@ -15,13 +15,15 @@ class ImportantTaskListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     return ListTile(
       leading: StatusPickerDropDown(
           task: task,
           icon: Icon(
             Icons.check_circle_rounded,
-            color: DynamicColorTheme.of(context).isDark ? colorList[task.status.statusColor].shade200 : colorList[task.status.statusColor],
+            color: DynamicColorTheme.of(context).isDark
+                ? colorList[task.status.statusColor].shade200
+                : colorList[task.status.statusColor],
           )),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
@@ -33,7 +35,10 @@ class ImportantTaskListTile extends StatelessWidget {
               .data
               .textTheme
               .subtitle1
-              .copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[task.project.projectColor].shade200 : colorList[task.project.projectColor])),
+              .copyWith(
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[task.project.projectColor].shade200
+                      : colorList[task.project.projectColor])),
       trailing: IconButton(
           icon: Icon(Icons.edit_rounded),
           onPressed: () => EditBottomSheet().buildEditBottomSheet(

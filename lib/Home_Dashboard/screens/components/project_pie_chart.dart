@@ -70,12 +70,14 @@ class TimePieChart extends StatelessWidget {
       TextStyle badgeStyle,
       double radius) {
     return List.generate(projectData.length, (index) {
-      List<MaterialColor> colorList = AppColors.colorList;
+      List<MaterialColor> colorList = AppColorList;
       Project project = projectData.elementAt(index).keys.first;
       int recordedTime = projectData.elementAt(index).values.first;
       int percentage = ((recordedTime / totalTimeRangeTime) * 100).toInt();
       return PieChartSectionData(
-          color: isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor],
+          color: isDark
+              ? colorList[project.projectColor].shade200
+              : colorList[project.projectColor],
           value: recordedTime.toDouble(),
           radius: radius,
           title: '$percentage%',

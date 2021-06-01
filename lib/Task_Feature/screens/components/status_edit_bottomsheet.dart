@@ -39,12 +39,16 @@ class StatusEditBottomSheet extends StatelessWidget {
                 },
               ),
               ColorSelector(
-                  matchColor: isUpdate
-                  ? DynamicColorTheme.of(context).isDark
-                    ? AppColors.colorList[statusEditState.newStatus.statusColor].shade200.value
-                    : AppColors.colorList[statusEditState.newStatus.statusColor].value
-                  : statusEditState.newStatus.statusColor,
-                  saveColor: statusEditState.updateStatusColor,
+                matchColor: isUpdate
+                    ? DynamicColorTheme.of(context).isDark
+                        ? AppColorList[statusEditState.newStatus.statusColor]
+                            .shade200
+                            .value
+                        : AppColorList[statusEditState.newStatus.statusColor]
+                            .value
+                    : statusEditState.newStatus.statusColor,
+                saveColor: statusEditState.updateStatusColor,
+                colorList: AppColorList,
               ),
               CheckboxListTile(
                   value: statusEditState.newStatus.equalToComplete,

@@ -21,7 +21,7 @@ class TaskExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final TaskService taskService = Provider.of<TaskService>(context);
@@ -34,7 +34,9 @@ class TaskExpansionTile extends StatelessWidget {
       leading: Tooltip(
         message: task.status.statusName,
         child: Icon(Icons.check_circle_rounded,
-            color: DynamicColorTheme.of(context).isDark ? colorList[task.status.statusColor].shade200 : colorList[task.status.statusColor]),
+            color: DynamicColorTheme.of(context).isDark
+                ? colorList[task.status.statusColor].shade200
+                : colorList[task.status.statusColor]),
       ),
       title: Text(
         task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
@@ -46,7 +48,10 @@ class TaskExpansionTile extends StatelessWidget {
               .data
               .textTheme
               .subtitle1
-              .copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[task.project.projectColor].shade200 : colorList[task.project.projectColor])),
+              .copyWith(
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[task.project.projectColor].shade200
+                      : colorList[task.project.projectColor])),
       children: [
         Theme(
           data: DynamicColorTheme.of(context)
@@ -138,7 +143,9 @@ class TaskExpansionTile extends StatelessWidget {
                       .outlinedButtonTheme
                       .style,
                   icon: Icon(Icons.topic_rounded,
-                      color: DynamicColorTheme.of(context).isDark ? colorList[task.project.projectColor].shade200 : colorList[task.project.projectColor]),
+                      color: DynamicColorTheme.of(context).isDark
+                          ? colorList[task.project.projectColor].shade200
+                          : colorList[task.project.projectColor]),
                   label: Text(task.project.projectName,
                       style: DynamicColorTheme.of(context)
                           .data
@@ -168,7 +175,10 @@ class TaskExpansionTile extends StatelessWidget {
                               .textTheme
                               .subtitle1
                               .copyWith(
-                                  color: DynamicColorTheme.of(context).isDark ? colorList[task.status.statusColor].shade200 : colorList[task.status.statusColor]))
+                                  color: DynamicColorTheme.of(context).isDark
+                                      ? colorList[task.status.statusColor]
+                                          .shade200
+                                      : colorList[task.status.statusColor]))
                     ])),
               ),
               ListTile(

@@ -6,7 +6,6 @@ import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
 import 'package:productivity_app/Task_Feature/models/status.dart';
 import 'package:productivity_app/Task_Feature/screens/components/status_edit_bottomsheet.dart';
-import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
 import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +23,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     DatabaseService databaseService = Provider.of<DatabaseService>(context);
     StatusService statusService = Provider.of<StatusService>(context);
     statuses = Provider.of<List<Status>>(context);

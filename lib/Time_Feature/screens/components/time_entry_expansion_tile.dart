@@ -18,7 +18,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     TimeService timeService = Provider.of<TimeService>(context);
@@ -26,7 +26,9 @@ class TimeEntryExpansionTile extends StatelessWidget {
       leading: Tooltip(
         message: entry.task.status.statusName,
         child: Icon(Icons.check_circle_rounded,
-            color: DynamicColorTheme.of(context).isDark ? colorList[entry.task.status.statusColor].shade200 : colorList[entry.task.status.statusColor]),
+            color: DynamicColorTheme.of(context).isDark
+                ? colorList[entry.task.status.statusColor].shade200
+                : colorList[entry.task.status.statusColor]),
       ),
       title: Text(
         entry.entryName,
@@ -37,7 +39,10 @@ class TimeEntryExpansionTile extends StatelessWidget {
               .data
               .textTheme
               .subtitle1
-              .copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[entry.project.projectColor].shade200 : colorList[entry.project.projectColor])),
+              .copyWith(
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[entry.project.projectColor].shade200
+                      : colorList[entry.project.projectColor])),
       trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime),
           style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
       children: [
@@ -105,7 +110,9 @@ class TimeEntryExpansionTile extends StatelessWidget {
                       .outlinedButtonTheme
                       .style,
                   icon: Icon(Icons.topic_rounded,
-                      color: DynamicColorTheme.of(context).isDark ? colorList[entry.project.projectColor].shade200 : colorList[entry.project.projectColor]),
+                      color: DynamicColorTheme.of(context).isDark
+                          ? colorList[entry.project.projectColor].shade200
+                          : colorList[entry.project.projectColor]),
                   label: Text(entry.project.projectName,
                       style: DynamicColorTheme.of(context)
                           .data

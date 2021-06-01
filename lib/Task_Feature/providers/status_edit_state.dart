@@ -17,20 +17,9 @@ class StatusEditState extends ChangeNotifier {
     newStatus = status;
   }
 
-  void updateStatusName(String statusName) {
-    newStatus.statusName = statusName;
-    notifyListeners();
-  }
-
   void updateStatusColor(int statusColor) {
-    int index =
-        AppColors.colorList.indexWhere((color) => color.value == statusColor);
+    int index = AppColorList.indexWhere((color) => color.value == statusColor);
     newStatus.statusColor = index;
-    notifyListeners();
-  }
-
-  void updateStatusOrder(int statusOrder) {
-    newStatus.statusOrder = statusOrder;
     notifyListeners();
   }
 
@@ -41,6 +30,16 @@ class StatusEditState extends ChangeNotifier {
 
   void updateStatusDescription(String statusDescription) {
     newStatus.statusDescription = statusDescription;
+    notifyListeners();
+  }
+
+  void updateStatusName(String statusName) {
+    newStatus.statusName = statusName;
+    notifyListeners();
+  }
+
+  void updateStatusOrder(int statusOrder) {
+    newStatus.statusOrder = statusOrder;
     notifyListeners();
   }
 }

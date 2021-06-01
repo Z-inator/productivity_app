@@ -5,22 +5,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData buildThemeData(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
-  ColorScheme baseColorScheme =
-      isDark ? ColorScheme.dark() : ColorScheme.light();
-  Color primaryColor = isDark ? Colors.grey[800] : Colors.white;
+  MaterialAccentColor accentMaterialColor = getAccentColor(color: accentColor);
   Color iconColor = isDark ? Colors.white : Colors.grey[600];
   Color navigationBarIconColor = isDark ? Colors.white : Colors.grey[800];
   Color primaryTextColor = isDark ? Colors.white : Colors.black;
   Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
   return base.copyWith(
-      colorScheme: buildColorScheme(
-          color: accentColor, isDark: isDark, base: baseColorScheme),
+      primaryColor: isDark ? Colors.grey[900] : Colors.white,
+      // primaryColor: isDark ? accentMaterialColor.shade200 : accentMaterialColor,
+      // primaryColorLight: isDark ? accentMaterialColor.shade100 : accentMaterialColor.shade200,
+      // primaryColorDark: isDark ? accentMaterialColor : accentMaterialColor.shade700,
+      // primaryColorBrightness: isDark ? Brightness.light : Brightness.dark,
+      accentColor: isDark ? accentMaterialColor.shade200 : accentMaterialColor,
+      bottomAppBarTheme: BottomAppBarTheme(elevation: 8),
       inputDecorationTheme: InputDecorationTheme(
         focusedBorder: UnderlineInputBorder(borderSide: BorderSide()),
         contentPadding: EdgeInsets.all(10),
       ),
-      // iconTheme: base.iconTheme.copyWith(color: iconColor),
-      // primaryIconTheme: base.primaryIconTheme.copyWith(color: navigationBarIconColor),
+      iconTheme: base.iconTheme.copyWith(color: iconColor),
       cardTheme: base.cardTheme.copyWith(
           // color: primaryColor,
           shape: RoundedRectangleBorder(
@@ -37,16 +39,28 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
       textTheme: buildTextTheme(base: base.textTheme, color: primaryTextColor));
 }
 
-ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
-  MaterialColor currentColor = AppColors.colorList.singleWhere(
-      (MaterialColor materialColor) => materialColor.value == color.value);
-  if (isDark) {
-    return base.copyWith(
-        primary: currentColor.shade200, primaryVariant: currentColor.shade50);
-  }
-  return base.copyWith(
-      primary: currentColor, primaryVariant: currentColor.shade700);
+MaterialAccentColor getAccentColor({Color color}) {
+  return AppAccentColorList.singleWhere(
+      (materialAccentColor) => materialAccentColor.value == color.value);
 }
+
+// ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
+//   MaterialColor currentColor = AppColorList.singleWhere(
+//       (MaterialColor materialColor) => materialColor.value == color.value);
+//   if (isDark) {
+//     return base.copyWith(
+//         primary: currentColor.shade200,
+//         primaryVariant: currentColor.shade50,
+//         secondary: Colors.orange,
+//         secondaryVariant: Colors.orange.shade700,
+//         );
+//   }
+//   return base.copyWith(
+//       primary: currentColor,
+//       primaryVariant: currentColor.shade700,
+//       secondary: Colors.orange,
+//       secondaryVariant: Colors.orange.shade700);
+// }
 
 TextTheme buildTextTheme({TextTheme base, Color color}) {
   return base.copyWith(

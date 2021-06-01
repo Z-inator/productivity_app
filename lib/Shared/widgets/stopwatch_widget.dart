@@ -12,7 +12,7 @@ class StopWatchTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Container(
       child: Card(
@@ -36,7 +36,10 @@ class StopWatchTile extends StatelessWidget {
           trailing: Text(
             stopwatchState.newEntry.project.projectName,
             style: TextStyle(
-                color: DynamicColorTheme.of(context).isDark ? colorList[stopwatchState.newEntry.project.projectColor].shade200 : colorList[stopwatchState.newEntry.project.projectColor]),
+                color: DynamicColorTheme.of(context).isDark
+                    ? colorList[stopwatchState.newEntry.project.projectColor]
+                        .shade200
+                    : colorList[stopwatchState.newEntry.project.projectColor]),
           ),
         ),
       ),

@@ -7,7 +7,6 @@ import 'package:productivity_app/Task_Feature/models/tasks.dart';
 import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
 import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
 
-
 class StatusExpansionTile extends StatelessWidget {
   final Status status;
   final int numberOfTasks;
@@ -16,14 +15,17 @@ class StatusExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColors.colorList;
+    List<MaterialColor> colorList = AppColorList;
     return Theme(
         data: DynamicColorTheme.of(context)
             .data
             .copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           key: key,
-          leading: Icon(Icons.circle, color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor]),
+          leading: Icon(Icons.circle,
+              color: DynamicColorTheme.of(context).isDark
+                  ? colorList[status.statusColor].shade200
+                  : colorList[status.statusColor]),
           title: Text(status.statusName,
               style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
           children: [

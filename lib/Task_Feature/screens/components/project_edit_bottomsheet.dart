@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/Services/database.dart';
+import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
 import 'package:provider/provider.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
@@ -42,10 +39,11 @@ class ProjectEditBottomSheet extends StatelessWidget {
               ColorSelector(
                 matchColor: isUpdate
                 ? DynamicColorTheme.of(context).isDark
-                  ? AppColors.colorList[projectEditState.newProject.projectColor].shade200.value
-                  : AppColors.colorList[projectEditState.newProject.projectColor].value
+                  ? AppColorList[projectEditState.newProject.projectColor].shade200.value
+                  : AppColorList[projectEditState.newProject.projectColor].value
                 : projectEditState.newProject.projectColor,
                 saveColor: projectEditState.updateProjectColor,
+                colorList: AppColorList,
               ),
               TextField(
                 decoration: InputDecoration(
