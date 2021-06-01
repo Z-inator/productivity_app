@@ -37,6 +37,7 @@ class TimeEntriesByDay extends StatelessWidget {
                                       .data
                                       .textTheme
                                       .subtitle1)),
+                          Divider(),
                           GroupedTimeEntries(timeEntries: item.values.single),
                         ],
                       ),

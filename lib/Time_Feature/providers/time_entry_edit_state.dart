@@ -58,9 +58,4 @@ class TimeEntryEditState extends ChangeNotifier {
         timeRangeValue.endTime.minute);
     notifyListeners();
   }
-
-  // void updateElapsedTime(int seconds) {
-  //   newEntry.elapsedTime = seconds;
-  //   notifyListeners();
-  // }
 }

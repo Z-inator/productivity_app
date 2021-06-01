@@ -65,6 +65,7 @@ class TaskList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 getWidget(item.keys.single, item.values.length) as Widget,
+                Divider(),
                 GroupedTasks(tasks: item.values.single)
               ],
             ),

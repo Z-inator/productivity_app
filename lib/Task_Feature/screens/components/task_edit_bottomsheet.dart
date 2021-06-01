@@ -44,7 +44,6 @@ class TaskEditBottomSheet extends StatelessWidget {
               ),
               ProjectPicker(
                 saveProject: taskEditState.updateTaskProject,
-                noProject: taskEditState.updateTaskProject,
                 child: ListTile(
                   leading: Icon(
                     Icons.topic_rounded,
