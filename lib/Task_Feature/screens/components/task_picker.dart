@@ -46,8 +46,10 @@ class TaskPicker extends StatelessWidget {
               child: Container(
                 height: MediaQuery.of(context).size.height / 3,
                 width: MediaQuery.of(context).size.width,
-                child: ListView(
-                  children: tasks.map((task) {
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: tasks.map((task) {
                     return ListTile(
                       leading: Icon(
                         Icons.check_circle_rounded,
@@ -64,6 +66,7 @@ class TaskPicker extends StatelessWidget {
                       },
                     );
                   }).toList(),
+                  ),
                 ),
               ),
             )
