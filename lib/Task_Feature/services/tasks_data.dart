@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ import 'package:provider/provider.dart';
 
 class TaskService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final User user = FirebaseAuth.instance.currentUser;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // Collection reference
   CollectionReference _getTaskReference() {
@@ -33,22 +36,35 @@ class TaskService {
     return _getTaskReference();
   }
 
-  // Snapshot Conversion to Task Model and Stream
-  Stream<List<Task>> streamTasks(BuildContext context) {
-    final CollectionReference ref = _getTaskReference();
-    List<Project> projects;
-    getProjects(context).then((projectList) => projects = projectList);
-    List<Status> statuses;
-    getStatuses(context).then((statusList) => statuses = statusList);
-    return ref.snapshots().map((QuerySnapshot querySnapshot) =>
-        querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-          final Project project = projects.firstWhere((project) =>
-              project.id == queryDocument.data()['project'].toString());
-          final Status status = statuses.firstWhere((status) =>
-              status.id == queryDocument.data()['status'].toString());
-          return Task.fromFirestore(queryDocument, project, status);
-        }).toList());
+  Stream<List<Task>> streamTasks(Project project, Status status) {
+    FirebaseFirestore.instance.snapshotsInSync()
+    var ref = firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('tasks')
+        .withConverter<Task>(
+          fromFirestore: (snapshot, _) =>
+              Task.fromJson(snapshot.data(), snapshot, project, status),
+          toFirestore: (task, _) => task.toJson(),
+        );
+    ref.
   }
+
+  // Snapshot Conversion to Task Model and Stream
+  // Stream<List<Task>> streamTasks(BuildContext context) {
+  //   List<Project> projects;
+  //   getProjects(context).then((projectList) => projects = projectList);
+  //   List<Status> statuses;
+  //   getStatuses(context).then((statusList) => statuses = statusList);
+  //   return tasks.snapshots().map((QuerySnapshot querySnapshot) =>
+  //       querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
+  //         final Project project = projects.firstWhere((project) =>
+  //             project.id == queryDocument.data()['project'].toString());
+  //         final Status status = statuses.firstWhere((status) =>
+  //             status.id == queryDocument.data()['status'].toString());
+  //         return Task.fromFirestore(queryDocument, project, status);
+  //       }).toList());
+  // }
 
   Future<List<Project>> getProjects(BuildContext context) async {
     final List<Project> projects =
@@ -126,8 +142,8 @@ class TaskService {
     List<Map<String, List<Task>>> createDateMapList = [];
     List<DateTime> days = [];
     for (Task task in tasks) {
-      DateTime tempDate =
-          DateTime(task.createDate.year, task.createDate.month, task.createDate.day);
+      DateTime tempDate = DateTime(
+          task.createDate.year, task.createDate.month, task.createDate.day);
       if (!days.contains(tempDate)) {
         days.add(tempDate);
       }
