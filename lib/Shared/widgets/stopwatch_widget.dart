@@ -31,16 +31,20 @@ class StopWatchTile extends StatelessWidget {
                       entry: stopwatchState.newEntry,
                     ));
               }),
-          title: Text(DateTimeFunctions()
+          title: stopwatchState.newEntry.task.id.isNotEmpty
+            ? Text(stopwatchState.newEntry.task.taskName)
+            : Text(''),
+          subtitle: stopwatchState.newEntry.project.id.isNotEmpty
+            ? Text(stopwatchState.newEntry.project.projectName,
+              style: TextStyle(
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[stopwatchState.newEntry.project.projectColor]
+                          .shade200
+                      : colorList[stopwatchState.newEntry.project.projectColor]),
+            )
+            : Text(''),
+          trailing: Text(DateTimeFunctions()
               .timeToText(seconds: stopwatchState.elapsedTicks)),
-          trailing: Text(
-            stopwatchState.newEntry.project.projectName,
-            style: TextStyle(
-                color: DynamicColorTheme.of(context).isDark
-                    ? colorList[stopwatchState.newEntry.project.projectColor]
-                        .shade200
-                    : colorList[stopwatchState.newEntry.project.projectColor]),
-          ),
         ),
       ),
     );

@@ -52,8 +52,10 @@ class _ProductivityAppState extends State<ProductivityApp> {
       create: (context) => AuthService(),
       child: AuthWidgetBuilder(builder: (context, userSnapshot) {
         return DynamicColorTheme(
-          data: (color, isDark) => buildThemeData(color, isDark),
-          defaultColor: Colors.blue,
+          data: userSnapshot.hasData
+          ? (color, isDark) => buildThemeData(color, isDark)
+          : (color, isDark) => buildDefaultTheme(color = Colors.cyanAccent, isDark = false),
+          defaultColor: Colors.cyanAccent,
           defaultIsDark: false,
           themedWidgetBuilder: (context, theme) {
             return
@@ -79,7 +81,6 @@ class _ProductivityAppState extends State<ProductivityApp> {
       }),
     );
   }
-
 }
 
 // return StreamProvider<User>.value(

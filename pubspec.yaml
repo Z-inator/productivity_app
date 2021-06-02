@@ -32,23 +32,24 @@ dependencies:
   cupertino_icons: ^1.0.1
 
   # Firebase Integration
-  firebase_core: ^0.7.0
-  cloud_firestore: ^0.16.0+1
-  firebase_auth: ^0.20.1
+  firebase_core: ^1.2.0
+  cloud_firestore: ^2.2.0
+  firebase_auth: ^1.2.0
+  # firebase_app_check: ^N/A
   # firebase_analytics: "^7.0.1"
-  google_sign_in: ^4.5.9
+  google_sign_in: ^5.0.4
 
   # Provider: https://pub.dev/packages/provider
-  provider: ^4.3.2+3
+  provider: ^5.0.0
 
   # Form Builder
   # flutter_form_builder: ^5.0.0
   
   # Widgets:
   # Data Visualization Tools
-  percent_indicator: ^2.1.7+2
-  flutter_animation_progress_bar: ^1.0.6
-  fl_chart: ^0.35.0
+  percent_indicator: ^3.0.1
+  flutter_animation_progress_bar: ^2.0.0
+  fl_chart: ^0.36.1
 
   # Time Range Picker
   simple_time_range_picker: ^0.0.2
@@ -57,7 +58,7 @@ dependencies:
   flutter_speed_dial: ^3.0.5
 
   # Sliding Up panel
-  sliding_up_panel: ^1.0.2
+  sliding_up_panel: ^2.0.0+1
 
   # Dynamic Theme
   dynamic_themes: ^1.1.0
