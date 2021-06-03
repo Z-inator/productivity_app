@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../Authentification.dart';
 
 class SignInForm extends StatefulWidget {
-  SignInForm({Key key}) : super(key: key);
+  SignInForm({Key? key}) : super(key: key);
 
   @override
   _SignInFormState createState() => _SignInFormState();
@@ -13,8 +13,8 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
+  late String email;
+  late String password;
   bool signingIn = false;
 
   @override
@@ -77,7 +77,7 @@ class _SignInFormState extends State<SignInForm> {
                             if (!currentFocus.hasPrimaryFocus) {
                               currentFocus.unfocus();
                             }
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               setState(() {
                                 signingIn = true;
                               });

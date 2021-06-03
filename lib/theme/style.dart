@@ -104,16 +104,16 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
       textTheme: buildTextTheme(base: base.textTheme, color: colorScheme.onPrimary));
 }
 
-MaterialAccentColor getAccentColor({Color color}) {
+MaterialAccentColor getAccentColor({Color? color}) {
   return AppAccentColorList.singleWhere(
-      (materialAccentColor) => materialAccentColor.value == color.value);
+      (materialAccentColor) => materialAccentColor.value == color!.value);
 }
 
-ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
+ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? base}) {
   MaterialAccentColor currentColor = AppAccentColorList.singleWhere(
-      (materialAccentColor) => materialAccentColor.value == color.value);
+      (materialAccentColor) => materialAccentColor.value == color!.value);
   if (isDark) {
-    return base.copyWith(
+    return base!.copyWith(
         primary: Colors.grey.shade900,
         primaryVariant: Colors.grey.shade100,
         onPrimary: Colors.grey.shade100,
@@ -126,7 +126,7 @@ ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
         onSurface: Colors.grey.shade100
         );
   }
-  return base.copyWith(
+  return base!.copyWith(
       primary: Colors.grey.shade50,
       primaryVariant: Colors.grey.shade900,
       onPrimary: Colors.grey.shade600,
@@ -140,28 +140,28 @@ ColorScheme buildColorScheme({Color color, bool isDark, ColorScheme base}) {
   );
 }
 
-TextTheme buildTextTheme({TextTheme base, Color color}) {
+TextTheme buildTextTheme({required TextTheme base, Color? color}) {
   return base.copyWith(
       // button: base.button.copyWith(color: color),
       // caption: base.caption.copyWith(color: color),
-      subtitle1: base.subtitle1.copyWith(
+      subtitle1: base.subtitle1!.copyWith(
         fontSize: 16,
       ),
-      subtitle2: base.subtitle1.copyWith(
+      subtitle2: base.subtitle1!.copyWith(
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
-      bodyText1: base.bodyText1.copyWith(color: color),
-      bodyText2: base.bodyText2.copyWith(
+      bodyText1: base.bodyText1!.copyWith(color: color),
+      bodyText2: base.bodyText2!.copyWith(
         fontSize: 14,
       ),
-      headline4: base.headline4.copyWith(
+      headline4: base.headline4!.copyWith(
         fontSize: 34,
       ),
-      headline5: base.headline5.copyWith(
+      headline5: base.headline5!.copyWith(
         fontSize: 24,
       ),
-      headline6: base.headline6.copyWith(
+      headline6: base.headline6!.copyWith(
         fontSize: 20,
       ));
 }

@@ -8,9 +8,9 @@ import '../../../Time_Feature/Time_Feature.dart';
 import '../../../Services/database.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
-  final Project project;
-  final int numberOfTasks;
-  const ProjectExpansionTile({Key key, this.project, this.numberOfTasks}) : super(key: key);
+  final Project? project;
+  final int? numberOfTasks;
+  const ProjectExpansionTile({Key? key, this.project, this.numberOfTasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +29,16 @@ class ProjectExpansionTile extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.topic_rounded,
-          color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor],
+          color: DynamicColorTheme.of(context).isDark ? colorList[project!.projectColor].shade200 : colorList[project!.projectColor],
         ),
         title: Text(
-          project.projectName.isEmpty
+          project!.projectName.isEmpty
               ? 'NO PROJECT TITLES'
-              : project.projectName,
+              : project!.projectName,
           style: DynamicColorTheme.of(context)
               .data
               .textTheme
-              .subtitle1
+              .subtitle1!
               .copyWith(fontWeight: FontWeight.bold),
         ),
         children: [
@@ -70,7 +70,7 @@ class ProjectExpansionTile extends StatelessWidget {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title:
-                              Text('Delete Project: ${project.projectName}?'),
+                              Text('Delete Project: ${project!.projectName}?'),
                           content: ListTile(
                             title: Text(
                                 'This will permanently delete this project.\nIt will not delete related time entries or tasks.'),
@@ -86,7 +86,7 @@ class ProjectExpansionTile extends StatelessWidget {
                                 label: Text('Delete'),
                                 onPressed: () {
                                   databaseService.deleteItem(
-                                      type: 'projects', itemID: project.id);
+                                      type: 'projects', itemID: project!.id);
                                   Navigator.pop(context);
                                 })
                           ],
@@ -130,9 +130,9 @@ class ProjectExpansionTile extends StatelessWidget {
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
-              project.projectClient.isNotEmpty
+              project!.projectClient.isNotEmpty
                   ? ListTile(
-                      title: Text('Client: ${project.projectClient}',
+                      title: Text('Client: ${project!.projectClient}',
                           style: DynamicColorTheme.of(context)
                               .data
                               .textTheme

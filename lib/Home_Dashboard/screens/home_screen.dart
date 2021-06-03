@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     AuthService auth = Provider.of<AuthService>(context);
-    User user = auth.user;
+    User user = auth.user!;
     return MultiProvider(
       providers: [
         Provider(create: (context) => TimeGraphs()),
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                       leading: Icon(
                         Icons.account_circle_rounded,
                         color: DynamicColorTheme.of(context).data.iconTheme.color),
-                      title: Text(user.displayName,
+                      title: Text(user.displayName!,
                         style: DynamicColorTheme.of(context).data.textTheme.headline5),
                       subtitle: Text(DateTimeFunctions()
                           .dateTimeToTextDate(date: DateTime.now()),
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                       textAlign: TextAlign.center,
                       style: DynamicColorTheme.of(context).data
                           .textTheme
-                          .subtitle2
+                          .subtitle2!
                           .copyWith(fontStyle: FontStyle.italic)),
                   Text('Mike Murdock',
                       textAlign: TextAlign.center,

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class DatabaseService {
-  final User _user = FirebaseAuth.instance.currentUser;
+  final User? _user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore instance = FirebaseFirestore.instance;
 
   // Collection reference
@@ -13,7 +13,7 @@ class DatabaseService {
 
   // Build new user collections
   Future<void> buildNewUser() async {
-    final DocumentReference userDocument = rootCollection.doc(_user.uid);
+    final DocumentReference userDocument = rootCollection.doc(_user!.uid);
     WriteBatch batch = FirebaseFirestore.instance.batch();
 
     final List<Status> statuses = [
@@ -53,9 +53,9 @@ class DatabaseService {
   }
 
   // Add item to Firestore
-  Future<void> addItem({String type, Map<String, dynamic> addData}) async {
+  Future<void> addItem({required String type, required Map<String, dynamic> addData}) async {
     return rootCollection
-        .doc(_user.uid)
+        .doc(_user!.uid)
         .collection(type)
         .add(addData)
         .then((value) => print('$type Added'))
@@ -64,9 +64,9 @@ class DatabaseService {
 
   // Update item in Firestore
   Future<void> updateItem({
-      String type, String itemID, Map<String, dynamic> updateData}) async {
+      required String type, String? itemID, required Map<String, dynamic> updateData}) async {
     return rootCollection
-        .doc(_user.uid)
+        .doc(_user!.uid)
         .collection(type)
         .doc(itemID)
         .update(updateData)
@@ -79,7 +79,7 @@ class DatabaseService {
     WriteBatch batch = instance.batch();
     for (dynamic item in itemsToUpdate) {
       DocumentReference documentReference = rootCollection
-          .doc(_user.uid)
+          .doc(_user!.uid)
           .collection(type)
           .doc(item.id.toString());
       Map<String, dynamic> mapOfItem = item.toFirestore() as Map<String, dynamic>;
@@ -92,9 +92,9 @@ class DatabaseService {
   }
 
   // Delete item out of Firestore
-  Future<void> deleteItem({String type, String itemID}) async {
+  Future<void> deleteItem({required String type, String? itemID}) async {
     return rootCollection
-        .doc(_user.uid)
+        .doc(_user!.uid)
         .collection(type)
         .doc(itemID)
         .delete()

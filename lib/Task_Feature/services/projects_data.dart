@@ -8,8 +8,8 @@ class ProjectService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection reference
-  CollectionReference _getProjectReference() {
-    final User user = _auth.currentUser;
+  CollectionReference? _getProjectReference() {
+    final User user = _auth.currentUser!;
     if (user.uid == null) {
       return null;
     } else {
@@ -20,7 +20,7 @@ class ProjectService {
     }
   }
 
-  CollectionReference get projects {
+  CollectionReference? get projects {
     return _getProjectReference();
   }
 

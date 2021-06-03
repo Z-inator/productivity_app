@@ -7,18 +7,18 @@ class Project {
   int projectColor;
 
   Project({id, projectName, projectColor, projectClient})
-      : id = id as String ?? '',
-        projectName = projectName as String ?? '',
-        projectColor = projectColor as int ?? 4285887861,
-        projectClient = projectClient as String ?? '';
+      : id = id as String? ?? '',
+        projectName = projectName as String? ?? '',
+        projectColor = projectColor as int? ?? 4285887861,
+        projectClient = projectClient as String? ?? '';
 
   factory Project.fromFirestore(Map<String, Object> data, DocumentSnapshot snapshot) {
     // final Map data = snapshot.data();
     return Project(
-      id: snapshot.id ?? '',
-      projectName: data['projectName'] as String ?? '',
-      projectClient: data['projectClient'] as String ?? '',
-      projectColor: data['projectColor'] as int ?? 4285887861,
+      id: snapshot.id,
+      projectName: data['projectName'] as String? ?? '',
+      projectClient: data['projectClient'] as String? ?? '',
+      projectColor: data['projectColor'] as int? ?? 4285887861,
     );
   }
 

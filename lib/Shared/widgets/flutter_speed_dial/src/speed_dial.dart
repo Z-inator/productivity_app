@@ -20,60 +20,60 @@ class SpeedDial extends StatefulWidget {
   /// The curve used to animate the button on scrolling.
   final Curve curve;
 
-  final String tooltip;
-  final String heroTag;
-  final Color backgroundColor;
-  final Color foregroundColor;
-  final Color activeBackgroundColor;
-  final Color activeForegroundColor;
+  final String? tooltip;
+  final String? heroTag;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final Color? activeBackgroundColor;
+  final Color? activeForegroundColor;
   final double elevation;
   final double buttonSize;
   final double childrenButtonSize;
   final ShapeBorder shape;
-  final Gradient gradient;
+  final Gradient? gradient;
   final BoxShape gradientBoxShape;
 
   /// The color of the background overlay.
-  final Color overlayColor;
+  final Color? overlayColor;
 
   /// The opacity of the background overlay when the dial is open.
   final double overlayOpacity;
 
   /// The animated icon to show as the main button child. If this is provided the [child] is ignored.
-  final AnimatedIconData animatedIcon;
+  final AnimatedIconData? animatedIcon;
 
   /// The theme for the animated icon.
-  final IconThemeData animatedIconTheme;
+  final IconThemeData? animatedIconTheme;
 
   /// The icon of the main button, ignored if [animatedIcon] is non [null].
-  final IconData icon;
+  final IconData? icon;
 
   /// The active icon of the main button, Defaults to icon if not specified, ignored if [animatedIcon] is non [null].
-  final IconData activeIcon;
+  final IconData? activeIcon;
 
   /// If true then rotation animation will be used when animating b/w activeIcon and icon.
   final bool useRotationAnimation;
 
   /// The theme for the icon generally includes color and size.
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// The label of the main button.
-  final Widget label;
+  final Widget? label;
 
   /// The active label of the main button, Defaults to label if not specified.
-  final Widget activeLabel;
+  final Widget? activeLabel;
 
   /// Transition Builder between label and activeLabel, defaults to FadeTransition.
-  final Widget Function(Widget, Animation<double>) labelTransitionBuilder;
+  final Widget Function(Widget, Animation<double>)? labelTransitionBuilder;
 
   /// Executed when the dial is opened.
-  final VoidCallback onOpen;
+  final VoidCallback? onOpen;
 
   /// Executed when the dial is closed.
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
   /// Executed when the dial is pressed. If given, the dial only opens on long press!
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
 
   /// If true user is forced to close dial manually by tapping main button. WARNING: If true, overlay is not rendered.
   final bool closeManually;
@@ -82,7 +82,7 @@ class SpeedDial extends StatefulWidget {
   final bool renderOverlay;
 
   /// Open or close the dial via a notification
-  final ValueNotifier<bool> openCloseDial;
+  final ValueNotifier<bool>? openCloseDial;
 
   /// The speed of the animation in milliseconds
   final int animationSpeed;
@@ -102,19 +102,19 @@ class SpeedDial extends StatefulWidget {
   /// that was specific to FAB before like onPress, you will have to provide
   /// it again to your dialRoot button.
   final Widget Function(
-      BuildContext context, bool open, Key, VoidCallback, LayerLink) dialRoot;
+      BuildContext context, bool open, Key, VoidCallback, LayerLink)? dialRoot;
 
   /// This is the child of the FAB, if specified it will ignore icon, activeIcon.
-  final Widget child;
+  final Widget? child;
 
   /// This is the active child of the FAB, if specified it will animate b/w this
   /// and the child.
-  final Widget activeChild;
+  final Widget? activeChild;
 
   final bool switchLabelPosition;
 
   const SpeedDial({
-    Key key,
+    Key? key,
     this.children = const [],
     this.visible = true,
     this.backgroundColor,
@@ -162,12 +162,12 @@ class SpeedDial extends StatefulWidget {
 }
 
 class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
   bool _open = false;
-  OverlayEntry overlayEntry;
-  OverlayEntry backgroundOverlay;
+  OverlayEntry? overlayEntry;
+  OverlayEntry? backgroundOverlay;
   final LayerLink _layerLink = LayerLink();
-  bool _dark;
+  bool? _dark;
   final dialKey = GlobalKey<State<StatefulWidget>>();
 
   @override
@@ -226,7 +226,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     if (widget.children.isNotEmpty) {
       final newValue = !_open;
       toggleOverlay();
-      if (widget.openCloseDial != null) widget.openCloseDial.value = newValue;
+      if (widget.openCloseDial != null) widget.openCloseDial!.value = newValue;
       if (newValue && widget.onOpen != null) widget.onOpen?.call();
       if (!newValue && widget.onClose != null) widget.onClose?.call();
     } else if (widget.onOpen != null) widget.onOpen?.call();
@@ -283,7 +283,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     if (_open) {
       _controller.reverse().whenComplete(() {
         overlayEntry?.remove();
-        if (widget.renderOverlay && backgroundOverlay.mounted) {
+        if (widget.renderOverlay && backgroundOverlay!.mounted) {
           backgroundOverlay?.remove();
         }
       });
@@ -351,19 +351,19 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
                   layerLink: _layerLink,
                   animation: _controller,
                   color: widget.overlayColor ??
-                      (_dark ? Colors.grey[900] : Colors.white),
+                      (_dark! ? Colors.grey[900] : Colors.white),
                   opacity: widget.overlayOpacity,
                 )));
       }
       if (!mounted) return;
 
       _controller.addListener(() {
-        Overlay.of(context).setState(() {});
+        Overlay.of(context)!.setState(() {});
       });
 
       _controller.forward();
-      if (widget.renderOverlay) Overlay.of(context).insert(backgroundOverlay);
-      Overlay.of(context).insert(overlayEntry);
+      if (widget.renderOverlay) Overlay.of(context)!.insert(backgroundOverlay!);
+      Overlay.of(context)!.insert(overlayEntry!);
     }
 
     if (!mounted) return;
@@ -381,7 +381,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
             ),
             child: Center(
               child: AnimatedIcon(
-                icon: widget.animatedIcon,
+                icon: widget.animatedIcon!,
                 progress: _controller,
                 color: widget.animatedIconTheme?.color,
                 size: widget.animatedIconTheme?.size,
@@ -390,7 +390,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
           )
         : AnimatedBuilder(
             animation: _controller,
-            builder: (BuildContext context, Widget _widget) => Transform.rotate(
+            builder: (BuildContext context, Widget? _widget) => Transform.rotate(
               angle:
                   (widget.activeChild != null || widget.activeIcon != null) &&
                           widget.useRotationAnimation
@@ -456,9 +456,9 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
     );
 
     final backgroundColor =
-        widget.backgroundColor ?? (_dark ? Colors.grey[800] : Colors.grey[100]);
+        widget.backgroundColor ?? (_dark! ? Colors.grey[800] : Colors.grey[100]);
     final foregroundColor =
-        widget.foregroundColor ?? (_dark ? Colors.white : Colors.black);
+        widget.foregroundColor ?? (_dark! ? Colors.white : Colors.black);
 
     final backgroundColorTween = ColorTween(
         begin: backgroundColor,
@@ -474,7 +474,7 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
         visible: widget.visible,
         tooltip: widget.tooltip,
         dialRoot: widget.dialRoot != null
-            ? widget.dialRoot(
+            ? widget.dialRoot!(
                 context, _open, dialKey, _toggleChildren, _layerLink)
             : null,
         backgroundColor: backgroundColorTween.lerp(_controller.value),
@@ -505,21 +505,21 @@ class _SpeedDialState extends State<SpeedDial> with TickerProviderStateMixin {
 }
 
 Widget buildColumnOrRow(bool isColumn,
-    {CrossAxisAlignment crossAxisAlignment,
-    MainAxisAlignment mainAxisAlignment,
-    List<Widget> children,
-    MainAxisSize mainAxisSize}) {
+    {CrossAxisAlignment? crossAxisAlignment,
+    MainAxisAlignment? mainAxisAlignment,
+    List<Widget>? children,
+    MainAxisSize? mainAxisSize}) {
   return isColumn
       ? Column(
           mainAxisSize: mainAxisSize ?? MainAxisSize.max,
           mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
           crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          children: children,
+          children: children!,
         )
       : Row(
           mainAxisSize: mainAxisSize ?? MainAxisSize.max,
           mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
           crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          children: children,
+          children: children!,
         );
 }

@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DateTimeFunctions {
-  DateTime timeStampToDateTime({Timestamp date}) {
+  DateTime timeStampToDateTime({required Timestamp date}) {
     return date.toDate();
   }
 
-  String dateToText({DateTime date}) {
+  String dateToText({required DateTime date}) {
     final String month = date.month.toString().padLeft(2, '0');
     final String day = date.day.toString().padLeft(2, '0');
     final String year = date.year.toString();
@@ -15,16 +15,16 @@ class DateTimeFunctions {
     return '$month/$day/$year - $hour:$minute';
   }
 
-  String dateTimeToTextTime({DateTime date, BuildContext context}) {  // TODO: this is broken
+  String dateTimeToTextTime({required DateTime date, required BuildContext context}) {  // TODO: this is broken
     final TimeOfDay timeOfDay = TimeOfDay.fromDateTime(date);
     return timeOfDay.format(context);
   }
 
-  String dateTimeToTextDate({DateTime date}) {
+  String dateTimeToTextDate({required DateTime date}) {
     return '${date.month}/${date.day}/${date.year}';
   }
 
-  String timeToText({int seconds}) {
+  String timeToText({required int seconds}) {
     final String hourStr =
         (seconds / (60 * 60)).floor().toString().padLeft(2, '0');
     final String minutesStr =
@@ -37,7 +37,7 @@ class DateTimeFunctions {
   //   return time.format(context);
   // }
 
-  String timeToTextWithoutSeconds({int seconds}) {
+  String timeToTextWithoutSeconds({required int seconds}) {
     final String hourStr =
         ((seconds / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
     final String minutesStr =
@@ -45,15 +45,15 @@ class DateTimeFunctions {
     return '$hourStr:$minutesStr';
   }
 
-  String timeToTextHours({int seconds}) {
+  String timeToTextHours({required int seconds}) {
     return ((seconds / (60 * 60)) % 60).floor().toString().padLeft(2, '0');
   }
 
-  String timeToTextMinutes({int seconds}) {
+  String timeToTextMinutes({required int seconds}) {
     return ((seconds / 60) % 60).floor().toString().padLeft(2, '0');
   }
 
-  String timeToTextSeconds({int seconds}) {
+  String timeToTextSeconds({required int seconds}) {
     return (seconds % 60).floor().toString().padLeft(2, '0');
   }
 }

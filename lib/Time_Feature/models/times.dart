@@ -12,13 +12,13 @@ class TimeEntry {
   Task task;
 
   TimeEntry({id, entryName, project, task, startTime, endTime, elapsedTime})
-      : id = id as String ?? '',
-        entryName = entryName as String ?? '',
-        project = project as Project ?? Project(),
-        task = task as Task ?? Task(),
-        startTime = startTime as DateTime ?? DateTime.now(),
-        endTime = endTime as DateTime ?? DateTime.now().add(Duration(hours: 1)),
-        elapsedTime = elapsedTime as int ?? 0;
+      : id = id as String? ?? '',
+        entryName = entryName as String? ?? '',
+        project = project as Project? ?? Project(),
+        task = task as Task? ?? Task(),
+        startTime = startTime as DateTime? ?? DateTime.now(),
+        endTime = endTime as DateTime? ?? DateTime.now().add(Duration(hours: 1)),
+        elapsedTime = elapsedTime as int? ?? 0;
 
   factory TimeEntry.fromFirestore(
     DocumentSnapshot snapshot,
@@ -28,7 +28,7 @@ class TimeEntry {
     final Map data = Map.from(snapshot.data() as Map<String, Object>);
     return TimeEntry(
         id: snapshot.id ?? '',
-        entryName: data['entryName'] as String ?? '',
+        entryName: data['entryName'] as String? ?? '',
         project: project ?? Project(),
         task: task ?? Task(),
         startTime: (data['startTime'] as Timestamp).toDate() ?? DateTime.now(),

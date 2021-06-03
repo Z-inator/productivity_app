@@ -4,29 +4,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SubtaskService {
-  final User user;
+  final User? user;
   SubtaskService({this.user});
 
   // Collection reference
-  CollectionReference _getSubtaskReference() {
+  CollectionReference? _getSubtaskReference() {
     if (user == null) {
       return null;
     } else {
       return FirebaseFirestore.instance
           .collection('users')
-          .doc(user.uid)
+          .doc(user!.uid)
           .collection('subtasks');
     }
   }
 
-  CollectionReference get subtasks {
+  CollectionReference? get subtasks {
     return _getSubtaskReference();
   }
 
   // Add Subtask
   Future<void> addSubtask(
-      {String subtaskName, bool isDone = false, String taskName}) async {
-    return _getSubtaskReference()
+      {String? subtaskName, bool isDone = false, String? taskName}) async {
+    return _getSubtaskReference()!
         .add({
           'subtaskName': subtaskName,
           'isDone': isDone,
@@ -37,8 +37,8 @@ class SubtaskService {
   }
 
   // Update Subtask
-  Future<void> updateSubtask({String subtaskID, Map updateData}) async {
-    return _getSubtaskReference()
+  Future<void> updateSubtask({String? subtaskID, required Map updateData}) async {
+    return _getSubtaskReference()!
         .doc(subtaskID)
         .update(Map<String, dynamic>.from(updateData))
         .then((value) => print('Subtask Updated'))
@@ -46,8 +46,8 @@ class SubtaskService {
   }
 
   // Delete Subtask
-  Future<void> deleteSubtask({String subtaskID}) async {
-    return _getSubtaskReference()
+  Future<void> deleteSubtask({String? subtaskID}) async {
+    return _getSubtaskReference()!
         .doc(subtaskID)
         .delete()
         .then((value) => print('Subtask Deleted'))

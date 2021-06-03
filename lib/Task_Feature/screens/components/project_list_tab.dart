@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class ProjectScreen extends StatefulWidget {
-  const ProjectScreen({Key key}) : super(key: key);
+  const ProjectScreen({Key? key}) : super(key: key);
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState();

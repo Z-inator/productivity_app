@@ -22,7 +22,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/taskscreen':
       return MaterialPageRoute(builder: (context) => TaskProjectScreen());
     case '/projectscreen':
-      final Project selectedProject = settings.arguments as Project;
+      final Project? selectedProject = settings.arguments as Project?;
       return MaterialPageRoute(
           builder: (context) => ProjectPage(
                 project: selectedProject,

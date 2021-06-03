@@ -26,12 +26,12 @@ class FunctionalityButtonList extends StatefulWidget {
 
 class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
   Task newTask = Task();
-  Project newProject;
-  DateTime _dueDate;
-  TimeOfDay _dueTime;
-  Duration _addedTime;
-  FocusNode minuteFocusNode;
-  FocusNode hourFocusNode;
+  Project? newProject;
+  DateTime? _dueDate;
+  TimeOfDay? _dueTime;
+  Duration? _addedTime;
+  FocusNode? minuteFocusNode;
+  FocusNode? hourFocusNode;
 
   @override
   void initState() {
@@ -42,14 +42,14 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<AuthService>(context).user;
+    final User? user = Provider.of<AuthService>(context).user;
     final List<Task> tasks = Provider.of<List<Task>>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
             onPressed: () {
-              user.updateProfile(displayName: 'Z-inator');
+              user!.updateProfile(displayName: 'Z-inator');
             },
             child: Text('Update display name')),
         ElevatedButton(
@@ -149,7 +149,7 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
             onPressed: () {
               FirebaseFirestore.instance
                   .collection('users')
-                  .doc(user.uid)
+                  .doc(user!.uid)
                   .update({
                 'firstName': 'Butt',
                 'lastName': 'Face',

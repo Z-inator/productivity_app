@@ -15,8 +15,8 @@ class NewDataUpload {
   dynamic uploadExampleProjectData() {
     for (Map<String, dynamic> map in projectData) {
       DatabaseService().addItem(type: 'projects', addData: {
-        'projectName': map['projectName'] as String,
-        'projectColor': map['projectColor'] as int
+        'projectName': map['projectName'] as String?,
+        'projectColor': map['projectColor'] as int?
       });
     }
   }
@@ -24,10 +24,10 @@ class NewDataUpload {
   dynamic uploadExampleStatusData() {
     for (Map<String, dynamic> map in statusData) {
       DatabaseService().addItem(type: 'statuses', addData: {
-        'statusName': map['statusName'] as String,
-        'statusColor': map['statusColor'] as int,
-        'statusOrder': map['statusOrder'] as int,
-        'equalToComplete': map['equalToComplete'] as bool
+        'statusName': map['statusName'] as String?,
+        'statusColor': map['statusColor'] as int?,
+        'statusOrder': map['statusOrder'] as int?,
+        'equalToComplete': map['equalToComplete'] as bool?
       });
     }
   }
@@ -35,9 +35,9 @@ class NewDataUpload {
   dynamic uploadExampleTaskData() {
     for (Map<String, dynamic> map in taskData) {
       DatabaseService().addItem(type: 'tasks', addData: {
-        'taskName': map['taskName'] as String,
-        'project': map['project'] as String,
-        'status': map['status'] as String,
+        'taskName': map['taskName'] as String?,
+        'project': map['project'] as String?,
+        'status': map['status'] as String?,
         'dueDate': DateTime.parse(map['dueDate'].toString()),
         'createDate': DateTime.parse(map['createDate'].toString())
       });

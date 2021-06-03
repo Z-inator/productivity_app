@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../Authentification.dart';
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({Key key}) : super(key: key);
+  RegisterForm({Key? key}) : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -13,14 +13,14 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
-  String displayName;
+  late String email;
+  String? password;
+  String? displayName;
   bool signingIn = false;
   Icon passwordNotValid = Icon(Icons.close_rounded, color: Colors.red);
   Icon passwordValid = Icon(Icons.check_rounded, color: Colors.green);
-  bool password1Valid;
-  bool password2Matches;
+  bool? password1Valid;
+  bool? password2Matches;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               helperMaxLines: 3,
                               icon: password1Valid == null
                                   ? Icon(Icons.lock_rounded)
-                                  : password1Valid
+                                  : password1Valid!
                                       ? passwordValid
                                       : passwordNotValid),
                           textAlign: TextAlign.center,
@@ -108,7 +108,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               helperText: 'Passwords must match',
                               icon: password2Matches == null
                                   ? Icon(Icons.lock_rounded)
-                                  : password2Matches
+                                  : password2Matches!
                                       ? passwordValid
                                       : passwordNotValid),
                           textAlign: TextAlign.center,
@@ -141,9 +141,9 @@ class _RegisterFormState extends State<RegisterForm> {
                             if (!currentFocus.hasPrimaryFocus) {
                               currentFocus.unfocus();
                             }
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               dynamic result = await auth
-                                  .registerWithEmailAndPassword(email, password, displayName);
+                                  .registerWithEmailAndPassword(email, password!, displayName);
                               if (result != null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text(result.toString())));

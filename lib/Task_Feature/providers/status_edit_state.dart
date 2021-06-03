@@ -4,11 +4,11 @@ import '../../../Shared/Shared.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class StatusEditState extends ChangeNotifier {
-  Status newStatus;
-  final Status oldStatus;
+  late Status newStatus;
+  final Status? oldStatus;
   StatusEditState({this.oldStatus}) {
     if (oldStatus != null) {
-      newStatus = oldStatus.copyStatus();
+      newStatus = oldStatus!.copyStatus();
     } else {
       newStatus = Status();
     }
@@ -24,7 +24,7 @@ class StatusEditState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateStatusComplete(bool equalToComplete) {
+  void updateStatusComplete(bool? equalToComplete) {
     newStatus.equalToComplete = equalToComplete;
     notifyListeners();
   }

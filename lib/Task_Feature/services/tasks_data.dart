@@ -10,12 +10,12 @@ import '../../../Shared/Shared.dart';
 
 class TaskService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final User user = FirebaseAuth.instance.currentUser;
+  final User? user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // Collection reference
-  CollectionReference _getTaskReference() {
-    final User user = _auth.currentUser;
+  CollectionReference? _getTaskReference() {
+    final User? user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
@@ -26,7 +26,7 @@ class TaskService {
     }
   }
 
-  CollectionReference get tasks {
+  CollectionReference? get tasks {
     return _getTaskReference();
   }
 
@@ -160,7 +160,7 @@ class TaskService {
     return subtasks.length;
   }
 
-  int getRecordedTime(List<TimeEntry> timeEntries, Task task) {
+  int getRecordedTime(List<TimeEntry> timeEntries, Task? task) {
     int recordedTime = 0;
     timeEntries.forEach((entry) {
       recordedTime += entry.elapsedTime;

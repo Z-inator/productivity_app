@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 
 class AnimatedFloatingButton extends StatelessWidget {
   final bool visible;
-  final VoidCallback callback;
-  final VoidCallback onLongPress;
-  final Widget label;
-  final Widget child;
-  final Color backgroundColor;
-  final Color foregroundColor;
-  final String tooltip;
-  final String heroTag;
+  final VoidCallback? callback;
+  final VoidCallback? onLongPress;
+  final Widget? label;
+  final Widget? child;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final String? tooltip;
+  final String? heroTag;
   final double elevation;
   final double size;
   final ShapeBorder shape;
   final Curve curve;
-  final GlobalKey dialKey;
-  final Widget dialRoot;
+  final GlobalKey? dialKey;
+  final Widget? dialRoot;
   final bool useInkWell;
 
   const AnimatedFloatingButton({
-    Key key,
+    Key? key,
     this.visible = true,
     this.callback,
     this.label,
@@ -56,7 +56,7 @@ class AnimatedFloatingButton extends StatelessWidget {
                     ? FloatingActionButton.extended(
                         icon: visible ? child : null,
                         shape: shape is CircleBorder ? StadiumBorder() : shape,
-                        label: visible ? label : SizedBox.shrink(),
+                        label: visible ? label! : SizedBox.shrink(),
                         backgroundColor: backgroundColor,
                         foregroundColor: foregroundColor,
                         onPressed: callback,

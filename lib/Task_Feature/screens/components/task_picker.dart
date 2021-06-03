@@ -7,9 +7,9 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class TaskPicker extends StatelessWidget {
-  final Function(Task) saveTask;
-  final Widget child;
-  const TaskPicker({Key key, this.saveTask, this.child}) : super(key: key);
+  final Function(Task)? saveTask;
+  final Widget? child;
+  const TaskPicker({Key? key, this.saveTask, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class TaskPicker extends StatelessWidget {
                   style:
                       DynamicColorTheme.of(context).data.textTheme.subtitle1),
               onTap: () {
-                saveTask(Task());
+                saveTask!(Task());
                 Navigator.pop(context);
               },
             )),
@@ -64,7 +64,7 @@ class TaskPicker extends StatelessWidget {
                                 .textTheme
                                 .subtitle1),
                         onTap: () {
-                          saveTask(task);
+                          saveTask!(task);
                           Navigator.pop(context);
                         },
                       );

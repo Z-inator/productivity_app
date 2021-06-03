@@ -11,8 +11,8 @@ class TimeService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection Reference
-  CollectionReference _getTimeEntryReference() {
-    final User user = _auth.currentUser;
+  CollectionReference? _getTimeEntryReference() {
+    final User? user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
@@ -23,7 +23,7 @@ class TimeService {
     }
   }
 
-  CollectionReference get timeEntries {
+  CollectionReference? get timeEntries {
     return _getTimeEntryReference();
   }
 
@@ -91,15 +91,15 @@ class TimeService {
   }
 
   List<TimeEntry> getTimeEntriesByProject(
-      List<TimeEntry> timeEntries, Project project) {
+      List<TimeEntry> timeEntries, Project? project) {
     return timeEntries
-        .where((entry) => entry.project.id == project.id)
+        .where((entry) => entry.project.id == project!.id)
         .toList();
   }
 
-  List<TimeEntry> getTimeEntriesByTask(List<TimeEntry> timeEntries, Task task) {
+  List<TimeEntry> getTimeEntriesByTask(List<TimeEntry> timeEntries, Task? task) {
     return timeEntries
-        .where((entry) => entry.entryName == task.taskName)
+        .where((entry) => entry.entryName == task!.taskName)
         .toList();
   }
 

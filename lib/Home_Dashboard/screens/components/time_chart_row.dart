@@ -8,10 +8,10 @@ import '../../../Shared/Shared.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeChartRow extends StatelessWidget {
-  TimeChartRow({Key key}) : super(key: key);
+  TimeChartRow({Key? key}) : super(key: key);
 
   List<Widget> pages(
-      List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
+      List<TimeEntry> timeEntries, DateTime? startDay, DateTime? endDay) {
     return [
       TimeBarChart(
           timeEntries: timeEntries, startDay: startDay, endDay: endDay),
@@ -24,7 +24,7 @@ class TimeChartRow extends StatelessWidget {
   Widget build(BuildContext context) {
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
-    List<DateTime> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
+    List<DateTime?> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
     List<TimeEntry> timeRangeEntries = timeGraphsState.getTimeRangeData(
         timeEntries, currentWeek[0], currentWeek[1]);
     int totalTimeRangeTime =

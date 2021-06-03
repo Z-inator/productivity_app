@@ -6,8 +6,8 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Shared/Shared.dart';
 
 class RecentTimeList extends StatelessWidget {
-  final List<TimeEntry> timeEntries;
-  const RecentTimeList({Key key, this.timeEntries}) : super(key: key);
+  final List<TimeEntry>? timeEntries;
+  const RecentTimeList({Key? key, this.timeEntries}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class RecentTimeList extends StatelessWidget {
             : Container(
                 margin: EdgeInsets.all(25),
                 child: ListView(
-                  children: timeEntries.map((entry) {
+                  children: timeEntries!.map((entry) {
                     return ListTile(
                       leading: IconButton(
                           icon: Icon(Icons.play_arrow_rounded),

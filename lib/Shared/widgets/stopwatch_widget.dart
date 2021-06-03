@@ -6,7 +6,7 @@ import '../../../Shared/Shared.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class StopWatchTile extends StatelessWidget {
-  const StopWatchTile({Key key}) : super(key: key);
+  const StopWatchTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +29,16 @@ class StopWatchTile extends StatelessWidget {
                       entry: stopwatchState.newEntry,
                     ));
               }),
-          title: stopwatchState.newEntry.task.id.isNotEmpty
-            ? Text(stopwatchState.newEntry.task.taskName)
+          title: stopwatchState.newEntry!.task.id.isNotEmpty
+            ? Text(stopwatchState.newEntry!.task.taskName)
             : Text(''),
-          subtitle: stopwatchState.newEntry.project.id.isNotEmpty
-            ? Text(stopwatchState.newEntry.project.projectName,
+          subtitle: stopwatchState.newEntry!.project.id.isNotEmpty
+            ? Text(stopwatchState.newEntry!.project.projectName,
               style: TextStyle(
                   color: DynamicColorTheme.of(context).isDark
-                      ? colorList[stopwatchState.newEntry.project.projectColor]
+                      ? colorList[stopwatchState.newEntry!.project.projectColor]
                           .shade200
-                      : colorList[stopwatchState.newEntry.project.projectColor]),
+                      : colorList[stopwatchState.newEntry!.project.projectColor]),
             )
             : Text(''),
           trailing: Text(DateTimeFunctions()

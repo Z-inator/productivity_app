@@ -11,8 +11,8 @@ import '../Authentification.dart';
  
  
 class AuthWidget extends StatelessWidget {
-  const AuthWidget({Key key, @required this.userSnapshot}) : super(key: key);
-  final AsyncSnapshot<User> userSnapshot;
+  const AuthWidget({Key? key, required this.userSnapshot}) : super(key: key);
+  final AsyncSnapshot<User?> userSnapshot;
 
   @override
   Widget build(BuildContext context) {

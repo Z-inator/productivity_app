@@ -2,7 +2,7 @@ import '../../Task_Feature/Task_Feature.dart';
 
 class Subtask {
   String subtaskID = '';
-  String subtaskName;
+  String? subtaskName;
   Task task = Task();
   bool isDone = false;
 

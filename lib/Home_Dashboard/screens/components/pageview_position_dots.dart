@@ -14,8 +14,8 @@ class PageViewDotsState extends ChangeNotifier {
 }
 
 class PageViewDots extends StatelessWidget {
-  int index;
-  PageViewDots({Key key, this.index}) : super(key: key);
+  int? index;
+  PageViewDots({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,8 @@ class PageViewDots extends StatelessWidget {
 }
 
 class PageViewDotsRow extends StatelessWidget {
-  final int numberOfPages;
-  const PageViewDotsRow({Key key, this.numberOfPages}) : super(key: key);
+  final int? numberOfPages;
+  const PageViewDotsRow({Key? key, this.numberOfPages}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class PageViewDotsRow extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children:
-            List.generate(numberOfPages, (index) => PageViewDots(index: index)),
+            List.generate(numberOfPages!, (index) => PageViewDots(index: index)),
       ),
     );
   }

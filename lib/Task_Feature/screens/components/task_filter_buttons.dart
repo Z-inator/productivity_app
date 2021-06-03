@@ -26,15 +26,15 @@ class FilterButtonRow extends StatelessWidget {
 }
 
 class FilterButton extends StatelessWidget {
-  final int index;
-  final IconData icon;
-  final String filterName;
-  final Function(int) whenPressed;
+  final int? index;
+  final IconData? icon;
+  final String? filterName;
+  final Function(int?)? whenPressed;
   FilterButton(
-      {Key key, this.index, this.icon, this.filterName, this.whenPressed})
+      {Key? key, this.index, this.icon, this.filterName, this.whenPressed})
       : super(key: key);
 
-  bool isSelected;
+  late bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,8 @@ class FilterButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 10),
       child: OutlinedButton.icon(
           icon: Icon(icon),
-          label: Text(filterName),
-          onPressed: () => whenPressed(index),
+          label: Text(filterName!),
+          onPressed: () => whenPressed!(index),
           style: OutlinedButton.styleFrom(
             primary: isSelected
                 ? DynamicColorTheme.of(context).data.primaryColor

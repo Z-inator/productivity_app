@@ -5,10 +5,10 @@ import '../../../Task_Feature/Task_Feature.dart';
 class TaskBodyState extends ChangeNotifier {
   int page = 0;
 
-  TaskService taskService;
-  List<Task> tasks;
-  List<Status> statuses;
-  List<Project> projects;
+  TaskService? taskService;
+  List<Task>? tasks;
+  List<Status>? statuses;
+  List<Project>? projects;
   List<Map<dynamic, List<Task>>> currentTaskList = [];
   List<String> options = ['Status', 'Project', 'Due Date', 'Create Date'];
   List<IconData> icons = [
@@ -24,19 +24,19 @@ class TaskBodyState extends ChangeNotifier {
   void changePage(int index) {
     switch (options[index]) {
       case 'Status':
-        currentTaskList = taskService.getTasksByStatus(tasks, statuses);
+        currentTaskList = taskService!.getTasksByStatus(tasks!, statuses!);
         break;
       case 'Project':
-        currentTaskList = taskService.getTasksByProject(tasks, projects);
+        currentTaskList = taskService!.getTasksByProject(tasks!, projects!);
         break;
       case 'Due Date':
-        currentTaskList = taskService.getTasksByDueDate(tasks);
+        currentTaskList = taskService!.getTasksByDueDate(tasks!);
         break;
       case 'Create Date':
-        currentTaskList = taskService.getTasksByCreateDate(tasks);
+        currentTaskList = taskService!.getTasksByCreateDate(tasks!);
         break;
       default:
-        currentTaskList = taskService.getTasksByStatus(tasks, statuses);
+        currentTaskList = taskService!.getTasksByStatus(tasks!, statuses!);
     }
     page = index;
     notifyListeners();

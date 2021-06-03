@@ -8,16 +8,16 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Services/database.dart';
 
 class StatusEditPage extends StatefulWidget {
-  StatusEditPage({Key key}) : super(key: key);
+  StatusEditPage({Key? key}) : super(key: key);
 
   @override
   _StatusEditPageState createState() => _StatusEditPageState();
 }
 
 class _StatusEditPageState extends State<StatusEditPage> {
-  List<Status> statuses;
+  late List<Status> statuses;
   FirebaseFirestore instance = FirebaseFirestore.instance;
-  WriteBatch batch;
+  WriteBatch? batch;
 
   @override
   Widget build(BuildContext context) {

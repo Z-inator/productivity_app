@@ -11,20 +11,20 @@ class AuthService {
 
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
-  User get user {
+  User? get user {
     return _auth.currentUser;
   }
 
   // Authentification change user stream
-  Stream<User> get onAuthStateChanged {
+  Stream<User?> get onAuthStateChanged {
     return _auth.authStateChanges().map((user) {
       return user == null ? null : user;
     });
   }
 
   // Get user reference
-  DocumentReference getUserReference(String userID) {
-    final User user = _auth.currentUser;
+  DocumentReference? getUserReference(String userID) {
+    final User? user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
@@ -32,7 +32,7 @@ class AuthService {
     }
   }
 
-  String passwordValidation(String password) {
+  String? passwordValidation(String? password) {
     int passwordMinLength = 8;
     if (password == null || password.isEmpty) {
       return 'Please enter your password';
@@ -67,7 +67,7 @@ class AuthService {
 
   // Register with email and password
   Future registerWithEmailAndPassword(
-      String email, String password, String displayName) async {
+      String email, String password, String? displayName) async {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -81,7 +81,7 @@ class AuthService {
       return error.toString();
     }
     try {
-      await user.updateProfile(displayName: displayName);
+      await user!.updateProfile(displayName: displayName);
     } catch (error) {
       return error.toString();
     }
@@ -98,7 +98,7 @@ class AuthService {
         print(error);
       }
     } else {
-      final GoogleSignInAccount googleSignInAccount =
+      final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleAuth =

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class StatusList extends StatelessWidget {
-  const StatusList({Key key}) : super(key: key);
+  const StatusList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

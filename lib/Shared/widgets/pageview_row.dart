@@ -5,10 +5,10 @@ import '../../../Home_Dashboard/Home_Dashboard.dart';
 
 
 class PageViewRow extends StatelessWidget {
-  final List<Widget> pages;
-  PageViewRow({Key key, this.pages}) : super(key: key);
+  final List<Widget>? pages;
+  PageViewRow({Key? key, this.pages}) : super(key: key);
 
-  PageController controller;
+  PageController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +24,16 @@ class PageViewRow extends StatelessWidget {
                   controller: controller,
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (int index) => state.changePage(index),
-                  itemCount: pages.length,
+                  itemCount: pages!.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                      child: pages[index]
+                      child: pages![index]
                     );
                   },
                 ),
               ),
-              PageViewDotsRow(numberOfPages: pages.length)
+              PageViewDotsRow(numberOfPages: pages!.length)
             ],
           );
         });

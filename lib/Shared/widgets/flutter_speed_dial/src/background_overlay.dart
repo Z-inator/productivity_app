@@ -6,14 +6,14 @@ import 'global_key_extension.dart';
 import 'custom_hole_clipper.dart';
 
 class BackgroundOverlay extends AnimatedWidget {
-  final Color color;
+  final Color? color;
   final double opacity;
-  final GlobalKey dialKey;
-  final LayerLink layerLink;
+  final GlobalKey? dialKey;
+  final LayerLink? layerLink;
 
   const BackgroundOverlay({
-    Key key,
-    Animation<double> animation,
+    Key? key,
+    required Animation<double> animation,
     this.dialKey,
     this.layerLink,
     this.color = Colors.white,
@@ -27,10 +27,10 @@ class BackgroundOverlay extends AnimatedWidget {
       opacity: opacity * animation.value,
           child: ClipPath(
       clipper: InvertedClipper(
-        width: dialKey.globalPaintBounds.size.width, 
-        height: dialKey.globalPaintBounds.size.height,
-        dy: dialKey.offset.dy,
-        dx: dialKey.offset.dx),
+        width: dialKey!.globalPaintBounds.size.width, 
+        height: dialKey!.globalPaintBounds.size.height,
+        dy: dialKey!.offset.dy,
+        dx: dialKey!.offset.dx),
         child: Container(
               color: color,
         ),

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class TaskScreen extends StatefulWidget {
-  const TaskScreen({Key key}) : super(key: key);
+  const TaskScreen({Key? key}) : super(key: key);
 
   @override
   _TaskScreenState createState() => _TaskScreenState();
@@ -43,15 +43,15 @@ class _TaskScreenState extends State<TaskScreen>
 // Working on being able to use TaskList on Project Page as well.
 
 class TaskList extends StatelessWidget {
-  List<Map<dynamic, List<Task>>> taskMap;
-  Function(dynamic item, int numberOfTasks) getWidget;
-  TaskList({Key key, this.taskMap, this.getWidget}) : super(key: key);
+  List<Map<dynamic, List<Task>>>? taskMap;
+  Function(dynamic item, int numberOfTasks)? getWidget;
+  TaskList({Key? key, this.taskMap, this.getWidget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.only(bottom: 100),
-      children: taskMap.map((Map<dynamic, List<Task>> item) {
+      children: taskMap!.map((Map<dynamic, List<Task>> item) {
         return Container(
           padding: EdgeInsets.all(10),
           child: Card(
@@ -59,7 +59,7 @@ class TaskList extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                getWidget(item.keys.single, item.values.length) as Widget,
+                getWidget!(item.keys.single, item.values.length) as Widget,
                 Divider(),
                 GroupedTasks(tasks: item.values.single)
               ],
@@ -72,16 +72,16 @@ class TaskList extends StatelessWidget {
 }
 
 class DayTile extends StatelessWidget {
-  final String day;
-  final int numberOfTasks;
-  const DayTile({Key key, this.day, this.numberOfTasks}) : super(key: key);
+  final String? day;
+  final int? numberOfTasks;
+  const DayTile({Key? key, this.day, this.numberOfTasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(day), Text(numberOfTasks.toString())],
+        children: [Text(day!), Text(numberOfTasks.toString())],
       ),
     );
   }

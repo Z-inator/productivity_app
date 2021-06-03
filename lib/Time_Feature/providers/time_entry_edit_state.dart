@@ -5,12 +5,12 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeEntryEditState extends ChangeNotifier {
-  TimeEntry newEntry;
-  final TimeEntry oldEntry;
+  late TimeEntry newEntry;
+  final TimeEntry? oldEntry;
 
   TimeEntryEditState({this.oldEntry}) {
     if (oldEntry != null) {
-      newEntry = oldEntry.copyTimeEntry();
+      newEntry = oldEntry!.copyTimeEntry();
     } else {
       newEntry = TimeEntry();
     }

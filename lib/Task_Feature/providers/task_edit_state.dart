@@ -3,43 +3,43 @@ import 'package:flutter/material.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class TaskEditState extends ChangeNotifier {
-  Task newTask;
-  final Task oldTask;
-  bool showDueTimeButton;
-  DateTime newDueDate;
-  TimeOfDay newDueTime;
+  Task? newTask;
+  final Task? oldTask;
+  bool? showDueTimeButton;
+  DateTime? newDueDate;
+  TimeOfDay? newDueTime;
 
   TaskEditState({this.oldTask}) {
     if (oldTask != null) {
-      newTask = oldTask.copyTask();
-      if (oldTask.dueDate.year != 1) {
-        newDueDate = oldTask.dueDate;
-        if (oldTask.dueDate.microsecond != 555) {
-          newDueTime = TimeOfDay.fromDateTime(oldTask.dueDate);
+      newTask = oldTask!.copyTask();
+      if (oldTask!.dueDate.year != 1) {
+        newDueDate = oldTask!.dueDate;
+        if (oldTask!.dueDate.microsecond != 555) {
+          newDueTime = TimeOfDay.fromDateTime(oldTask!.dueDate);
         }
       }
     } else {
       newTask = Task();
     }
-    showDueTimeButton = newTask.dueDate.year != 1;
+    showDueTimeButton = newTask!.dueDate.year != 1;
   }
 
   void updateTaskName(String taskName) {
-    newTask.taskName = taskName;
+    newTask!.taskName = taskName;
     notifyListeners();
   }
 
   void updateTaskProject(Project project) {
-    newTask.project = project;
+    newTask!.project = project;
     notifyListeners();
   }
 
   void updateTaskStatus(Status status) {
-    newTask.status = status;
+    newTask!.status = status;
     notifyListeners();
   }
 
-  void updateTaskDueDate(DateTime dueDate) {
+  void updateTaskDueDate(DateTime? dueDate) {
     newDueDate = dueDate;
     if (dueDate == null) {
       showDueTimeButton = false;
@@ -50,17 +50,17 @@ class TaskEditState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTaskDueTime(TimeOfDay dueTime) {
+  void updateTaskDueTime(TimeOfDay? dueTime) {
     newDueTime = dueTime;
     notifyListeners();
   }
 
   void combineDueDate() {
-    newTask.dueDate = DateTime(newDueDate.year, newDueDate.month,
-        newDueDate.day, newDueTime.hour, newDueTime.minute);
+    newTask!.dueDate = DateTime(newDueDate!.year, newDueDate!.month,
+        newDueDate!.day, newDueTime!.hour, newDueTime!.minute);
   }
 
   void addTaskCreateDate(DateTime createDate) {
-    newTask.createDate = createDate;
+    newTask!.createDate = createDate;
   }
 }

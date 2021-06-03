@@ -2,36 +2,36 @@ import 'package:flutter/material.dart';
 import 'speed_dial.dart';
 
 class AnimatedChild extends AnimatedWidget {
-  final int index;
-  final Color backgroundColor;
-  final Color foregroundColor;
-  final double elevation;
+  final int? index;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final double? elevation;
   final double buttonSize;
-  final Widget child;
+  final Widget? child;
   @override
-  final Key key;
+  final Key? key;
 
-  final String label;
-  final TextStyle labelStyle;
-  final Color labelBackgroundColor;
-  final Widget labelWidget;
+  final String? label;
+  final TextStyle? labelStyle;
+  final Color? labelBackgroundColor;
+  final Widget? labelWidget;
 
   final bool visible;
-  final bool dark;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
-  final VoidCallback toggleChildren;
-  final ShapeBorder shape;
-  final String heroTag;
-  final bool useColumn;
-  final bool switchLabelPosition;
+  final bool? dark;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final VoidCallback? toggleChildren;
+  final ShapeBorder? shape;
+  final String? heroTag;
+  final bool? useColumn;
+  final bool? switchLabelPosition;
 
-  final double childMarginBottom;
-  final double childMarginTop;
+  final double? childMarginBottom;
+  final double? childMarginTop;
 
   const AnimatedChild({
     this.key,
-    Animation<double> animation,
+    required Animation<double> animation,
     this.index,
     this.backgroundColor,
     this.foregroundColor,
@@ -72,34 +72,34 @@ class AnimatedChild extends AnimatedWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
         margin: EdgeInsetsDirectional.fromSTEB(
-            20.0, childMarginTop, 15.0, childMarginBottom),
+            20.0, childMarginTop!, 15.0, childMarginBottom!),
         decoration: BoxDecoration(
           color: labelBackgroundColor ??
-              (dark ? Colors.grey[800] : Colors.grey[50]),
+              (dark! ? Colors.grey[800] : Colors.grey[50]),
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           boxShadow: [
             BoxShadow(
-              color: dark
-                  ? Colors.grey[900].withOpacity(0.7)
+              color: dark!
+                  ? Colors.grey[900]!.withOpacity(0.7)
                   : Colors.grey.withOpacity(0.7),
               offset: Offset(0.8, 0.8),
               blurRadius: 2.4,
             )
           ],
         ),
-        child: Text(label, style: labelStyle),
+        child: Text(label!, style: labelStyle),
       ),
     );
   }
 
   void _performAction() {
-    if (onTap != null) onTap();
-    toggleChildren();
+    if (onTap != null) onTap!();
+    toggleChildren!();
   }
 
   void _performLongAction() {
-    if (onLongPress != null) onLongPress();
-    toggleChildren();
+    if (onLongPress != null) onLongPress!();
+    toggleChildren!();
   }
 
   @override
@@ -113,9 +113,9 @@ class AnimatedChild extends AnimatedWidget {
           heroTag: heroTag,
           onPressed: _performAction,
           backgroundColor:
-              backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
+              backgroundColor ?? (dark! ? Colors.grey[800] : Colors.grey[50]),
           foregroundColor:
-              foregroundColor ?? (dark ? Colors.white : Colors.black),
+              foregroundColor ?? (dark! ? Colors.white : Colors.black),
           elevation: elevation ?? 6.0,
           shape: shape,
           child: child,
@@ -145,9 +145,9 @@ class AnimatedChild extends AnimatedWidget {
     ];
 
     return buildColumnOrRow(
-      useColumn,
+      useColumn!,
       mainAxisSize: MainAxisSize.min,
-      children: switchLabelPosition ? children.reversed.toList() : children,
+      children: switchLabelPosition! ? children.reversed.toList() : children,
     );
   }
 }

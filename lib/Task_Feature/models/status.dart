@@ -5,15 +5,15 @@ class Status {
   String statusName;
   int statusColor;
   int statusOrder;
-  bool equalToComplete;
+  bool? equalToComplete;
   String statusDescription;
 
-  Status({String id,
-      String statusName,
-      int statusColor,
-      int statusOrder,
-      bool equalToComplete,
-      String statusDescription})
+  Status({String? id,
+      String? statusName,
+      int? statusColor,
+      int? statusOrder,
+      bool? equalToComplete,
+      String? statusDescription})
       : id = id ?? '',
         statusName = statusName ?? '',
         statusColor = statusColor ?? 4285887861,
@@ -27,10 +27,10 @@ class Status {
     return Status(
         id: snapshot.id,
         statusName: data['statusName'].toString() ?? '',
-        statusColor: data['statusColor'] as int ?? 4285887861,
-        statusOrder: data['statusOrder'] as int ?? 0,
-        equalToComplete: data['equalToComplete'] as bool ?? false,
-        statusDescription: data['statusDescription'] as String ?? '');
+        statusColor: data['statusColor'] as int? ?? 4285887861,
+        statusOrder: data['statusOrder'] as int? ?? 0,
+        equalToComplete: data['equalToComplete'] as bool? ?? false,
+        statusDescription: data['statusDescription'] as String? ?? '');
   }
 
   Map<String, dynamic> toFirestore() {

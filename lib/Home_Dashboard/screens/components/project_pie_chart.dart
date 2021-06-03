@@ -9,10 +9,10 @@ import '../../../Home_Dashboard/Home_Dashboard.dart';
 import '../../../Shared/Shared.dart';
 
 class TimePieChart extends StatelessWidget {
-  final List<TimeEntry> timeEntries;
-  TimePieChart({Key key, this.timeEntries}) : super(key: key);
+  final List<TimeEntry>? timeEntries;
+  TimePieChart({Key? key, this.timeEntries}) : super(key: key);
 
-  Widget badgeWidget(TextStyle textStyle, Project project) {
+  Widget badgeWidget(TextStyle? textStyle, Project project) {
     return Card(
         child: Padding(
       padding: EdgeInsets.all(5),
@@ -24,9 +24,9 @@ class TimePieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
     ProjectService projectService = Provider.of<ProjectService>(context);
-    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries);
+    int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries!);
     List<Map<Project, int>> projectData =
-        timeGraphsState.getProjectPieChartData(projectService, timeEntries);
+        timeGraphsState.getProjectPieChartData(projectService, timeEntries!);
     return Card(
         child: projectData == null
             ? Center(
@@ -66,8 +66,8 @@ class TimePieChart extends StatelessWidget {
       bool isDark,
       List<Map<Project, int>> projectData,
       int totalTimeRangeTime,
-      TextStyle titleStyle,
-      TextStyle badgeStyle,
+      TextStyle? titleStyle,
+      TextStyle? badgeStyle,
       double radius) {
     return List.generate(projectData.length, (index) {
       List<MaterialColor> colorList = AppColorList;

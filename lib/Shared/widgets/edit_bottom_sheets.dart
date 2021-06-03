@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class EditBottomSheet {
   Future<dynamic> buildEditBottomSheet(
-      {BuildContext context, Widget bottomSheet}) {
+      {required BuildContext context, Widget? bottomSheet}) {
     return showModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -12,7 +12,7 @@ class EditBottomSheet {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25), topRight: Radius.circular(25))),
         builder: (BuildContext context) {
-          return bottomSheet;
+          return bottomSheet!;
         });
   }
 

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ManualTimePicker extends StatefulWidget {
-  final Function(int) saveManualTime;
-  const ManualTimePicker({Key key, this.saveManualTime}) : super(key: key);
+  final Function(int)? saveManualTime;
+  const ManualTimePicker({Key? key, this.saveManualTime}) : super(key: key);
 
   @override
   _ManualTimePickerState createState() => _ManualTimePickerState();
 }
 
 class _ManualTimePickerState extends State<ManualTimePicker> {
-  int hoursAdded;
-  int minutesAdded;
+  late int hoursAdded;
+  late int minutesAdded;
 
   Future addManualTime(BuildContext context) async {
     return showDialog(
@@ -94,7 +94,7 @@ class _ManualTimePickerState extends State<ManualTimePicker> {
                     child: Text('Cancel')),
                 TextButton(
                     onPressed: () {
-                      widget.saveManualTime(hoursAdded * 60 + minutesAdded);
+                      widget.saveManualTime!(hoursAdded * 60 + minutesAdded);
                       Navigator.pop(context);
                     },
                     child: Text('Ok')),

@@ -6,12 +6,12 @@ import '../../../Time_Feature/Time_Feature.dart';
 
 class StopwatchState extends ChangeNotifier {
   Stopwatch stopwatch = Stopwatch();
-  Timer timer;
+  late Timer timer;
   int elapsedTicks = 0;
-  TimeEntry newEntry;
+  TimeEntry? newEntry;
 
 
-  void startStopwatch({TimeEntry oldEntry}) {
+  void startStopwatch({TimeEntry? oldEntry}) {
     if (oldEntry != null) {
       newEntry = oldEntry.copyTimeEntry();
     } else {
@@ -19,7 +19,7 @@ class StopwatchState extends ChangeNotifier {
     }
     elapsedTicks = 0;
     stopwatch.start();
-    newEntry.startTime = DateTime.now();
+    newEntry!.startTime = DateTime.now();
     onTick();
     notifyListeners();
   }
@@ -28,7 +28,7 @@ class StopwatchState extends ChangeNotifier {
     stopwatch.stop();
     stopwatch.reset();
     timer.cancel();
-    newEntry.endTime = DateTime.now();
+    newEntry!.endTime = DateTime.now();
     notifyListeners();
   }
 

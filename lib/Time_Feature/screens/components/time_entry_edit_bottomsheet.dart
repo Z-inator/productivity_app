@@ -8,10 +8,10 @@ import '../../../Time_Feature/Time_Feature.dart';
 import '../../../Services/database.dart';
 
 class TimeEntryEditBottomSheet extends StatelessWidget {
-  final bool isUpdate;
-  final TimeEntry entry;
+  final bool? isUpdate;
+  final TimeEntry? entry;
 
-  TimeEntryEditBottomSheet({Key key, this.isUpdate, this.entry})
+  TimeEntryEditBottomSheet({Key? key, this.isUpdate, this.entry})
       : super(key: key);
 
   @override
@@ -81,7 +81,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 leading: OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
-                        initialDate: isUpdate
+                        initialDate: isUpdate!
                             ? timeEntryEditState.newEntry.startTime
                             : DateTime.now(),
                         saveDate: timeEntryEditState.updateDate),
@@ -100,12 +100,12 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
                       icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      label: Text(isUpdate! ? 'Update' : 'Add'),
                       onPressed: () {
-                        isUpdate
+                        isUpdate!
                             ? databaseService.updateItem(
                                 type: 'timeEntries',
-                                itemID: entry.id,
+                                itemID: entry!.id,
                                 updateData:
                                     timeEntryEditState.newEntry.toFirestore())
                             : databaseService.addItem(

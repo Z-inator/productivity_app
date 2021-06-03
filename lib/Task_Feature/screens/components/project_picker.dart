@@ -6,9 +6,9 @@ import '../../../Shared/Shared.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class ProjectPicker extends StatelessWidget {
-  final Function(Project) saveProject;
-  final Widget child;
-  const ProjectPicker({Key key, this.saveProject, this.child})
+  final Function(Project)? saveProject;
+  final Widget? child;
+  const ProjectPicker({Key? key, this.saveProject, this.child})
       : super(key: key);
 
 
@@ -31,7 +31,7 @@ class ProjectPicker extends StatelessWidget {
                       style:
                           DynamicColorTheme.of(context).data.textTheme.subtitle1),
               onTap: () {
-                    saveProject(Project());
+                    saveProject!(Project());
                     Navigator.pop(context);
               },
             )
@@ -55,7 +55,7 @@ class ProjectPicker extends StatelessWidget {
                               .textTheme
                               .subtitle1),
                       onTap: () {
-                        saveProject(project);
+                        saveProject!(project);
                         Navigator.pop(context);
                       },
                     )).toList(),

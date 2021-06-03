@@ -8,8 +8,8 @@ import '../../../Time_Feature/Time_Feature.dart';
 import '../../../Services/database.dart';
 
 class TaskExpansionTile extends StatelessWidget {
-  final Task task;
-  const TaskExpansionTile({Key key, this.task});
+  final Task? task;
+  const TaskExpansionTile({Key? key, this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -24,26 +24,26 @@ class TaskExpansionTile extends StatelessWidget {
     // int subtaskCount = 0; // TODO: implement Subtasks
     return ExpansionTile(
       leading: Tooltip(
-        message: task.status.statusName,
+        message: task!.status.statusName,
         child: Icon(Icons.check_circle_rounded,
             color: DynamicColorTheme.of(context).isDark
-                ? colorList[task.status.statusColor].shade200
-                : colorList[task.status.statusColor]),
+                ? colorList[task!.status.statusColor].shade200
+                : colorList[task!.status.statusColor]),
       ),
       title: Text(
-        task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
+        task!.taskName.isEmpty ? 'NO TASK TITLE' : task!.taskName,
         style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
       subtitle: Text(
-          task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
+          task!.project.id.isEmpty ? 'NO PROJECT' : task!.project.projectName,
           style: DynamicColorTheme.of(context)
               .data
               .textTheme
-              .subtitle1
+              .subtitle1!
               .copyWith(
                   color: DynamicColorTheme.of(context).isDark
-                      ? colorList[task.project.projectColor].shade200
-                      : colorList[task.project.projectColor])),
+                      ? colorList[task!.project.projectColor].shade200
+                      : colorList[task!.project.projectColor])),
       children: [
         Theme(
           data: DynamicColorTheme.of(context)
@@ -61,7 +61,7 @@ class TaskExpansionTile extends StatelessWidget {
                             listen: false)
                         .startStopwatch(
                             oldEntry:
-                                TimeEntry(task: task, project: task.project)),
+                                TimeEntry(task: task, project: task!.project)),
                   ),
                   IconButton(
                       icon: Icon(Icons.timelapse_rounded),
@@ -71,7 +71,7 @@ class TaskExpansionTile extends StatelessWidget {
                           bottomSheet: TimeEntryEditBottomSheet(
                               isUpdate: false,
                               entry: TimeEntry(
-                                  task: task, project: task.project)))),
+                                  task: task, project: task!.project)))),
                   // IconButton(
                   //   icon: Icon(Icons.add_rounded),
                   //   tooltip: 'Add Subtask',
@@ -89,7 +89,7 @@ class TaskExpansionTile extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Delete Task: ${task.taskName}?'),
+                            title: Text('Delete Task: ${task!.taskName}?'),
                             content: ListTile(
                               title: Text(
                                   'This will permanently delete this task.\nIt will not delete related time entries or projects.'),
@@ -106,7 +106,7 @@ class TaskExpansionTile extends StatelessWidget {
                                   label: Text('Delete'),
                                   onPressed: () {
                                     databaseService.deleteItem(
-                                        type: 'tasks', itemID: task.id);
+                                        type: 'tasks', itemID: task!.id);
                                     Navigator.pop(context);
                                   })
                             ],
@@ -136,9 +136,9 @@ class TaskExpansionTile extends StatelessWidget {
                       .style,
                   icon: Icon(Icons.topic_rounded,
                       color: DynamicColorTheme.of(context).isDark
-                          ? colorList[task.project.projectColor].shade200
-                          : colorList[task.project.projectColor]),
-                  label: Text(task.project.projectName,
+                          ? colorList[task!.project.projectColor].shade200
+                          : colorList[task!.project.projectColor]),
+                  label: Text(task!.project.projectName,
                       style: DynamicColorTheme.of(context)
                           .data
                           .textTheme
@@ -147,7 +147,7 @@ class TaskExpansionTile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return ProjectPage(project: task.project);
+                        return ProjectPage(project: task!.project);
                       }),
                     );
                   },
@@ -161,16 +161,16 @@ class TaskExpansionTile extends StatelessWidget {
                             .subtitle2,
                         children: <TextSpan>[
                       TextSpan(
-                          text: task.status.statusName,
+                          text: task!.status.statusName,
                           style: DynamicColorTheme.of(context)
                               .data
                               .textTheme
-                              .subtitle1
+                              .subtitle1!
                               .copyWith(
                                   color: DynamicColorTheme.of(context).isDark
-                                      ? colorList[task.status.statusColor]
+                                      ? colorList[task!.status.statusColor]
                                           .shade200
-                                      : colorList[task.status.statusColor]))
+                                      : colorList[task!.status.statusColor]))
                     ])),
               ),
               ListTile(
@@ -185,14 +185,14 @@ class TaskExpansionTile extends StatelessWidget {
               ListTile(
                 dense: true,
                 title: Text(
-                    task.dueDate.year == 0
+                    task!.dueDate.year == 0
                         ? 'Due: '
-                        : 'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
+                        : 'Due: ${DateTimeFunctions().dateToText(date: task!.dueDate)}',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               Text(
-                  'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
+                  'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task!.createDate)}',
                   style: DynamicColorTheme.of(context).data.textTheme.caption),
             ],
           ),

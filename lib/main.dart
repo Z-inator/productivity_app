@@ -1,4 +1,5 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
     }
     return Provider(
       create: (context) => AuthService(),
-      child: AuthWidgetBuilder(builder: (context, userSnapshot) {
+      child: AuthWidgetBuilder(builder: (context, AsyncSnapshot<User?> userSnapshot) {
         return DynamicColorTheme(
           data: userSnapshot.hasData
           ? (color, isDark) => buildThemeData(color, isDark)

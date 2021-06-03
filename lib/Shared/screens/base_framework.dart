@@ -16,7 +16,7 @@ class BaseFramework extends StatefulWidget {
 
 class _BaseFrameworkState extends State<BaseFramework>
     with TickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -26,7 +26,7 @@ class _BaseFrameworkState extends State<BaseFramework>
 
   @override
   void dispose() {
-    tabController.dispose();
+    tabController!.dispose();
     super.dispose();
   }
 
@@ -76,26 +76,26 @@ class _BaseFrameworkState extends State<BaseFramework>
                             icon: Icon(Icons.dashboard_rounded),
                             tooltip: 'Dashboard',
                             onPressed: () {
-                              tabController.animateTo(0);
+                              tabController!.animateTo(0);
                             }),
                         IconButton(
                             icon: Icon(Icons.rule_rounded),
                             tooltip: 'Tasks',
                             onPressed: () {
-                              tabController.animateTo(1);
+                              tabController!.animateTo(1);
                             }),
                         AddSpeedDial(),
                         IconButton(
                             icon: Icon(Icons.timelapse_rounded),
                             tooltip: 'Time Log',
                             onPressed: () {
-                              tabController.animateTo(3);
+                              tabController!.animateTo(3);
                             }),
                         IconButton(
                             icon: Icon(Icons.bar_chart_rounded),
                             tooltip: 'Goals',
                             onPressed: () {
-                              tabController.animateTo(4);
+                              tabController!.animateTo(4);
                             }),
                       ]),
                 )),

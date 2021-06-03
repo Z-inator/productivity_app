@@ -7,8 +7,8 @@ class StatusService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection reference
-  CollectionReference _getStatusReference() {
-    final User user = _auth.currentUser;
+  CollectionReference? _getStatusReference() {
+    final User? user = _auth.currentUser;
     if (user == null) {
       return null;
     } else {
@@ -19,13 +19,13 @@ class StatusService {
     }
   }
 
-  CollectionReference get statuses {
+  CollectionReference? get statuses {
     return _getStatusReference();
   }
 
   // Snapshot Conversion to Status Model and Stream
   Stream<List<Status>> streamStatuses() {
-    final CollectionReference ref = _getStatusReference();
+    final CollectionReference ref = _getStatusReference()!;
 
     return ref.orderBy('statusOrder', descending: false).snapshots()
         .map((querySnapshot) => querySnapshot.docs

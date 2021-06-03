@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class InvertedClipper extends CustomClipper<Path> {
-  double height;
-  double width;
-  double dx;
-  double dy;
+  double? height;
+  double? width;
+  double? dx;
+  double? dy;
 
   InvertedClipper({this.width, this.height, this.dy, this.dx});
 
@@ -13,7 +13,7 @@ class InvertedClipper extends CustomClipper<Path> {
     return Path()
   ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
   ..addRRect(RRect.fromRectAndRadius(
-  Rect.fromLTWH(dx, dy, width, height),
+  Rect.fromLTWH(dx!, dy!, width!, height!),
               Radius.circular(40)))
   ..fillType = PathFillType.evenOdd;
   }

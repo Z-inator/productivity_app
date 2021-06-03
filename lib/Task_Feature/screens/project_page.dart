@@ -8,11 +8,11 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class ProjectPage extends StatelessWidget {
-  final Project project;
+  final Project? project;
   List<Map<dynamic, List<Task>>> taskMap = [];
-  List<Task> tasks;
-  List<Status> statuses;
-  List<TimeEntry> timeEntries;
+  List<Task>? tasks;
+  List<Status>? statuses;
+  List<TimeEntry>? timeEntries;
   ProjectPage({this.project});
 
   @override
@@ -20,12 +20,12 @@ class ProjectPage extends StatelessWidget {
     List<MaterialColor> colorList = AppColorList;
     TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
-        .where((task) => task.project.id == project.id)
+        .where((task) => task.project.id == project!.id)
         .toList();
     List<Status> statuses = Provider.of<List<Status>>(context);
     taskMap = taskService.getTasksByStatus(tasks, statuses);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
-        .where((entry) => entry.project.id == project.id)
+        .where((entry) => entry.project.id == project!.id)
         .toList();
     return SafeArea(
         child: DefaultTabController(
@@ -33,8 +33,8 @@ class ProjectPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            project.projectName,
-            style: TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor]),
+            project!.projectName,
+            style: TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[project!.projectColor].shade200 : colorList[project!.projectColor]),
           ),
           actions: [
             IconButton(
@@ -62,14 +62,14 @@ class ProjectPage extends StatelessWidget {
         body: TabBarView(children: [
           HomeScreen(),
           tasks.isEmpty
-              ? Center(child: Text('No Tasks for ${project.projectName}'))
+              ? Center(child: Text('No Tasks for ${project!.projectName}'))
               : TaskList(
                   taskMap: taskMap,
                   getWidget: (item, numberOfTasks) => StatusExpansionTile(
                       status: item as Status, numberOfTasks: numberOfTasks)),
           timeEntries.isEmpty
               ? Center(
-                  child: Text('No Time Recorded for ${project.projectName}'))
+                  child: Text('No Time Recorded for ${project!.projectName}'))
               : TimeEntriesByDay(timeEntries: timeEntries),
           HomeScreen()
         ]),
@@ -82,8 +82,8 @@ class ProjectPage extends StatelessWidget {
 }
 
 class ProjectPageSpeedDial extends StatelessWidget {
-  final Project project;
-  const ProjectPageSpeedDial({Key key, this.project}) : super(key: key);
+  final Project? project;
+  const ProjectPageSpeedDial({Key? key, this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

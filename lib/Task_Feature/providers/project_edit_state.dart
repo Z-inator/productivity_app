@@ -4,12 +4,12 @@ import '../../Task_Feature/Task_Feature.dart';
 import '../../Shared/Shared.dart';
 
 class ProjectEditState extends ChangeNotifier {
-  Project newProject;
-  final Project oldProject;
+  late Project newProject;
+  final Project? oldProject;
 
   ProjectEditState({this.oldProject}) {
     if (oldProject != null) {
-      newProject = oldProject.copyProject();
+      newProject = oldProject!.copyProject();
     } else {
       newProject = Project();
     }

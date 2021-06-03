@@ -9,8 +9,8 @@ import '../../../Time_Feature/Time_Feature.dart';
 import '../../../Services/database.dart';
 
 class TimeEntryExpansionTile extends StatelessWidget {
-  final TimeEntry entry;
-  const TimeEntryExpansionTile({Key key, this.entry}) : super(key: key);
+  final TimeEntry? entry;
+  const TimeEntryExpansionTile({Key? key, this.entry}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +20,26 @@ class TimeEntryExpansionTile extends StatelessWidget {
     TimeService timeService = Provider.of<TimeService>(context);
     return ExpansionTile(
       leading: Tooltip(
-        message: entry.task.status.statusName,
+        message: entry!.task.status.statusName,
         child: Icon(Icons.check_circle_rounded,
             color: DynamicColorTheme.of(context).isDark
-                ? colorList[entry.task.status.statusColor].shade200
-                : colorList[entry.task.status.statusColor]),
+                ? colorList[entry!.task.status.statusColor].shade200
+                : colorList[entry!.task.status.statusColor]),
       ),
       title: Text(
-        entry.entryName,
+        entry!.entryName,
         style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
-      subtitle: Text(entry.project.projectName,
+      subtitle: Text(entry!.project.projectName,
           style: DynamicColorTheme.of(context)
               .data
               .textTheme
-              .subtitle1
+              .subtitle1!
               .copyWith(
                   color: DynamicColorTheme.of(context).isDark
-                      ? colorList[entry.project.projectColor].shade200
-                      : colorList[entry.project.projectColor])),
-      trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime),
+                      ? colorList[entry!.project.projectColor].shade200
+                      : colorList[entry!.project.projectColor])),
+      trailing: Text(DateTimeFunctions().timeToText(seconds: entry!.elapsedTime),
           style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
       children: [
         Theme(
@@ -65,7 +65,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Delete Time Entry: ${entry.entryName}?'),
+                          title: Text('Delete Time Entry: ${entry!.entryName}?'),
                           content: ListTile(
                             title: Text(
                                 'This will permanently delete this time entry.\nIt will remove this recorded time from projects and tasks.'),
@@ -81,7 +81,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                                 label: Text('Delete'),
                                 onPressed: () {
                                   databaseService.deleteItem(
-                                      type: 'timeEntries', itemID: entry.id);
+                                      type: 'timeEntries', itemID: entry!.id);
                                   Navigator.pop(context);
                                 })
                           ],
@@ -107,9 +107,9 @@ class TimeEntryExpansionTile extends StatelessWidget {
                       .style,
                   icon: Icon(Icons.topic_rounded,
                       color: DynamicColorTheme.of(context).isDark
-                          ? colorList[entry.project.projectColor].shade200
-                          : colorList[entry.project.projectColor]),
-                  label: Text(entry.project.projectName,
+                          ? colorList[entry!.project.projectColor].shade200
+                          : colorList[entry!.project.projectColor]),
+                  label: Text(entry!.project.projectName,
                       style: DynamicColorTheme.of(context)
                           .data
                           .textTheme
@@ -118,13 +118,13 @@ class TimeEntryExpansionTile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                        return ProjectPage(project: entry.project);
+                        return ProjectPage(project: entry!.project);
                       }),
                     );
                   },
                 ),
                 trailing: Text(
-                    '${DateFormat.jm().format(entry.startTime)} - ${DateFormat.jm().format(entry.endTime)}',
+                    '${DateFormat.jm().format(entry!.startTime)} - ${DateFormat.jm().format(entry!.endTime)}',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle1),
               ),

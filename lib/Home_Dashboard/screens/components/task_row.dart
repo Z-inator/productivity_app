@@ -7,8 +7,8 @@ import '../../../Home_Dashboard/Home_Dashboard.dart';
 import '../../../Shared/Shared.dart';
 
 class ImportantTaskListTile extends StatelessWidget {
-  final Task task;
-  const ImportantTaskListTile({Key key, this.task}) : super(key: key);
+  final Task? task;
+  const ImportantTaskListTile({Key? key, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +19,23 @@ class ImportantTaskListTile extends StatelessWidget {
           icon: Icon(
             Icons.check_circle_rounded,
             color: DynamicColorTheme.of(context).isDark
-                ? colorList[task.status.statusColor].shade200
-                : colorList[task.status.statusColor],
+                ? colorList[task!.status.statusColor].shade200
+                : colorList[task!.status.statusColor],
           )),
       title: Text(
-        task.taskName.isEmpty ? 'NO TASK TITLE' : task.taskName,
+        task!.taskName.isEmpty ? 'NO TASK TITLE' : task!.taskName,
         style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
       subtitle: Text(
-          task.project.id.isEmpty ? 'NO PROJECT' : task.project.projectName,
+          task!.project.id.isEmpty ? 'NO PROJECT' : task!.project.projectName,
           style: DynamicColorTheme.of(context)
               .data
               .textTheme
-              .subtitle1
+              .subtitle1!
               .copyWith(
                   color: DynamicColorTheme.of(context).isDark
-                      ? colorList[task.project.projectColor].shade200
-                      : colorList[task.project.projectColor])),
+                      ? colorList[task!.project.projectColor].shade200
+                      : colorList[task!.project.projectColor])),
       trailing: IconButton(
           icon: Icon(Icons.edit_rounded),
           onPressed: () => EditBottomSheet().buildEditBottomSheet(
@@ -48,7 +48,7 @@ class ImportantTaskListTile extends StatelessWidget {
 class TaskDueRow extends StatelessWidget {
   List<Widget> pages = [TaskDueToday(), TaskDueThisWeek(), TaskPastDue()];
 
-  TaskDueRow({Key key}) : super(key: key);
+  TaskDueRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class TaskDueRow extends StatelessWidget {
 }
 
 class TaskDueThisWeek extends StatelessWidget {
-  const TaskDueThisWeek({Key key}) : super(key: key);
+  const TaskDueThisWeek({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class TaskDueThisWeek extends StatelessWidget {
 }
 
 class TaskDueToday extends StatelessWidget {
-  const TaskDueToday({Key key}) : super(key: key);
+  const TaskDueToday({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,7 @@ class TaskDueToday extends StatelessWidget {
 }
 
 class TaskPastDue extends StatelessWidget {
-  const TaskPastDue({Key key}) : super(key: key);
+  const TaskPastDue({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

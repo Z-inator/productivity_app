@@ -7,9 +7,9 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Services/database.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
-  final bool isUpdate;
-  final Project project;
-  ProjectEditBottomSheet({Key key, this.isUpdate, this.project})
+  final bool? isUpdate;
+  final Project? project;
+  ProjectEditBottomSheet({Key? key, this.isUpdate, this.project})
       : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class ProjectEditBottomSheet extends StatelessWidget {
                 },
               ),
               ColorSelector(
-                matchColor: isUpdate
+                matchColor: isUpdate!
                     ? DynamicColorTheme.of(context).isDark
                         ? AppColorList[projectEditState.newProject.projectColor]
                             .shade200
@@ -61,12 +61,12 @@ class ProjectEditBottomSheet extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
                       icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      label: Text(isUpdate! ? 'Update' : 'Add'),
                       onPressed: () {
-                        isUpdate
+                        isUpdate!
                             ? databaseService.updateItem(
                                 type: 'projects',
-                                itemID: project.id,
+                                itemID: project!.id,
                                 updateData:
                                     projectEditState.newProject.toFirestore())
                             : databaseService.addItem(

@@ -3,32 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class GoalService {
-  final User user;
+  final User? user;
   GoalService({this.user});
 
   // Collection reference
-  CollectionReference _getGoalReference() {
+  CollectionReference? _getGoalReference() {
     if (user == null) {
       return null;
     } else {
       return FirebaseFirestore.instance
           .collection('users')
-          .doc(user.uid)
+          .doc(user!.uid)
           .collection('goals');
     }
   }
 
-  CollectionReference get goals {
+  CollectionReference? get goals {
     return _getGoalReference();
   }
 
   // Add Goal
   Future<void> addGoal(
-      {String goalName,
-      int goalOccurence,
-      List goalCompletions,
-      String goalColor}) async {
-    return _getGoalReference()
+      {String? goalName,
+      int? goalOccurence,
+      List? goalCompletions,
+      String? goalColor}) async {
+    return _getGoalReference()!
         .add({
           'GoalName': goalName,
           'GoalOccurence': goalOccurence,
@@ -40,8 +40,8 @@ class GoalService {
   }
 
   // Update Goal
-  Future<void> updateGoal({String goalID, Map updateData}) async {
-    return _getGoalReference()
+  Future<void> updateGoal({String? goalID, required Map updateData}) async {
+    return _getGoalReference()!
         .doc(goalID)
         .update(Map<String, dynamic>.from(updateData))
         .then((value) => print('Goal Updated'))
@@ -49,8 +49,8 @@ class GoalService {
   }
 
   // Delete Goal
-  Future<void> deleteGoal({String goalID}) async {
-    return _getGoalReference()
+  Future<void> deleteGoal({String? goalID}) async {
+    return _getGoalReference()!
         .doc(goalID)
         .delete()
         .then((value) => print('Goal Deleted'))

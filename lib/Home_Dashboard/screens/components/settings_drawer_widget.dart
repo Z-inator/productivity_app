@@ -46,7 +46,7 @@ class SettingsDrawer extends StatelessWidget {
 }
 
 class UserSetings extends StatelessWidget {
-  const UserSetings({Key key}) : super(key: key);
+  const UserSetings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class UserSetings extends StatelessWidget {
 }
 
 class ThemeSettings extends StatelessWidget {
-  ThemeSettings({Key key}) : super(key: key);
+  ThemeSettings({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<MaterialColor> colorList = AppColorList;

@@ -8,10 +8,10 @@ class TimeEntryBodyState extends ChangeNotifier {
     currentEntryList = entries;
   }
 
-  List<Project> projects;
-  List<TimeEntry> entries;
-  List<TimeEntry> currentEntryList = [];
-  Project currentProject;
+  List<Project>? projects;
+  List<TimeEntry>? entries;
+  List<TimeEntry>? currentEntryList = [];
+  Project? currentProject;
 
   void changeEntryList(Project project) {
     if (project.id.isEmpty) {
@@ -19,7 +19,7 @@ class TimeEntryBodyState extends ChangeNotifier {
       currentProject = null;
     } else {
       currentEntryList =
-        entries.where((entry) => entry.project.id == project.id).toList();
+        entries!.where((entry) => entry.project.id == project.id).toList();
     currentProject = project;
     }
     notifyListeners();

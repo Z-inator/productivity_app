@@ -7,9 +7,9 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Services/database.dart';
 
 class StatusEditBottomSheet extends StatelessWidget {
-  final Status status;
-  final bool isUpdate;
-  StatusEditBottomSheet({Key key, this.status, this.isUpdate})
+  final Status? status;
+  final bool? isUpdate;
+  StatusEditBottomSheet({Key? key, this.status, this.isUpdate})
       : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                 },
               ),
               ColorSelector(
-                matchColor: isUpdate
+                matchColor: isUpdate!
                     ? DynamicColorTheme.of(context).isDark
                         ? AppColorList[statusEditState.newStatus.statusColor]
                             .shade200
@@ -58,7 +58,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                           .subtitle1),
                   subtitle: Text(
                       'Checking this box will keep tasks related to this status from displaying as late tasks.'),
-                  onChanged: (bool value) =>
+                  onChanged: (bool? value) =>
                       statusEditState.updateStatusComplete(value)),
               TextField(
                 decoration: InputDecoration(
@@ -77,12 +77,12 @@ class StatusEditBottomSheet extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
                       icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      label: Text(isUpdate! ? 'Update' : 'Add'),
                       onPressed: () {
-                        isUpdate
+                        isUpdate!
                             ? databaseService.updateItem(
                                 type: 'statuses',
-                                itemID: status.id,
+                                itemID: status!.id,
                                 updateData:
                                     statusEditState.newStatus.toFirestore())
                             : databaseService.addItem(

@@ -2,9 +2,9 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeGraphs {
-  List<DateTime> getCurrentWeek(DateTime referenceDay) {
-    DateTime monday;
-    DateTime sunday;
+  List<DateTime?> getCurrentWeek(DateTime referenceDay) {
+    DateTime? monday;
+    DateTime? sunday;
     for (var day = 0; day < 7; day++) {
       DateTime decreaseTemp = referenceDay.subtract(Duration(days: day));
       if (decreaseTemp.weekday == 1) {
@@ -31,22 +31,22 @@ class TimeGraphs {
   }
 
   List<TimeEntry> getTimeRangeData(
-      List<TimeEntry> timeEntries, DateTime startDay, DateTime endDay) {
+      List<TimeEntry> timeEntries, DateTime? startDay, DateTime? endDay) {
     List<TimeEntry> timeData = timeEntries
         .where((entry) =>
-            entry.endTime.isAfter(startDay) && entry.endTime.isBefore(endDay))
+            entry.endTime.isAfter(startDay!) && entry.endTime.isBefore(endDay!))
         .toList();
     return timeData;
   }
 
   List<Map<DateTime, int>> getTimeBarChartData(TimeService timeService,
-      List<TimeEntry> timeEntries, List<DateTime> days) {
+      List<TimeEntry>? timeEntries, List<DateTime> days) {
     List<Map<DateTime, int>> recordedDailyTime = <Map<DateTime, int>>[];
 
     days.sort((a, b) => a.compareTo(b));
 
     for (DateTime day in days) {
-      int tempTotalTime = int.parse(timeService.getDailyRecordedTime(timeEntries));
+      int tempTotalTime = int.parse(timeService.getDailyRecordedTime(timeEntries!));
       recordedDailyTime.add({day: tempTotalTime ?? 0});
     }
     return recordedDailyTime;
@@ -107,8 +107,8 @@ class TaskCharts {
 
   List<Task> getTasksDueThisWeek(List<Task> tasks) {
     DateTime today = DateTime.now();
-    DateTime monday;
-    DateTime sunday;
+    late DateTime monday;
+    late DateTime sunday;
     for (var day = 0; day < 7; day++) {
       DateTime decreaseTemp = today.subtract(Duration(days: day));
       if (decreaseTemp.weekday == 1) {

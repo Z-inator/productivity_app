@@ -63,12 +63,12 @@ class Task {
   DateTime createDate;
 
   Task(
-      {String id,
-      String taskName,
-      Project project,
-      Status status,
-      DateTime dueDate,
-      DateTime createDate})
+      {String? id,
+      String? taskName,
+      Project? project,
+      Status? status,
+      DateTime? dueDate,
+      DateTime? createDate})
       : id = id ?? '',
         taskName = taskName ?? '',
         project = project ?? Project(),
@@ -81,7 +81,7 @@ class Task {
     final Map data = snapshot.data() as Map<String, Object>;
     return Task(
         id: snapshot.id ?? '',
-        taskName: data['taskName'] as String ?? '',
+        taskName: data['taskName'] as String? ?? '',
         project: project ?? Project(),
         status: status ?? Status(),
         dueDate: (data['dueDate'] as Timestamp).toDate() ??
