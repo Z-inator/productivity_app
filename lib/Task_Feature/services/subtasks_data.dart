@@ -55,45 +55,45 @@ class SubtaskService {
   }
 }
 
-class SubtaskStream extends StatelessWidget {
-  final User user;
-  const SubtaskStream({this.user});
+// class SubtaskStream extends StatelessWidget {
+//   final User user;
+//   const SubtaskStream({this.user});
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: SubtaskService().subtasks.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-        return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
-            final String docID = document.id;
-            print(document.id);
-            return ListTile(
-              leading: IconButton(
-                  icon: Icon(Icons.plus_one),
-                  onPressed: () {
-                    SubtaskService().updateSubtask(
-                      subtaskID: docID, updateData: {
-                        'subtaskName': 'NewSubtaskNameUpdate',
-                        'isDone': true
-                      });
-                  }),
-              title: Text(document.data()['SubtaskName'].toString()),
-              trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    SubtaskService().deleteSubtask(subtaskID: docID);
-                  }),
-            );
-          }).toList(),
-        );
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<QuerySnapshot>(
+//       stream: SubtaskService().subtasks.snapshots(),
+//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//         if (snapshot.hasError) {
+//           return Text('Something went wrong');
+//         }
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Text('Loading');
+//         }
+//         return ListView(
+//           children: snapshot.data.docs.map((DocumentSnapshot document) {
+//             final String docID = document.id;
+//             print(document.id);
+//             return ListTile(
+//               leading: IconButton(
+//                   icon: Icon(Icons.plus_one),
+//                   onPressed: () {
+//                     SubtaskService().updateSubtask(
+//                       subtaskID: docID, updateData: {
+//                         'subtaskName': 'NewSubtaskNameUpdate',
+//                         'isDone': true
+//                       });
+//                   }),
+//               title: Text(document.data()['SubtaskName'].toString()),
+//               trailing: IconButton(
+//                   icon: Icon(Icons.delete),
+//                   onPressed: () {
+//                     SubtaskService().deleteSubtask(subtaskID: docID);
+//                   }),
+//             );
+//           }).toList(),
+//         );
+//       },
+//     );
+//   }
+// }

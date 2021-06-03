@@ -25,7 +25,7 @@ class TimeEntry {
     Project project,
     Task task
   ) {
-    final Map data = Map.from(snapshot.data());
+    final Map data = Map.from(snapshot.data() as Map<String, Object>);
     return TimeEntry(
         id: snapshot.id ?? '',
         entryName: data['entryName'] as String ?? '',

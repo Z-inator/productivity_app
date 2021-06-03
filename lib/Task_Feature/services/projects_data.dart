@@ -25,12 +25,12 @@ class ProjectService {
   }
 
   // Snapshot Conversion to Project Model and Stream
-  Stream<List<Project>> streamProjects() {
-    final CollectionReference ref = _getProjectReference();
-    return ref.snapshots().map((querySnapshot) => querySnapshot.docs
-        .map((queryDocument) => Project.fromFirestore(queryDocument))
-        .toList());
-  }
+  // Stream<List<Project>> streamProjects() {
+  //   final CollectionReference ref = _getProjectReference();
+  //   return ref.snapshots().map((querySnapshot) => querySnapshot.docs
+  //       .map((queryDocument) => Project.fromFirestore(queryDocument))
+  //       .toList());
+  // }
 
   int getTaskCount(List<Task> tasks) {
     return tasks.length;

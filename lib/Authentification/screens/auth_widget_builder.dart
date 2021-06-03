@@ -38,19 +38,19 @@ class AuthWidgetBuilder extends StatelessWidget {
             builder: (context, child) {
               return MultiProvider(
                 providers: [
-                  StreamProvider<List<Project>>.value(
-                      value: Provider.of<ProjectService>(context)
-                          .streamProjects(), lazy: false),
-                  StreamProvider<List<Status>>.value(
-                      value: Provider.of<StatusService>(context)
-                          .streamStatuses(), lazy: false),
-                  StreamProvider<List<Task>>.value(
-                      value: Provider.of<TaskService>(context)
-                          .streamTasks(context), lazy: false),
-                  StreamProvider<List<TimeEntry>>.value(
-                      value: Provider.of<TimeService>(context)
-                          .streamTimeEntries(context), lazy: false),
-                  ChangeNotifierProvider(create: (context) => StopwatchState()),
+                  // StreamProvider<List<Project>>.value(
+                  //     value: Provider.of<ProjectService>(context)
+                  //         .streamProjects(), lazy: false),
+                  // StreamProvider<List<Status>>.value(
+                  //     value: Provider.of<StatusService>(context)
+                  //         .streamStatuses(), lazy: false),
+                  // StreamProvider<List<Task>>.value(
+                  //     value: Provider.of<TaskService>(context)
+                  //         .streamTasks(context), lazy: false),
+                  // StreamProvider<List<TimeEntry>>.value(
+                  //     value: Provider.of<TimeService>(context)
+                  //         .streamTimeEntries(context), lazy: false),
+                  // ChangeNotifierProvider(create: (context) => StopwatchState()),
                 ],
                 child: builder(context, snapshot),
               );

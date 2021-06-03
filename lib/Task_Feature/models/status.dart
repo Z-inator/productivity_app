@@ -22,7 +22,7 @@ class Status {
         statusDescription = statusDescription ?? '';
 
   factory Status.fromFirestore(DocumentSnapshot snapshot) {
-    final Map data = snapshot.data();
+    final Map data = snapshot.data() as Map<String, Object>;
 
     return Status(
         id: snapshot.id,

@@ -20,12 +20,11 @@ class ColorSelector extends StatelessWidget {
                 matchColor == (isDark ? color.shade200.value : color.value)
                     ? Icons.check_circle_rounded
                     : Icons.circle,
-                color: isDark ? color.shade200 : color,
+                color: isDark ? Color(color.shade200.value as int): Color(color.value as int),
                 size: 36,
               ),
               onPressed: () {
                 saveColor(color.value);
-                print(color.value);
               });
         }).toList()));
   }

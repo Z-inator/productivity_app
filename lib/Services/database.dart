@@ -82,7 +82,7 @@ class DatabaseService {
           .doc(_user.uid)
           .collection(type)
           .doc(item.id.toString());
-      Map<String, dynamic> mapOfItem = item.toFirestore();
+      Map<String, dynamic> mapOfItem = item.toFirestore() as Map<String, dynamic>;
       batch.update(documentReference, mapOfItem);
     }
     return batch

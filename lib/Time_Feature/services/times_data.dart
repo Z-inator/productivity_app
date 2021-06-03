@@ -28,34 +28,34 @@ class TimeService {
   }
 
   // Snapshot Conversion to Time Model and Stream
-  Stream<List<TimeEntry>> streamTimeEntries(BuildContext context) {
-    List<Project> projects;
-    getProjects(context).then((projectList) => projects = projectList);
-    List<Task> tasks;
-    getTasks(context).then((taskList) => tasks = taskList);
-    final CollectionReference ref = _getTimeEntryReference();
-    return ref.orderBy('endTime', descending: true).snapshots().map(
-        (QuerySnapshot querySnapshot) =>
-            querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-              final Project project = projects.firstWhere((project) =>
-                  project.id == queryDocument.data()['project'].toString());
-              final Task task = tasks.firstWhere(
-                  (task) => task.id == queryDocument.data()['task'].toString());
-              return TimeEntry.fromFirestore(queryDocument, project, task);
-            }).toList());
-  }
+  // Stream<List<TimeEntry>> streamTimeEntries(BuildContext context) {
+  //   List<Project> projects;
+  //   getProjects(context).then((projectList) => projects = projectList);
+  //   List<Task> tasks;
+  //   getTasks(context).then((taskList) => tasks = taskList);
+  //   final CollectionReference ref = _getTimeEntryReference();
+  //   return ref.orderBy('endTime', descending: true).snapshots().map(
+  //       (QuerySnapshot querySnapshot) =>
+  //           querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
+  //             final Project project = projects.firstWhere((project) =>
+  //                 project.id == queryDocument.data()['project'].toString());
+  //             final Task task = tasks.firstWhere(
+  //                 (task) => task.id == queryDocument.data()['task'].toString());
+  //             return TimeEntry.fromFirestore(queryDocument, project, task);
+  //           }).toList());
+  // }
 
-  Future<List<Project>> getProjects(BuildContext context) async {
-    final List<Project> projects =
-        await Provider.of<ProjectService>(context).streamProjects().first;
-    return projects;
-  }
+  // Future<List<Project>> getProjects(BuildContext context) async {
+  //   final List<Project> projects =
+  //       await Provider.of<ProjectService>(context).streamProjects().first;
+  //   return projects;
+  // }
 
-  Future<List<Task>> getTasks(BuildContext context) async {
-    final List<Task> tasks =
-        await Provider.of<TaskService>(context).streamTasks(context).first;
-    return tasks;
-  }
+  // Future<List<Task>> getTasks(BuildContext context) async {
+  //   final List<Task> tasks =
+  //       await Provider.of<TaskService>(context).streamTasks(context).first;
+  //   return tasks;
+  // }
 
   List<Map<String, List<TimeEntry>>> getTimeEntriesByDay(
       List<TimeEntry> entries) {
