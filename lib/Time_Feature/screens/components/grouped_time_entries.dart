@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/screens/components/time_entry_expansion_tile.dart';
+
+import '../../../Time_Feature/Time_Feature.dart';
 
 class GroupedTimeEntries extends StatelessWidget {
   final List<TimeEntry> timeEntries;

@@ -1,7 +1,6 @@
-import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../Shared/Shared.dart';
 
 ThemeData buildDefaultTheme(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();

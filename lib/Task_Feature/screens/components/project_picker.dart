@@ -1,8 +1,9 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Shared/Shared.dart';
+import '../../../Task_Feature/Task_Feature.dart';
 
 class ProjectPicker extends StatelessWidget {
   final Function(Project) saveProject;

@@ -1,10 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:provider/provider.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeGraphs {
   List<DateTime> getCurrentWeek(DateTime referenceDay) {

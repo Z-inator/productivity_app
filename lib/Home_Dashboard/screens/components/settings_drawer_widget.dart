@@ -1,10 +1,9 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/screens/about.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Shared/widgets/color_selector.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Authentification/Authentification.dart';
+import '../../../Shared/Shared.dart';
 
 class SettingsDrawer extends StatelessWidget {
   @override

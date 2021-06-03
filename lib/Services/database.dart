@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class DatabaseService {
   final User _user = FirebaseAuth.instance.currentUser;

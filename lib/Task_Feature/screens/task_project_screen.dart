@@ -1,8 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/screens/components/project_list_tab.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_list_tab.dart';
-import 'package:provider/provider.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class TaskProjectScreen extends StatefulWidget {
   @override

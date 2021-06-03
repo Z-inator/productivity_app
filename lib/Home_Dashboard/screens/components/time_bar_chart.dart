@@ -1,11 +1,11 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Home_Dashboard/Home_Dashboard.dart';
+import '../../../Shared/Shared.dart';
+import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeBarChart extends StatelessWidget {
   final List<TimeEntry> timeEntries;

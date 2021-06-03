@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/widgets/stopwatch_widget.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
-import 'package:productivity_app/Task_Feature/screens/components/status_expansion_tile.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_list_tab.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
-import 'package:provider/provider.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class TaskBodyState extends ChangeNotifier {
-  TaskBodyState({this.taskService, this.tasks, this.statuses, this.projects}) {
-    changePage(0);
-  }
-
   int page = 0;
+
   TaskService taskService;
   List<Task> tasks;
   List<Status> statuses;
@@ -28,23 +17,8 @@ class TaskBodyState extends ChangeNotifier {
     Icons.notification_important_rounded,
     Icons.playlist_add_rounded
   ];
-
-  Widget getWidget(dynamic item, int numberOfTasks) {
-    switch (options[page]) {
-      case 'Status':
-        return StatusExpansionTile(
-            status: item as Status, numberOfTasks: numberOfTasks);
-      case 'Project':
-        return ProjectExpansionTile(
-            project: item as Project, numberOfTasks: numberOfTasks);
-      case 'Due Date':
-        return DayTile(day: item as String, numberOfTasks: numberOfTasks);
-      case 'Create Date':
-        return DayTile(day: item as String, numberOfTasks: numberOfTasks);
-      default:
-        return StatusExpansionTile(
-            status: item as Status, numberOfTasks: numberOfTasks);
-    }
+  TaskBodyState({this.taskService, this.tasks, this.statuses, this.projects}) {
+    changePage(0);
   }
 
   void changePage(int index) {
@@ -66,5 +40,23 @@ class TaskBodyState extends ChangeNotifier {
     }
     page = index;
     notifyListeners();
+  }
+
+  Widget getWidget(dynamic item, int numberOfTasks) {
+    switch (options[page]) {
+      case 'Status':
+        return StatusExpansionTile(
+            status: item as Status, numberOfTasks: numberOfTasks);
+      case 'Project':
+        return ProjectExpansionTile(
+            project: item as Project, numberOfTasks: numberOfTasks);
+      case 'Due Date':
+        return DayTile(day: item as String, numberOfTasks: numberOfTasks);
+      case 'Create Date':
+        return DayTile(day: item as String, numberOfTasks: numberOfTasks);
+      default:
+        return StatusExpansionTile(
+            status: item as Status, numberOfTasks: numberOfTasks);
+    }
   }
 }

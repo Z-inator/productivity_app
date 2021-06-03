@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/screens/sign_in_page.dart';
-import 'package:productivity_app/Shared/screens/base_framework.dart';
+
+import '../../Shared/Shared.dart';
+import '../Authentification.dart';
 
 
 /// Builds the signed-in or non signed-in UI, depending on the user snapshot.

@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
-import 'package:productivity_app/Task_Feature/providers/task_edit_state.dart';
-import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
-import 'package:provider/provider.dart';
 
 class EditBottomSheet {
   Future<dynamic> buildEditBottomSheet(

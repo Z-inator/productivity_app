@@ -2,15 +2,11 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/status_tile.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/task_row.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/time_chart_row.dart';
-import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/screens/base_framework.dart';
-import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Authentification/Authentification.dart';
+import '../../../Home_Dashboard/Home_Dashboard.dart';
+import '../../../Shared/Shared.dart';
 
 class HomeScreen extends StatefulWidget{
   @override

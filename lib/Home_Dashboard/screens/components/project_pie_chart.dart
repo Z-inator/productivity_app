@@ -1,12 +1,12 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Time_Feature/Time_Feature.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Home_Dashboard/Home_Dashboard.dart';
+import '../../../Shared/Shared.dart';
 
 class TimePieChart extends StatelessWidget {
   final List<TimeEntry> timeEntries;

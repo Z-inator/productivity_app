@@ -2,17 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/subtasks.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Time_Feature/Time_Feature.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Shared/Shared.dart';
 
 class TaskService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -36,35 +30,35 @@ class TaskService {
     return _getTaskReference();
   }
 
-  Stream<List<Task>> streamTasks(Project project, Status status) {
-    FirebaseFirestore.instance.snapshotsInSync()
-    var ref = firestore
-        .collection('users')
-        .doc(user.uid)
-        .collection('tasks')
-        .withConverter<Task>(
-          fromFirestore: (snapshot, _) =>
-              Task.fromJson(snapshot.data(), snapshot, project, status),
-          toFirestore: (task, _) => task.toJson(),
-        );
-    ref.
-  }
+  // Stream<List<Task>> streamTasks(Project project, Status status) {
+  //   FirebaseFirestore.instance.snapshotsInSync()
+  //   var ref = firestore
+  //       .collection('users')
+  //       .doc(user.uid)
+  //       .collection('tasks')
+  //       .withConverter<Task>(
+  //         fromFirestore: (snapshot, _) =>
+  //             Task.fromJson(snapshot.data(), snapshot, project, status),
+  //         toFirestore: (task, _) => task.toJson(),
+  //       );
+  //   ref.
+  // }
 
   // Snapshot Conversion to Task Model and Stream
-  // Stream<List<Task>> streamTasks(BuildContext context) {
-  //   List<Project> projects;
-  //   getProjects(context).then((projectList) => projects = projectList);
-  //   List<Status> statuses;
-  //   getStatuses(context).then((statusList) => statuses = statusList);
-  //   return tasks.snapshots().map((QuerySnapshot querySnapshot) =>
-  //       querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
-  //         final Project project = projects.firstWhere((project) =>
-  //             project.id == queryDocument.data()['project'].toString());
-  //         final Status status = statuses.firstWhere((status) =>
-  //             status.id == queryDocument.data()['status'].toString());
-  //         return Task.fromFirestore(queryDocument, project, status);
-  //       }).toList());
-  // }
+  Stream<List<Task>> streamTasks(BuildContext context) {
+    List<Project> projects;
+    getProjects(context).then((projectList) => projects = projectList);
+    List<Status> statuses;
+    getStatuses(context).then((statusList) => statuses = statusList);
+    return tasks.snapshots().map((QuerySnapshot querySnapshot) =>
+        querySnapshot.docs.map((QueryDocumentSnapshot queryDocument) {
+          final Project project = projects.firstWhere((project) =>
+              project.id == queryDocument.data()['project'].toString());
+          final Status status = statuses.firstWhere((status) =>
+              status.id == queryDocument.data()['status'].toString());
+          return Task.fromFirestore(queryDocument, project, status);
+        }).toList());
+  }
 
   Future<List<Project>> getProjects(BuildContext context) async {
     final List<Project> projects =

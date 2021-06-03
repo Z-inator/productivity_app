@@ -1,9 +1,9 @@
 // import 'package:flutter/material.dart';
-// import 'package:productivity_app/Time_Feature/screens/time_stream.dart';
-// import 'package:productivity_app/screens/timeEntries/components/test.dart';
-// import 'package:productivity_app/screens/timeEntries/components/time_log_list.dart';
+// import 'Time_Feature/screens/time_stream.dart';
+// import 'screens/timeEntries/components/test.dart';
+// import 'screens/timeEntries/components/time_log_list.dart';
 // import 'package:fl_chart/fl_chart.dart';
-// import 'package:productivity_app/shared_components/base_framework.dart';
+// import 'shared_components/base_framework.dart';
 
 // class GoalScreen extends StatelessWidget {
 //   @override

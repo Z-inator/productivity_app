@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class TimeEntry {
   String id;

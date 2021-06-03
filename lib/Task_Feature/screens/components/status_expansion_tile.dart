@@ -1,11 +1,8 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_edit_bottomsheet.dart';
-import 'package:productivity_app/Task_Feature/screens/status_edit_page.dart';
+
+import '../../../Shared/Shared.dart';
+import '../../../Task_Feature/Task_Feature.dart';
 
 class StatusExpansionTile extends StatelessWidget {
   final Status status;

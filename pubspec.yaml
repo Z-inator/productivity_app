@@ -25,11 +25,11 @@ dependencies:
     sdk: flutter
 
   # Linter
-  lint: ^1.3.0
+  lint: ^1.5.3
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.1
+  cupertino_icons: ^1.0.3
 
   # Firebase Integration
   firebase_core: ^1.2.0
@@ -55,7 +55,7 @@ dependencies:
   simple_time_range_picker: ^0.0.2
 
   # FAB Speed Dial
-  flutter_speed_dial: ^3.0.5
+  flutter_speed_dial: ^4.0.0-dev.1
 
   # Sliding Up panel
   sliding_up_panel: ^2.0.0+1
@@ -65,7 +65,7 @@ dependencies:
   dynamic_color_theme: ^1.1.2
 
   # Save Theme to Phone
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.6
 
 
 dev_dependencies:

@@ -1,17 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Services/database.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
+
+import '../Authentification.dart';
+import '../../Services/database.dart';
+import '../../Task_Feature/Task_Feature.dart';
+import '../../Time_Feature/Time_Feature.dart';
+import '../../Shared/Shared.dart';
 
 /// Used to create user-dependant objects that need to be accessible by all widgets.
 /// This widget should live above the [MaterialApp].

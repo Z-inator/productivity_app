@@ -1,12 +1,12 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/screens/auth_widget.dart';
-import 'package:productivity_app/Authentification/screens/auth_widget_builder.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Theme/style.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Authentification/screens/auth_widget.dart';
+import 'Authentification/screens/auth_widget_builder.dart';
+import 'Authentification/services/authentification_data.dart';
+import 'Theme/style.dart';
 
 
 void main() {

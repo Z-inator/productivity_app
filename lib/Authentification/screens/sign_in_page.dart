@@ -1,13 +1,9 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/screens/about.dart';
-import 'package:productivity_app/Authentification/screens/components/register_form.dart';
-import 'package:productivity_app/Authentification/screens/components/sign_in_form.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
-import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../Authentification.dart';
+import '../../Shared/Shared.dart';
 
 class SignInPage extends StatefulWidget {
   @override

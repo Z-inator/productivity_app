@@ -1,7 +1,9 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
+
+import '../../../Time_Feature/Time_Feature.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Shared/Shared.dart';
 
 class RecentTimeList extends StatelessWidget {
   final List<TimeEntry> timeEntries;

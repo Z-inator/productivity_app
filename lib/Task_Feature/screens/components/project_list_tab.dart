@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/screens/components/project_expansion_tile.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class ProjectScreen extends StatefulWidget {
   const ProjectScreen({Key key}) : super(key: key);

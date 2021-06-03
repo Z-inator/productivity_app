@@ -1,9 +1,8 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/screens/components/grouped_time_entries.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeEntriesByDay extends StatelessWidget {
   final List<TimeEntry> timeEntries;

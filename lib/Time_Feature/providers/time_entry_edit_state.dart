@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:simple_time_range_picker/simple_time_range_picker.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeEntryEditState extends ChangeNotifier {
   TimeEntry newEntry;

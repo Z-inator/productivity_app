@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeEntryBodyState extends ChangeNotifier {
   TimeEntryBodyState({this.entries, this.projects}) {

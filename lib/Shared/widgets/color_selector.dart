@@ -1,6 +1,5 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
 
 class ColorSelector extends StatelessWidget {
   int matchColor;

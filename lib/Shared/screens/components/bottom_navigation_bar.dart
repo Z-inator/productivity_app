@@ -6,8 +6,8 @@
 
 // import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 // import 'package:flutter/material.dart';
-// import 'package:productivity_app/Shared/providers/page_state.dart';
-// import 'package:productivity_app/Shared/widgets/add_speed_dial.dart';
+// import 'Shared/providers/page_state.dart';
+// import 'Shared/widgets/add_speed_dial.dart';
 // import 'package:provider/provider.dart';
 
 // class NavigationBar extends StatelessWidget {

@@ -1,11 +1,10 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Services/database.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Shared/Shared.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Services/database.dart';
 
 class StatusPicker extends StatelessWidget {
   final Function(Status) saveStatus;

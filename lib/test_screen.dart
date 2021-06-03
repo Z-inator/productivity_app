@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/test_data/new_data.dart';
 import 'package:provider/provider.dart';
+
+import 'Authentification/services/authentification_data.dart';
+import 'Task_Feature/models/projects.dart';
+import 'Task_Feature/models/tasks.dart';
+import 'test_data/new_data.dart';
 
 class TestScreen extends StatelessWidget {
   @override

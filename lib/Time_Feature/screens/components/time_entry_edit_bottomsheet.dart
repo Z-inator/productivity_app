@@ -1,14 +1,11 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Services/database.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/widgets/date_and_time_pickers.dart';
-import 'package:productivity_app/Task_Feature/screens/components/project_picker.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_picker.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
-import 'package:productivity_app/Time_Feature/providers/time_entry_edit_state.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Shared/Shared.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Time_Feature/Time_Feature.dart';
+import '../../../Services/database.dart';
 
 class TimeEntryEditBottomSheet extends StatelessWidget {
   final bool isUpdate;

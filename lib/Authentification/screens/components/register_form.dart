@@ -1,7 +1,8 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Authentification/services/authentification_data.dart';
 import 'package:provider/provider.dart';
+
+import '../../Authentification.dart';
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({Key key}) : super(key: key);

@@ -1,11 +1,9 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Shared/providers/stopwatch_state.dart';
-import 'package:productivity_app/Shared/widgets/edit_bottom_sheets.dart';
-import 'package:productivity_app/Time_Feature/screens/components/time_entry_edit_bottomsheet.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Shared/Shared.dart';
+import '../../../Time_Feature/Time_Feature.dart';
 
 class StopWatchTile extends StatelessWidget {
   const StopWatchTile({Key key}) : super(key: key);

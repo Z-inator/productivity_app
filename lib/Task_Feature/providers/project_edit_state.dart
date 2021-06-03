@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
+
+import '../../Task_Feature/Task_Feature.dart';
+import '../../Shared/Shared.dart';
 
 class ProjectEditState extends ChangeNotifier {
   Project newProject;

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
-import 'package:provider/provider.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class TaskEditState extends ChangeNotifier {
   Task newTask;

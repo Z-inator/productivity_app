@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/pageview_position_dots.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/time_chart_row.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Home_Dashboard/Home_Dashboard.dart';
+
 
 class PageViewRow extends StatelessWidget {
   final List<Widget> pages;

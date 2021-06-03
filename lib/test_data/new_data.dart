@@ -1,13 +1,8 @@
 //Colors: 4294937216, 4292149248, 4287954944, 4292886779, 4289331455, 4279903102, 4280902399, 4282434815, 4279828479, 4280150454, 4278241363, 4279983648, 4285988611, 4294951936, 4294938880, 4294917376, 4288776319, 4283315246, 4285887861, 4284513675
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:productivity_app/Services/database.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/services/projects_data.dart';
-import 'package:productivity_app/Task_Feature/services/statuses_data.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
-import 'package:productivity_app/Time_Feature/services/times_data.dart';
+
+import '../../../Services/database.dart';
+import '../../../Task_Feature/Task_Feature.dart';
 import 'new_mock_data.dart' as mock;
 
 class NewDataUpload {

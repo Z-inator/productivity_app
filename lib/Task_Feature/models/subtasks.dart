@@ -1,4 +1,4 @@
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
+import '../../Task_Feature/Task_Feature.dart';
 
 class Subtask {
   String subtaskID = '';

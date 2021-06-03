@@ -1,13 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/status.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Task_Feature/providers/task_screen_state.dart';
-import 'package:productivity_app/Task_Feature/screens/components/grouped_tasks.dart';
-import 'package:productivity_app/Task_Feature/screens/components/task_filter_buttons.dart';
-import 'package:productivity_app/Task_Feature/services/tasks_data.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Task_Feature/Task_Feature.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({Key key}) : super(key: key);

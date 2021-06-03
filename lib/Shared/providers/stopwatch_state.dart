@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/models/tasks.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
+
+import '../../../Time_Feature/Time_Feature.dart';
 
 class StopwatchState extends ChangeNotifier {
   Stopwatch stopwatch = Stopwatch();

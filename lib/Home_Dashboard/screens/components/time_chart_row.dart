@@ -1,14 +1,11 @@
 
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/pageview_row.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/project_pie_chart.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/recent_time_list.dart';
-import 'package:productivity_app/Home_Dashboard/screens/components/time_bar_chart.dart';
-import 'package:productivity_app/Home_Dashboard/services/charts_and_graphs.dart';
-import 'package:productivity_app/Shared/functions/datetime_functions.dart';
-import 'package:productivity_app/Time_Feature/models/times.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Home_Dashboard/Home_Dashboard.dart';
+import '../../../Shared/Shared.dart';
+import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeChartRow extends StatelessWidget {
   TimeChartRow({Key key}) : super(key: key);

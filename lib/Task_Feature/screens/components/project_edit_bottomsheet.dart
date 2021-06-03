@@ -1,11 +1,10 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/Services/database.dart';
-import 'package:productivity_app/Shared/functions/color_functions.dart';
-import 'package:productivity_app/Shared/widgets/color_selector.dart';
-import 'package:productivity_app/Task_Feature/models/projects.dart';
-import 'package:productivity_app/Task_Feature/providers/project_edit_state.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Shared/Shared.dart';
+import '../../../Task_Feature/Task_Feature.dart';
+import '../../../Services/database.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
   final bool isUpdate;
@@ -38,10 +37,13 @@ class ProjectEditBottomSheet extends StatelessWidget {
               ),
               ColorSelector(
                 matchColor: isUpdate
-                ? DynamicColorTheme.of(context).isDark
-                  ? AppColorList[projectEditState.newProject.projectColor].shade200.value
-                  : AppColorList[projectEditState.newProject.projectColor].value
-                : projectEditState.newProject.projectColor,
+                    ? DynamicColorTheme.of(context).isDark
+                        ? AppColorList[projectEditState.newProject.projectColor]
+                            .shade200
+                            .value
+                        : AppColorList[projectEditState.newProject.projectColor]
+                            .value
+                    : projectEditState.newProject.projectColor,
                 saveColor: projectEditState.updateProjectColor,
                 colorList: AppColorList,
               ),
@@ -65,10 +67,12 @@ class ProjectEditBottomSheet extends StatelessWidget {
                             ? databaseService.updateItem(
                                 type: 'projects',
                                 itemID: project.id,
-                                updateData: projectEditState.newProject.toFirestore())
+                                updateData:
+                                    projectEditState.newProject.toFirestore())
                             : databaseService.addItem(
                                 type: 'projects',
-                                addData: projectEditState.newProject.toFirestore());
+                                addData:
+                                    projectEditState.newProject.toFirestore());
                         Navigator.pop(context);
                       }))
             ],
