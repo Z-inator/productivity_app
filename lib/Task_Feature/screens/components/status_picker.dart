@@ -54,7 +54,6 @@ class StatusPickerDropDown extends StatelessWidget {
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final List<Status> statuses = Provider.of<List<Status>>(context);
-    final TaskService taskService = Provider.of<TaskService>(context);
     return PopupMenuButton(
         icon: icon,
         tooltip: 'Change Status',
