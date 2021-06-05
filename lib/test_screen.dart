@@ -114,37 +114,37 @@ class _FunctionalityButtonListState extends State<FunctionalityButtonList> {
         //           });
         //     },
         //     child: Text('Show Timer')),
-        ElevatedButton(
-            onPressed: () {
-              NewDataUpload().uploadExampleTaskData();
-            },
-            child: Text('Add task data')),
         // ElevatedButton(
         //     onPressed: () {
-        //       TimeService().addTimeEntry2(
-        //           addToDate: '03-20-2021', addData: {'testing': 'testing'});
+        //       NewDataUpload().uploadExampleTaskData();
         //     },
-        //     child: Text('Add time entry')),
-        ElevatedButton(
-            onPressed: () {
-              NewDataUpload().uploadExampleProjectData();
-            },
-            child: Text('Add project data')),
+        //     child: Text('Add task data')),
+        // // ElevatedButton(
+        // //     onPressed: () {
+        // //       TimeService().addTimeEntry2(
+        // //           addToDate: '03-20-2021', addData: {'testing': 'testing'});
+        // //     },
+        // //     child: Text('Add time entry')),
         // ElevatedButton(
         //     onPressed: () {
-        //       ProjectToFirebase(user: user).updateProjectData();
+        //       NewDataUpload().uploadExampleProjectData();
         //     },
-        //     child: Text('Update project data')),
-        ElevatedButton(
-            onPressed: () {
-              NewDataUpload().uploadExampleTimeData(tasks);
-            },
-            child: Text('Add time data')),
-        ElevatedButton(
-            onPressed: () {
-              NewDataUpload().uploadExampleStatusData();
-            },
-            child: Text('Add status data')),
+        //     child: Text('Add project data')),
+        // // ElevatedButton(
+        // //     onPressed: () {
+        // //       ProjectToFirebase(user: user).updateProjectData();
+        // //     },
+        // //     child: Text('Update project data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       NewDataUpload().uploadExampleTimeData(tasks);
+        //     },
+        //     child: Text('Add time data')),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       NewDataUpload().uploadExampleStatusData();
+        //     },
+        //     child: Text('Add status data')),
         ElevatedButton(
             onPressed: () {
               FirebaseFirestore.instance

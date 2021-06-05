@@ -7,8 +7,8 @@ import '../../../Home_Dashboard/Home_Dashboard.dart';
 import '../../../Shared/Shared.dart';
 
 class ImportantTaskListTile extends StatelessWidget {
-  final Task? task;
-  const ImportantTaskListTile({Key? key, this.task}) : super(key: key);
+  final Task task;
+  const ImportantTaskListTile({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +19,23 @@ class ImportantTaskListTile extends StatelessWidget {
           icon: Icon(
             Icons.check_circle_rounded,
             color: DynamicColorTheme.of(context).isDark
-                ? colorList[task!.status.statusColor].shade200
-                : colorList[task!.status.statusColor],
+                ? colorList[task.status!.statusColor!].shade200
+                : colorList[task.status!.statusColor!],
           )),
       title: Text(
-        task!.taskName.isEmpty ? 'NO TASK TITLE' : task!.taskName,
+        task.taskName ?? 'NO TASK TITLE',
         style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
       subtitle: Text(
-          task!.project.id.isEmpty ? 'NO PROJECT' : task!.project.projectName,
+          task.project?.projectName ?? 'NO PROJECT',
           style: DynamicColorTheme.of(context)
               .data
               .textTheme
               .subtitle1!
               .copyWith(
                   color: DynamicColorTheme.of(context).isDark
-                      ? colorList[task!.project.projectColor].shade200
-                      : colorList[task!.project.projectColor])),
+                      ? colorList[task.project!.projectColor!].shade200
+                      : colorList[task.project!.projectColor!])),
       trailing: IconButton(
           icon: Icon(Icons.edit_rounded),
           onPressed: () => EditBottomSheet().buildEditBottomSheet(

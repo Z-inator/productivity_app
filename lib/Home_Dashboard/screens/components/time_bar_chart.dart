@@ -27,10 +27,10 @@ class TimeBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    TimeService timeService = Provider.of<TimeService>(context);
+
     List<DateTime> days = timeGraphsState.getDays(startDay!, endDay!);
     List<Map<DateTime, int>> timeData =
-        timeGraphsState.getTimeBarChartData(timeService, timeEntries, days);
+        timeGraphsState.getTimeBarChartData(timeEntries, days);
     List<BarChartGroupData> groupData =
         buildGroupData(Theme.of(context).accentColor, timeData);
     double maxDayTime = timeGraphsState.getMaxTime(timeData);

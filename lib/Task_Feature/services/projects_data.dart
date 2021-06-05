@@ -8,21 +8,21 @@ class ProjectService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection reference
-  CollectionReference? _getProjectReference() {
-    final User user = _auth.currentUser!;
-    if (user.uid == null) {
-      return null;
-    } else {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('projects');
-    }
-  }
+  // CollectionReference? _getProjectReference() {
+  //   final User user = _auth.currentUser!;
+  //   if (user.uid == null) {
+  //     return null;
+  //   } else {
+  //     return FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .collection('projects');
+  //   }
+  // }
 
-  CollectionReference? get projects {
-    return _getProjectReference();
-  }
+  // CollectionReference? get projects {
+  //   return _getProjectReference();
+  // }
 
   // Snapshot Conversion to Project Model and Stream
   // Stream<List<Project>> streamProjects() {
@@ -32,14 +32,14 @@ class ProjectService {
   //       .toList());
   // }
 
-  int getTaskCount(List<Task> tasks) {
+  static int getTaskCount(List<Task> tasks) {
     return tasks.length;
   }
 
-  int getRecordedTime(List<TimeEntry> timeEntries) {
+  static int getRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
     timeEntries.forEach((entry) {
-      recordedTime += entry.elapsedTime;
+      recordedTime += entry.elapsedTime!;
     });
     return recordedTime;
   }

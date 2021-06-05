@@ -23,7 +23,6 @@ class _StatusEditPageState extends State<StatusEditPage> {
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
     DatabaseService databaseService = Provider.of<DatabaseService>(context);
-    StatusService statusService = Provider.of<StatusService>(context);
     statuses = Provider.of<List<Status>>(context);
     return SafeArea(
         child: Scaffold(
@@ -60,10 +59,10 @@ class _StatusEditPageState extends State<StatusEditPage> {
           ),
           children: statuses.map((status) {
             return ExpansionTile(
-              key: Key(status.id),
-              leading: Icon(Icons.circle, color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor].shade200 : colorList[status.statusColor]),
+              key: Key(status.id!),
+              leading: Icon(Icons.circle, color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor!].shade200 : colorList[status.statusColor!]),
               title: Text(
-                status.statusName,
+                status.statusName!,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               children: [
@@ -97,8 +96,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
                                       label: Text('Delete'),
                                       onPressed: () {
                                         databaseService.deleteItem(
-                                            type: 'statuses',
-                                            itemID: status.id);
+                                            collectionReference: databaseService.statusReference!,
+                                            objectID: status.id!);
                                         statuses.removeWhere((removeStatus) =>
                                             removeStatus.id == status.id);
                                         statuses.forEach((status) {
@@ -126,7 +125,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
                           .data
                           .textTheme
                           .subtitle1),
-                  subtitle: Text(status.statusDescription,
+                  subtitle: Text(status.statusDescription ?? 'No Description',
                       overflow: TextOverflow.fade, maxLines: 3),
                 )
               ],

@@ -28,29 +28,16 @@ class AuthWidgetBuilder extends StatelessWidget {
         if (user != null) {
           return MultiProvider(
             providers: [
-              Provider<User>.value(value: user),
-              Provider(create: (context) => DatabaseService()),
-              Provider(create: (context) => ProjectService()),
-              Provider(create: (context) => StatusService()),
-              Provider(create: (context) => TaskService()),
-              Provider(create: (context) => TimeService()),
+              ChangeNotifierProvider<DatabaseService>(create: (context) => DatabaseService())
             ],
             builder: (context, child) {
               return MultiProvider(
                 providers: [
-                  // StreamProvider<List<Project>>.value(
-                  //     value: Provider.of<ProjectService>(context)
-                  //         .streamProjects(), lazy: false),
-                  // StreamProvider<List<Status>>.value(
-                  //     value: Provider.of<StatusService>(context)
-                  //         .streamStatuses(), lazy: false),
-                  // StreamProvider<List<Task>>.value(
-                  //     value: Provider.of<TaskService>(context)
-                  //         .streamTasks(context), lazy: false),
-                  // StreamProvider<List<TimeEntry>>.value(
-                  //     value: Provider.of<TimeService>(context)
-                  //         .streamTimeEntries(context), lazy: false),
-                  // ChangeNotifierProvider(create: (context) => StopwatchState()),
+                  StreamProvider<List<Project>>.value(value: Provider.of<DatabaseService>(context).projectListStream, initialData: [], lazy: false),
+                  StreamProvider<List<Status>>.value(value: Provider.of<DatabaseService>(context).statusListStream, initialData: [], lazy: false),
+                  StreamProvider<List<Task>>.value(value: Provider.of<DatabaseService>(context).taskListStream, initialData: [], lazy: false),
+                  StreamProvider<List<TimeEntry>>.value(value: Provider.of<DatabaseService>(context).timeEntryListStream, initialData: [], lazy: false),
+                  Provider<StopwatchState>(create: (context) => StopwatchState())
                 ],
                 child: builder(context, snapshot),
               );

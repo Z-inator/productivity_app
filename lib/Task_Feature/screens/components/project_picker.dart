@@ -6,15 +6,15 @@ import '../../../Shared/Shared.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class ProjectPicker extends StatelessWidget {
-  final Function(Project)? saveProject;
-  final Widget? child;
-  const ProjectPicker({Key? key, this.saveProject, this.child})
+  final Function(Project?) saveProject;
+  final Widget child;
+  const ProjectPicker({Key? key, required this.saveProject, required this.child})
       : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    List<MaterialColor> colorList = AppColorList;
+    final List<MaterialColor> colorList = AppColorList;
     final List<Project> projects = Provider.of<List<Project>>(context);
     return PopupMenuButton(
         shape: RoundedRectangleBorder(
@@ -27,11 +27,9 @@ class ProjectPicker extends StatelessWidget {
                     Icons.topic_rounded,
                     color: Colors.grey,
               ),
-              title: Text('No Project',
-                      style:
-                          DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              title: Text('No Project'),
               onTap: () {
-                    saveProject!(Project());
+                    saveProject(null);
                     Navigator.pop(context);
               },
             )
@@ -47,15 +45,15 @@ class ProjectPicker extends StatelessWidget {
                   children: projects.map((project) => ListTile(
                       leading: Icon(
                         Icons.topic_rounded,
-                        color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor].shade200 : colorList[project.projectColor],
+                        color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor!].shade200 : colorList[project.projectColor!],
                       ),
-                      title: Text(project.projectName,
+                      title: Text(project.projectName!,
                           style: DynamicColorTheme.of(context)
                               .data
                               .textTheme
                               .subtitle1),
                       onTap: () {
-                        saveProject!(project);
+                        saveProject(project);
                         Navigator.pop(context);
                       },
                     )).toList(),

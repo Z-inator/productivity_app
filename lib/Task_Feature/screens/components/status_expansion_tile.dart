@@ -5,9 +5,9 @@ import '../../../Shared/Shared.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 
 class StatusExpansionTile extends StatelessWidget {
-  final Status? status;
+  final Status status;
   final int? numberOfTasks;
-  const StatusExpansionTile({Key? key, this.status, this.numberOfTasks})
+  const StatusExpansionTile({Key? key, required this.status, this.numberOfTasks})
       : super(key: key);
 
   @override
@@ -21,10 +21,9 @@ class StatusExpansionTile extends StatelessWidget {
           key: key,
           leading: Icon(Icons.circle,
               color: DynamicColorTheme.of(context).isDark
-                  ? colorList[status!.statusColor].shade200
-                  : colorList[status!.statusColor]),
-          title: Text(status!.statusName,
-              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                  ? colorList[status.statusColor!].shade200
+                  : colorList[status.statusColor!]),
+          title: Text(status.statusName!),
           children: [
             ListTile(
                 title: Text('Tasks: $numberOfTasks',
@@ -43,9 +42,7 @@ class StatusExpansionTile extends StatelessWidget {
               title: Text('Description:',
                   style:
                       DynamicColorTheme.of(context).data.textTheme.subtitle2),
-              subtitle: Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel.',
-                  style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
+              subtitle: Text(status.statusDescription!,
                   overflow: TextOverflow.fade,
                   maxLines: 3),
               trailing: IconButton(

@@ -7,33 +7,33 @@ class StatusService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Collection reference
-  CollectionReference? _getStatusReference() {
-    final User? user = _auth.currentUser;
-    if (user == null) {
-      return null;
-    } else {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('statuses');
-    }
-  }
+  // CollectionReference? _getStatusReference() {
+  //   final User? user = _auth.currentUser;
+  //   if (user == null) {
+  //     return null;
+  //   } else {
+  //     return FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .collection('statuses');
+  //   }
+  // }
 
-  CollectionReference? get statuses {
-    return _getStatusReference();
-  }
+  // CollectionReference? get statuses {
+  //   return _getStatusReference();
+  // }
 
   // Snapshot Conversion to Status Model and Stream
-  Stream<List<Status>> streamStatuses() {
-    final CollectionReference ref = _getStatusReference()!;
+  // Stream<List<Status>> streamStatuses() {
+  //   final CollectionReference ref = _getStatusReference()!;
 
-    return ref.orderBy('statusOrder', descending: false).snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-            .map((queryDocument) => Status.fromFirestore(queryDocument))
-            .toList());
-  }
+  //   return ref.orderBy('statusOrder', descending: false).snapshots()
+  //       .map((querySnapshot) => querySnapshot.docs
+  //           .map((queryDocument) => Status.fromFirestore(queryDocument))
+  //           .toList());
+  // }
 
-  int getTaskCount(List<Task> tasks, Status status) {
+  static int getTaskCount(List<Task> tasks, Status status) {
     return tasks.length;
   }
 

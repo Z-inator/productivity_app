@@ -7,9 +7,9 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Services/database.dart';
 
 class StatusPicker extends StatelessWidget {
-  final Function(Status)? saveStatus;
-  final Task? task;
-  const StatusPicker({Key? key, this.saveStatus, this.task}) : super(key: key);
+  final Function(Status) saveStatus;
+  final Task task;
+  const StatusPicker({Key? key, required this.saveStatus, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +24,16 @@ class StatusPicker extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: OutlinedButton.icon(
               onPressed: () {
-                saveStatus!(status);
+                saveStatus(status);
               },
               icon: Icon(
-                  task!.status.id == status.id
+                  task.status!.id == status.id
                       ? Icons.check_circle_rounded
                       : Icons.circle,
                   color: DynamicColorTheme.of(context).isDark
-                      ? colorList[status.statusColor].shade200
-                      : colorList[status.statusColor]),
-              label: Text(status.statusName),
+                      ? colorList[status.statusColor!].shade200
+                      : colorList[status.statusColor!]),
+              label: Text(status.statusName!),
             ),
           );
         }).toList(),
@@ -43,10 +43,10 @@ class StatusPicker extends StatelessWidget {
 }
 
 class StatusPickerDropDown extends StatelessWidget {
-  final Task? task;
-  final Icon? icon;
+  final Task task;
+  final Icon icon;
 
-  const StatusPickerDropDown({Key? key, this.task, this.icon}) : super(key: key);
+  const StatusPickerDropDown({Key? key, required this.task, required this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +65,19 @@ class StatusPickerDropDown extends StatelessWidget {
             return PopupMenuItem(
               value: status,
               child: ListTile(
-                title: Text(status.statusName,
+                title: Text(status.statusName!,
                     style: DynamicColorTheme.of(context)
                         .data
                         .textTheme
                         .subtitle1!
                         .copyWith(
                             color: DynamicColorTheme.of(context).isDark
-                                ? colorList[status.statusColor].shade200
-                                : colorList[status.statusColor])),
+                                ? colorList[status.statusColor!].shade200
+                                : colorList[status.statusColor!])),
                 onTap: () {
                   databaseService.updateItem(
-                      type: 'tasks',
-                      itemID: task!.id,
+                      collectionReference: databaseService.taskReference,
+                      objectID: task.id,
                       updateData: {'status': status.statusName});
                   Navigator.pop(context);
                 },

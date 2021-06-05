@@ -1,41 +1,41 @@
-library flutter_speed_dial;
+// library flutter_speed_dial;
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-import 'global_key_extension.dart';
-import 'custom_hole_clipper.dart';
+// import 'global_key_extension.dart';
+// import 'custom_hole_clipper.dart';
 
-class BackgroundOverlay extends AnimatedWidget {
-  final Color? color;
-  final double opacity;
-  final GlobalKey? dialKey;
-  final LayerLink? layerLink;
+// class BackgroundOverlay extends AnimatedWidget {
+//   final Color? color;
+//   final double opacity;
+//   final GlobalKey? dialKey;
+//   final LayerLink? layerLink;
 
-  const BackgroundOverlay({
-    Key? key,
-    required Animation<double> animation,
-    this.dialKey,
-    this.layerLink,
-    this.color = Colors.white,
-    this.opacity = 0.7,
-  }) : super(key: key, listenable: animation);
+//   const BackgroundOverlay({
+//     Key? key,
+//     required Animation<double> animation,
+//     this.dialKey,
+//     this.layerLink,
+//     this.color = Colors.white,
+//     this.opacity = 0.7,
+//   }) : super(key: key, listenable: animation);
 
-  @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation = listenable as Animation<double>;
-    return Opacity(
-      opacity: opacity * animation.value,
-          child: ClipPath(
-      clipper: InvertedClipper(
-        width: dialKey!.globalPaintBounds.size.width, 
-        height: dialKey!.globalPaintBounds.size.height,
-        dy: dialKey!.offset.dy,
-        dx: dialKey!.offset.dx),
-        child: Container(
-              color: color,
-        ),
-      ),
+//   @override
+//   Widget build(BuildContext context) {
+//     final Animation<double> animation = listenable as Animation<double>;
+//     return Opacity(
+//       opacity: opacity * animation.value,
+//           child: ClipPath(
+//       clipper: InvertedClipper(
+//         width: dialKey!.globalPaintBounds.size.width, 
+//         height: dialKey!.globalPaintBounds.size.height,
+//         dy: dialKey!.offset.dy,
+//         dx: dialKey!.offset.dx),
+//         child: Container(
+//               color: color,
+//         ),
+//       ),
           
-    );
-  }
-}
+//     );
+//   }
+// }

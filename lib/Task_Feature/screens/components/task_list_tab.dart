@@ -18,13 +18,12 @@ class _TaskScreenState extends State<TaskScreen>
 
   @override
   Widget build(BuildContext context) {
-    TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     List<Status> statuses = Provider.of<List<Status>>(context);
     return ChangeNotifierProvider(
         create: (context) =>
-            TaskBodyState(taskService: taskService, tasks: tasks, statuses: statuses, projects: projects),
+            TaskBodyState(tasks: tasks, statuses: statuses, projects: projects),
         builder: (context, child) {
           TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
           return Column(mainAxisSize: MainAxisSize.max, children: [

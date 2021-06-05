@@ -8,8 +8,8 @@ import '../../../Services/database.dart';
 
 class StatusEditBottomSheet extends StatelessWidget {
   final Status? status;
-  final bool? isUpdate;
-  StatusEditBottomSheet({Key? key, this.status, this.isUpdate})
+  final bool isUpdate;
+  StatusEditBottomSheet({Key? key, required this.status, required this.isUpdate})
       : super(key: key);
 
   @override
@@ -29,23 +29,21 @@ class StatusEditBottomSheet extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                    hintText: statusEditState.newStatus.statusName.isEmpty
-                        ? 'Enter Status Name'
-                        : statusEditState.newStatus.statusName),
+                    hintText: statusEditState.newStatus.statusName ?? 'Enter Status Name'),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
                   statusEditState.updateStatusName(newText);
                 },
               ),
               ColorSelector(
-                matchColor: isUpdate!
+                matchColor: isUpdate
                     ? DynamicColorTheme.of(context).isDark
-                        ? AppColorList[statusEditState.newStatus.statusColor]
+                        ? AppColorList[statusEditState.newStatus.statusColor!]
                             .shade200
                             .value
-                        : AppColorList[statusEditState.newStatus.statusColor]
+                        : AppColorList[statusEditState.newStatus.statusColor!]
                             .value
-                    : statusEditState.newStatus.statusColor,
+                    : Colors.grey.value,
                 saveColor: statusEditState.updateStatusColor,
                 colorList: AppColorList,
               ),
@@ -63,9 +61,7 @@ class StatusEditBottomSheet extends StatelessWidget {
               TextField(
                 decoration: InputDecoration(
                     hintText:
-                        statusEditState.newStatus.statusDescription.isEmpty
-                            ? 'Enter Status Description'
-                            : statusEditState.newStatus.statusDescription),
+                        statusEditState.newStatus.statusDescription ?? 'Enter Status Description'),
                 textAlign: TextAlign.center,
                 maxLength: 150,
                 maxLines: 3,
@@ -77,18 +73,18 @@ class StatusEditBottomSheet extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
                       icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate! ? 'Update' : 'Add'),
+                      label: Text(isUpdate ? 'Update' : 'Add'),
                       onPressed: () {
-                        isUpdate!
+                        isUpdate
                             ? databaseService.updateItem(
-                                type: 'statuses',
-                                itemID: status!.id,
+                                collectionReference: databaseService.statusReference,
+                                objectID: status!.id,
                                 updateData:
-                                    statusEditState.newStatus.toFirestore())
+                                    statusEditState.newStatus.toJson())
                             : databaseService.addItem(
-                                type: 'statuses',
-                                addData:
-                                    statusEditState.newStatus.toFirestore());
+                                collectionReference: databaseService.statusReference,
+                                object:
+                                    statusEditState.newStatus.toJson());
                         Navigator.pop(context);
                       }))
             ],

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,7 @@ class _ProjectScreenState extends State<ProjectScreen>
                 padding: EdgeInsets.only(bottom: 100),
                 children: projects.map((project) {
                   List<Task> projectTasks = tasks
-                      .where((task) => task.project.id == project.id)
+                      .where((task) => task.project!.id == project.id)
                       .toList();
                   return Container(
                       padding: EdgeInsets.all(10),

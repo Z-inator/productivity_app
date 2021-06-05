@@ -34,33 +34,31 @@ class TimeGraphs {
       List<TimeEntry> timeEntries, DateTime? startDay, DateTime? endDay) {
     List<TimeEntry> timeData = timeEntries
         .where((entry) =>
-            entry.endTime.isAfter(startDay!) && entry.endTime.isBefore(endDay!))
+            entry.endTime!.isAfter(startDay!) && entry.endTime!.isBefore(endDay!))
         .toList();
     return timeData;
   }
 
-  List<Map<DateTime, int>> getTimeBarChartData(TimeService timeService,
-      List<TimeEntry>? timeEntries, List<DateTime> days) {
+  List<Map<DateTime, int>> getTimeBarChartData(List<TimeEntry>? timeEntries, List<DateTime> days) {
     List<Map<DateTime, int>> recordedDailyTime = <Map<DateTime, int>>[];
 
     days.sort((a, b) => a.compareTo(b));
 
     for (DateTime day in days) {
-      int tempTotalTime = int.parse(timeService.getDailyRecordedTime(timeEntries!));
-      recordedDailyTime.add({day: tempTotalTime ?? 0});
+      int tempTotalTime = int.parse(TimeService.getDailyRecordedTime(timeEntries!));
+      recordedDailyTime.add({day: tempTotalTime});
     }
     return recordedDailyTime;
   }
 
-  List<Map<Project, int>> getProjectPieChartData(
-      ProjectService projectService, List<TimeEntry> timeEntries) {
+  List<Map<Project, int>> getProjectPieChartData(List<TimeEntry> timeEntries) {
     List<Map<Project, int>> recordedProjectTime = <Map<Project, int>>[];
     List<Project> projects = getProjects(timeEntries);
     for (Project project in projects) {
-      int projectTime = projectService.getRecordedTime(timeEntries
-          .where((entry) => entry.project.id == project.id)
+      int projectTime = ProjectService.getRecordedTime(timeEntries
+          .where((entry) => entry.project?.id == project.id)
           .toList());
-      recordedProjectTime.add({project: projectTime ?? 0});
+      recordedProjectTime.add({project: projectTime});
     }
     return recordedProjectTime;
   }
@@ -69,7 +67,7 @@ class TimeGraphs {
     List<Project> projects = [];
     for (TimeEntry entry in timeEntries) {
       if (!projects.contains(entry.project)) {
-        projects.add(entry.project);
+        projects.add(entry.project!);
       }
     }
     return projects;
@@ -88,7 +86,7 @@ class TimeGraphs {
   int getTotalTimeRangeTime(List<TimeEntry> timeEntries) {
     int totalTime = 0;
     for (TimeEntry entry in timeEntries) {
-      totalTime += entry.elapsedTime;
+      totalTime += entry.elapsedTime!;
     }
     return totalTime;
   }
@@ -99,9 +97,9 @@ class TaskCharts {
     DateTime today = DateTime.now();
     return tasks
         .where((task) =>
-            task.dueDate.year == today.year &&
-            task.dueDate.month == today.month &&
-            task.dueDate.day == today.day)
+            task.dueDate?.year == today.year &&
+            task.dueDate?.month == today.month &&
+            task.dueDate?.day == today.day)
         .toList();
   }
 
@@ -123,8 +121,8 @@ class TaskCharts {
     }
     return tasks
         .where((task) =>
-            task.dueDate.isAfter(monday.subtract(Duration(days: 1))) &&
-            task.dueDate.isBefore(sunday.add(Duration(days: 1))))
+            task.dueDate!.isAfter(monday.subtract(Duration(days: 1))) &&
+            task.dueDate!.isBefore(sunday.add(Duration(days: 1))))
         .toList();
   }
 
@@ -132,8 +130,8 @@ class TaskCharts {
     DateTime today = DateTime.now();
     return tasks
         .where((task) =>
-            task.dueDate.isBefore(today) &&
-            task.status.equalToComplete == false)
+            task.dueDate!.isBefore(today) &&
+            task.status!.equalToComplete == false)
         .toList();
   }
 }

@@ -5,7 +5,6 @@ import '../../../Task_Feature/Task_Feature.dart';
 class TaskBodyState extends ChangeNotifier {
   int page = 0;
 
-  TaskService? taskService;
   List<Task>? tasks;
   List<Status>? statuses;
   List<Project>? projects;
@@ -17,26 +16,26 @@ class TaskBodyState extends ChangeNotifier {
     Icons.notification_important_rounded,
     Icons.playlist_add_rounded
   ];
-  TaskBodyState({this.taskService, this.tasks, this.statuses, this.projects}) {
+  TaskBodyState({this.tasks, this.statuses, this.projects}) {
     changePage(0);
   }
 
   void changePage(int index) {
     switch (options[index]) {
       case 'Status':
-        currentTaskList = taskService!.getTasksByStatus(tasks!, statuses!);
+        currentTaskList = TaskService.getTasksByStatus(tasks!, statuses!);
         break;
       case 'Project':
-        currentTaskList = taskService!.getTasksByProject(tasks!, projects!);
+        currentTaskList = TaskService.getTasksByProject(tasks!, projects!);
         break;
       case 'Due Date':
-        currentTaskList = taskService!.getTasksByDueDate(tasks!);
+        currentTaskList = TaskService.getTasksByDueDate(tasks!);
         break;
       case 'Create Date':
-        currentTaskList = taskService!.getTasksByCreateDate(tasks!);
+        currentTaskList = TaskService.getTasksByCreateDate(tasks!);
         break;
       default:
-        currentTaskList = taskService!.getTasksByStatus(tasks!, statuses!);
+        currentTaskList = TaskService.getTasksByStatus(tasks!, statuses!);
     }
     page = index;
     notifyListeners();

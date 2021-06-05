@@ -16,17 +16,16 @@ class TimePieChart extends StatelessWidget {
     return Card(
         child: Padding(
       padding: EdgeInsets.all(5),
-      child: Text(project.projectName, style: textStyle),
+      child: Text(project.projectName!, style: textStyle),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
-    ProjectService projectService = Provider.of<ProjectService>(context);
     int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries!);
     List<Map<Project, int>> projectData =
-        timeGraphsState.getProjectPieChartData(projectService, timeEntries!);
+        timeGraphsState.getProjectPieChartData(timeEntries!);
     return Card(
         child: projectData == null
             ? Center(
@@ -76,8 +75,8 @@ class TimePieChart extends StatelessWidget {
       int percentage = ((recordedTime / totalTimeRangeTime) * 100).toInt();
       return PieChartSectionData(
           color: isDark
-              ? colorList[project.projectColor].shade200
-              : colorList[project.projectColor],
+              ? colorList[project.projectColor!].shade200
+              : colorList[project.projectColor!],
           value: recordedTime.toDouble(),
           radius: radius,
           title: '$percentage%',

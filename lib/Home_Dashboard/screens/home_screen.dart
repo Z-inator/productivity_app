@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                       title: Text(user.displayName!,
                         style: DynamicColorTheme.of(context).data.textTheme.headline5),
                       subtitle: Text(DateTimeFunctions()
-                          .dateTimeToTextDate(date: DateTime.now()),
+                          .dateTimeToTextDate(date: DateTime.now())!,
                           style: DynamicColorTheme.of(context).data.textTheme.bodyText2),
                       trailing: IconButton(
                         icon: Icon(Icons.settings_rounded),

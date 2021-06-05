@@ -8,24 +8,24 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Collection Reference
-  CollectionReference? _getTimeEntryReference() {
-    final User? user = _auth.currentUser;
-    if (user == null) {
-      return null;
-    } else {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('timeEntries');
-    }
-  }
+  // // Collection Reference
+  // CollectionReference? _getTimeEntryReference() {
+  //   final User? user = _auth.currentUser;
+  //   if (user == null) {
+  //     return null;
+  //   } else {
+  //     return FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user.uid)
+  //         .collection('timeEntries');
+  //   }
+  // }
 
-  CollectionReference? get timeEntries {
-    return _getTimeEntryReference();
-  }
+  // CollectionReference? get timeEntries {
+  //   return _getTimeEntryReference();
+  // }
 
   // Snapshot Conversion to Time Model and Stream
   // Stream<List<TimeEntry>> streamTimeEntries(BuildContext context) {
@@ -57,13 +57,13 @@ class TimeService {
   //   return tasks;
   // }
 
-  List<Map<String, List<TimeEntry>>> getTimeEntriesByDay(
+  static List<Map<String, List<TimeEntry>>> getTimeEntriesByDay(
       List<TimeEntry> entries) {
     List<Map<String, List<TimeEntry>>> entryMapList = [];
     List<DateTime> days = [];
     for (TimeEntry entry in entries) {
       DateTime tempDate =
-          DateTime(entry.endTime.year, entry.endTime.month, entry.endTime.day);
+          DateTime(entry.endTime!.year, entry.endTime!.month, entry.endTime!.day);
       if (!days.contains(tempDate)) {
         days.add(tempDate);
       }
@@ -72,34 +72,34 @@ class TimeService {
     for (DateTime day in days) {
       List<TimeEntry> tempEntries = entries
           .where((entry) =>
-              entry.endTime.year == day.year &&
-              entry.endTime.month == day.month &&
-              entry.endTime.day == day.day)
+              entry.endTime!.year == day.year &&
+              entry.endTime!.month == day.month &&
+              entry.endTime!.day == day.day)
           .toList();
       entryMapList.add(
-          {DateTimeFunctions().dateTimeToTextDate(date: day): tempEntries});
+          {DateTimeFunctions().dateTimeToTextDate(date: day)!: tempEntries});
     }
     return entryMapList;
   }
 
-  String getDailyRecordedTime(List<TimeEntry> timeEntries) {
+  static String getDailyRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
     for (TimeEntry entry in timeEntries) {
-      recordedTime += entry.elapsedTime;
+      recordedTime += entry.elapsedTime!;
     }
     return DateTimeFunctions().timeToText(seconds: recordedTime);
   }
 
-  List<TimeEntry> getTimeEntriesByProject(
-      List<TimeEntry> timeEntries, Project? project) {
+  static List<TimeEntry> getTimeEntriesByProject(
+      List<TimeEntry> timeEntries, Project project) {
     return timeEntries
-        .where((entry) => entry.project.id == project!.id)
+        .where((entry) => entry.project!.id == project.id)
         .toList();
   }
 
-  List<TimeEntry> getTimeEntriesByTask(List<TimeEntry> timeEntries, Task? task) {
+  static List<TimeEntry> getTimeEntriesByTask(List<TimeEntry> timeEntries, Task task) {
     return timeEntries
-        .where((entry) => entry.entryName == task!.taskName)
+        .where((entry) => entry.entryName == task.taskName)
         .toList();
   }
 

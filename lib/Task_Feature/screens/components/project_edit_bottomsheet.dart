@@ -7,9 +7,9 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Services/database.dart';
 
 class ProjectEditBottomSheet extends StatelessWidget {
-  final bool? isUpdate;
-  final Project? project;
-  ProjectEditBottomSheet({Key? key, this.isUpdate, this.project})
+  bool isUpdate;
+  Project? project;
+  ProjectEditBottomSheet({Key? key, required this.isUpdate, this.project})
       : super(key: key);
 
   @override
@@ -27,31 +27,27 @@ class ProjectEditBottomSheet extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                    hintText: projectEditState.newProject.projectName.isEmpty
-                        ? 'Project Name'
-                        : projectEditState.newProject.projectName),
+                    hintText: projectEditState.newProject.projectName ?? 'Project Name'),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
                   projectEditState.updateProjectName(newText);
                 },
               ),
               ColorSelector(
-                matchColor: isUpdate!
+                matchColor: isUpdate
                     ? DynamicColorTheme.of(context).isDark
-                        ? AppColorList[projectEditState.newProject.projectColor]
+                        ? AppColorList[projectEditState.newProject.projectColor!]
                             .shade200
                             .value
-                        : AppColorList[projectEditState.newProject.projectColor]
+                        : AppColorList[projectEditState.newProject.projectColor!]
                             .value
-                    : projectEditState.newProject.projectColor,
+                    : Colors.grey.value,
                 saveColor: projectEditState.updateProjectColor,
                 colorList: AppColorList,
               ),
               TextField(
                 decoration: InputDecoration(
-                    hintText: projectEditState.newProject.projectClient.isEmpty
-                        ? 'Add Client'
-                        : projectEditState.newProject.projectClient),
+                    hintText: projectEditState.newProject.projectClient ?? 'Add Client'),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
                   projectEditState.updateProjectClient(newText);
@@ -61,18 +57,18 @@ class ProjectEditBottomSheet extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: ElevatedButton.icon(
                       icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate! ? 'Update' : 'Add'),
+                      label: Text(isUpdate ? 'Update' : 'Add'),
                       onPressed: () {
-                        isUpdate!
+                        isUpdate
                             ? databaseService.updateItem(
-                                type: 'projects',
-                                itemID: project!.id,
+                                collectionReference: databaseService.projectReference,
+                                objectID: project!.id,
                                 updateData:
-                                    projectEditState.newProject.toFirestore())
+                                    projectEditState.newProject.toJson())
                             : databaseService.addItem(
-                                type: 'projects',
-                                addData:
-                                    projectEditState.newProject.toFirestore());
+                                collectionReference: databaseService.projectReference,
+                                object:
+                                    projectEditState.newProject);
                         Navigator.pop(context);
                       }))
             ],

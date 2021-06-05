@@ -13,13 +13,13 @@ class TimeEntryBodyState extends ChangeNotifier {
   List<TimeEntry>? currentEntryList = [];
   Project? currentProject;
 
-  void changeEntryList(Project project) {
-    if (project.id.isEmpty) {
+  void changeEntryList(Project? project) {
+    if (project == null) {
       currentEntryList = entries;
       currentProject = null;
     } else {
       currentEntryList =
-        entries!.where((entry) => entry.project.id == project.id).toList();
+        entries!.where((entry) => entry.project!.id == project.id).toList();
     currentProject = project;
     }
     notifyListeners();

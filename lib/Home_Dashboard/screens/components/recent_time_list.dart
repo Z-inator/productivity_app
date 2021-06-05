@@ -25,11 +25,11 @@ class RecentTimeList extends StatelessWidget {
                       leading: IconButton(
                           icon: Icon(Icons.play_arrow_rounded),
                           onPressed: () {}),
-                      title: Text(entry.entryName),
+                      title: Text(entry.entryName!),
                       subtitle: Text(
-                        entry.project.projectName,
+                        entry.project!.projectName!,
                         style:
-                            TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[entry.project.projectColor].shade200 : colorList[entry.project.projectColor]),
+                            TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[entry.project!.projectColor!].shade200 : colorList[entry.project!.projectColor!]),
                       ),
                     );
                   }).toList(),

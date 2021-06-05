@@ -6,7 +6,10 @@ class DateTimeFunctions {
     return date.toDate();
   }
 
-  String dateToText({required DateTime date}) {
+  String? dateToText({required DateTime? date}) {
+    if (date == null) {
+      return null;
+    }
     final String month = date.month.toString().padLeft(2, '0');
     final String day = date.day.toString().padLeft(2, '0');
     final String year = date.year.toString();
@@ -15,12 +18,17 @@ class DateTimeFunctions {
     return '$month/$day/$year - $hour:$minute';
   }
 
-  String dateTimeToTextTime({required DateTime date, required BuildContext context}) {  // TODO: this is broken
+  String dateTimeToTextTime(
+      {required DateTime date, required BuildContext context}) {
+    // TODO: this is broken
     final TimeOfDay timeOfDay = TimeOfDay.fromDateTime(date);
     return timeOfDay.format(context);
   }
 
-  String dateTimeToTextDate({required DateTime date}) {
+  String? dateTimeToTextDate({required DateTime? date}) {
+    if (date == null) {
+      return null;
+    }
     return '${date.month}/${date.day}/${date.year}';
   }
 

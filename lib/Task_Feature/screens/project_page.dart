@@ -1,5 +1,6 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Home_Dashboard/Home_Dashboard.dart';
@@ -8,33 +9,34 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class ProjectPage extends StatelessWidget {
-  final Project? project;
+  final Project project;
   List<Map<dynamic, List<Task>>> taskMap = [];
-  List<Task>? tasks;
-  List<Status>? statuses;
-  List<TimeEntry>? timeEntries;
-  ProjectPage({this.project});
+  List<Map<dynamic, List<TimeEntry>>> timeEntryMap = [];
+  ProjectPage({required this.project});
 
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
-    TaskService taskService = Provider.of<TaskService>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
-        .where((task) => task.project.id == project!.id)
+        .where((task) => task.project?.id == project.id)
         .toList();
     List<Status> statuses = Provider.of<List<Status>>(context);
-    taskMap = taskService.getTasksByStatus(tasks, statuses);
+    taskMap = TaskService.getTasksByStatus(tasks, statuses);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
-        .where((entry) => entry.project.id == project!.id)
+        .where((entry) => entry.project?.id == project.id)
         .toList();
+    timeEntryMap = TimeService.getTimeEntriesByDay(timeEntries);
     return SafeArea(
         child: DefaultTabController(
-      length: 4,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            project!.projectName,
-            style: TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[project!.projectColor].shade200 : colorList[project!.projectColor]),
+            project.projectName!,
+            style: TextStyle(
+                color: DynamicColorTheme.of(context).isDark
+                    ? colorList[project.projectColor!].shade200
+                    : colorList[project.projectColor!]),
           ),
           actions: [
             IconButton(
@@ -53,25 +55,25 @@ class ProjectPage extends StatelessWidget {
                   DynamicColorTheme.of(context).data.unselectedWidgetColor,
               labelColor: Colors.black,
               tabs: [
-                Tab(icon: Icon(Icons.dashboard_rounded)),
+                // Tab(icon: Icon(Icons.dashboard_rounded)),
                 Tab(icon: Icon(Icons.playlist_add_check_rounded)),
                 Tab(icon: Icon(Icons.timer_rounded)),
-                Tab(icon: Icon(Icons.bar_chart_rounded))
+                // Tab(icon: Icon(Icons.bar_chart_rounded))
               ]),
         ),
         body: TabBarView(children: [
-          HomeScreen(),
-          tasks.isEmpty
-              ? Center(child: Text('No Tasks for ${project!.projectName}'))
+          // HomeScreen(),
+          taskMap.isEmpty
+              ? Center(child: Text('No Tasks for ${project.projectName}'))
               : TaskList(
                   taskMap: taskMap,
                   getWidget: (item, numberOfTasks) => StatusExpansionTile(
                       status: item as Status, numberOfTasks: numberOfTasks)),
-          timeEntries.isEmpty
+          timeEntryMap.isEmpty
               ? Center(
-                  child: Text('No Time Recorded for ${project!.projectName}'))
+                  child: Text('No Time Recorded for ${project.projectName}'))
               : TimeEntriesByDay(timeEntries: timeEntries),
-          HomeScreen()
+          // HomeScreen()
         ]),
         floatingActionButton: ProjectPageSpeedDial(project: project),
         floatingActionButtonLocation:

@@ -7,12 +7,12 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Services/database.dart';
 
 class TaskEditBottomSheet extends StatelessWidget {
-  final bool? isUpdate;
+  final bool isUpdate;
   final Task? task;
 
   TaskEditBottomSheet({
     Key? key,
-    this.isUpdate,
+    required this.isUpdate,
     this.task,
   }) : super(key: key);
 
@@ -30,9 +30,7 @@ class TaskEditBottomSheet extends StatelessWidget {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextField(
                 decoration: InputDecoration(
-                    hintText: taskEditState.newTask!.taskName.isEmpty
-                        ? 'Enter Task Name'
-                        : taskEditState.newTask!.taskName),
+                    hintText: taskEditState.newTask.taskName ?? 'Enter Task Name'),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
                   taskEditState.updateTaskName(newText);
@@ -42,26 +40,17 @@ class TaskEditBottomSheet extends StatelessWidget {
                 saveProject: taskEditState.updateTaskProject,
                 child: ListTile(
                   leading: Icon(Icons.topic_rounded,
-                      color: taskEditState.newTask!.project.id.isEmpty
+                      color: taskEditState.newTask.project == null
                           ? Colors.grey
                           : DynamicColorTheme.of(context).isDark
                               ? colorList[taskEditState
-                                      .newTask!.project.projectColor]
+                                      .newTask.project!.projectColor!]
                                   .shade200
                               : colorList[
-                                  taskEditState.newTask!.project.projectColor]),
+                                  taskEditState.newTask.project!.projectColor!]),
                   title: Text(
-                      taskEditState.newTask!.project.id.isEmpty
-                          ? 'Add Project'
-                          : taskEditState.newTask!.project.projectName,
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
-                  trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: DynamicColorTheme.of(context)
-                          .data
-                          .unselectedWidgetColor),
+                      taskEditState.newTask.project!.projectName ?? 'Add Project',),
+                  trailing: Icon(Icons.arrow_drop_down_rounded),
                 ),
               ),
               StatusPicker(
@@ -70,70 +59,62 @@ class TaskEditBottomSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('Due: ',
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
+                  Text('Due: '),
                   OutlinedButton.icon(
                     icon: Icon(Icons.today_rounded),
-                    label: Text(taskEditState.newDueDate == null
-                        ? 'Add Due Date'
-                        : DateTimeFunctions().dateTimeToTextDate(
-                            date: taskEditState.newTask!.dueDate)),
+                    label: Text(DateTimeFunctions().dateTimeToTextDate(
+                            date: taskEditState.newTask.dueDate) 
+                            ?? 'Add Due Date'),
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
-                        initialDate: taskEditState.newTask!.dueDate.year == 1
-                            ? DateTime.now()
-                            : taskEditState.newTask!.dueDate,
+                        initialDate: taskEditState.newTask.dueDate ?? DateTime.now(),
                         saveDate: taskEditState.updateTaskDueDate),
                   ),
-                  taskEditState.newDueDate != null
-                      ? IconButton(
+                  taskEditState.newDueDate == null
+                      ? Container()
+                      : IconButton(
                           icon: Icon(Icons.delete_rounded),
                           onPressed: () {
                             taskEditState.updateTaskDueDate(null);
-                          })
-                      : Container(),
+                          }),
                   taskEditState.newDueDate == null
                       ? Container()
                       : OutlinedButton.icon(
                           icon: Icon(Icons.alarm_rounded),
-                          label: Text(taskEditState.newDueTime == null
-                              ? 'Add Due Time'
-                              : taskEditState.newDueTime!.format(context)),
+                          label: Text(taskEditState.newDueTime?.format(context)
+                              ?? 'Add Due Time'),
                           onPressed: () => DateAndTimePickers().selectTime(
                               context: context,
                               initialTime: taskEditState.newDueTime == null
                                   ? TimeOfDay.now()
                                   : TimeOfDay.fromDateTime(
-                                      taskEditState.newTask!.dueDate),
+                                      taskEditState.newTask.dueDate!),
                               saveTime: taskEditState.updateTaskDueTime),
                         ),
-                  taskEditState.newDueTime != null
-                      ? IconButton(
+                  taskEditState.newDueTime == null
+                      ? Container()
+                      : IconButton(
                           icon: Icon(Icons.delete_rounded),
                           onPressed: () {
                             taskEditState.updateTaskDueTime(null);
                           })
-                      : Container(),
                 ],
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton.icon(
                     icon: Icon(Icons.check_circle_outline_rounded),
-                    label: Text(isUpdate! ? 'Update' : 'Add'),
+                    label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
                       taskEditState.combineDueDate();
-                      isUpdate!
+                      isUpdate
                           ? databaseService.updateItem(
-                              type: 'tasks',
-                              itemID: task!.id,
-                              updateData: taskEditState.newTask!.toFirestore())
+                              collectionReference: databaseService.taskReference,
+                              objectID: task!.id,
+                              updateData: taskEditState.newTask.toJson())
                           : databaseService.addItem(
-                              type: 'tasks',
-                              addData: taskEditState.newTask!.toFirestore());
+                              collectionReference: databaseService.taskReference,
+                              object: taskEditState.newTask);
                       Navigator.pop(context);
                     }),
               )
