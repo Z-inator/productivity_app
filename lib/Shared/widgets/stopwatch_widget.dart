@@ -1,5 +1,7 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Task_Feature/Task_Feature.dart';
+import 'package:productivity_app/Task_Feature/screens/components/components.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Shared/Shared.dart';
@@ -12,6 +14,13 @@ class StopWatchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
+    List<Task> tasks = Provider.of<List<Task>>(context);
+    if (stopwatchState.newEntry.project != null) {
+      tasks = tasks
+          .where((task) =>
+              task.project?.id == stopwatchState.newEntry.project?.id)
+          .toList();
+    }
     return Container(
       child: Card(
         margin: EdgeInsets.all(0),
@@ -29,18 +38,43 @@ class StopWatchTile extends StatelessWidget {
                       entry: stopwatchState.newEntry,
                     ));
               }),
-          title: Text(stopwatchState.newEntry!.task?.taskName ?? ''),
-          subtitle: Text(stopwatchState.newEntry!.project?.projectName ?? '',
-              style: TextStyle(
-                  color: stopwatchState.newEntry?.project != null
-                    ? DynamicColorTheme.of(context).isDark
-                      ? colorList[stopwatchState.newEntry!.project!.projectColor!]
-                          .shade200
-                      : colorList[stopwatchState.newEntry!.project!.projectColor!]
-                    : Colors.grey),
-            ),
+          title: Column(
+            children: [
+              ProjectPicker(
+                saveProject: stopwatchState.updateEntryProject, 
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(stopwatchState.newEntry.project?.projectName ?? 'Add Project',
+                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(
+                          color: stopwatchState.newEntry.project != null
+                            ? DynamicColorTheme.of(context).isDark
+                              ? colorList[stopwatchState.newEntry.project!.projectColor!]
+                                  .shade200
+                              : colorList[stopwatchState.newEntry.project!.projectColor!]
+                            : DynamicColorTheme.of(context).data.colorScheme.onSurface),),
+                    Icon(Icons.arrow_drop_down_rounded)
+                  ],
+                )),
+                  
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  TaskPicker(
+                    tasks: tasks,
+                    saveTask: stopwatchState.updateEntryTask,
+                    child: Text(stopwatchState.newEntry.task?.taskName ?? 'Add Task')
+                  ),
+                  Icon(Icons.arrow_drop_down_outlined)
+                ],
+              ),
+            ],
+          ),
           trailing: Text(DateTimeFunctions()
-              .timeToText(seconds: stopwatchState.elapsedTicks)),
+              .timeToText(seconds: stopwatchState.elapsedTicks),
+              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
         ),
       ),
     );

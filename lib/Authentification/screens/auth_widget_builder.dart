@@ -37,7 +37,7 @@ class AuthWidgetBuilder extends StatelessWidget {
                   StreamProvider<List<Status>>.value(value: Provider.of<DatabaseService>(context).statusListStream, initialData: [], lazy: false),
                   StreamProvider<List<Task>>.value(value: Provider.of<DatabaseService>(context).taskListStream, initialData: [], lazy: false),
                   StreamProvider<List<TimeEntry>>.value(value: Provider.of<DatabaseService>(context).timeEntryListStream, initialData: [], lazy: false),
-                  Provider<StopwatchState>(create: (context) => StopwatchState())
+                  ChangeNotifierProvider<StopwatchState>(create: (context) => StopwatchState())
                 ],
                 child: builder(context, snapshot),
               );

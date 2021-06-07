@@ -1,3 +1,4 @@
+import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:provider/provider.dart';
@@ -39,24 +40,42 @@ class AddSpeedDial extends StatelessWidget {
       childrenButtonSize: 45,
       elevation: 0,
       shape: CircleBorder(),
+      backgroundColor: DynamicColorTheme.of(context).data.colorScheme.secondary,
+      foregroundColor: DynamicColorTheme.of(context).data.colorScheme.onSecondary,
       // openCloseDial: ValueNotifier(_value),
       children: [
         SpeedDialChild(
             child: Icon(Icons.timer_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
             onTap: () => Provider.of<StopwatchState>(context, listen: false)
-                .startStopwatch(oldEntry: TimeEntry())),
+                .startStopwatch()),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(isUpdate: false))),
         SpeedDialChild(
             child: Icon(Icons.rule_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TaskEditBottomSheet(isUpdate: false))),
         SpeedDialChild(
             child: Icon(Icons.topic_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: ProjectEditBottomSheet(isUpdate: false))),
