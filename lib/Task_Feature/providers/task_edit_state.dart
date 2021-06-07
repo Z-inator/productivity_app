@@ -32,7 +32,7 @@ class TaskEditState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTaskStatus(Status status) {
+  void updateTaskStatus(Status? status) {
     newTask.status = status;
     notifyListeners();
   }

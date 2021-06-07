@@ -49,7 +49,7 @@ class TaskEditBottomSheet extends StatelessWidget {
                               : colorList[
                                   taskEditState.newTask.project!.projectColor!]),
                   title: Text(
-                      taskEditState.newTask.project!.projectName ?? 'Add Project',),
+                      taskEditState.newTask.project?.projectName ?? 'Add Project',),
                   trailing: Icon(Icons.arrow_drop_down_rounded),
                 ),
               ),

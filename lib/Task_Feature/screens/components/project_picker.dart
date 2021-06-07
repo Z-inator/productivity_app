@@ -47,11 +47,7 @@ class ProjectPicker extends StatelessWidget {
                         Icons.topic_rounded,
                         color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor!].shade200 : colorList[project.projectColor!],
                       ),
-                      title: Text(project.projectName!,
-                          style: DynamicColorTheme.of(context)
-                              .data
-                              .textTheme
-                              .subtitle1),
+                      title: Text(project.projectName!),
                       onTap: () {
                         saveProject(project);
                         Navigator.pop(context);

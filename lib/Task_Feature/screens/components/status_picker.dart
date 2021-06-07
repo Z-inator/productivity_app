@@ -26,10 +26,11 @@ class StatusPicker extends StatelessWidget {
               onPressed: () {
                 saveStatus(status);
               },
-              icon: Icon(
-                  task.status!.id == status.id
+              icon: Icon(task.status != null
+                  ? task.status?.id == status.id
                       ? Icons.check_circle_rounded
-                      : Icons.circle,
+                      : Icons.circle
+                  : Icons.circle,
                   color: DynamicColorTheme.of(context).isDark
                       ? colorList[status.statusColor!].shade200
                       : colorList[status.statusColor!]),
