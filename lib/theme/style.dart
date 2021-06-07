@@ -84,6 +84,11 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
           alignment: MainAxisAlignment.spaceAround
       ),
 
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
+        primary: colorScheme.secondary,
+        onPrimary: colorScheme.onSecondary
+      )),
+
       primaryTextTheme:
           buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onSurface),
       textTheme: buildTextTheme(base: base.textTheme, color: colorScheme.onSurface)
