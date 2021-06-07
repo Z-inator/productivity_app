@@ -9,7 +9,7 @@ class FilterButtonRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 10),
       scrollDirection: Axis.horizontal,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -48,11 +48,11 @@ class FilterButton extends StatelessWidget {
           onPressed: () => whenPressed(index),
           style: OutlinedButton.styleFrom(
             primary: isSelected
-                ? DynamicColorTheme.of(context).data.primaryColor
-                : DynamicColorTheme.of(context).data.accentColor,
+                ? DynamicColorTheme.of(context).data.colorScheme.onSecondary
+                : DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
             backgroundColor: isSelected
-                ? DynamicColorTheme.of(context).data.accentColor
-                : DynamicColorTheme.of(context).data.primaryColor,
+                ? DynamicColorTheme.of(context).data.colorScheme.secondaryVariant
+                : DynamicColorTheme.of(context).data.colorScheme.primary,
           )),
     );
   }

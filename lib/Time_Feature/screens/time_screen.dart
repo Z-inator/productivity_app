@@ -30,20 +30,22 @@ class _TimeScreenState extends State<TimeScreen>
         Project? currentProject = timeEntryBodyState.currentProject;
         return Column(
           children: [
-            Container(
-              decoration: BoxDecoration(color: DynamicColorTheme.of(context).data.hoverColor),
-              child: ProjectPicker(
-                saveProject: timeEntryBodyState.changeEntryList,
-                child: currentProject != null
-                  ? ListTile(
-                    leading: Icon(Icons.topic_rounded, color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor!].shade200 : colorList[currentProject.projectColor!]),
-                    title: Text(currentProject.projectName!, style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor!].shade200 : colorList[currentProject.projectColor!]))
-                  )
-                  : ListTile(
-                    leading: Icon(Icons.filter_list_rounded),
-                    title: Text('Sort by Project'),
-                  ),
-              ),
+            ProjectPicker(
+              saveProject: timeEntryBodyState.changeEntryList,
+              child: currentProject != null
+                ? ListTile(
+                  leading: Icon(Icons.topic_rounded, color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor!].shade200 : colorList[currentProject.projectColor!]),
+                  title: Text(currentProject.projectName!, style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor!].shade200 : colorList[currentProject.projectColor!])),
+                  trailing: Icon(Icons.expand_more_rounded),
+                )
+                : ListTile(
+                  leading: Icon(Icons.filter_list_rounded),
+                  title: Text('Filter by Project'),
+                  trailing: Icon(Icons.expand_more_rounded),
+                ),
+            ),
+            Divider(
+              color: DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
             ),
             Expanded(child: TimeEntriesByDay(timeEntries: timeEntryBodyState.currentEntryList))
           ],

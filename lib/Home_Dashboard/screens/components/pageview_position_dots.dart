@@ -27,7 +27,7 @@ class PageViewDots extends StatelessWidget {
       width: state.activePage == index ? 12 : 8,
       decoration: BoxDecoration(
           color: state.activePage == index
-              ? DynamicColorTheme.of(context).data.accentColor
+              ? DynamicColorTheme.of(context).color
               : Colors.grey,
           borderRadius: BorderRadius.all(Radius.circular(25))),
     );

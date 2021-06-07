@@ -62,6 +62,9 @@ class _BaseFrameworkState extends State<BaseFramework>
                 ]),
                 bottomNavigationBar: BottomAppBar(
                     child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(top: BorderSide(color: DynamicColorTheme.of(context).data.colorScheme.onBackground), bottom: BorderSide(color: DynamicColorTheme.of(context).data.colorScheme.onBackground))
+                      ),
                   padding: EdgeInsets.only(
                       top: 2), // Added to counteract the TabBar indicator line
                   child: TabBar(

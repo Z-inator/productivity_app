@@ -35,9 +35,11 @@ class TaskExpansionTile extends StatelessWidget {
               .textTheme
               .subtitle1!
               .copyWith(
-                  color: DynamicColorTheme.of(context).isDark
+                  color: task.project != null
+                  ? DynamicColorTheme.of(context).isDark
                       ? colorList[task.project!.projectColor!].shade200
-                      : colorList[task.project!.projectColor!])),
+                      : colorList[task.project!.projectColor!]
+                  : Colors.grey)),
       children: [
         Theme(
           data: DynamicColorTheme.of(context)

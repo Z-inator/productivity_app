@@ -29,7 +29,6 @@ class TimeEntryExpansionTile extends StatelessWidget {
       ),
       title: Text(
         entry.entryName!,
-        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
       ),
       subtitle: Text(entry.project?.projectName ?? 'NO PROJECT',
           style: DynamicColorTheme.of(context)

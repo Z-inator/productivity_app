@@ -4,20 +4,10 @@ import '../../../Shared/Shared.dart';
 
 ThemeData buildDefaultTheme(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
-  //MaterialAccentColor accentMaterialColor = Col;
   ColorScheme colorScheme = buildColorScheme(color: accentColor, isDark: isDark, base: base.colorScheme);
-  // Color iconColor = isDark ? Colors.white : Colors.grey[600];
-  // Color navigationBarIconColor = isDark ? Colors.white : Colors.grey[800];
-  // Color primaryTextColor = isDark ? Colors.white : Colors.black;
-  // Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
   return base.copyWith(
       colorScheme: colorScheme,
-      // primaryColor: isDark ? Colors.grey[900] : Colors.white,
-      // primaryColor: isDark ? accentMaterialColor.shade200 : accentMaterialColor,
-      // primaryColorLight: isDark ? accentMaterialColor.shade100 : accentMaterialColor.shade200,
-      // primaryColorDark: isDark ? accentMaterialColor : accentMaterialColor.shade700,
-      // primaryColorBrightness: isDark ? Brightness.light : Brightness.dark,
-      // accentColor: isDark ? accentMaterialColor.shade200 : accentMaterialColor,
+
       bottomAppBarTheme: base.bottomAppBarTheme.copyWith(elevation: 8),
 
       cardTheme: base.cardTheme.copyWith(
@@ -55,21 +45,16 @@ ThemeData buildDefaultTheme(Color accentColor, bool isDark) {
 
 ThemeData buildThemeData(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
-  //MaterialAccentColor accentMaterialColor = getAccentColor(color: accentColor);
   ColorScheme colorScheme = buildColorScheme(color: accentColor, isDark: isDark, base: base.colorScheme);
-  // Color iconColor = isDark ? Colors.white : Colors.grey[600];
-  // Color navigationBarIconColor = isDark ? Colors.white : Colors.grey[800];
-  // Color primaryTextColor = isDark ? Colors.white : Colors.black;
-  // Color secondaryTextColor = isDark ? Colors.white : Colors.grey[800];
+
   return base.copyWith(
       colorScheme: colorScheme,
-      // primaryColor: isDark ? Colors.grey[900] : Colors.white,
-      // primaryColor: isDark ? accentMaterialColor.shade200 : accentMaterialColor,
-      // primaryColorLight: isDark ? accentMaterialColor.shade100 : accentMaterialColor.shade200,
-      // primaryColorDark: isDark ? accentMaterialColor : accentMaterialColor.shade700,
-      // primaryColorBrightness: isDark ? Brightness.light : Brightness.dark,
-      // accentColor: isDark ? accentMaterialColor.shade200 : accentMaterialColor,
-      bottomAppBarTheme: base.bottomAppBarTheme.copyWith(elevation: 8),
+
+      bottomAppBarTheme: base.bottomAppBarTheme.copyWith(elevation: 16),
+      appBarTheme: base.appBarTheme.copyWith(
+        backgroundColor: colorScheme.surface,
+        elevation: 8,
+      ),
 
       cardTheme: base.cardTheme.copyWith(
           shape: RoundedRectangleBorder(
@@ -100,8 +85,9 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
       ),
 
       primaryTextTheme:
-          buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onPrimary),
-      textTheme: buildTextTheme(base: base.textTheme, color: colorScheme.onPrimary));
+          buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onSurface),
+      textTheme: buildTextTheme(base: base.textTheme, color: colorScheme.onSurface)
+      );
 }
 
 MaterialAccentColor getAccentColor({Color? color}) {
@@ -121,7 +107,7 @@ ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? b
         secondaryVariant: currentColor.shade100,
         onSecondary: Colors.grey.shade900,
         background: Colors.grey.shade900,
-        onBackground: Colors.grey.shade100,
+        onBackground: Colors.grey.shade700,
         surface: Colors.grey.shade800,
         onSurface: Colors.grey.shade100
         );
@@ -134,7 +120,7 @@ ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? b
       secondaryVariant: currentColor.shade700,
       onSecondary: Colors.grey.shade900,
       background: Colors.grey.shade50,
-      onBackground: Colors.grey.shade600,
+      onBackground: Colors.grey.shade300,
       surface: Colors.white,
       onSurface: Colors.grey.shade600
   );
@@ -145,23 +131,29 @@ TextTheme buildTextTheme({required TextTheme base, Color? color}) {
       // button: base.button.copyWith(color: color),
       // caption: base.caption.copyWith(color: color),
       subtitle1: base.subtitle1!.copyWith(
-        fontSize: 16,
-      ),
-      subtitle2: base.subtitle1!.copyWith(
         fontWeight: FontWeight.bold,
         fontSize: 16,
+        color: color
+      ),
+      subtitle2: base.subtitle2!.copyWith(
+        fontSize: 16,
+        color: color
       ),
       bodyText1: base.bodyText1!.copyWith(color: color),
       bodyText2: base.bodyText2!.copyWith(
         fontSize: 14,
+        color: color
       ),
       headline4: base.headline4!.copyWith(
         fontSize: 34,
+        color: color
       ),
       headline5: base.headline5!.copyWith(
         fontSize: 24,
+        color: color
       ),
       headline6: base.headline6!.copyWith(
         fontSize: 20,
+        color: color
       ));
 }
