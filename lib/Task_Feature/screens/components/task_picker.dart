@@ -9,20 +9,17 @@ import '../../../Time_Feature/Time_Feature.dart';
 class TaskPicker extends StatelessWidget {
   final Function(Task?) saveTask;
   final Widget child;
-  const TaskPicker({Key? key, required this.saveTask, required this.child}) : super(key: key);
+  final List<Task> tasks;
+  const TaskPicker(
+      {Key? key,
+      required this.saveTask,
+      required this.child,
+      required this.tasks})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
-    TimeEntryEditState timeEntryEditState =
-        Provider.of<TimeEntryEditState>(context);
-    List<Task> tasks = Provider.of<List<Task>>(context);
-    if (timeEntryEditState.newEntry.project != null) {
-      tasks = tasks
-          .where((task) =>
-              task.project!.id == timeEntryEditState.newEntry.project!.id)
-          .toList();
-    }
     return PopupMenuButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))),
@@ -34,9 +31,7 @@ class TaskPicker extends StatelessWidget {
                 Icons.circle,
                 color: Colors.grey,
               ),
-              title: Text('No Task',
-                  style:
-                      DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              title: Text('No Task'),
               onTap: () {
                 saveTask(null);
                 Navigator.pop(context);
@@ -50,25 +45,22 @@ class TaskPicker extends StatelessWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Column(
-                    children: tasks.map((task) {
-                      return ListTile(
-                        leading: Icon(
-                          Icons.check_circle_rounded,
-                          color: DynamicColorTheme.of(context).isDark
-                              ? colorList[task.status!.statusColor!].shade200
-                              : colorList[task.status!.statusColor!],
-                        ),
-                        title: Text(task.taskName!,
-                            style: DynamicColorTheme.of(context)
-                                .data
-                                .textTheme
-                                .subtitle1),
-                        onTap: () {
-                          saveTask(task);
-                          Navigator.pop(context);
-                        },
-                      );
-                    }).toList(),
+                    children: tasks
+                        .map((task) => ListTile(
+                              leading: Icon(
+                                Icons.check_circle_rounded,
+                                color: DynamicColorTheme.of(context).isDark
+                                    ? colorList[task.status!.statusColor!]
+                                        .shade200
+                                    : colorList[task.status!.statusColor!],
+                              ),
+                              title: Text(task.taskName!),
+                              onTap: () {
+                                saveTask(task);
+                                Navigator.pop(context);
+                              },
+                            ))
+                        .toList(),
                   ),
                 ),
               ),

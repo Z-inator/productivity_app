@@ -24,12 +24,20 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
             Provider.of<DatabaseService>(context);
         final TimeEntryEditState timeEntryEditState =
             Provider.of<TimeEntryEditState>(context);
+        List<Task> tasks = Provider.of<List<Task>>(context);
+        if (timeEntryEditState.newEntry.project != null) {
+          tasks = tasks
+              .where((task) =>
+                  task.project?.id == timeEntryEditState.newEntry.project?.id)
+              .toList();
+        }
         return Container(
             margin: EdgeInsets.all(20),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               TextField(
                 decoration: InputDecoration(
-                    hintText: timeEntryEditState.newEntry.entryName ?? 'Enter Time Entry Name'),
+                    hintText: timeEntryEditState.newEntry.entryName ??
+                        'Enter Time Entry Name'),
                 textAlign: TextAlign.center,
                 onChanged: (newText) {
                   timeEntryEditState.updateEntryName(newText);
@@ -45,40 +53,43 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                               ? colorList[timeEntryEditState
                                       .newEntry.project!.projectColor!]
                                   .shade200
-                              : colorList[
-                                  timeEntryEditState.newEntry.project!.projectColor!]),
+                              : colorList[timeEntryEditState
+                                  .newEntry.project!.projectColor!]),
                   title: Text(
-                      timeEntryEditState.newEntry.project!.projectName ?? 'Add Project',),
+                    timeEntryEditState.newEntry.project?.projectName ??
+                        'Add Project',
+                  ),
                   trailing: Icon(Icons.arrow_drop_down_rounded),
                 ),
               ),
               TaskPicker(
                 saveTask: timeEntryEditState.updateEntryTask,
+                tasks: tasks,
                 child: ListTile(
                   leading: Icon(Icons.check_circle_rounded,
                       color: timeEntryEditState.newEntry.task == null
-                      ? Colors.grey
-                      : DynamicColorTheme.of(context).isDark 
-                          ? colorList[timeEntryEditState.newEntry.task!.status!.statusColor!].shade200 
-                          : colorList[timeEntryEditState.newEntry.task!.status!.statusColor!]),
-                  title: Text(timeEntryEditState.newEntry.task?.taskName ?? 'Add Task'),
-                  trailing: Icon(Icons.arrow_drop_down_rounded,
-                      color: DynamicColorTheme.of(context)
-                          .data
-                          .unselectedWidgetColor),
+                          ? Colors.grey
+                          : DynamicColorTheme.of(context).isDark
+                              ? colorList[timeEntryEditState
+                                      .newEntry.task!.status!.statusColor!]
+                                  .shade200
+                              : colorList[timeEntryEditState
+                                  .newEntry.task!.status!.statusColor!]),
+                  title: Text(timeEntryEditState.newEntry.task?.taskName ??
+                      'Assign Task'),
+                  trailing: Icon(Icons.arrow_drop_down_rounded),
                 ),
               ),
               ListTile(
                 leading: OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
-                        initialDate: isUpdate
-                            ? timeEntryEditState.newEntry.startTime
-                            : DateTime.now(),
+                        initialDate: timeEntryEditState.newEntry.startTime,
                         saveDate: timeEntryEditState.updateDate),
                     icon: Icon(Icons.today_rounded),
                     label: Text(DateTimeFunctions().dateTimeToTextDate(
-                        date: timeEntryEditState.newEntry.startTime)!)),
+                            date: timeEntryEditState.newEntry.startTime) ??
+                        'Add Date')),
                 trailing: OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().buildTimeRangePicker(
                         context: context,
@@ -95,14 +106,15 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                       onPressed: () {
                         isUpdate
                             ? databaseService.updateItem(
-                                collectionReference: databaseService.timeEntryReference,
+                                collectionReference:
+                                    databaseService.timeEntryReference,
                                 objectID: entry!.id,
                                 updateData:
                                     timeEntryEditState.newEntry.toJson())
                             : databaseService.addItem(
-                                collectionReference: databaseService.timeEntryReference,
-                                object:
-                                    timeEntryEditState.newEntry.toJson());
+                                collectionReference:
+                                    databaseService.timeEntryReference,
+                                object: timeEntryEditState.newEntry.toJson());
                         Navigator.pop(context);
                       }))
             ]));
