@@ -10,7 +10,8 @@ class Task {
   Project? project;
   Status? status;
   DateTime? dueDate;
-  DateTime? createDate = DateTime.now();
+  DateTime? dueTime;
+  DateTime? createDate;
 
   Task(
       {this.id,
@@ -18,6 +19,7 @@ class Task {
       this.project,
       this.status,
       this.dueDate,
+      this.dueTime,
       this.createDate});
 
   Task.fromJson(Map<String, Object?> data, DocumentSnapshot snapshot,
@@ -28,6 +30,7 @@ class Task {
             project: project,
             status: status,
             dueDate: (data['dueDate'] as Timestamp?)?.toDate(),
+            dueTime: (data['dueTime'] as Timestamp?)?.toDate(),
             createDate: (data['createDate']! as Timestamp).toDate());
 
   Map<String, Object?> toJson() {
@@ -36,6 +39,7 @@ class Task {
       'project': project?.id,
       'status': status?.id,
       'dueDate': dueDate,
+      'dueTime': dueTime,
       'createDate': createDate,
     };
   }
@@ -47,6 +51,7 @@ class Task {
         project: project,
         status: status,
         dueDate: dueDate,
+        dueTime: dueTime,
         createDate: createDate);
   }
 }

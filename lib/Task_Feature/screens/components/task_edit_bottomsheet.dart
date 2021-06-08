@@ -70,28 +70,28 @@ class TaskEditBottomSheet extends StatelessWidget {
                         initialDate: taskEditState.newTask.dueDate ?? DateTime.now(),
                         saveDate: taskEditState.updateTaskDueDate),
                   ),
-                  taskEditState.newDueDate == null
+                  taskEditState.newTask.dueDate == null
                       ? Container()
                       : IconButton(
                           icon: Icon(Icons.delete_rounded),
                           onPressed: () {
                             taskEditState.updateTaskDueDate(null);
                           }),
-                  taskEditState.newDueDate == null
-                      ? Container()
-                      : OutlinedButton.icon(
+                  taskEditState.showDueTimeButton
+                      ? OutlinedButton.icon(
                           icon: Icon(Icons.alarm_rounded),
-                          label: Text(taskEditState.newDueTime?.format(context)
+                          label: Text(DateTimeFunctions().dateTimeToTextTime(date: taskEditState.newTask.dueTime, context: context)
                               ?? 'Add Due Time'),
                           onPressed: () => DateAndTimePickers().selectTime(
                               context: context,
-                              initialTime: taskEditState.newDueTime == null
+                              initialTime: taskEditState.newTask.dueTime == null
                                   ? TimeOfDay.now()
                                   : TimeOfDay.fromDateTime(
-                                      taskEditState.newTask.dueDate!),
+                                      taskEditState.newTask.dueTime!),
                               saveTime: taskEditState.updateTaskDueTime),
-                        ),
-                  taskEditState.newDueTime == null
+                        )
+                      : Container(),
+                  taskEditState.newTask.dueTime == null
                       ? Container()
                       : IconButton(
                           icon: Icon(Icons.delete_rounded),
@@ -106,7 +106,6 @@ class TaskEditBottomSheet extends StatelessWidget {
                     icon: Icon(Icons.check_circle_outline_rounded),
                     label: Text(isUpdate ? 'Update' : 'Add'),
                     onPressed: () {
-                      taskEditState.combineDueDate();
                       isUpdate
                           ? databaseService.updateItem(
                               collectionReference: databaseService.taskReference,

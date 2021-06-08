@@ -5,21 +5,17 @@ import '../../../Task_Feature/Task_Feature.dart';
 class TaskEditState extends ChangeNotifier {
   late Task newTask;
   final Task? oldTask;
-  bool? showDueTimeButton;
-  DateTime? newDueDate;
-  TimeOfDay? newDueTime;
+  late bool showDueTimeButton;
+  // DateTime? newDueDate;
+  // TimeOfDay? newDueTime;
 
   TaskEditState({this.oldTask}) {
     if (oldTask != null) {
       newTask = oldTask!.copyTask();
-      if (oldTask!.dueDate != null) {
-        newDueDate = DateTime(oldTask!.dueDate!.year, oldTask!.dueDate!.month, oldTask!.dueDate!.day);
-        newDueTime = TimeOfDay.fromDateTime(oldTask!.dueDate!);
-      }
     } else {
-      newTask = Task();
+      newTask = Task(createDate: DateTime.now());
     }
-    showDueTimeButton = newDueTime?.hour != 0;
+    showDueTimeButton = newTask.dueDate != null;
   }
 
   void updateTaskName(String taskName) {
@@ -38,10 +34,9 @@ class TaskEditState extends ChangeNotifier {
   }
 
   void updateTaskDueDate(DateTime? dueDate) {
-    newDueDate = dueDate;
+    newTask.dueDate = dueDate;
     if (dueDate == null) {
       showDueTimeButton = false;
-      newDueTime = null;
     } else {
       showDueTimeButton = true;
     }
@@ -49,16 +44,11 @@ class TaskEditState extends ChangeNotifier {
   }
 
   void updateTaskDueTime(TimeOfDay? dueTime) {
-    newDueTime = dueTime;
+    if (dueTime != null) {
+      newTask.dueTime = DateTime(1, 1, 1, dueTime.hour, dueTime.minute);
+    } else {
+      newTask.dueTime = null;
+    }
     notifyListeners();
-  }
-
-  void combineDueDate() {
-    newTask.dueDate = DateTime(newDueDate!.year, newDueDate!.month,
-        newDueDate!.day, newDueTime!.hour, newDueTime!.minute);
-  }
-
-  void addTaskCreateDate(DateTime createDate) {
-    newTask.createDate = createDate;
   }
 }

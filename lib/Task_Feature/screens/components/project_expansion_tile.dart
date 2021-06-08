@@ -121,9 +121,9 @@ class ProjectExpansionTile extends StatelessWidget {
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
-              project.projectClient == null
+              project.projectClient != null
                   ? ListTile(
-                      title: Text('Client: ${project.projectClient}')
+                      leading: Text('Client: ${project.projectClient}')
                     )
                   : Container(),
             ],

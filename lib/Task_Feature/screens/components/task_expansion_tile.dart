@@ -127,30 +127,22 @@ class TaskExpansionTile extends StatelessWidget {
             children: [
               ListTile(
                 dense: true,
-                leading: OutlinedButton.icon(
-                  style: DynamicColorTheme.of(context)
-                      .data
-                      .outlinedButtonTheme
-                      .style,
-                  icon: Icon(Icons.topic_rounded,
-                      color: task.project != null
-                          ? DynamicColorTheme.of(context).isDark
-                              ? colorList[task.project!.projectColor!].shade200
-                              : colorList[task.project!.projectColor!]
-                          : Colors.grey),
-                  label: Text(task.project?.projectName ?? 'NO PROJECT',
-                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
-                  onPressed: () {
-                    if (task.project == null) {
-                      return;
-                    }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                        return ProjectPage(project: task.project!);
-                      }),
-                    );
-                  },
+                leading: RichText(
+                  text: TextSpan(
+                    text: 'Project: ',
+                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                    children: [
+                      TextSpan(
+                        text: task.project?.projectName ?? 'NO PROJECT',
+                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1?.copyWith(
+                          color: task.project != null
+                            ? DynamicColorTheme.of(context).isDark
+                                ? colorList[task.project!.projectColor!].shade200
+                                : colorList[task.project!.projectColor!]
+                            : Colors.grey),
+                      )
+                    ]
+                  )
                 ),
                 trailing: RichText(
                     text: TextSpan(
@@ -177,17 +169,18 @@ class TaskExpansionTile extends StatelessWidget {
                 dense: true,
                 // leading: Text('Subtasks: $subtaskCount',
                 //     style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
-                title: Text(
+                leading: Text(
                     'Recorded Time: ${DateTimeFunctions().timeToText(seconds: recordedTime)}',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               ListTile(
                 dense: true,
-                title: Text(
-                        'Due: ${DateTimeFunctions().dateToText(date: task.dueDate)}',
-                    style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                leading: Text(
+                        'Due: ${DateTimeFunctions().dateTimeToTextDate(date: task.dueDate) ?? ''}'),
+                trailing: Text(
+                    DateTimeFunctions().dateTimeToTextTime(date: task.dueTime, context: context) ?? ''
+                ),
               ),
               Text(
                   'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',

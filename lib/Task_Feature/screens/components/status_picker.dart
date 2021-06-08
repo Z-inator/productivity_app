@@ -9,12 +9,14 @@ import '../../../Services/database.dart';
 class StatusPicker extends StatelessWidget {
   final Function(Status) saveStatus;
   final Task task;
-  const StatusPicker({Key? key, required this.saveStatus, required this.task}) : super(key: key);
+  const StatusPicker({Key? key, required this.saveStatus, required this.task})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
     final List<Status> statuses = Provider.of<List<Status>>(context);
+    statuses.sort((a, b) => a.statusOrder!.compareTo(b.statusOrder!));
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
       scrollDirection: Axis.horizontal,
@@ -26,11 +28,12 @@ class StatusPicker extends StatelessWidget {
               onPressed: () {
                 saveStatus(status);
               },
-              icon: Icon(task.status != null
-                  ? task.status?.id == status.id
-                      ? Icons.check_circle_rounded
-                      : Icons.circle
-                  : Icons.circle,
+              icon: Icon(
+                  task.status != null
+                      ? task.status?.id == status.id
+                          ? Icons.check_circle_rounded
+                          : Icons.circle
+                      : Icons.circle,
                   color: DynamicColorTheme.of(context).isDark
                       ? colorList[status.statusColor!].shade200
                       : colorList[status.statusColor!]),
@@ -47,7 +50,8 @@ class StatusPickerDropDown extends StatelessWidget {
   final Task task;
   final Icon icon;
 
-  const StatusPickerDropDown({Key? key, required this.task, required this.icon}) : super(key: key);
+  const StatusPickerDropDown({Key? key, required this.task, required this.icon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

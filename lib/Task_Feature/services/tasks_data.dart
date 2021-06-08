@@ -91,6 +91,7 @@ class TaskService {
 
   static List<Map<Status, List<Task>>> getTasksByStatus(
       List<Task> tasks, List<Status> statuses) {
+    statuses.sort((a, b) => a.statusOrder!.compareTo(b.statusOrder!));
     List<Map<Status, List<Task>>> statusMapList = [];
     List<Task> noStatusTasks = [];
     for (Status status in statuses) {
