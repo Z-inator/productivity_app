@@ -38,43 +38,30 @@ class StopWatchTile extends StatelessWidget {
                       entry: stopwatchState.newEntry,
                     ));
               }),
-          title: Column(
+          title: Text(DateTimeFunctions()
+              .timeToText(seconds: stopwatchState.elapsedTicks)),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ProjectPicker(
                 saveProject: stopwatchState.updateEntryProject, 
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(stopwatchState.newEntry.project?.projectName ?? 'Add Project',
-                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(
-                          color: stopwatchState.newEntry.project != null
-                            ? DynamicColorTheme.of(context).isDark
-                              ? colorList[stopwatchState.newEntry.project!.projectColor!]
-                                  .shade200
-                              : colorList[stopwatchState.newEntry.project!.projectColor!]
-                            : DynamicColorTheme.of(context).data.colorScheme.onSurface),),
-                    Icon(Icons.arrow_drop_down_rounded)
-                  ],
-                )),
+                child: Text(stopwatchState.newEntry.project?.projectName ?? 'Add Project',
+                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(
+                      color: stopwatchState.newEntry.project != null
+                        ? DynamicColorTheme.of(context).isDark
+                          ? colorList[stopwatchState.newEntry.project!.projectColor!]
+                              .shade200
+                          : colorList[stopwatchState.newEntry.project!.projectColor!]
+                        : DynamicColorTheme.of(context).data.colorScheme.onSurface),)),
                   
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  TaskPicker(
-                    tasks: tasks,
-                    saveTask: stopwatchState.updateEntryTask,
-                    child: Text(stopwatchState.newEntry.task?.taskName ?? 'Add Task')
-                  ),
-                  Icon(Icons.arrow_drop_down_outlined)
-                ],
+              TaskPicker(
+                tasks: tasks,
+                saveTask: stopwatchState.updateEntryTask,
+                child: Text(stopwatchState.newEntry.task?.taskName ?? 'Add Task',
+                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
               ),
             ],
           ),
-          trailing: Text(DateTimeFunctions()
-              .timeToText(seconds: stopwatchState.elapsedTicks),
-              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
         ),
       ),
     );

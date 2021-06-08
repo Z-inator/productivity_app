@@ -18,9 +18,12 @@ class DateTimeFunctions {
     return '$month/$day/$year - $hour:$minute';
   }
 
-  String dateTimeToTextTime(
-      {required DateTime date, required BuildContext context}) {
+  String? dateTimeToTextTime(
+      {required DateTime? date, required BuildContext context}) {
     // TODO: this is broken
+    if (date == null) {
+      return null;
+    }
     final TimeOfDay timeOfDay = TimeOfDay.fromDateTime(date);
     return timeOfDay.format(context);
   }
