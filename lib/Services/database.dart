@@ -70,8 +70,8 @@ class DatabaseService extends ChangeNotifier {
           ),
           toFirestore: (status, _) => status.toJson(),
         );
-    statusListStream = statusReference?.snapshots()
-        .map((QuerySnapshot<Status> querySnapshot) => querySnapshot.docs
+    statusListStream = statusReference?.snapshots().map(
+        (QuerySnapshot<Status> querySnapshot) => querySnapshot.docs
                 .map((QueryDocumentSnapshot<Status> documentSnapshot) {
               statuses.add(documentSnapshot.data());
               notifyListeners();
@@ -96,8 +96,8 @@ class DatabaseService extends ChangeNotifier {
                   getStatus(snapshot.data()!['status'] as String?)),
           toFirestore: (task, _) => task.toJson(),
         );
-    taskListStream = taskReference?.snapshots()
-        .map((QuerySnapshot<Task> querySnapshot) => querySnapshot.docs
+    taskListStream = taskReference?.snapshots().map(
+        (QuerySnapshot<Task> querySnapshot) => querySnapshot.docs
                 .map((QueryDocumentSnapshot<Task> documentSnapshot) {
               tasks.add(documentSnapshot.data());
               notifyListeners();
@@ -122,8 +122,8 @@ class DatabaseService extends ChangeNotifier {
                   getTask(snapshot.data()!['task'] as String?)),
           toFirestore: (entry, _) => entry.toJson(),
         );
-    timeEntryListStream = timeEntryReference?.snapshots()
-        .map((QuerySnapshot<TimeEntry> querySnapshot) => querySnapshot.docs
+    timeEntryListStream = timeEntryReference?.snapshots().map(
+        (QuerySnapshot<TimeEntry> querySnapshot) => querySnapshot.docs
                 .map((QueryDocumentSnapshot<TimeEntry> documentSnapshot) {
               timeEntries.add(documentSnapshot.data());
               notifyListeners();
@@ -164,21 +164,26 @@ class DatabaseService extends ChangeNotifier {
 
   // Add item to Firestore
   Future<void> addItem(
-      {required CollectionReference<dynamic>? collectionReference, required Object object}) async {
-    return collectionReference?.add(object)
+      {required CollectionReference<dynamic>? collectionReference,
+      required Object object}) async {
+    return collectionReference
+        ?.add(object)
         .then((value) => print('${object.toString()} Added'))
-        .catchError((error) => print('Failed to add ${object.toString()}: $error'));
+        .catchError(
+            (error) => print('Failed to add ${object.toString()}: $error'));
   }
 
   // Update item in Firestore
   Future<void> updateItem(
       {required CollectionReference<dynamic>? collectionReference,
-      required Map<String,Object?> updateData,
+      required Map<String, Object?> updateData,
       String? objectID}) async {
-    return collectionReference?.doc(objectID)
+    return collectionReference
+        ?.doc(objectID)
         .update(updateData)
         .then((value) => print('${collectionReference.path} Updated'))
-        .catchError((error) => print('Failed to add ${collectionReference.path}: $error'));
+        .catchError((error) =>
+            print('Failed to add ${collectionReference.path}: $error'));
   }
 
   // Update batch items in Firestore
@@ -200,12 +205,15 @@ class DatabaseService extends ChangeNotifier {
   }
 
   // Delete item out of Firestore
-  Future<void> deleteItem({required CollectionReference collectionReference, required String objectID}) async {
+  Future<void> deleteItem(
+      {required CollectionReference collectionReference,
+      required String objectID}) async {
     return collectionReference
         .doc(objectID)
         .delete()
         .then((value) => print('${collectionReference.path} Deleted'))
-        .catchError((error) => print('Failed to add ${collectionReference.path}: $error'));
+        .catchError((error) =>
+            print('Failed to add ${collectionReference.path}: $error'));
   }
 
   // Build new user collections
@@ -243,9 +251,22 @@ class DatabaseService extends ChangeNotifier {
           statusDescription:
               'This status represents tasks that have been completed.')
     ];
+    Task exampleTask = Task(
+      createDate: DateTime.now(),
+      taskName: 'This is what an example task will look like',
+    );
+    Project exampleProject = Project(projectName: 'This is an example project');
+    TimeEntry exampleEntry = TimeEntry(
+        entryName: 'This is an example time entry',
+        startTime: DateTime.now(),
+        endTime: DateTime.now().add(Duration(hours: 1)));
+
     statuses.forEach((status) {
       batch.set(userDocument.collection('statuses').doc(), status.toJson());
     });
-    // batch.set(userDocument.collection('tasks').doc(), )
+    batch.set(userDocument.collection('tasks').doc(), exampleTask.toJson());
+    batch.set(
+        userDocument.collection('projects').doc(), exampleProject.toJson());
+    batch.set(userDocument.collection('timeEntries').doc(), exampleEntry.toJson());
   }
 }
