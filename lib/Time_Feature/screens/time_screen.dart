@@ -16,14 +16,25 @@ class _TimeScreenState extends State<TimeScreen>
   @override
   bool get wantKeepAlive => true;
 
+  List<TimeEntry> getTimeEntryGroup(
+      TimeEntryBodyState timeEntryBodyState, List<TimeEntry> timeEntries) {
+    if (timeEntryBodyState.currentProject == null) {
+      return timeEntries;
+    } else {
+      return timeEntries
+          .where((entry) =>
+              entry.project?.id == timeEntryBodyState.currentProject?.id)
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     return ChangeNotifierProvider(
-      create: (context) =>
-          TimeEntryBodyState(entries: timeEntries, projects: projects),
+      create: (context) => TimeEntryBodyState(),
       builder: (context, child) {
         TimeEntryBodyState timeEntryBodyState =
             Provider.of<TimeEntryBodyState>(context);
@@ -31,23 +42,41 @@ class _TimeScreenState extends State<TimeScreen>
         return Column(
           children: [
             ProjectPicker(
-              saveProject: timeEntryBodyState.changeEntryList,
+              saveProject: timeEntryBodyState.changeProject,
               child: currentProject != null
-                ? ListTile(
-                  leading: Icon(Icons.topic_rounded, color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor!].shade200 : colorList[currentProject.projectColor!]),
-                  title: Text(currentProject.projectName!, style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(color: DynamicColorTheme.of(context).isDark ? colorList[currentProject.projectColor!].shade200 : colorList[currentProject.projectColor!])),
-                  trailing: Icon(Icons.expand_more_rounded),
-                )
-                : ListTile(
-                  leading: Icon(Icons.filter_list_rounded),
-                  title: Text('Filter by Project'),
-                  trailing: Icon(Icons.expand_more_rounded),
-                ),
+                  ? ListTile(
+                      leading: Icon(Icons.topic_rounded,
+                          color: DynamicColorTheme.of(context).isDark
+                              ? colorList[currentProject.projectColor!].shade200
+                              : colorList[currentProject.projectColor!]),
+                      title: Text(currentProject.projectName!,
+                          style: DynamicColorTheme.of(context)
+                              .data
+                              .textTheme
+                              .subtitle1!
+                              .copyWith(
+                                  color: DynamicColorTheme.of(context).isDark
+                                      ? colorList[currentProject.projectColor!]
+                                          .shade200
+                                      : colorList[
+                                          currentProject.projectColor!])),
+                      trailing: Icon(Icons.expand_more_rounded),
+                    )
+                  : ListTile(
+                      leading: Icon(Icons.filter_list_rounded),
+                      title: Text('Filter by Project'),
+                      trailing: Icon(Icons.expand_more_rounded),
+                    ),
             ),
             Divider(
-              color: DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
+              color: DynamicColorTheme.of(context)
+                  .data
+                  .colorScheme
+                  .secondaryVariant,
             ),
-            Expanded(child: TimeEntriesByDay(timeEntries: timeEntryBodyState.currentEntryList))
+            Expanded(
+                child: TimeEntriesByDay(
+                    timeEntries: getTimeEntryGroup(timeEntryBodyState, timeEntries)))
           ],
         );
       },

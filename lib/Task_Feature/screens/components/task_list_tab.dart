@@ -16,14 +16,28 @@ class _TaskScreenState extends State<TaskScreen>
   @override
   bool get wantKeepAlive => true;
 
+  List<Map<dynamic, List<Task>>> getTaskGroup(TaskBodyState taskBodyState, List<Task> tasks, List<Status> statuses, List<Project> projects) {
+    switch (taskBodyState.options[taskBodyState.page]) {
+      case 'Status':
+        return TaskService.getTasksByStatus(tasks, statuses);
+      case 'Project':
+        return TaskService.getTasksByProject(tasks, projects);
+      case 'Due Date':
+        return TaskService.getTasksByDueDate(tasks);
+      case 'Create Date':
+        return TaskService.getTasksByCreateDate(tasks);
+      default:
+        return TaskService.getTasksByStatus(tasks, statuses);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Task> tasks = Provider.of<List<Task>>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     List<Status> statuses = Provider.of<List<Status>>(context);
     return ChangeNotifierProvider(
-        create: (context) =>
-            TaskBodyState(tasks: tasks, statuses: statuses, projects: projects),
+        create: (context) => TaskBodyState(),
         builder: (context, child) {
           TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
           return Column(mainAxisSize: MainAxisSize.max, children: [
@@ -32,7 +46,7 @@ class _TaskScreenState extends State<TaskScreen>
                 child: tasks.isEmpty
                     ? Center(child: Text('Add Tasks to see them listed here.'))
                     : TaskList(
-                        taskMap: taskBodyState.currentTaskList,
+                        taskMap: getTaskGroup(taskBodyState, tasks, statuses, projects),
                         getWidget: taskBodyState.getWidget,
                       ))
           ]);
