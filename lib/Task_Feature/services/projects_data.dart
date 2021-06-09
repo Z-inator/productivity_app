@@ -39,7 +39,7 @@ class ProjectService {
   static int getRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
     timeEntries.forEach((entry) {
-      recordedTime += entry.elapsedTime!;
+      recordedTime += entry.elapsedTime;
     });
     return recordedTime;
   }

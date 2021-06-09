@@ -82,12 +82,12 @@ class TimeService {
     return entryMapList;
   }
 
-  static String getDailyRecordedTime(List<TimeEntry> timeEntries) {
+  static int getDailyRecordedTime(List<TimeEntry> timeEntries) {
     int recordedTime = 0;
     for (TimeEntry entry in timeEntries) {
-      recordedTime += entry.elapsedTime!;
+      recordedTime += entry.elapsedTime;
     }
-    return DateTimeFunctions().timeToText(seconds: recordedTime);
+    return recordedTime;
   }
 
   static List<TimeEntry> getTimeEntriesByProject(

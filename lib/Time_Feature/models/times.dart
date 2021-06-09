@@ -6,24 +6,32 @@ class TimeEntry {
   String? id;
   DateTime? startTime;
   DateTime? endTime;
-  int? elapsedTime;
+  int elapsedTime;
   String? entryName;
   Project? project;
   Task? task;
 
-  TimeEntry({this.id, this.entryName, this.project, this.task, this.startTime, this.endTime, this.elapsedTime});
+  TimeEntry(
+      {this.id,
+      this.entryName,
+      this.project,
+      this.task,
+      this.startTime,
+      this.endTime,
+      this.elapsedTime = 0});
 
-  TimeEntry.fromJson(Map<String, Object?> data, DocumentSnapshot snapshot, Project? project, Task? task)
-    : this(
-      id: snapshot.id,
-        entryName: data['entryName'] as String?,
-        project: project,
-        task: task,
-        startTime: (data['startTime'] as Timestamp).toDate(),
-        endTime: (data['endTime'] as Timestamp).toDate(),
-        elapsedTime: (data['endTime'] as Timestamp).toDate()
-            .difference((data['startTime'] as Timestamp).toDate()).inSeconds
-    );
+  TimeEntry.fromJson(Map<String, Object?> data, DocumentSnapshot snapshot,
+      Project? project, Task? task)
+      : this(
+            id: snapshot.id,
+            entryName: data['entryName']! as String,
+            project: project,
+            task: task,
+            startTime: (data['startTime']! as Timestamp).toDate(),
+            endTime: (data['endTime']! as Timestamp).toDate(),
+            elapsedTime: (data['endTime']! as Timestamp).toDate()
+                .difference((data['startTime']! as Timestamp).toDate())
+                .inSeconds);
 
   Map<String, Object?> toJson() {
     return {

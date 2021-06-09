@@ -21,7 +21,7 @@ class DatabaseService extends ChangeNotifier {
   List<Project> projects = [];
   // StreamSubscription<QuerySnapshot>? timeEntrySubscription;
   Stream<List<TimeEntry>>? timeEntryListStream;
-  List<TimeEntry> entries = [];
+  List<TimeEntry> timeEntries = [];
 
   CollectionReference<Task>? taskReference;
   CollectionReference<Project>? projectReference;
@@ -120,12 +120,12 @@ class DatabaseService extends ChangeNotifier {
                   snapshot,
                   getProject(snapshot.data()!['project'] as String?),
                   getTask(snapshot.data()!['task'] as String?)),
-          toFirestore: (entry, _) => entry.toJson(),
+          toFirestore: (timeEntry, _) => timeEntry.toJson(),
         );
     timeEntryListStream = timeEntryReference?.snapshots()
         .map((QuerySnapshot<TimeEntry> querySnapshot) => querySnapshot.docs
                 .map((QueryDocumentSnapshot<TimeEntry> documentSnapshot) {
-              entries.add(documentSnapshot.data());
+              timeEntries.add(documentSnapshot.data());
               notifyListeners();
               return documentSnapshot.data();
             }).toList());
@@ -217,7 +217,7 @@ class DatabaseService extends ChangeNotifier {
     final List<Status> statuses = [
       Status(
           statusName: 'To Do',
-          statusColor: 0,
+          statusColor: 2,
           statusOrder: 1,
           equalToComplete: false,
           statusDescription:
@@ -231,14 +231,14 @@ class DatabaseService extends ChangeNotifier {
               'This status represents tasks that have been started but not completed.'),
       Status(
           statusName: 'Review',
-          statusColor: 9,
+          statusColor: 0,
           statusOrder: 3,
           equalToComplete: false,
           statusDescription:
               'This status represents tasks that have been completed.'),
       Status(
           statusName: 'Done',
-          statusColor: 13,
+          statusColor: 9,
           statusOrder: 4,
           equalToComplete: true,
           statusDescription:
