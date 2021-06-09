@@ -247,6 +247,6 @@ class DatabaseService extends ChangeNotifier {
     statuses.forEach((status) {
       batch.set(userDocument.collection('statuses').doc(), status.toJson());
     });
-    
+    // batch.set(userDocument.collection('tasks').doc(), )
   }
 }

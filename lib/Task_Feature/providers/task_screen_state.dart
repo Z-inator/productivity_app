@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../Task_Feature/Task_Feature.dart';
 
+// This is the issue. these tasks don't update when the stream does.
+// Same applies to time entries
+
 class TaskBodyState extends ChangeNotifier {
   int page = 0;
 
-  List<Task>? tasks;
-  List<Status>? statuses;
-  List<Project>? projects;
-  List<Map<dynamic, List<Task>>> currentTaskList = [];
   List<String> options = ['Status', 'Project', 'Due Date', 'Create Date'];
   List<IconData> icons = [
     Icons.check_circle_rounded,
@@ -16,27 +15,9 @@ class TaskBodyState extends ChangeNotifier {
     Icons.notification_important_rounded,
     Icons.playlist_add_rounded
   ];
-  TaskBodyState({this.tasks, this.statuses, this.projects}) {
-    changePage(0);
-  }
+  TaskBodyState();
 
   void changePage(int index) {
-    switch (options[index]) {
-      case 'Status':
-        currentTaskList = TaskService.getTasksByStatus(tasks!, statuses!);
-        break;
-      case 'Project':
-        currentTaskList = TaskService.getTasksByProject(tasks!, projects!);
-        break;
-      case 'Due Date':
-        currentTaskList = TaskService.getTasksByDueDate(tasks!);
-        break;
-      case 'Create Date':
-        currentTaskList = TaskService.getTasksByCreateDate(tasks!);
-        break;
-      default:
-        currentTaskList = TaskService.getTasksByStatus(tasks!, statuses!);
-    }
     page = index;
     notifyListeners();
   }
