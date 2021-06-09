@@ -18,10 +18,6 @@ class TimeEntryEditState extends ChangeNotifier {
     }
   }
 
-  void updateEntry(TimeEntry entry) {
-    newEntry = entry;
-  }
-
   void updateEntryName(String entryName) {
     newEntry.entryName = entryName;
     notifyListeners();
