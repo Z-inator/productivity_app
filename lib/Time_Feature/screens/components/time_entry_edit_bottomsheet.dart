@@ -114,7 +114,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                             : databaseService.addItem(
                                 collectionReference:
                                     databaseService.timeEntryReference,
-                                object: timeEntryEditState.newEntry.toJson());
+                                object: timeEntryEditState.newEntry);
                         Navigator.pop(context);
                       }))
             ]));

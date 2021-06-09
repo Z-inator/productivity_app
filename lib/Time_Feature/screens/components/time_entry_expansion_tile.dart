@@ -41,7 +41,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                       ? colorList[entry.project!.projectColor!].shade200
                       : colorList[entry.project!.projectColor!]
                     : Colors.grey)),
-      trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime!),
+      trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime),
           style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
       children: [
         Theme(
