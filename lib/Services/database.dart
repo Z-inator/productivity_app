@@ -21,7 +21,7 @@ class DatabaseService extends ChangeNotifier {
   List<Project> projects = [];
   // StreamSubscription<QuerySnapshot>? timeEntrySubscription;
   Stream<List<TimeEntry>>? timeEntryListStream;
-  List<TimeEntry> entries = [];
+  List<TimeEntry> timeEntries = [];
 
   CollectionReference<Task>? taskReference;
   CollectionReference<Project>? projectReference;
@@ -125,11 +125,10 @@ class DatabaseService extends ChangeNotifier {
     timeEntryListStream = timeEntryReference?.snapshots()
         .map((QuerySnapshot<TimeEntry> querySnapshot) => querySnapshot.docs
                 .map((QueryDocumentSnapshot<TimeEntry> documentSnapshot) {
-              entries.add(documentSnapshot.data());
+              timeEntries.add(documentSnapshot.data());
               notifyListeners();
               return documentSnapshot.data();
             }).toList());
-
     // .listen((QuerySnapshot<TimeEntry> querySnapshot) {
     //   querySnapshot.docs.forEach((QueryDocumentSnapshot<TimeEntry> documentSnapshot) {
     //     entries.add(documentSnapshot.data());

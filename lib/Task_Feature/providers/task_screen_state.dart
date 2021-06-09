@@ -15,7 +15,6 @@ class TaskBodyState extends ChangeNotifier {
     Icons.notification_important_rounded,
     Icons.playlist_add_rounded
   ];
-  TaskBodyState();
 
   void changePage(int index) {
     page = index;
