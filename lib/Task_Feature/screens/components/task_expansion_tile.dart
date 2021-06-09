@@ -177,10 +177,11 @@ class TaskExpansionTile extends StatelessWidget {
               ListTile(
                 dense: true,
                 leading: Text(
-                        'Due: ${DateTimeFunctions().dateTimeToTextDate(date: task.dueDate) ?? ''}'),
+                        'Due: ${DateTimeFunctions().dateTimeToTextDate(date: task.dueDate) ?? ''}',
+                        style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: Text(
-                    DateTimeFunctions().dateTimeToTextTime(date: task.dueTime, context: context) ?? ''
-                ),
+                    DateTimeFunctions().dateTimeToTextTime(date: task.dueTime, context: context) ?? '',
+                    style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               Text(
                   'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
