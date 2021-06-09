@@ -50,7 +50,7 @@ class TimeBarChart extends StatelessWidget {
                         border: Border(
                             left: BorderSide(
                                 width: 5,
-                                color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
+                                color: DynamicColorTheme.of(context).data.colorScheme.onSurface),
                             bottom: BorderSide(
                                 width: 5,
                                 color:
@@ -122,7 +122,7 @@ class TimeBarChart extends StatelessWidget {
                         String dayTime = DateTimeFunctions()
                             .timeToText(seconds: entry.values.first);
                         return BarTooltipItem(
-                            '${day.month} / ${day.day}\n$dayTime',
+                            '${day.month.toString()} / ${day.day.toString()}\n$dayTime',
                             DynamicColorTheme.of(context).data
                                 .textTheme
                                 .subtitle1!

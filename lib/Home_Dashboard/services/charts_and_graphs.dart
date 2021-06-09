@@ -27,6 +27,7 @@ class TimeGraphs {
     for (var i = 1; i < daysDifference; i++) {
       days.add(startDay.add(Duration(days: i)));
     }
+    days.sort((a, b) => a.compareTo(b));
     return days;
   }
 
@@ -34,21 +35,25 @@ class TimeGraphs {
       List<TimeEntry> timeEntries, DateTime? startDay, DateTime? endDay) {
     List<TimeEntry> timeData = timeEntries
         .where((entry) =>
-            entry.endTime!.isAfter(startDay!) && entry.endTime!.isBefore(endDay!))
+            entry.endTime!.isAfter(startDay!) &&
+            entry.endTime!.isBefore(endDay!))
         .toList();
     return timeData;
   }
 
-  List<Map<DateTime, int>> getTimeBarChartData(List<TimeEntry>? timeEntries, List<DateTime> days) {
-    List<Map<DateTime, int>> recordedDailyTime = <Map<DateTime, int>>[];
-
-    days.sort((a, b) => a.compareTo(b));
+  List<Map<DateTime, int>> getTimeBarChartData(
+      List<TimeEntry>? timeEntries, List<DateTime> days) {
+    List<Map<DateTime, int>> entryByDateMapList = [];
 
     for (DateTime day in days) {
-      int tempTotalTime = int.parse(TimeService.getDailyRecordedTime(timeEntries!));
-      recordedDailyTime.add({day: tempTotalTime});
+      int tempTotalTime = TimeService.getDailyRecordedTime(
+          timeEntries!.where((entry) => 
+              entry.startTime!.year == day.year &&
+              entry.startTime!.month == day.month &&
+              entry.startTime!.day == day.day).toList());
+      entryByDateMapList.add({day: tempTotalTime});
     }
-    return recordedDailyTime;
+    return entryByDateMapList;
   }
 
   List<Map<Project, int>> getProjectPieChartData(List<TimeEntry> timeEntries) {
@@ -86,7 +91,7 @@ class TimeGraphs {
   int getTotalTimeRangeTime(List<TimeEntry> timeEntries) {
     int totalTime = 0;
     for (TimeEntry entry in timeEntries) {
-      totalTime += entry.elapsedTime!;
+      totalTime += entry.elapsedTime;
     }
     return totalTime;
   }
