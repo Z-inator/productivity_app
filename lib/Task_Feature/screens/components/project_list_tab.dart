@@ -27,15 +27,10 @@ class _ProjectScreenState extends State<ProjectScreen>
             : ListView(
                 padding: EdgeInsets.only(bottom: 100),
                 children: projects.map((project) {
-                  List<Task> projectTasks = tasks
-                      .where((task) => task.project!.id == project.id)
-                      .toList();
                   return Container(
                       padding: EdgeInsets.all(10),
-                      child: Card(
-                          child: ProjectExpansionTile(
-                              project: project,
-                              numberOfTasks: projectTasks.length)));
+                      child:
+                          Card(child: ProjectExpansionTile(project: project)));
                 }).toList());
   }
 }

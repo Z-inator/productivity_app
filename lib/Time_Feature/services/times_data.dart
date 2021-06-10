@@ -93,7 +93,7 @@ class TimeService {
   static List<TimeEntry> getTimeEntriesByProject(
       List<TimeEntry> timeEntries, Project project) {
     return timeEntries
-        .where((entry) => entry.project!.id == project.id)
+        .where((entry) => entry.project?.id == project.id)
         .toList();
   }
 

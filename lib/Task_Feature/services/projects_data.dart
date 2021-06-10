@@ -33,7 +33,8 @@ class ProjectService {
   // }
 
   static int getTaskCount(List<Task> tasks) {
-    return tasks.length;
+    int taskCount = 0;
+    return taskCount += tasks.length;
   }
 
   static int getRecordedTime(List<TimeEntry> timeEntries) {

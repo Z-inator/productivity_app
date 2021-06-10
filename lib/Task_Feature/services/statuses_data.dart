@@ -34,7 +34,8 @@ class StatusService {
   // }
 
   static int getTaskCount(List<Task> tasks, Status status) {
-    return tasks.length;
+    int statusTaskCount = 0;
+    return statusTaskCount += tasks.length;
   }
 
   // // Add Status

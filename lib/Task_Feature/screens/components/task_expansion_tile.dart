@@ -22,11 +22,13 @@ class TaskExpansionTile extends StatelessWidget {
     // int subtaskCount = 0; // TODO: implement Subtasks
     return ExpansionTile(
       leading: Tooltip(
-        message: task.status!.statusName!,
+        message: task.status?.statusName ?? 'NO STATUS',
         child: Icon(Icons.check_circle_rounded,
-            color: DynamicColorTheme.of(context).isDark
-                ? colorList[task.status!.statusColor!].shade200
-                : colorList[task.status!.statusColor!]),
+            color: task.status != null
+                ? DynamicColorTheme.of(context).isDark
+                    ? colorList[task.status!.statusColor!].shade200
+                    : colorList[task.status!.statusColor!]
+                : Colors.grey),
       ),
       title: Text(task.taskName ?? 'NO TASK TITLE'),
       subtitle: Text(task.project!.projectName ?? 'NO PROJECT',
@@ -73,11 +75,11 @@ class TaskExpansionTile extends StatelessWidget {
                   //   tooltip: 'Add Subtask',
                   //   onPressed: () {},
                   // ),
-                  IconButton(
-                    icon: Icon(Icons.alarm_rounded),
-                    tooltip: 'Edit Due Date',
-                    onPressed: () {},
-                  ),
+                  // IconButton(
+                  //   icon: Icon(Icons.alarm_rounded),
+                  //   tooltip: 'Edit Due Date',
+                  //   onPressed: () {},
+                  // ),
                   IconButton(
                     icon: Icon(Icons.delete_rounded),
                     tooltip: 'Delete Task',
@@ -159,10 +161,11 @@ class TaskExpansionTile extends StatelessWidget {
                               .textTheme
                               .subtitle1!
                               .copyWith(
-                                  color: DynamicColorTheme.of(context).isDark
-                                      ? colorList[task.status!.statusColor!]
-                                          .shade200
-                                      : colorList[task.status!.statusColor!]))
+                                  color: task.status != null
+                                      ? DynamicColorTheme.of(context).isDark
+                                          ? colorList[task.status!.statusColor!].shade200
+                                          : colorList[task.status!.statusColor!]
+                                      : Colors.grey))
                     ])),
               ),
               ListTile(

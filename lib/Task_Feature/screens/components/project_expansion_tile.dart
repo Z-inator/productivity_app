@@ -9,8 +9,7 @@ import '../../../Services/database.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
-  final int? numberOfTasks;
-  const ProjectExpansionTile({Key? key, required this.project, this.numberOfTasks}) : super(key: key);
+  const ProjectExpansionTile({Key? key, required this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,11 @@ class ProjectExpansionTile extends StatelessWidget {
         Provider.of<DatabaseService>(context);
     List<TimeEntry> timeEntries = TimeService.getTimeEntriesByProject(
         Provider.of<List<TimeEntry>>(context), project);
+    List<Task> tasks = Provider.of<List<Task>>(context);
     int recordedTime = ProjectService.getRecordedTime(timeEntries);
+    int projectTaskCount = ProjectService.getTaskCount(tasks
+        .where((task) => task.project?.id == project.id)
+        .toList());
     return Theme(
       data: DynamicColorTheme.of(context)
           .data
@@ -113,7 +116,7 @@ class ProjectExpansionTile extends StatelessWidget {
             ),
             children: [
               ListTile(
-                leading: Text('Tasks: $numberOfTasks',
+                leading: Text('Tasks: $projectTaskCount',
                     style:
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
                 trailing: Text(

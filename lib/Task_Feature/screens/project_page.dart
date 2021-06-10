@@ -68,7 +68,7 @@ class ProjectPage extends StatelessWidget {
               : TaskList(
                   taskMap: taskMap,
                   getWidget: (item, numberOfTasks) => StatusExpansionTile(
-                      status: item as Status, numberOfTasks: numberOfTasks)),
+                      status: item as Status)),
           timeEntryMap.isEmpty
               ? Center(
                   child: Text('No Time Recorded for ${project.projectName}'))

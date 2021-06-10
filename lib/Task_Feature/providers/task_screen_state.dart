@@ -25,17 +25,17 @@ class TaskBodyState extends ChangeNotifier {
     switch (options[page]) {
       case 'Status':
         return StatusExpansionTile(
-            status: item as Status, numberOfTasks: numberOfTasks);
+            status: item as Status);
       case 'Project':
         return ProjectExpansionTile(
-            project: item as Project, numberOfTasks: numberOfTasks);
+            project: item as Project);
       case 'Due Date':
         return DayTile(day: item as String, numberOfTasks: numberOfTasks);
       case 'Create Date':
         return DayTile(day: item as String, numberOfTasks: numberOfTasks);
       default:
         return StatusExpansionTile(
-            status: item as Status, numberOfTasks: numberOfTasks);
+            status: item as Status);
     }
   }
 }
