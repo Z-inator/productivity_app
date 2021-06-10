@@ -9,7 +9,7 @@ import '../../../Services/database.dart';
 
 class TaskExpansionTile extends StatelessWidget {
   final Task task;
-  const TaskExpansionTile({Key? key, required this.task});
+  const TaskExpansionTile({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class TaskExpansionTile extends StatelessWidget {
                 : Colors.grey),
       ),
       title: Text(task.taskName ?? 'NO TASK TITLE'),
-      subtitle: Text(task.project!.projectName ?? 'NO PROJECT',
+      subtitle: Text(task.project?.projectName ?? 'NO PROJECT',
           style: DynamicColorTheme.of(context)
               .data
               .textTheme

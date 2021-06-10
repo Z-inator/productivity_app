@@ -53,7 +53,6 @@ class _TaskScreenState extends State<TaskScreen>
         });
   }
 }
-// Working on being able to use TaskList on Project Page as well.
 
 class TaskList extends StatelessWidget {
   List<Map<dynamic, List<Task>>>? taskMap;

@@ -7,6 +7,7 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class TimeScreen extends StatefulWidget {
+  const TimeScreen({Key? key}) : super(key: key);
   @override
   _TimeScreenState createState() => _TimeScreenState();
 }
@@ -76,7 +77,8 @@ class _TimeScreenState extends State<TimeScreen>
             ),
             Expanded(
                 child: TimeEntriesByDay(
-                    timeEntries: getTimeEntryGroup(timeEntryBodyState, timeEntries)))
+                    timeEntries:
+                        getTimeEntryGroup(timeEntryBodyState, timeEntries)))
           ],
         );
       },

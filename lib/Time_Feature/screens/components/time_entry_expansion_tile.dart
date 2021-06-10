@@ -102,30 +102,23 @@ class TimeEntryExpansionTile extends StatelessWidget {
             ),
             children: [
               ListTile(
-                leading: OutlinedButton.icon(
-                  style: DynamicColorTheme.of(context)
-                      .data
-                      .outlinedButtonTheme
-                      .style,
-                  icon: Icon(Icons.topic_rounded,
-                      color: entry.project != null
-                          ? DynamicColorTheme.of(context).isDark
-                              ? colorList[entry.project!.projectColor!].shade200
-                              : colorList[entry.project!.projectColor!]
-                          : Colors.grey),
-                  label: Text(entry.project?.projectName ?? 'NO PROJECT',
-                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
-                  onPressed: () {
-                    if (entry.project == null) {
-                      return;
-                    }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                        return ProjectPage(project: entry.project!);
-                      }),
-                    );
-                  },
+                dense: true,
+                leading: RichText(
+                  text: TextSpan(
+                    text: 'Project: ',
+                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                    children: [
+                      TextSpan(
+                        text: entry.project?.projectName ?? 'NO PROJECT',
+                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1?.copyWith(
+                          color: entry.project != null
+                            ? DynamicColorTheme.of(context).isDark
+                                ? colorList[entry.project!.projectColor!].shade200
+                                : colorList[entry.project!.projectColor!]
+                            : Colors.grey),
+                      )
+                    ]
+                  )
                 ),
                 trailing: Text(
                     '${DateFormat.jm().format(entry.startTime!)} - ${DateFormat.jm().format(entry.endTime!)}',

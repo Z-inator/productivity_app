@@ -99,7 +99,7 @@ class TimeService {
 
   static List<TimeEntry> getTimeEntriesByTask(List<TimeEntry> timeEntries, Task task) {
     return timeEntries
-        .where((entry) => entry.entryName == task.taskName)
+        .where((entry) => entry.task?.id == task.id)
         .toList();
   }
 

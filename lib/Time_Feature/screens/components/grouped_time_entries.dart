@@ -8,9 +8,7 @@ class GroupedTimeEntries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return timeEntries == null
-        ? Center(child: CircularProgressIndicator())
-        : timeEntries!.isEmpty
+    return timeEntries!.isEmpty
             ? Center(child: Text('Record Time Worked to View Here.'))
             : ListBody(
                 children: timeEntries!.map((entry) {

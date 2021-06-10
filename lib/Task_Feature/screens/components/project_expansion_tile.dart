@@ -9,7 +9,8 @@ import '../../../Services/database.dart';
 
 class ProjectExpansionTile extends StatelessWidget {
   final Project project;
-  const ProjectExpansionTile({Key? key, required this.project}) : super(key: key);
+  const ProjectExpansionTile({Key? key, required this.project})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,8 @@ class ProjectExpansionTile extends StatelessWidget {
         Provider.of<List<TimeEntry>>(context), project);
     List<Task> tasks = Provider.of<List<Task>>(context);
     int recordedTime = ProjectService.getRecordedTime(timeEntries);
-    int projectTaskCount = ProjectService.getTaskCount(tasks
-        .where((task) => task.project?.id == project.id)
-        .toList());
+    int projectTaskCount = ProjectService.getTaskCount(
+        tasks.where((task) => task.project?.id == project.id).toList());
     return Theme(
       data: DynamicColorTheme.of(context)
           .data
@@ -30,7 +30,11 @@ class ProjectExpansionTile extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.topic_rounded,
-          color: DynamicColorTheme.of(context).isDark ? colorList[project.projectColor!].shade200 : colorList[project.projectColor!],
+          color: project.projectColor != null
+                  ? DynamicColorTheme.of(context).isDark
+                      ? colorList[project.projectColor!].shade200
+                      : colorList[project.projectColor!]
+                  : Colors.grey,
         ),
         title: Text(
           project.projectName ?? 'NO PROJECT TITLES',
@@ -80,7 +84,9 @@ class ProjectExpansionTile extends StatelessWidget {
                                 label: Text('Delete'),
                                 onPressed: () {
                                   databaseService.deleteItem(
-                                      collectionReference: databaseService.projectReference!, objectID: project.id!);
+                                      collectionReference:
+                                          databaseService.projectReference!,
+                                      objectID: project.id!);
                                   Navigator.pop(context);
                                 })
                           ],
@@ -125,9 +131,7 @@ class ProjectExpansionTile extends StatelessWidget {
                         DynamicColorTheme.of(context).data.textTheme.subtitle2),
               ),
               project.projectClient != null
-                  ? ListTile(
-                      leading: Text('Client: ${project.projectClient}')
-                    )
+                  ? ListTile(leading: Text('Client: ${project.projectClient}'))
                   : Container(),
             ],
           ),
