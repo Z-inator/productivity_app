@@ -21,7 +21,7 @@ class _BaseFrameworkState extends State<BaseFramework>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -55,7 +55,6 @@ class _BaseFrameworkState extends State<BaseFramework>
                           children: [
                         HomeScreen(),
                         TaskProjectScreen(),
-                        Container(),
                         TimeScreen(),
                         TestScreen()
                       ]))
@@ -65,16 +64,12 @@ class _BaseFrameworkState extends State<BaseFramework>
                       decoration: BoxDecoration(
                         border: Border(top: BorderSide(color: DynamicColorTheme.of(context).data.colorScheme.onBackground), bottom: BorderSide(color: DynamicColorTheme.of(context).data.colorScheme.onBackground))
                       ),
-                  padding: EdgeInsets.only(
-                      top: 2), // Added to counteract the TabBar indicator line
-                  child: TabBar(
-                      controller: tabController,
-                      indicatorColor: Colors.transparent,
-                      labelColor: DynamicColorTheme.of(context)
-                          .data
-                          .primaryIconTheme
-                          .color,
-                      tabs: [
+                  // padding: EdgeInsets.only(
+                  //     top: 2), // Added to counteract the TabBar indicator line
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
                         IconButton(
                             icon: Icon(Icons.dashboard_rounded),
                             tooltip: 'Dashboard',
@@ -92,13 +87,13 @@ class _BaseFrameworkState extends State<BaseFramework>
                             icon: Icon(Icons.timelapse_rounded),
                             tooltip: 'Time Log',
                             onPressed: () {
-                              tabController!.animateTo(3);
+                              tabController!.animateTo(2);
                             }),
                         IconButton(
                             icon: Icon(Icons.bar_chart_rounded),
                             tooltip: 'Goals',
                             onPressed: () {
-                              tabController!.animateTo(4);
+                              tabController!.animateTo(3);
                             }),
                       ]),
                 )),

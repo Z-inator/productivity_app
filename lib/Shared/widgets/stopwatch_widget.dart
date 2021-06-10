@@ -26,44 +26,69 @@ class StopWatchTile extends StatelessWidget {
         margin: EdgeInsets.all(0),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.zero)),
-        child: ListTile(
-          leading: IconButton(
-              icon: Icon(Icons.stop_rounded, color: Colors.red),
-              onPressed: () {
-                stopwatchState.stopStopwatch();
-                EditBottomSheet().buildEditBottomSheet(
-                    context: context,
-                    bottomSheet: TimeEntryEditBottomSheet(
-                      isUpdate: false,
-                      entry: stopwatchState.newEntry,
-                    ));
-              }),
-          title: Text(DateTimeFunctions()
-              .timeToText(seconds: stopwatchState.elapsedTicks)),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ProjectPicker(
-                saveProject: stopwatchState.updateEntryProject, 
-                child: Text(stopwatchState.newEntry.project?.projectName ?? 'Add Project',
-                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(
-                      color: stopwatchState.newEntry.project != null
-                        ? DynamicColorTheme.of(context).isDark
-                          ? colorList[stopwatchState.newEntry.project!.projectColor!]
-                              .shade200
-                          : colorList[stopwatchState.newEntry.project!.projectColor!]
-                        : DynamicColorTheme.of(context).data.colorScheme.onSurface),)),
-                  
-              TaskPicker(
-                tasks: tasks,
-                saveTask: stopwatchState.updateEntryTask,
-                child: Text(stopwatchState.newEntry.task?.taskName ?? 'Add Task',
-                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 2,
+              padding: EdgeInsets.all(5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.stop_rounded, color: Colors.red),
+                    onPressed: () {
+                      stopwatchState.stopStopwatch();
+                      EditBottomSheet().buildEditBottomSheet(
+                          context: context,
+                          bottomSheet: TimeEntryEditBottomSheet(
+                            isUpdate: false,
+                            entry: stopwatchState.newEntry,
+                          ));
+                    }
+                  ),
+                  Text(DateTimeFunctions()
+                    .timeToText(seconds: stopwatchState.elapsedTicks),
+                    style: DynamicColorTheme.of(context).data.textTheme.headline5,),
+                ],
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width / 2,
+              padding: EdgeInsets.fromLTRB(5, 5, 20, 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ProjectPicker(
+                  saveProject: stopwatchState.updateEntryProject, 
+                  child: Text(stopwatchState.newEntry.project?.projectName ?? 'Add Project',
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.fade,
+                      maxLines: 2,
+                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(
+                        color: stopwatchState.newEntry.project != null
+                          ? DynamicColorTheme.of(context).isDark
+                            ? colorList[stopwatchState.newEntry.project!.projectColor!]
+                                .shade200
+                            : colorList[stopwatchState.newEntry.project!.projectColor!]
+                          : DynamicColorTheme.of(context).data.colorScheme.onSurface),)),
+                  TaskPicker(
+                    tasks: tasks,
+                    saveTask: stopwatchState.updateEntryTask,
+                    child: Text(stopwatchState.newEntry.task?.taskName ?? 'Add Task',
+                        textAlign: TextAlign.end,
+                        overflow: TextOverflow.fade,
+                        maxLines: 3,
+                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+                  ),
+                ],
+              ),
+            )
+          ],
+        )
+      )
     );
   }
 }

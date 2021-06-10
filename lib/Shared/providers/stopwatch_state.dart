@@ -9,7 +9,7 @@ class StopwatchState extends ChangeNotifier {
   Stopwatch stopwatch = Stopwatch();
   late Timer timer;
   int elapsedTicks = 0;
-  late TimeEntry newEntry;
+  TimeEntry newEntry = TimeEntry();
 
   void startStopwatch({TimeEntry? oldEntry}) {
     if (oldEntry != null) {
@@ -19,6 +19,7 @@ class StopwatchState extends ChangeNotifier {
           startTime: DateTime.now(),
           endTime: DateTime.now().add(Duration(hours: 1)));
     }
+    stopwatch.reset();
     elapsedTicks = 0;
     stopwatch.start();
     onTick();
