@@ -36,7 +36,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                 },
               ),
               ColorSelector(
-                matchColor: isUpdate
+                matchColor: statusEditState.newStatus.statusColor != null
                     ? DynamicColorTheme.of(context).isDark
                         ? AppColorList[statusEditState.newStatus.statusColor!]
                             .shade200
@@ -48,7 +48,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                 colorList: AppColorList,
               ),
               CheckboxListTile(
-                  value: statusEditState.newStatus.equalToComplete,
+                  value: statusEditState.newStatus.equalToComplete ?? false,
                   title: Text('This Status represents Task Complete:',
                       style: DynamicColorTheme.of(context)
                           .data

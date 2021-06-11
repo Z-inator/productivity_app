@@ -2,10 +2,10 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 
 class ColorSelector extends StatelessWidget {
-  int? matchColor;
-  Function? saveColor;
-  List? colorList;
-  ColorSelector({this.matchColor, this.saveColor, this.colorList});
+  int matchColor;
+  Function saveColor;
+  List colorList;
+  ColorSelector({required this.matchColor, required this.saveColor, required this.colorList});
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +14,17 @@ class ColorSelector extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 20),
         scrollDirection: Axis.horizontal,
         child: Row(
-            children: colorList!.map((color) {
+            children: colorList.map((color) {
           return IconButton(
               icon: Icon(
                 matchColor == (isDark ? color.shade200.value : color.value)
                     ? Icons.check_circle_rounded
                     : Icons.circle,
-                color: isDark ? Color(color.shade200.value as int): Color(color.value as int),
+                color: isDark ? Color(color.shade200.value as int) : Color(color.value as int),
                 size: 36,
               ),
               onPressed: () {
-                saveColor!(color.value);
+                saveColor(color.value);
               });
         }).toList()));
   }

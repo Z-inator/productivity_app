@@ -34,7 +34,7 @@ class ProjectEditBottomSheet extends StatelessWidget {
                 },
               ),
               ColorSelector(
-                matchColor: isUpdate
+                matchColor: projectEditState.newProject.projectColor != null
                     ? DynamicColorTheme.of(context).isDark
                         ? AppColorList[projectEditState.newProject.projectColor!]
                             .shade200
