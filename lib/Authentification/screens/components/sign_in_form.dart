@@ -68,30 +68,33 @@ class _SignInFormState extends State<SignInForm> {
                             });
                           },
                         ),
-                        ElevatedButton.icon(
-                          icon: Icon(Icons.check_circle_outline_rounded),
-                          label: Text('Sign In'),
-                          onPressed: () async {
-                            FocusScopeNode currentFocus =
-                                FocusScope.of(context);
-                            if (!currentFocus.hasPrimaryFocus) {
-                              currentFocus.unfocus();
-                            }
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                signingIn = true;
-                              });
-                              dynamic result = await auth
-                                  .signInWithEmailAndPassword(email, password);
-                              if (result != null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(result.toString())));
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: ElevatedButton.icon(
+                            icon: Icon(Icons.check_circle_outline_rounded),
+                            label: Text('Sign In'),
+                            onPressed: () async {
+                              FocusScopeNode currentFocus =
+                                  FocusScope.of(context);
+                              if (!currentFocus.hasPrimaryFocus) {
+                                currentFocus.unfocus();
                               }
-                              setState(() {
-                                signingIn = false;
-                              });
-                            }
-                          },
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  signingIn = true;
+                                });
+                                dynamic result = await auth
+                                    .signInWithEmailAndPassword(email, password);
+                                if (result != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(result.toString())));
+                                }
+                                setState(() {
+                                  signingIn = false;
+                                });
+                              }
+                            },
+                          ),
                         ),
                       ],
                     )),

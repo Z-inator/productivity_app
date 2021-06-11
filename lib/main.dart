@@ -55,9 +55,9 @@ class _ProductivityAppState extends State<ProductivityApp> {
         return DynamicColorTheme(
           data: userSnapshot.hasData
           ? (color, isDark) => buildThemeData(color, isDark)
-          : (color, isDark) => buildDefaultTheme(color = Colors.cyanAccent, isDark = true),
+          : (color, isDark) => buildDefaultTheme(color = Colors.cyanAccent, isDark = false),
           defaultColor: Colors.cyanAccent,
-          defaultIsDark: true,
+          defaultIsDark: false,
           themedWidgetBuilder: (context, theme) {
             return
                 // GestureDetector(

@@ -25,11 +25,18 @@ class _SignInPageState extends State<SignInPage> {
         child: SafeArea(
             child: Scaffold(
                 appBar: AppBar(
-                  backgroundColor: DynamicColorTheme.of(context).data.accentColor,
-                  title: Text('Welcome to the AppName'),
+                  foregroundColor: DynamicColorTheme.of(context)
+                      .data
+                      .colorScheme
+                      .onSecondary,
+                  backgroundColor:
+                      DynamicColorTheme.of(context).data.colorScheme.secondary,
+                  title: Text('Welcome to the AppName',
+                      style: DynamicColorTheme.of(context).data.textTheme.headline6!.copyWith(color: DynamicColorTheme.of(context).data.colorScheme.onSecondary),),
                   actions: [
                     IconButton(
-                      icon: Icon(Icons.help_rounded),
+                      icon: Icon(Icons.help_rounded,
+                          color: DynamicColorTheme.of(context).data.colorScheme.onSecondary),
                       onPressed: () => Navigator.push(context,
                           MaterialPageRoute(builder: (context) => AboutPage())),
                     )
@@ -37,6 +44,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 body: SlidingUpPanel(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                  color: DynamicColorTheme.of(context).data.colorScheme.surface,
                   panelSnapping: true,
                   minHeight: 80,
                   maxHeight: MediaQuery.of(context).size.height - 105,
@@ -58,7 +66,10 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         ListTile(
                             title: Text(isRegister ? 'Register' : 'Sign In',
-                                style: DynamicColorTheme.of(context).data.textTheme.headline6),
+                                style: DynamicColorTheme.of(context)
+                                    .data
+                                    .textTheme
+                                    .headline6),
                             trailing: OutlinedButton.icon(
                               icon: Icon(isRegister
                                   ? Icons.account_circle_rounded
@@ -68,7 +79,6 @@ class _SignInPageState extends State<SignInPage> {
                                 setState(() {
                                   isRegister = !isRegister;
                                 });
-                                print('button is pressed');
                               },
                             )),
                         isRegister ? RegisterForm() : SignInForm(),
@@ -78,11 +88,14 @@ class _SignInPageState extends State<SignInPage> {
                   collapsed: Container(
                       margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          color: DynamicColorTheme.of(context).data.colorScheme.surface),
                       child: ListTile(
-                        tileColor: DynamicColorTheme.of(context).data.cardColor,
                         title: Text('Sign In or Register to get Started',
-                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
+                            style: DynamicColorTheme.of(context)
+                                .data
+                                .textTheme
+                                .headline6),
                       )),
                   header: Container(
                     width: MediaQuery.of(context).size.width,
@@ -93,7 +106,7 @@ class _SignInPageState extends State<SignInPage> {
                         height: 10,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
-                          color: DynamicColorTheme.of(context).data.accentColor,
+                          color: DynamicColorTheme.of(context).data.colorScheme.secondary,
                         ),
                       ),
                     ),

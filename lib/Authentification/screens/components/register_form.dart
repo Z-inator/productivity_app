@@ -132,24 +132,27 @@ class _RegisterFormState extends State<RegisterForm> {
                             }
                           },
                         ),
-                        ElevatedButton.icon(
-                          icon: Icon(Icons.check_circle_outline_rounded),
-                          label: Text('Register'),
-                          onPressed: () async {
-                            FocusScopeNode currentFocus =
-                                FocusScope.of(context);
-                            if (!currentFocus.hasPrimaryFocus) {
-                              currentFocus.unfocus();
-                            }
-                            if (_formKey.currentState!.validate()) {
-                              dynamic result = await auth
-                                  .registerWithEmailAndPassword(email, password!, displayName);
-                              if (result != null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(result.toString())));
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: ElevatedButton.icon(
+                            icon: Icon(Icons.check_circle_outline_rounded),
+                            label: Text('Register'),
+                            onPressed: () async {
+                              FocusScopeNode currentFocus =
+                                  FocusScope.of(context);
+                              if (!currentFocus.hasPrimaryFocus) {
+                                currentFocus.unfocus();
                               }
-                            }
-                          },
+                              if (_formKey.currentState!.validate()) {
+                                dynamic result = await auth
+                                    .registerWithEmailAndPassword(email, password!, displayName);
+                                if (result != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(result.toString())));
+                                }
+                              }
+                            },
+                          ),
                         ),
                       ],
                     )),
