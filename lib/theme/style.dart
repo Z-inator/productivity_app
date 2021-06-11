@@ -34,9 +34,18 @@ ThemeData buildDefaultTheme(Color accentColor, bool isDark) {
               backgroundColor: colorScheme.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25))))),
+      
       buttonBarTheme: base.buttonBarTheme.copyWith(
           alignment: MainAxisAlignment.spaceAround
       ),
+
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25))
+        ),
+        primary: colorScheme.secondary,
+        onPrimary: colorScheme.onSecondary
+      )),
 
       primaryTextTheme:
           buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onPrimary),
@@ -86,7 +95,10 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
 
       elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
         primary: colorScheme.secondary,
-        onPrimary: colorScheme.onSecondary
+        onPrimary: colorScheme.onSecondary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25))
+        ),
       )),
 
       primaryTextTheme:

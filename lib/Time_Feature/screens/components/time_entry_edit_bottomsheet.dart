@@ -84,7 +84,8 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                 leading: OutlinedButton.icon(
                     onPressed: () => DateAndTimePickers().selectDate(
                         context: context,
-                        initialDate: timeEntryEditState.newEntry.startTime,
+                        initialDate: timeEntryEditState.newEntry.startTime ??
+                            DateTime.now(),
                         saveDate: timeEntryEditState.updateDate),
                     icon: Icon(Icons.today_rounded),
                     label: Text(DateTimeFunctions().dateTimeToTextDate(
@@ -96,7 +97,7 @@ class TimeEntryEditBottomSheet extends StatelessWidget {
                         saveTimeRange: timeEntryEditState.updateStartEndTime),
                     icon: Icon(Icons.timelapse_rounded),
                     label: Text(
-                        '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime!).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime!).format(context)}')),
+                        '${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.startTime ?? DateTime.now()).format(context)} - ${TimeOfDay.fromDateTime(timeEntryEditState.newEntry.endTime ?? DateTime.now().add(Duration(hours: 1))).format(context)}')),
               ),
               Container(
                   padding: EdgeInsets.symmetric(vertical: 20),
