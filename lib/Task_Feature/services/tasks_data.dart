@@ -127,7 +127,7 @@ class TaskService {
     List<Task> noDueDateTasks = [];
     List<DateTime> days = [];
     for (Task task in tasks) {
-      if (task.dueDate == null || task.dueTime == null) {
+      if (task.dueDate == null) {
         continue;
       }
       DateTime? tempDate =
@@ -148,7 +148,9 @@ class TaskService {
           .add({DateTimeFunctions().dateTimeToTextDate(date: day)!: tempTasks});
     }
     noDueDateTasks.addAll(tasks.where((task) => task.dueDate == null));
-    dueDateMapList.add({'No Due Date': noDueDateTasks});
+    if (noDueDateTasks.isNotEmpty) {
+      dueDateMapList.add({'No Due Date': noDueDateTasks});
+    }
     return dueDateMapList;
   }
 
