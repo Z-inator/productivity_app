@@ -20,8 +20,8 @@ class _TaskProjectScreenState extends State<TaskProjectScreen> with AutomaticKee
       child: Column(
         children: [
         TabBar(
-          labelStyle: DynamicColorTheme.of(context).data.textTheme.subtitle1,
-          indicatorColor: DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
+          // labelStyle: DynamicColorTheme.of(context).data.textTheme.subtitle1,
+          // indicatorColor: DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
           // labelPadding: EdgeInsets.fromLTRB(5, 20, 5, 10),
             tabs: [
               Tab(

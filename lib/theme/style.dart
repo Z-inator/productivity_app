@@ -2,60 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../Shared/Shared.dart';
 
-ThemeData buildDefaultTheme(Color accentColor, bool isDark) {
-  ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
-  ColorScheme colorScheme = buildColorScheme(color: accentColor, isDark: isDark, base: base.colorScheme);
-  return base.copyWith(
-      colorScheme: colorScheme,
-
-      bottomAppBarTheme: base.bottomAppBarTheme.copyWith(elevation: 8),
-
-      cardTheme: base.cardTheme.copyWith(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-          elevation: 4),
-
-      inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(borderSide: BorderSide()),
-        contentPadding: EdgeInsets.all(10),
-      ),
-
-      iconTheme: base.iconTheme.copyWith(
-        color: colorScheme.onSurface
-      ),
-      primaryIconTheme: base.iconTheme.copyWith(
-        color: colorScheme.onSurface
-      ),
-
-      outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-              primary: colorScheme.secondaryVariant,
-              onSurface: colorScheme.onSecondary,
-              backgroundColor: colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))))),
-      
-      buttonBarTheme: base.buttonBarTheme.copyWith(
-          alignment: MainAxisAlignment.spaceAround
-      ),
-
-      elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25))
-        ),
-        primary: colorScheme.secondary,
-        onPrimary: colorScheme.onSecondary
-      )),
-
-      primaryTextTheme:
-          buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onPrimary),
-      textTheme: buildTextTheme(base: base.textTheme, color: colorScheme.onPrimary));
-}
-
 ThemeData buildThemeData(Color accentColor, bool isDark) {
   ThemeData base = isDark ? ThemeData.dark() : ThemeData.light();
   ColorScheme colorScheme = buildColorScheme(color: accentColor, isDark: isDark, base: base.colorScheme);
-
+  TextTheme textTheme = buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onSurface);
   return base.copyWith(
       colorScheme: colorScheme,
 
@@ -86,7 +36,7 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
           style: OutlinedButton.styleFrom(
               primary: colorScheme.secondaryVariant,
               onSurface: colorScheme.onSecondary,
-              backgroundColor: colorScheme.primary,
+              backgroundColor: colorScheme.background,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25))))),
       buttonBarTheme: base.buttonBarTheme.copyWith(
@@ -101,9 +51,32 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
         ),
       )),
 
-      primaryTextTheme:
-          buildTextTheme(base: base.primaryTextTheme, color: colorScheme.onSurface),
-      textTheme: buildTextTheme(base: base.textTheme, color: colorScheme.onSurface)
+      buttonTheme: ButtonThemeData(
+        colorScheme: colorScheme
+      ),
+
+      // timePickerTheme: base.timePickerTheme.copyWith(
+      //   backgroundColor: colorScheme.background,
+      //   dialHandColor: colorScheme.secondary,
+      //   dialTextColor: colorScheme.onSurface,
+      //   hourMinuteTextColor: colorScheme.onPrimary,
+      //   hourMinuteColor: colorScheme.primary
+      // ),
+
+      tabBarTheme: base.tabBarTheme.copyWith(
+        labelStyle: textTheme.subtitle1,
+        labelColor: colorScheme.secondaryVariant,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+            width: 2,
+            color: colorScheme.secondaryVariant
+          ),
+          
+        )
+      ),
+
+      primaryTextTheme: textTheme,
+      textTheme: textTheme
       );
 }
 
@@ -117,9 +90,9 @@ ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? b
       (materialAccentColor) => materialAccentColor.value == color!.value);
   if (isDark) {
     return base!.copyWith(
-        primary: Colors.grey.shade900,
-        primaryVariant: Colors.grey.shade100,
-        onPrimary: Colors.grey.shade100,
+        primary: currentColor.shade200,
+        primaryVariant: currentColor.shade100,
+        onPrimary: Colors.grey.shade900,
         secondary: currentColor.shade200,
         secondaryVariant: currentColor.shade100,
         onSecondary: Colors.grey.shade900,
@@ -130,9 +103,9 @@ ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? b
         );
   }
   return base!.copyWith(
-      primary: Colors.grey.shade50,
-      primaryVariant: Colors.grey.shade900,
-      onPrimary: Colors.grey.shade600,
+      primary: currentColor.shade700,
+      primaryVariant: currentColor.shade200,
+      onPrimary: Colors.grey.shade100,
       secondary: currentColor.shade400,
       secondaryVariant: currentColor.shade700,
       onSecondary: Colors.grey.shade900,

@@ -2,12 +2,12 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/theme/style.dart';
 import 'package:provider/provider.dart';
 
 import 'Authentification/screens/auth_widget.dart';
 import 'Authentification/screens/auth_widget_builder.dart';
 import 'Authentification/services/authentification_data.dart';
-import 'Theme/style.dart';
 
 
 void main() {
@@ -55,7 +55,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
         return DynamicColorTheme(
           data: userSnapshot.hasData
           ? (color, isDark) => buildThemeData(color, isDark)
-          : (color, isDark) => buildDefaultTheme(color = Colors.cyanAccent, isDark = false),
+          : (color, isDark) => buildThemeData(color = Colors.cyanAccent, isDark = false),
           defaultColor: Colors.cyanAccent,
           defaultIsDark: false,
           themedWidgetBuilder: (context, theme) {

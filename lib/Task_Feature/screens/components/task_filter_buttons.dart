@@ -52,7 +52,7 @@ class FilterButton extends StatelessWidget {
                 : DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
             backgroundColor: isSelected
                 ? DynamicColorTheme.of(context).data.colorScheme.secondaryVariant
-                : DynamicColorTheme.of(context).data.colorScheme.primary,
+                : DynamicColorTheme.of(context).data.colorScheme.background,
           )),
     );
   }
