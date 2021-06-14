@@ -22,72 +22,75 @@ class StatusEditBottomSheet extends StatelessWidget {
         final DatabaseService databaseService =
             Provider.of<DatabaseService>(context);
         // final StatusService statusService = Provider.of<StatusService>(context);
-        return Container(
-          margin: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                    hintText: statusEditState.newStatus.statusName ?? 'Enter Status Name'),
-                textAlign: TextAlign.center,
-                onChanged: (newText) {
-                  statusEditState.updateStatusName(newText);
-                },
-              ),
-              ColorSelector(
-                matchColor: statusEditState.newStatus.statusColor != null
-                    ? DynamicColorTheme.of(context).isDark
-                        ? AppColorList[statusEditState.newStatus.statusColor!]
-                            .shade200
-                            .value
-                        : AppColorList[statusEditState.newStatus.statusColor!]
-                            .value
-                    : Colors.grey.value,
-                saveColor: statusEditState.updateStatusColor,
-                colorList: AppColorList,
-              ),
-              CheckboxListTile(
-                  value: statusEditState.newStatus.equalToComplete ?? false,
-                  title: Text('This Status represents Task Complete:',
-                      style: DynamicColorTheme.of(context)
-                          .data
-                          .textTheme
-                          .subtitle1),
-                  subtitle: Text(
-                      'Checking this box will keep tasks related to this status from displaying as late tasks.'),
-                  onChanged: (bool? value) =>
-                      statusEditState.updateStatusComplete(value)),
-              TextField(
-                decoration: InputDecoration(
-                    hintText:
-                        statusEditState.newStatus.statusDescription ?? 'Enter Status Description'),
-                textAlign: TextAlign.center,
-                maxLength: 150,
-                maxLines: 3,
-                onChanged: (newText) {
-                  statusEditState.updateStatusDescription(newText);
-                },
-              ),
-              Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: ElevatedButton.icon(
-                      icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
-                      onPressed: () {
-                        isUpdate
-                            ? databaseService.updateItem(
-                                collectionReference: databaseService.statusReference,
-                                objectID: status!.id,
-                                updateData:
-                                    statusEditState.newStatus.toJson())
-                            : databaseService.addItem(
-                                collectionReference: databaseService.statusReference,
-                                object:
-                                    statusEditState.newStatus.toJson());
-                        Navigator.pop(context);
-                      }))
-            ],
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: statusEditState.newStatus.statusName ?? 'Enter Status Name'),
+                  textAlign: TextAlign.center,
+                  onChanged: (newText) {
+                    statusEditState.updateStatusName(newText);
+                  },
+                ),
+                ColorSelector(
+                  matchColor: statusEditState.newStatus.statusColor != null
+                      ? DynamicColorTheme.of(context).isDark
+                          ? AppColorList[statusEditState.newStatus.statusColor!]
+                              .shade200
+                              .value
+                          : AppColorList[statusEditState.newStatus.statusColor!]
+                              .value
+                      : Colors.grey.value,
+                  saveColor: statusEditState.updateStatusColor,
+                  colorList: AppColorList,
+                ),
+                CheckboxListTile(
+                    value: statusEditState.newStatus.equalToComplete ?? false,
+                    title: Text('This Status represents Task Complete:',
+                        style: DynamicColorTheme.of(context)
+                            .data
+                            .textTheme
+                            .subtitle1),
+                    subtitle: Text(
+                        'Checking this box will keep tasks related to this status from displaying as late tasks.'),
+                    onChanged: (bool? value) =>
+                        statusEditState.updateStatusComplete(value)),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText:
+                          statusEditState.newStatus.statusDescription ?? 'Enter Status Description'),
+                  textAlign: TextAlign.center,
+                  maxLength: 150,
+                  maxLines: 3,
+                  onChanged: (newText) {
+                    statusEditState.updateStatusDescription(newText);
+                  },
+                ),
+                Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: ElevatedButton.icon(
+                        icon: Icon(Icons.check_circle_outline_rounded),
+                        label: Text(isUpdate ? 'Update' : 'Add'),
+                        onPressed: () {
+                          isUpdate
+                              ? databaseService.updateItem(
+                                  collectionReference: databaseService.statusReference,
+                                  objectID: status!.id,
+                                  updateData:
+                                      statusEditState.newStatus.toJson())
+                              : databaseService.addItem(
+                                  collectionReference: databaseService.statusReference,
+                                  object:
+                                      statusEditState.newStatus.toJson());
+                          Navigator.pop(context);
+                        }))
+              ],
+            ),
           ),
         );
       },

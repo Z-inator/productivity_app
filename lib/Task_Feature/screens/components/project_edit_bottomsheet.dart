@@ -20,58 +20,61 @@ class ProjectEditBottomSheet extends StatelessWidget {
         final DatabaseService databaseService =
             Provider.of<DatabaseService>(context);
         final projectEditState = Provider.of<ProjectEditState>(context);
-        return Container(
-          margin: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                    hintText: projectEditState.newProject.projectName ?? 'Project Name'),
-                textAlign: TextAlign.center,
-                onChanged: (newText) {
-                  projectEditState.updateProjectName(newText);
-                },
-              ),
-              ColorSelector(
-                matchColor: projectEditState.newProject.projectColor != null
-                    ? DynamicColorTheme.of(context).isDark
-                        ? AppColorList[projectEditState.newProject.projectColor!]
-                            .shade200
-                            .value
-                        : AppColorList[projectEditState.newProject.projectColor!]
-                            .value
-                    : Colors.grey.value,
-                saveColor: projectEditState.updateProjectColor,
-                colorList: AppColorList,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                    hintText: projectEditState.newProject.projectClient ?? 'Add Client'),
-                textAlign: TextAlign.center,
-                onChanged: (newText) {
-                  projectEditState.updateProjectClient(newText);
-                },
-              ),
-              Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: ElevatedButton.icon(
-                      icon: Icon(Icons.check_circle_outline_rounded),
-                      label: Text(isUpdate ? 'Update' : 'Add'),
-                      onPressed: () {
-                        isUpdate
-                            ? databaseService.updateItem(
-                                collectionReference: databaseService.projectReference,
-                                objectID: project!.id,
-                                updateData:
-                                    projectEditState.newProject.toJson())
-                            : databaseService.addItem(
-                                collectionReference: databaseService.projectReference,
-                                object:
-                                    projectEditState.newProject);
-                        Navigator.pop(context);
-                      }))
-            ],
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: projectEditState.newProject.projectName ?? 'Project Name'),
+                  textAlign: TextAlign.center,
+                  onChanged: (newText) {
+                    projectEditState.updateProjectName(newText);
+                  },
+                ),
+                ColorSelector(
+                  matchColor: projectEditState.newProject.projectColor != null
+                      ? DynamicColorTheme.of(context).isDark
+                          ? AppColorList[projectEditState.newProject.projectColor!]
+                              .shade200
+                              .value
+                          : AppColorList[projectEditState.newProject.projectColor!]
+                              .value
+                      : Colors.grey.value,
+                  saveColor: projectEditState.updateProjectColor,
+                  colorList: AppColorList,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: projectEditState.newProject.projectClient ?? 'Add Client'),
+                  textAlign: TextAlign.center,
+                  onChanged: (newText) {
+                    projectEditState.updateProjectClient(newText);
+                  },
+                ),
+                Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: ElevatedButton.icon(
+                        icon: Icon(Icons.check_circle_outline_rounded),
+                        label: Text(isUpdate ? 'Update' : 'Add'),
+                        onPressed: () {
+                          isUpdate
+                              ? databaseService.updateItem(
+                                  collectionReference: databaseService.projectReference,
+                                  objectID: project!.id,
+                                  updateData:
+                                      projectEditState.newProject.toJson())
+                              : databaseService.addItem(
+                                  collectionReference: databaseService.projectReference,
+                                  object:
+                                      projectEditState.newProject);
+                          Navigator.pop(context);
+                        }))
+              ],
+            ),
           ),
         );
       },

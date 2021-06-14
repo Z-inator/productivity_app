@@ -25,99 +25,102 @@ class TaskEditBottomSheet extends StatelessWidget {
         final DatabaseService databaseService =
             Provider.of<DatabaseService>(context);
         final TaskEditState taskEditState = Provider.of<TaskEditState>(context);
-        return Container(
-            margin: EdgeInsets.all(20),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              TextField(
-                decoration: InputDecoration(
-                    hintText: taskEditState.newTask.taskName ?? 'Enter Task Name'),
-                textAlign: TextAlign.center,
-                onChanged: (newText) {
-                  taskEditState.updateTaskName(newText);
-                },
-              ),
-              ProjectPicker(
-                saveProject: taskEditState.updateTaskProject,
-                child: ListTile(
-                  leading: Icon(Icons.topic_rounded,
-                      color: taskEditState.newTask.project == null
-                          ? Colors.grey
-                          : DynamicColorTheme.of(context).isDark
-                              ? colorList[taskEditState
-                                      .newTask.project!.projectColor!]
-                                  .shade200
-                              : colorList[
-                                  taskEditState.newTask.project!.projectColor!]),
-                  title: Text(
-                      taskEditState.newTask.project?.projectName ?? 'Add Project',),
-                  trailing: Icon(Icons.arrow_drop_down_rounded),
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+              margin: EdgeInsets.all(20),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: taskEditState.newTask.taskName ?? 'Enter Task Name'),
+                  textAlign: TextAlign.center,
+                  onChanged: (newText) {
+                    taskEditState.updateTaskName(newText);
+                  },
                 ),
-              ),
-              StatusPicker(
-                  saveStatus: taskEditState.updateTaskStatus,
-                  task: taskEditState.newTask),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text('Due: '),
-                  OutlinedButton.icon(
-                    icon: Icon(Icons.today_rounded),
-                    label: Text(DateTimeFunctions().dateTimeToTextDate(
-                            date: taskEditState.newTask.dueDate) 
-                            ?? 'Add Due Date'),
-                    onPressed: () => DateAndTimePickers().selectDate(
-                        context: context,
-                        initialDate: taskEditState.newTask.dueDate ?? DateTime.now(),
-                        saveDate: taskEditState.updateTaskDueDate),
+                ProjectPicker(
+                  saveProject: taskEditState.updateTaskProject,
+                  child: ListTile(
+                    leading: Icon(Icons.topic_rounded,
+                        color: taskEditState.newTask.project == null
+                            ? Colors.grey
+                            : DynamicColorTheme.of(context).isDark
+                                ? colorList[taskEditState
+                                        .newTask.project!.projectColor!]
+                                    .shade200
+                                : colorList[
+                                    taskEditState.newTask.project!.projectColor!]),
+                    title: Text(
+                        taskEditState.newTask.project?.projectName ?? 'Add Project',),
+                    trailing: Icon(Icons.arrow_drop_down_rounded),
                   ),
-                  taskEditState.newTask.dueDate == null
-                      ? Container()
-                      : IconButton(
-                          icon: Icon(Icons.delete_rounded),
-                          onPressed: () {
-                            taskEditState.updateTaskDueDate(null);
-                          }),
-                  taskEditState.showDueTimeButton
-                      ? OutlinedButton.icon(
-                          icon: Icon(Icons.alarm_rounded),
-                          label: Text(DateTimeFunctions().dateTimeToTextTime(date: taskEditState.newTask.dueTime, context: context)
-                              ?? 'Add Due Time'),
-                          onPressed: () => DateAndTimePickers().selectTime(
-                              context: context,
-                              initialTime: taskEditState.newTask.dueTime == null
-                                  ? TimeOfDay.now()
-                                  : TimeOfDay.fromDateTime(
-                                      taskEditState.newTask.dueTime!),
-                              saveTime: taskEditState.updateTaskDueTime),
-                        )
-                      : Container(),
-                  taskEditState.newTask.dueTime == null
-                      ? Container()
-                      : IconButton(
-                          icon: Icon(Icons.delete_rounded),
-                          onPressed: () {
-                            taskEditState.updateTaskDueTime(null);
-                          })
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: ElevatedButton.icon(
-                    icon: Icon(Icons.check_circle_outline_rounded),
-                    label: Text(isUpdate ? 'Update' : 'Add'),
-                    onPressed: () {
-                      isUpdate
-                          ? databaseService.updateItem(
-                              collectionReference: databaseService.taskReference,
-                              objectID: task!.id,
-                              updateData: taskEditState.newTask.toJson())
-                          : databaseService.addItem(
-                              collectionReference: databaseService.taskReference,
-                              object: taskEditState.newTask);
-                      Navigator.pop(context);
-                    }),
-              )
-            ]));
+                ),
+                StatusPicker(
+                    saveStatus: taskEditState.updateTaskStatus,
+                    task: taskEditState.newTask),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text('Due: '),
+                    OutlinedButton.icon(
+                      icon: Icon(Icons.today_rounded),
+                      label: Text(DateTimeFunctions().dateTimeToTextDate(
+                              date: taskEditState.newTask.dueDate) 
+                              ?? 'Add Due Date'),
+                      onPressed: () => DateAndTimePickers().selectDate(
+                          context: context,
+                          initialDate: taskEditState.newTask.dueDate ?? DateTime.now(),
+                          saveDate: taskEditState.updateTaskDueDate),
+                    ),
+                    taskEditState.newTask.dueDate == null
+                        ? Container()
+                        : IconButton(
+                            icon: Icon(Icons.delete_rounded),
+                            onPressed: () {
+                              taskEditState.updateTaskDueDate(null);
+                            }),
+                    taskEditState.showDueTimeButton
+                        ? OutlinedButton.icon(
+                            icon: Icon(Icons.alarm_rounded),
+                            label: Text(DateTimeFunctions().dateTimeToTextTime(date: taskEditState.newTask.dueTime, context: context)
+                                ?? 'Add Due Time'),
+                            onPressed: () => DateAndTimePickers().selectTime(
+                                context: context,
+                                initialTime: taskEditState.newTask.dueTime == null
+                                    ? TimeOfDay.now()
+                                    : TimeOfDay.fromDateTime(
+                                        taskEditState.newTask.dueTime!),
+                                saveTime: taskEditState.updateTaskDueTime),
+                          )
+                        : Container(),
+                    taskEditState.newTask.dueTime == null
+                        ? Container()
+                        : IconButton(
+                            icon: Icon(Icons.delete_rounded),
+                            onPressed: () {
+                              taskEditState.updateTaskDueTime(null);
+                            })
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: ElevatedButton.icon(
+                      icon: Icon(Icons.check_circle_outline_rounded),
+                      label: Text(isUpdate ? 'Update' : 'Add'),
+                      onPressed: () {
+                        isUpdate
+                            ? databaseService.updateItem(
+                                collectionReference: databaseService.taskReference,
+                                objectID: task!.id,
+                                updateData: taskEditState.newTask.toJson())
+                            : databaseService.addItem(
+                                collectionReference: databaseService.taskReference,
+                                object: taskEditState.newTask);
+                        Navigator.pop(context);
+                      }),
+                )
+              ])),
+        );
       },
     );
   }
