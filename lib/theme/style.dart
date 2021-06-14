@@ -145,5 +145,6 @@ TextTheme buildTextTheme({required TextTheme base, Color? color}) {
       headline6: base.headline6!.copyWith(
         fontSize: 20,
         color: color
-      ));
+      ),
+      caption: base.caption!.copyWith(color: color));
 }

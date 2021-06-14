@@ -33,7 +33,7 @@ class DatabaseService extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    projectReference = FirebaseFirestore.instance
+    projectReference = firestore
         .collection('users')
         .doc(user?.uid)
         .collection('projects')
@@ -58,7 +58,7 @@ class DatabaseService extends ChangeNotifier {
     //   });
     //   notifyListeners();
     // });
-    statusReference = FirebaseFirestore.instance
+    statusReference = firestore
         .collection('users')
         .doc(user?.uid)
         .collection('statuses')
@@ -83,7 +83,7 @@ class DatabaseService extends ChangeNotifier {
     //   });
     //   notifyListeners();
     // });
-    taskReference = FirebaseFirestore.instance
+    taskReference = firestore
         .collection('users')
         .doc(user?.uid)
         .collection('tasks')
@@ -109,7 +109,7 @@ class DatabaseService extends ChangeNotifier {
     //   });
     //   notifyListeners();
     // });
-    timeEntryReference = FirebaseFirestore.instance
+    timeEntryReference = firestore
         .collection('users')
         .doc(user?.uid)
         .collection('timeEntries')
@@ -194,8 +194,7 @@ class DatabaseService extends ChangeNotifier {
           .doc(user!.uid)
           .collection(type)
           .doc(item.id.toString());
-      Map<String, dynamic> mapOfItem =
-          item.toJson() as Map<String, dynamic>;
+      Map<String, dynamic> mapOfItem = item.toJson() as Map<String, dynamic>;
       batch.update(documentReference, mapOfItem);
     }
     return batch
@@ -267,6 +266,11 @@ class DatabaseService extends ChangeNotifier {
     batch.set(userDocument.collection('tasks').doc(), exampleTask.toJson());
     batch.set(
         userDocument.collection('projects').doc(), exampleProject.toJson());
-    batch.set(userDocument.collection('timeEntries').doc(), exampleEntry.toJson());
+    batch.set(
+        userDocument.collection('timeEntries').doc(), exampleEntry.toJson());
+  }
+
+  Future<void> deleteUserCollection() async {
+    rootCollection.doc(user!.uid).delete();
   }
 }
