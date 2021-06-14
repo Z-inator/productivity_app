@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:productivity_app/Services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -56,10 +57,10 @@ class AuthService {
       final UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
       if (userCredential != null) {}
-    } on FirebaseAuthException catch (errorrror) {
-      if (errorrror.code == 'user-not-found') {
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'user-not-found') {
         return 'User not found';
-      } else if (errorrror.code == 'wrong-password') {
+      } else if (error.code == 'wrong-password') {
         return 'Wrong password provided';
       }
     }
@@ -134,5 +135,10 @@ class AuthService {
     } catch (error) {
       return 'Error signing out. Try again.';
     }
+  }
+
+  Future<void> deleteUser(DatabaseService databaseService) async {
+    databaseService.deleteUserCollection();
+    user!.delete();
   }
 }
