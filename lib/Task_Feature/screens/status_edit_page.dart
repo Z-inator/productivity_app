@@ -24,6 +24,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
     List<MaterialColor> colorList = AppColorList;
     DatabaseService databaseService = Provider.of<DatabaseService>(context);
     statuses = Provider.of<List<Status>>(context);
+    // statuses.sort((a, b) => a.statusOrder!.compareTo(b.statusOrder!));
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -35,6 +36,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
               status.statusOrder = statuses.indexOf(status) + 1;
             });
             databaseService.updateBatchItems('statuses', statuses);
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Updated Statuses')));
             Navigator.pop(context);
           },
         ),
@@ -60,7 +63,10 @@ class _StatusEditPageState extends State<StatusEditPage> {
           children: statuses.map((status) {
             return ExpansionTile(
               key: Key(status.id!),
-              leading: Icon(Icons.circle, color: DynamicColorTheme.of(context).isDark ? colorList[status.statusColor!].shade200 : colorList[status.statusColor!]),
+              leading: Icon(Icons.circle,
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[status.statusColor!].shade200
+                      : colorList[status.statusColor!]),
               title: Text(
                 status.statusName!,
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -96,7 +102,8 @@ class _StatusEditPageState extends State<StatusEditPage> {
                                       label: Text('Delete'),
                                       onPressed: () {
                                         databaseService.deleteItem(
-                                            collectionReference: databaseService.statusReference!,
+                                            collectionReference: databaseService
+                                                .statusReference!,
                                             objectID: status.id!);
                                         statuses.removeWhere((removeStatus) =>
                                             removeStatus.id == status.id);
@@ -125,8 +132,13 @@ class _StatusEditPageState extends State<StatusEditPage> {
                           .data
                           .textTheme
                           .subtitle1),
-                  subtitle: Text(status.statusDescription ?? 'No Description',
-                      overflow: TextOverflow.fade, maxLines: 3),
+                  subtitle: Text(
+                    status.statusDescription ?? 'No Description',
+                    overflow: TextOverflow.fade,
+                    maxLines: 3,
+                    style:
+                        DynamicColorTheme.of(context).data.textTheme.bodyText1,
+                  ),
                 )
               ],
             );
@@ -152,18 +164,18 @@ class _StatusEditPageState extends State<StatusEditPage> {
                         status: Status(statusOrder: statuses.length + 1),
                       )),
                 ),
-                ElevatedButton.icon(
-                  icon: Icon(Icons.check_circle_outline_rounded),
-                  label: Text('Update'),
-                  onPressed: () {
-                    statuses.forEach((status) {
-                      status.statusOrder = statuses.indexOf(status) + 1;
-                    });
-                    databaseService.updateBatchItems('statuses', statuses);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Updated Statuses')));
-                  },
-                ),
+                // ElevatedButton.icon(
+                //   icon: Icon(Icons.check_circle_outline_rounded),
+                //   label: Text('Update'),
+                //   onPressed: () {
+                //     statuses.forEach((status) {
+                //       status.statusOrder = statuses.indexOf(status) + 1;
+                //     });
+                //     databaseService.updateBatchItems('statuses', statuses);
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(content: Text('Updated Statuses')));
+                //   },
+                // ),
               ],
             ),
           ),

@@ -195,7 +195,7 @@ class DatabaseService extends ChangeNotifier {
           .collection(type)
           .doc(item.id.toString());
       Map<String, dynamic> mapOfItem =
-          item.toFirestore() as Map<String, dynamic>;
+          item.toJson() as Map<String, dynamic>;
       batch.update(documentReference, mapOfItem);
     }
     return batch
