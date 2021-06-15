@@ -32,6 +32,8 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
         color: colorScheme.onSurface
       ),
 
+      unselectedWidgetColor: base.unselectedWidgetColor,
+
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               primary: colorScheme.secondaryVariant,
