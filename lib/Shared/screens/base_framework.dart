@@ -61,14 +61,23 @@ class _BaseFrameworkState extends State<BaseFramework>
                 ]),
                 bottomNavigationBar: BottomAppBar(
                     child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(top: BorderSide(color: DynamicColorTheme.of(context).data.colorScheme.onBackground), bottom: BorderSide(color: DynamicColorTheme.of(context).data.colorScheme.onBackground))
-                      ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(
+                              color: DynamicColorTheme.of(context)
+                                  .data
+                                  .colorScheme
+                                  .onBackground),
+                          bottom: BorderSide(
+                              color: DynamicColorTheme.of(context)
+                                  .data
+                                  .colorScheme
+                                  .onBackground))),
                   // padding: EdgeInsets.only(
                   //     top: 2), // Added to counteract the TabBar indicator line
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         IconButton(
                             icon: Icon(Icons.dashboard_rounded),

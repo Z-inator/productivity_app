@@ -30,10 +30,10 @@ class AddSpeedDial extends StatelessWidget {
       icon: Icons.add_rounded,
       iconTheme: IconThemeData(size: 45),
       activeIcon: Icons.close_rounded,
-      // openCloseDial: Provider.of<AuthService>(context).isDialOpen,
-      // onOpen: () => Provider.of<AuthService>(context, listen: false).isDialOpen.value = true,
-      // onClose: () => Provider.of<AuthService>(context, listen: false).isDialOpen.value = false,
-      renderOverlay: false,
+      closeManually: true,
+      overlayColor: DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
+      overlayOpacity: .1,
+      renderOverlay: true,
       curve: Curves.bounceIn,
       tooltip: 'Add Menu',
       buttonSize: 45,
@@ -41,8 +41,8 @@ class AddSpeedDial extends StatelessWidget {
       elevation: 0,
       shape: CircleBorder(),
       backgroundColor: DynamicColorTheme.of(context).data.colorScheme.secondary,
-      foregroundColor: DynamicColorTheme.of(context).data.colorScheme.onSecondary,
-      // openCloseDial: ValueNotifier(_value),
+      foregroundColor:
+          DynamicColorTheme.of(context).data.colorScheme.onSecondary,
       children: [
         SpeedDialChild(
             child: Icon(Icons.timer_rounded),
