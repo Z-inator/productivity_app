@@ -18,7 +18,6 @@ class TimeEntriesByDay extends StatelessWidget {
         : entryMapList!.isEmpty
             ? Center(child: Text('Record time-tracked to view here.'))
             : ListView(
-                padding: EdgeInsets.only(bottom: 100),
                 children: entryMapList!.map((Map<String, List<TimeEntry>> item) {
                   return Container(
                     padding: EdgeInsets.all(10),

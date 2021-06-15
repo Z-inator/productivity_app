@@ -62,7 +62,6 @@ class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(bottom: 100),
       children: taskMap!.map((Map<dynamic, List<Task>> item) {
         return Container(
           padding: EdgeInsets.all(10),

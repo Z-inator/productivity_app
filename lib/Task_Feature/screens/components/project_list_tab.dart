@@ -25,7 +25,6 @@ class _ProjectScreenState extends State<ProjectScreen>
         : projects.isEmpty
             ? Center(child: Text('Add Projects to see them listed here'))
             : ListView(
-                padding: EdgeInsets.only(bottom: 100),
                 children: projects.map((project) {
                   return Container(
                       padding: EdgeInsets.all(10),

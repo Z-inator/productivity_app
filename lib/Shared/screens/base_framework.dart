@@ -43,7 +43,6 @@ class _BaseFrameworkState extends State<BaseFramework>
                 color: DynamicColorTheme.of(context).data.canvasColor),
             child: SafeArea(
               child: Scaffold(
-                extendBody: true,
                 body: Column(children: [
                   stopwatchState.stopwatch.isRunning
                       ? StopWatchTile()
