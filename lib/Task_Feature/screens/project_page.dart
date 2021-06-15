@@ -8,119 +8,245 @@ import '../../../Shared/Shared.dart';
 import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
-class ProjectPage extends StatelessWidget {
+class ProjectPage extends StatefulWidget {
   final Project project;
-  List<Map<dynamic, List<Task>>> taskMap = [];
-  List<Map<dynamic, List<TimeEntry>>> timeEntryMap = [];
+
   ProjectPage({required this.project});
+
+  @override
+  _ProjectPageState createState() => _ProjectPageState();
+}
+
+class _ProjectPageState extends State<ProjectPage>
+    with TickerProviderStateMixin {
+  List<Map<dynamic, List<Task>>> taskMap = [];
+
+  List<Map<dynamic, List<TimeEntry>>> timeEntryMap = [];
+
+  TabController? tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
-        .where((task) => task.project?.id == project.id)
+        .where((task) => task.project?.id == widget.project.id)
         .toList();
     List<Status> statuses = Provider.of<List<Status>>(context);
     taskMap = TaskService.getTasksByStatus(tasks, statuses);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context)
-        .where((entry) => entry.project?.id == project.id)
+        .where((entry) => entry.project?.id == widget.project.id)
         .toList();
     timeEntryMap = TimeService.getTimeEntriesByDay(timeEntries);
-    return SafeArea(
-        child: DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            project.projectName!,
-            style: TextStyle(
-                color: DynamicColorTheme.of(context).isDark
-                    ? colorList[project.projectColor!].shade200
-                    : colorList[project.projectColor!]),
-          ),
-          actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.edit_rounded,
-                  color:
-                      DynamicColorTheme.of(context).data.unselectedWidgetColor,
+    return ChangeNotifierProvider(
+        create: (context) => PageState(),
+        builder: (context, child) {
+          PageState pageState = Provider.of<PageState>(context);
+          return SafeArea(
+              child: Scaffold(
+            // appBar: AppBar(
+            //   title: Text(
+            //     widget.project.projectName!,
+            //     style: TextStyle(
+            //         color: DynamicColorTheme.of(context).isDark
+            //             ? colorList[widget.project.projectColor!].shade200
+            //             : colorList[widget.project.projectColor!]),
+            //   ),
+            //   actions: [
+            //     IconButton(
+            //         icon: Icon(
+            //           Icons.edit_rounded,
+            //           color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
+            //         ),
+            //         onPressed: () => EditBottomSheet().buildEditBottomSheet(
+            //             context: context,
+            //             bottomSheet: ProjectEditBottomSheet(
+            //                 isUpdate: true, project: widget.project))),
+            //   ],
+            // ),
+            body: Column(
+              children: [
+                stopwatchState.stopwatch.isRunning
+                    ? StopWatchTile()
+                    : Container(),
+                AppBar(
+                  title: Text(
+                    widget.project.projectName!,
+                    style: TextStyle(
+                        color: DynamicColorTheme.of(context).isDark
+                            ? colorList[widget.project.projectColor!].shade200
+                            : colorList[widget.project.projectColor!]),
+                  ),
+                  actions: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.edit_rounded,
+                          color: DynamicColorTheme.of(context)
+                              .data
+                              .unselectedWidgetColor,
+                        ),
+                        onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                            context: context,
+                            bottomSheet: ProjectEditBottomSheet(
+                                isUpdate: true, project: widget.project))),
+                  ],
                 ),
-                onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                    context: context,
-                    bottomSheet: ProjectEditBottomSheet(
-                        isUpdate: true, project: project))),
-          ],
-          bottom: TabBar(
-              unselectedLabelColor:
-                  DynamicColorTheme.of(context).data.unselectedWidgetColor,
-              labelColor: Colors.black,
-              tabs: [
-                // Tab(icon: Icon(Icons.dashboard_rounded)),
-                Tab(icon: Icon(Icons.playlist_add_check_rounded)),
-                Tab(icon: Icon(Icons.timer_rounded)),
-                // Tab(icon: Icon(Icons.bar_chart_rounded))
-              ]),
-        ),
-        body: TabBarView(children: [
-          // HomeScreen(),
-          taskMap.isEmpty
-              ? Center(child: Text('No Tasks for ${project.projectName}'))
-              : TaskList(
-                  taskMap: taskMap,
-                  getWidget: (item, numberOfTasks) => StatusExpansionTile(
-                      status: item as Status)),
-          timeEntryMap.isEmpty
-              ? Center(
-                  child: Text('No Time Recorded for ${project.projectName}'))
-              : TimeEntriesByDay(timeEntries: timeEntries),
-          // HomeScreen()
-        ]),
-        floatingActionButton: ProjectPageSpeedDial(project: project),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniCenterFloat,
-      ),
-    ));
+                Expanded(
+                  child: TabBarView(
+                      controller: tabController,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        // HomeScreen(),
+                        taskMap.isEmpty
+                            ? Center(
+                                child: Text(
+                                    'No Tasks for ${widget.project.projectName}'))
+                            : TaskList(
+                                taskMap: taskMap,
+                                getWidget: (item, numberOfTasks) =>
+                                    StatusExpansionTile(
+                                        status: item as Status)),
+                        timeEntryMap.isEmpty
+                            ? Center(
+                                child: Text(
+                                    'No Time Recorded for ${widget.project.projectName}'))
+                            : TimeEntriesByDay(timeEntries: timeEntries),
+                        // HomeScreen()
+                      ]),
+                ),
+              ],
+            ),
+            bottomNavigationBar: BottomAppBar(
+                child: Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                                color: DynamicColorTheme.of(context)
+                                    .data
+                                    .colorScheme
+                                    .onBackground),
+                            bottom: BorderSide(
+                                color: DynamicColorTheme.of(context)
+                                    .data
+                                    .colorScheme
+                                    .onBackground))),
+                    child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          // IconButton(
+                          //     icon: Icon(Icons.dashboard_rounded),
+                          //     tooltip: 'Dashboard',
+                          //     onPressed: () {
+                          //       tabController!.animateTo(0);
+                          //     }),
+                          IconButton(
+                              icon: Icon(Icons.rule_rounded,
+                                  color: pageState.page == 1
+                                      ? DynamicColorTheme.of(context)
+                                          .data
+                                          .iconTheme
+                                          .color
+                                      : DynamicColorTheme.of(context)
+                                          .data
+                                          .unselectedWidgetColor),
+                              tooltip: 'Tasks',
+                              onPressed: () {
+                                tabController!.animateTo(0);
+                                pageState.changePage(0);
+                              }),
+                          ProjectPageSpeedDial(project: widget.project),
+                          IconButton(
+                              icon: Icon(Icons.timelapse_rounded,
+                                  color: pageState.page == 1
+                                      ? DynamicColorTheme.of(context)
+                                          .data
+                                          .iconTheme
+                                          .color
+                                      : DynamicColorTheme.of(context)
+                                          .data
+                                          .unselectedWidgetColor),
+                              tooltip: 'Time Log',
+                              onPressed: () {
+                                tabController!.animateTo(1);
+                                pageState.changePage(1);
+                              }),
+                          // IconButton(
+                          //     icon: Icon(Icons.bar_chart_rounded),
+                          //     tooltip: 'Goals',
+                          //     onPressed: () {
+                          //       tabController!.animateTo(3);
+                          //     }),
+                        ]))),
+          ));
+        });
   }
 }
 
 class ProjectPageSpeedDial extends StatelessWidget {
-  final Project? project;
-  const ProjectPageSpeedDial({Key? key, this.project}) : super(key: key);
+  final Project project;
+  const ProjectPageSpeedDial({Key? key, required this.project})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
       icon: Icons.add_rounded,
-      iconTheme: IconThemeData(size: 40),
+      iconTheme: IconThemeData(size: 45),
       activeIcon: Icons.close_rounded,
-      renderOverlay: false,
+      closeManually: true,
+      overlayColor:
+          DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
+      overlayOpacity: .1,
+      renderOverlay: true,
       curve: Curves.bounceIn,
       tooltip: 'Add Menu',
-      buttonSize: 40,
-      childrenButtonSize: 40,
-      backgroundColor: DynamicColorTheme.of(context).data.accentColor,
-      foregroundColor: DynamicColorTheme.of(context).data.primaryColor,
-      elevation: 4,
+      buttonSize: 45,
+      childrenButtonSize: 45,
+      elevation: 0,
       shape: CircleBorder(),
+      backgroundColor: DynamicColorTheme.of(context).data.colorScheme.secondary,
+      foregroundColor:
+          DynamicColorTheme.of(context).data.colorScheme.onSecondary,
       children: [
         SpeedDialChild(
-            child: Icon(Icons.timer_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
-            onTap: () {} //TODO: add timer start here
-            ),
+            child: Icon(Icons.timer_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
+            onTap: () => Provider.of<StopwatchState>(context, listen: false)
+                .startStopwatch(oldEntry: TimeEntry(project: project))),
         SpeedDialChild(
-            child: Icon(Icons.timelapse_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            child: Icon(Icons.timelapse_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TimeEntryEditBottomSheet(
-                    isUpdate: false, entry: TimeEntry(project: project)))),
+                  isUpdate: false,
+                  entry: TimeEntry(project: project),
+                ))),
         SpeedDialChild(
-            child: Icon(Icons.rule_rounded,
-                color: DynamicColorTheme.of(context).data.accentColor),
-            backgroundColor: DynamicColorTheme.of(context).data.cardColor,
+            child: Icon(Icons.rule_rounded),
+            backgroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.surface,
+            foregroundColor:
+                DynamicColorTheme.of(context).data.colorScheme.secondary,
             onTap: () => EditBottomSheet().buildEditBottomSheet(
                 context: context,
                 bottomSheet: TaskEditBottomSheet(
