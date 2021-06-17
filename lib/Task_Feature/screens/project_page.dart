@@ -40,7 +40,7 @@ class _ProjectPageState extends State<ProjectPage>
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
-    ThemeData themeData = themeData;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project?.id == widget.project.id)

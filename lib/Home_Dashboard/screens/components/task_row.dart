@@ -52,6 +52,7 @@ class TaskDueRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     return Column(
       children: [
         ListTile(
