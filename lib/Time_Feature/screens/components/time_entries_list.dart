@@ -12,6 +12,7 @@ class TimeEntriesByDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     entryMapList = TimeService.getTimeEntriesByDay(timeEntries!);
     return entryMapList == null
         ? Center(child: CircularProgressIndicator())
@@ -30,8 +31,7 @@ class TimeEntriesByDay extends StatelessWidget {
                               title: Text(item.keys.single),
                               trailing: Text(DateTimeFunctions().timeToText(seconds: TimeService
                                       .getDailyRecordedTime(item.values.single)),
-                                  style: DynamicColorTheme.of(context)
-                                      .data
+                                  style: themeData
                                       .textTheme
                                       .subtitle1)),
                           Divider(),

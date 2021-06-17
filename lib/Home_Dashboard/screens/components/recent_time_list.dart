@@ -28,8 +28,11 @@ class RecentTimeList extends StatelessWidget {
                       title: Text(entry.entryName!),
                       subtitle: Text(
                         entry.project!.projectName!,
-                        style:
-                            TextStyle(color: DynamicColorTheme.of(context).isDark ? colorList[entry.project!.projectColor!].shade200 : colorList[entry.project!.projectColor!]),
+                        style: TextStyle(
+                            color: DynamicColorTheme.of(context).isDark
+                                ? colorList[entry.project!.projectColor!]
+                                    .shade200
+                                : colorList[entry.project!.projectColor!]),
                       ),
                     );
                   }).toList(),

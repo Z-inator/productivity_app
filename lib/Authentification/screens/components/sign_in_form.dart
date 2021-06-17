@@ -19,6 +19,7 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final auth = Provider.of<AuthService>(context, listen: false);
     return signingIn
         ? Center(child: CircularProgressIndicator())
@@ -106,7 +107,7 @@ class _SignInFormState extends State<SignInForm> {
                         leading: Image(
                             image: AssetImage('assets/logos/google_logo.png')),
                         title: Text('Sign In using Google',
-                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
+                            style: themeData.textTheme.headline6),
                       ),
                     ),
                   ),

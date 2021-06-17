@@ -28,13 +28,11 @@ class SettingsDrawer extends StatelessWidget {
           decoration: BoxDecoration(color: themeData.colorScheme.secondaryVariant),
           child: ListTile(
             title: Text('${user.displayName}\nSettings',
-                style: DynamicColorTheme.of(context)
-                    .data
+                style: themeData
                     .textTheme
                     .headline5!
                     .copyWith(
-                        color: DynamicColorTheme.of(context)
-                            .data
+                        color: themeData
                             .colorScheme
                             .onSecondary)),
             trailing: IconButton(
@@ -422,7 +420,7 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
     AuthService authService = Provider.of<AuthService>(context);
     ThemeData themeData = DynamicColorTheme.of(context).data;
     return ListTile(
-      tileColor: DynamicColorTheme.of(context).data.colorScheme.error,
+      tileColor: themeData.colorScheme.error,
       title: Text('Delete User',
           style: themeData.textTheme.subtitle1!
               .copyWith(color: themeData.colorScheme.onError)),

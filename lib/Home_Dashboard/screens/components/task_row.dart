@@ -13,6 +13,7 @@ class ImportantTaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     return ListTile(
       leading: StatusPickerDropDown(
           task: task,
@@ -24,12 +25,11 @@ class ImportantTaskListTile extends StatelessWidget {
           )),
       title: Text(
         task.taskName ?? 'NO TASK TITLE',
-        style: DynamicColorTheme.of(context).data.textTheme.subtitle2,
+        style: themeData.textTheme.subtitle2,
       ),
       subtitle: Text(
           task.project?.projectName ?? 'NO PROJECT',
-          style: DynamicColorTheme.of(context)
-              .data
+          style: themeData
               .textTheme
               .subtitle1!
               .copyWith(
@@ -56,7 +56,7 @@ class TaskDueRow extends StatelessWidget {
       children: [
         ListTile(
           title: Text('Important Tasks',
-              style: DynamicColorTheme.of(context).data.textTheme.headline4),
+              style: themeData.textTheme.headline4),
           // trailing: IconButton(
           //   icon: Icon(Icons.insights_rounded),
           //   tooltip: 'Reports',
@@ -74,6 +74,7 @@ class TaskDueThisWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     List<Task> tasks = Provider.of<TaskCharts>(context)
         .getTasksDueThisWeek(Provider.of<List<Task>>(context));
     return Column(
@@ -81,7 +82,7 @@ class TaskDueThisWeek extends StatelessWidget {
         ListTile(
           title: Text('Tasks Due This Week'),
           trailing: Text(tasks.length.toString(),
-              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              style: themeData.textTheme.subtitle1),
         ),
         Expanded(
           child: tasks == null
@@ -89,8 +90,7 @@ class TaskDueThisWeek extends StatelessWidget {
               : tasks.isEmpty
                   ? Center(
                       child: Text('No Tasks Due This Week',
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: themeData
                               .textTheme
                               .subtitle2))
                   : Card(
@@ -111,6 +111,7 @@ class TaskDueToday extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     List<Task> tasks = Provider.of<TaskCharts>(context)
         .getTasksDueToday(Provider.of<List<Task>>(context));
     return Column(
@@ -118,7 +119,7 @@ class TaskDueToday extends StatelessWidget {
         ListTile(
           title: Text('Tasks Due Today'),
           trailing: Text(tasks.length.toString(),
-              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              style: themeData.textTheme.subtitle1),
         ),
         Expanded(
           child: tasks == null
@@ -126,8 +127,7 @@ class TaskDueToday extends StatelessWidget {
               : tasks.isEmpty
                   ? Center(
                       child: Text('No Tasks Due Today',
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: themeData
                               .textTheme
                               .subtitle2))
                   : Card(
@@ -148,6 +148,7 @@ class TaskPastDue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     List<Task> tasks = Provider.of<TaskCharts>(context)
         .getTasksPastDue(Provider.of<List<Task>>(context));
     return Column(
@@ -155,7 +156,7 @@ class TaskPastDue extends StatelessWidget {
         ListTile(
           title: Text('Late Tasks'),
           trailing: Text(tasks.length.toString(),
-              style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+              style: themeData.textTheme.subtitle1),
         ),
         Expanded(
           child: tasks == null
@@ -163,8 +164,7 @@ class TaskPastDue extends StatelessWidget {
               : tasks.isEmpty
                   ? Center(
                       child: Text('No Late Tasks',
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: themeData
                               .textTheme
                               .subtitle2))
                   : Card(

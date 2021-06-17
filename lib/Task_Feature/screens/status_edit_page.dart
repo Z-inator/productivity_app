@@ -22,6 +22,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     DatabaseService databaseService = Provider.of<DatabaseService>(context);
     statuses = Provider.of<List<Status>>(context);
     // statuses.sort((a, b) => a.statusOrder!.compareTo(b.statusOrder!));
@@ -128,8 +129,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
                     ])),
                 ListTile(
                   title: Text('Description:',
-                      style: DynamicColorTheme.of(context)
-                          .data
+                      style: themeData
                           .textTheme
                           .subtitle1),
                   subtitle: Text(
@@ -137,7 +137,7 @@ class _StatusEditPageState extends State<StatusEditPage> {
                     overflow: TextOverflow.fade,
                     maxLines: 3,
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.bodyText1,
+                        themeData.textTheme.bodyText1,
                   ),
                 )
               ],

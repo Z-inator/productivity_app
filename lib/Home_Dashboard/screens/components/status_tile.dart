@@ -9,6 +9,7 @@ class StatusList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final List<Status> statuses = Provider.of<List<Status>>(context);
     return statuses == null
         ? Center(child: CircularProgressIndicator())
@@ -18,7 +19,7 @@ class StatusList extends StatelessWidget {
               ListTile(
                 title: Text('Statuses',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.headline4),
+                        themeData.textTheme.headline4),
                 trailing: IconButton(
                   icon: Icon(Icons.edit_rounded),
                   onPressed: () {
@@ -33,8 +34,7 @@ class StatusList extends StatelessWidget {
               statuses.isEmpty
                   ? Center(
                       child: Text('Add Statuses to view here',
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: themeData
                               .textTheme
                               .subtitle2))
                   : ListBody(

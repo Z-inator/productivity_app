@@ -12,12 +12,12 @@ class StatusExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     List<Task> tasks = Provider.of<List<Task>>(context);
     int numberOfTasks = StatusService.getTaskCount(
         tasks.where((task) => task.status?.id == status.id).toList(), status);
     return Theme(
-        data: DynamicColorTheme.of(context)
-            .data
+        data: themeData
             .copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           key: key,
@@ -30,11 +30,11 @@ class StatusExpansionTile extends StatelessWidget {
             ListTile(
                 title: Text('Tasks: $numberOfTasks',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                        themeData.textTheme.subtitle2),
                 trailing: IconButton(
                   icon: Icon(Icons.add_rounded),
                   tooltip: 'Add Task',
-                  color: DynamicColorTheme.of(context).data.iconTheme.color,
+                  color: themeData.iconTheme.color,
                   onPressed: () => EditBottomSheet().buildEditBottomSheet(
                       context: context,
                       bottomSheet: TaskEditBottomSheet(
@@ -43,13 +43,13 @@ class StatusExpansionTile extends StatelessWidget {
             ListTile(
               title: Text('Description:',
                   style:
-                      DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                      themeData.textTheme.subtitle2),
               subtitle: Text(status.statusDescription ?? '',
                   overflow: TextOverflow.fade, maxLines: 3),
               trailing: IconButton(
                 icon: Icon(Icons.edit_rounded),
                 tooltip: 'Edit Statuses',
-                color: DynamicColorTheme.of(context).data.iconTheme.color,
+                color: themeData.iconTheme.color,
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => StatusEditPage())),
               ),

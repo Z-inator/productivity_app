@@ -56,6 +56,7 @@ class StatusPickerDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     final List<Status> statuses = Provider.of<List<Status>>(context);
@@ -70,8 +71,7 @@ class StatusPickerDropDown extends StatelessWidget {
               value: status,
               child: ListTile(
                 title: Text(status.statusName!,
-                    style: DynamicColorTheme.of(context)
-                        .data
+                    style: themeData
                         .textTheme
                         .subtitle1!
                         .copyWith(

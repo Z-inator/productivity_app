@@ -14,6 +14,7 @@ class TaskExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     List<TimeEntry> timeEntries = TimeService.getTimeEntriesByTask(
@@ -32,8 +33,7 @@ class TaskExpansionTile extends StatelessWidget {
       ),
       title: Text(task.taskName ?? 'NO TASK TITLE'),
       subtitle: Text(task.project?.projectName ?? 'NO PROJECT',
-          style: DynamicColorTheme.of(context)
-              .data
+          style: themeData
               .textTheme
               .subtitle1!
               .copyWith(
@@ -44,8 +44,7 @@ class TaskExpansionTile extends StatelessWidget {
                   : Colors.grey)),
       children: [
         Theme(
-          data: DynamicColorTheme.of(context)
-              .data
+          data: themeData
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Row(
@@ -132,11 +131,11 @@ class TaskExpansionTile extends StatelessWidget {
                 leading: RichText(
                   text: TextSpan(
                     text: 'Project: ',
-                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                    style: themeData.textTheme.subtitle1,
                     children: [
                       TextSpan(
                         text: task.project?.projectName ?? 'NO PROJECT',
-                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1?.copyWith(
+                        style: themeData.textTheme.subtitle1?.copyWith(
                           color: task.project != null
                             ? DynamicColorTheme.of(context).isDark
                                 ? colorList[task.project!.projectColor!].shade200
@@ -149,15 +148,13 @@ class TaskExpansionTile extends StatelessWidget {
                 trailing: RichText(
                     text: TextSpan(
                         text: 'Status: ',
-                        style: DynamicColorTheme.of(context)
-                            .data
+                        style: themeData
                             .textTheme
                             .subtitle1,
                         children: <TextSpan>[
                       TextSpan(
                           text: task.status?.statusName,
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: themeData
                               .textTheme
                               .subtitle1!
                               .copyWith(
@@ -171,24 +168,24 @@ class TaskExpansionTile extends StatelessWidget {
               ListTile(
                 dense: true,
                 // leading: Text('Subtasks: $subtaskCount',
-                //     style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                //     style: themeData.textTheme.subtitle1),
                 leading: Text(
                     'Recorded Time: ${DateTimeFunctions().timeToText(seconds: recordedTime)}',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                        themeData.textTheme.subtitle2),
               ),
               ListTile(
                 dense: true,
                 leading: Text(
                         'Due: ${DateTimeFunctions().dateTimeToTextDate(date: task.dueDate) ?? ''}',
-                        style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                        style: themeData.textTheme.subtitle2),
                 trailing: Text(
                     DateTimeFunctions().dateTimeToTextTime(date: task.dueTime, context: context) ?? '',
-                    style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                    style: themeData.textTheme.subtitle2),
               ),
               Text(
                   'Created: ${DateTimeFunctions().dateTimeToTextDate(date: task.createDate)}',
-                  style: DynamicColorTheme.of(context).data.textTheme.caption),
+                  style: themeData.textTheme.caption),
             ],
           ),
         )

@@ -22,6 +22,7 @@ class TimeChartRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     List<DateTime?> currentWeek = timeGraphsState.getCurrentWeek(DateTime.now());
@@ -36,11 +37,11 @@ class TimeChartRow extends StatelessWidget {
               ListTile(
                 title: Text('Recorded Time',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.headline4),
+                        themeData.textTheme.headline4),
                 subtitle: Text(
                     DateTimeFunctions().timeToText(seconds: totalTimeRangeTime),
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                        themeData.textTheme.subtitle2),
                 // TODO: implement a report screen
                 // trailing: IconButton(
                 //   icon: Icon(Icons.insights_rounded),

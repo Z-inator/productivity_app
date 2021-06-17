@@ -22,6 +22,7 @@ class TimePieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     TimeGraphs timeGraphsState = Provider.of<TimeGraphs>(context);
     int totalTimeRangeTime = timeGraphsState.getTotalTimeRangeTime(timeEntries!);
     List<Map<Project, int>> projectData =
@@ -44,12 +45,10 @@ class TimePieChart extends StatelessWidget {
                               DynamicColorTheme.of(context).isDark,
                               projectData,
                               totalTimeRangeTime,
-                              DynamicColorTheme.of(context)
-                                  .data
+                              themeData
                                   .textTheme
                                   .subtitle2,
-                              DynamicColorTheme.of(context)
-                                  .data
+                              themeData
                                   .textTheme
                                   .subtitle1,
                               constraints.maxHeight / 2.25)),

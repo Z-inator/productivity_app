@@ -24,6 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final auth = Provider.of<AuthService>(context, listen: false);
     return signingIn
         ? Center(child: CircularProgressIndicator())
@@ -144,11 +145,13 @@ class _RegisterFormState extends State<RegisterForm> {
                                 currentFocus.unfocus();
                               }
                               if (_formKey.currentState!.validate()) {
-                                dynamic result = await auth
-                                    .registerWithEmailAndPassword(email, password!, displayName);
+                                dynamic result =
+                                    await auth.registerWithEmailAndPassword(
+                                        email, password!, displayName);
                                 if (result != null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(result.toString())));
+                                      SnackBar(
+                                          content: Text(result.toString())));
                                 }
                               }
                             },
@@ -164,7 +167,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         leading: Image(
                             image: AssetImage('assets/logos/google_logo.png')),
                         title: Text('Register using Google',
-                            style: DynamicColorTheme.of(context).data.textTheme.headline6),
+                            style: themeData.textTheme.headline6),
                       ),
                     ),
                   ),

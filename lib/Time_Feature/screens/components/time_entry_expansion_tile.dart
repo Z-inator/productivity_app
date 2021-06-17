@@ -15,6 +15,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     return ExpansionTile(
@@ -31,8 +32,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
         entry.entryName!,
       ),
       subtitle: Text(entry.project?.projectName ?? 'NO PROJECT',
-          style: DynamicColorTheme.of(context)
-              .data
+          style: themeData
               .textTheme
               .subtitle1!
               .copyWith(
@@ -42,11 +42,10 @@ class TimeEntryExpansionTile extends StatelessWidget {
                       : colorList[entry.project!.projectColor!]
                     : Colors.grey)),
       trailing: Text(DateTimeFunctions().timeToText(seconds: entry.elapsedTime),
-          style: DynamicColorTheme.of(context).data.textTheme.subtitle2),
+          style: themeData.textTheme.subtitle2),
       children: [
         Theme(
-          data: DynamicColorTheme.of(context)
-              .data
+          data: themeData
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
             title: Row(
@@ -106,11 +105,11 @@ class TimeEntryExpansionTile extends StatelessWidget {
                 leading: RichText(
                   text: TextSpan(
                     text: 'Project: ',
-                    style: DynamicColorTheme.of(context).data.textTheme.subtitle1,
+                    style: themeData.textTheme.subtitle1,
                     children: [
                       TextSpan(
                         text: entry.project?.projectName ?? 'NO PROJECT',
-                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1?.copyWith(
+                        style: themeData.textTheme.subtitle1?.copyWith(
                           color: entry.project != null
                             ? DynamicColorTheme.of(context).isDark
                                 ? colorList[entry.project!.projectColor!].shade200
@@ -123,7 +122,7 @@ class TimeEntryExpansionTile extends StatelessWidget {
                 trailing: Text(
                     '${DateFormat.jm().format(entry.startTime!)} - ${DateFormat.jm().format(entry.endTime!)}',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle1),
+                        themeData.textTheme.subtitle1),
               ),
             ],
           ),

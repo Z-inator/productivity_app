@@ -9,11 +9,12 @@ class GroupedTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     return tasks.isEmpty
             ? Center(
                 child: Text(
                 'No Tasks Yet',
-                style: DynamicColorTheme.of(context).data.textTheme.caption,
+                style: themeData.textTheme.caption,
               ))
             : ListBody(
                 children: tasks.map((task) {

@@ -2,8 +2,8 @@ import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../Authentification.dart';
 import '../../Shared/Shared.dart';
+import '../Authentification.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -21,22 +21,31 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     return Container(
         child: SafeArea(
             child: Scaffold(
                 appBar: AppBar(
-                  foregroundColor: DynamicColorTheme.of(context)
-                      .data
+                  foregroundColor: themeData
                       .colorScheme
                       .onSecondary,
-                  backgroundColor:
-                      DynamicColorTheme.of(context).data.colorScheme.secondary,
-                  title: Text('Welcome to the AppName',
-                      style: DynamicColorTheme.of(context).data.textTheme.headline6!.copyWith(color: DynamicColorTheme.of(context).data.colorScheme.onSecondary),),
+                  backgroundColor: themeData.colorScheme.secondary,
+                  title: Text(
+                    'Welcome to the AppName',
+                    style: themeData
+                        .textTheme
+                        .headline6!
+                        .copyWith(
+                            color: themeData
+                                .colorScheme
+                                .onSecondary),
+                  ),
                   actions: [
                     IconButton(
                       icon: Icon(Icons.help_rounded,
-                          color: DynamicColorTheme.of(context).data.colorScheme.onSecondary),
+                          color: themeData
+                              .colorScheme
+                              .onSecondary),
                       onPressed: () => Navigator.push(context,
                           MaterialPageRoute(builder: (context) => AboutPage())),
                     )
@@ -44,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 body: SlidingUpPanel(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-                  color: DynamicColorTheme.of(context).data.colorScheme.surface,
+                  color: themeData.colorScheme.surface,
                   panelSnapping: true,
                   minHeight: 80,
                   maxHeight: MediaQuery.of(context).size.height - 105,
@@ -66,8 +75,7 @@ class _SignInPageState extends State<SignInPage> {
                       children: [
                         ListTile(
                             title: Text(isRegister ? 'Register' : 'Sign In',
-                                style: DynamicColorTheme.of(context)
-                                    .data
+                                style: themeData
                                     .textTheme
                                     .headline6),
                             trailing: OutlinedButton.icon(
@@ -89,11 +97,12 @@ class _SignInPageState extends State<SignInPage> {
                       margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
-                          color: DynamicColorTheme.of(context).data.colorScheme.surface),
+                          color: themeData
+                              .colorScheme
+                              .surface),
                       child: ListTile(
                         title: Text('Sign In or Register to get Started',
-                            style: DynamicColorTheme.of(context)
-                                .data
+                            style: themeData
                                 .textTheme
                                 .headline6),
                       )),
@@ -106,7 +115,9 @@ class _SignInPageState extends State<SignInPage> {
                         height: 10,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
-                          color: DynamicColorTheme.of(context).data.colorScheme.secondary,
+                          color: themeData
+                              .colorScheme
+                              .secondary,
                         ),
                       ),
                     ),

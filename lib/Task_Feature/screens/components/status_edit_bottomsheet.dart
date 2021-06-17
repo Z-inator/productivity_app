@@ -14,6 +14,7 @@ class StatusEditBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     return ChangeNotifierProvider(
       create: (context) => StatusEditState(oldStatus: status),
       builder: (context, child) {
@@ -52,8 +53,7 @@ class StatusEditBottomSheet extends StatelessWidget {
                 CheckboxListTile(
                     value: statusEditState.newStatus.equalToComplete ?? false,
                     title: Text('This Status represents Task Complete:',
-                        style: DynamicColorTheme.of(context)
-                            .data
+                        style: themeData
                             .textTheme
                             .subtitle1),
                     subtitle: Text(

@@ -38,6 +38,7 @@ class FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     TaskBodyState taskBodyState = Provider.of<TaskBodyState>(context);
     isSelected = index == taskBodyState.page;
     return Container(
@@ -48,11 +49,11 @@ class FilterButton extends StatelessWidget {
           onPressed: () => whenPressed(index),
           style: OutlinedButton.styleFrom(
             primary: isSelected
-                ? DynamicColorTheme.of(context).data.colorScheme.onSecondary
-                : DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
+                ? themeData.colorScheme.onSecondary
+                : themeData.colorScheme.secondaryVariant,
             backgroundColor: isSelected
-                ? DynamicColorTheme.of(context).data.colorScheme.secondaryVariant
-                : DynamicColorTheme.of(context).data.colorScheme.background,
+                ? themeData.colorScheme.secondaryVariant
+                : themeData.colorScheme.background,
           )),
     );
   }

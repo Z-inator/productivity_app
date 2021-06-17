@@ -15,6 +15,7 @@ class ProjectExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     final DatabaseService databaseService =
         Provider.of<DatabaseService>(context);
     List<TimeEntry> timeEntries = TimeService.getTimeEntriesByProject(
@@ -24,8 +25,7 @@ class ProjectExpansionTile extends StatelessWidget {
     int projectTaskCount = ProjectService.getTaskCount(
         tasks.where((task) => task.project?.id == project.id).toList());
     return Theme(
-      data: DynamicColorTheme.of(context)
-          .data
+      data: themeData
           .copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         leading: Icon(
@@ -124,11 +124,11 @@ class ProjectExpansionTile extends StatelessWidget {
               ListTile(
                 leading: Text('Tasks: $projectTaskCount',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                        themeData.textTheme.subtitle2),
                 trailing: Text(
                     'Recorded Time: ${DateTimeFunctions().timeToText(seconds: recordedTime)}',
                     style:
-                        DynamicColorTheme.of(context).data.textTheme.subtitle2),
+                        themeData.textTheme.subtitle2),
               ),
               project.projectClient != null
                   ? ListTile(leading: Text('Client: ${project.projectClient}'))

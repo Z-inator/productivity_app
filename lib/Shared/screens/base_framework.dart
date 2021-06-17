@@ -32,6 +32,7 @@ class _BaseFrameworkState extends State<BaseFramework>
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     return Provider.of<List<Task>>(context) == null ||
             Provider.of<List<Project>>(context) == null ||
@@ -40,7 +41,7 @@ class _BaseFrameworkState extends State<BaseFramework>
         ? Center(child: CircularProgressIndicator()) // TODO: Add logo animation
         : Container(
             decoration: BoxDecoration(
-                color: DynamicColorTheme.of(context).data.canvasColor),
+                color: themeData.canvasColor),
             child: SafeArea(
               child: Scaffold(
                 body: Column(children: [

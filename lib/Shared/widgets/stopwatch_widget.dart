@@ -13,6 +13,7 @@ class StopWatchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context);
     if (stopwatchState.newEntry.project != null) {
@@ -51,7 +52,7 @@ class StopWatchTile extends StatelessWidget {
                   ),
                   Text(DateTimeFunctions()
                     .timeToText(seconds: stopwatchState.elapsedTicks),
-                    style: DynamicColorTheme.of(context).data.textTheme.headline5,),
+                    style: themeData.textTheme.headline5,),
                 ],
               ),
             ),
@@ -67,13 +68,13 @@ class StopWatchTile extends StatelessWidget {
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.fade,
                       maxLines: 2,
-                      style: DynamicColorTheme.of(context).data.textTheme.subtitle1!.copyWith(
+                      style: themeData.textTheme.subtitle1!.copyWith(
                         color: stopwatchState.newEntry.project != null
                           ? DynamicColorTheme.of(context).isDark
                             ? colorList[stopwatchState.newEntry.project!.projectColor!]
                                 .shade200
                             : colorList[stopwatchState.newEntry.project!.projectColor!]
-                          : DynamicColorTheme.of(context).data.colorScheme.onSurface),)),
+                          : themeData.colorScheme.onSurface),)),
                   TaskPicker(
                     tasks: tasks,
                     saveTask: stopwatchState.updateEntryTask,
@@ -81,7 +82,7 @@ class StopWatchTile extends StatelessWidget {
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.fade,
                         maxLines: 3,
-                        style: DynamicColorTheme.of(context).data.textTheme.subtitle1)
+                        style: themeData.textTheme.subtitle1)
                   ),
                 ],
               ),
@@ -104,7 +105,7 @@ class StopWatchTile extends StatelessWidget {
 //     return SlidingUpPanel(
 //       panelSnapping: true,
 //       borderRadius: BorderRadius.vertical(bottom: Radius.circular(25)),
-//       color: DynamicColorTheme.of(context).data.cardColor,
+//       color: themeData.cardColor,
 //       minHeight: 70,
 //       slideDirection: SlideDirection.DOWN,
 //       header: Container(
@@ -125,7 +126,7 @@ class StopWatchTile extends StatelessWidget {
 //               height: 5,
 //               decoration: BoxDecoration(
 //                 borderRadius: BorderRadius.all(Radius.circular(25)),
-//                 color: DynamicColorTheme.of(context).data.accentColor,
+//                 color: themeData.accentColor,
 //               ),
 //             ),
 //           ],
@@ -148,9 +149,9 @@ class StopWatchTile extends StatelessWidget {
 //                       stopwatchState.timeEntry.project.projectName.isEmpty
 //                           ? 'Add Project'
 //                           : stopwatchState.timeEntry.project.projectName,
-//                       style: DynamicColorTheme.of(context).data.textTheme.subtitle1),
+//                       style: themeData.textTheme.subtitle1),
 //                   trailing: Icon(Icons.arrow_drop_down_rounded,
-//                       color: DynamicColorTheme.of(context).data.unselectedWidgetColor),
+//                       color: themeData.unselectedWidgetColor),
 //                 )),
 //             // TaskPicker(),
 //           ],
@@ -168,7 +169,7 @@ class StopWatchTile extends StatelessWidget {
 //     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
 //     return SnackBar(
 //         content: ListTile(
-//       tileColor: DynamicColorTheme.of(context).data.shadowColor,
+//       tileColor: themeData.shadowColor,
 //       leading: IconButton(
 //         icon: Icon(Icons.stop_rounded, color: Colors.red),
 //         onPressed: () => stopwatchState.stopStopwatch(),

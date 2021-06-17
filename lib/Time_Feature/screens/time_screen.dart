@@ -32,6 +32,7 @@ class _TimeScreenState extends State<TimeScreen>
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     List<TimeEntry> timeEntries = Provider.of<List<TimeEntry>>(context);
     List<Project> projects = Provider.of<List<Project>>(context);
     return ChangeNotifierProvider(
@@ -51,8 +52,7 @@ class _TimeScreenState extends State<TimeScreen>
                               ? colorList[currentProject.projectColor!].shade200
                               : colorList[currentProject.projectColor!]),
                       title: Text(currentProject.projectName!,
-                          style: DynamicColorTheme.of(context)
-                              .data
+                          style: themeData
                               .textTheme
                               .subtitle1!
                               .copyWith(
