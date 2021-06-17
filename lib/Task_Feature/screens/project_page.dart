@@ -197,8 +197,8 @@ class _ProjectPageState extends State<ProjectPage>
 
 class ProjectPageSpeedDial extends StatelessWidget {
   final Project project;
-  const ProjectPageSpeedDial({Key? key, required this.project})
-      : super(key: key);
+  ValueNotifier<bool> isDialOpen = ValueNotifier<bool>(false);
+  ProjectPageSpeedDial({Key? key, required this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +207,7 @@ class ProjectPageSpeedDial extends StatelessWidget {
       iconTheme: IconThemeData(size: 45),
       activeIcon: Icons.close_rounded,
       closeManually: true,
+      openCloseDial: isDialOpen,
       overlayColor:
           DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
       overlayOpacity: .1,
@@ -227,30 +228,39 @@ class ProjectPageSpeedDial extends StatelessWidget {
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => Provider.of<StopwatchState>(context, listen: false)
-                .startStopwatch(oldEntry: TimeEntry(project: project))),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              Provider.of<StopwatchState>(context, listen: false)
+                  .startStopwatch(oldEntry: TimeEntry(project: project));
+            }),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded),
             backgroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => EditBottomSheet().buildEditBottomSheet(
-                context: context,
-                bottomSheet: TimeEntryEditBottomSheet(
-                  isUpdate: false,
-                  entry: TimeEntry(project: project),
-                ))),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              EditBottomSheet().buildEditBottomSheet(
+                  context: context,
+                  bottomSheet: TimeEntryEditBottomSheet(
+                    isUpdate: false,
+                    entry: TimeEntry(project: project),
+                  ));
+            }),
         SpeedDialChild(
             child: Icon(Icons.rule_rounded),
             backgroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => EditBottomSheet().buildEditBottomSheet(
-                context: context,
-                bottomSheet: TaskEditBottomSheet(
-                    isUpdate: false, task: Task(project: project)))),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              EditBottomSheet().buildEditBottomSheet(
+                  context: context,
+                  bottomSheet: TaskEditBottomSheet(
+                      isUpdate: false, task: Task(project: project)));
+            }),
       ],
       // TODO: Implement Goal/Habits
       // SpeedDialChild(
