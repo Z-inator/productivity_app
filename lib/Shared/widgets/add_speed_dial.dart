@@ -8,6 +8,8 @@ import '../../../Task_Feature/Task_Feature.dart';
 import '../../../Time_Feature/Time_Feature.dart';
 
 class AddSpeedDial extends StatelessWidget {
+  ValueNotifier<bool> isDialOpen = ValueNotifier<bool>(false);
+
   // List<SpeedDialChild> getSpeedDialChildren(
   //     BuildContext context, Map<IconData, Future> options) {
   //   List<SpeedDialChild> children = [];
@@ -31,7 +33,9 @@ class AddSpeedDial extends StatelessWidget {
       iconTheme: IconThemeData(size: 45),
       activeIcon: Icons.close_rounded,
       closeManually: true,
-      overlayColor: DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
+      openCloseDial: isDialOpen,
+      overlayColor:
+          DynamicColorTheme.of(context).data.colorScheme.secondaryVariant,
       overlayOpacity: .1,
       renderOverlay: true,
       curve: Curves.bounceIn,
@@ -50,35 +54,47 @@ class AddSpeedDial extends StatelessWidget {
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => Provider.of<StopwatchState>(context, listen: false)
-                .startStopwatch()),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              Provider.of<StopwatchState>(context, listen: false)
+                  .startStopwatch();
+            }),
         SpeedDialChild(
             child: Icon(Icons.timelapse_rounded),
             backgroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => EditBottomSheet().buildEditBottomSheet(
-                context: context,
-                bottomSheet: TimeEntryEditBottomSheet(isUpdate: false))),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              EditBottomSheet().buildEditBottomSheet(
+                  context: context,
+                  bottomSheet: TimeEntryEditBottomSheet(isUpdate: false));
+            }),
         SpeedDialChild(
             child: Icon(Icons.rule_rounded),
             backgroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => EditBottomSheet().buildEditBottomSheet(
-                context: context,
-                bottomSheet: TaskEditBottomSheet(isUpdate: false))),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              EditBottomSheet().buildEditBottomSheet(
+                  context: context,
+                  bottomSheet: TaskEditBottomSheet(isUpdate: false));
+            }),
         SpeedDialChild(
             child: Icon(Icons.topic_rounded),
             backgroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.surface,
             foregroundColor:
                 DynamicColorTheme.of(context).data.colorScheme.secondary,
-            onTap: () => EditBottomSheet().buildEditBottomSheet(
-                context: context,
-                bottomSheet: ProjectEditBottomSheet(isUpdate: false))),
+            onTap: () {
+              isDialOpen.value = !isDialOpen.value;
+              EditBottomSheet().buildEditBottomSheet(
+                  context: context,
+                  bottomSheet: ProjectEditBottomSheet(isUpdate: false));
+            }),
       ],
       // TODO: Implement Goal/Habits
       // SpeedDialChild(
