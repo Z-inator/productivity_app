@@ -1,6 +1,7 @@
 // import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/Goal_Feature/screens/goal_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Home_Dashboard/Home_Dashboard.dart';
@@ -56,7 +57,7 @@ class _BaseFrameworkState extends State<BaseFramework>
                         HomeScreen(),
                         TaskProjectScreen(),
                         TimeScreen(),
-                        TestScreen()
+                        GoalScreen()
                       ]))
                 ]),
                 bottomNavigationBar:

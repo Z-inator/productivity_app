@@ -53,6 +53,7 @@ dependencies:
   percent_indicator: ^3.0.1
   flutter_animation_progress_bar: ^2.0.0
   fl_chart: ^0.36.1
+  syncfusion_flutter_charts: ^19.1.69+1
 
   # Time Range Picker
   simple_time_range_picker: ^0.0.2
