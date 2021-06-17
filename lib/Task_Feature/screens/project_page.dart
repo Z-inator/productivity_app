@@ -40,6 +40,7 @@ class _ProjectPageState extends State<ProjectPage>
   @override
   Widget build(BuildContext context) {
     List<MaterialColor> colorList = AppColorList;
+    ThemeData themeData = DynamicColorTheme.of(context).data;
     StopwatchState stopwatchState = Provider.of<StopwatchState>(context);
     List<Task> tasks = Provider.of<List<Task>>(context)
         .where((task) => task.project?.id == widget.project.id)
@@ -50,147 +51,147 @@ class _ProjectPageState extends State<ProjectPage>
         .where((entry) => entry.project?.id == widget.project.id)
         .toList();
     timeEntryMap = TimeService.getTimeEntriesByDay(timeEntries);
-    return ChangeNotifierProvider(
+    return SafeArea(
+        child: Scaffold(
+      // appBar: AppBar(
+      //   title: Text(
+      //     widget.project.projectName!,
+      //     style: TextStyle(
+      //         color: DynamicColorTheme.of(context).isDark
+      //             ? colorList[widget.project.projectColor!].shade200
+      //             : colorList[widget.project.projectColor!]),
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //         icon: Icon(
+      //           Icons.edit_rounded,
+      //           color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
+      //         ),
+      //         onPressed: () => EditBottomSheet().buildEditBottomSheet(
+      //             context: context,
+      //             bottomSheet: ProjectEditBottomSheet(
+      //                 isUpdate: true, project: widget.project))),
+      //   ],
+      // ),
+      body: Column(
+        children: [
+          stopwatchState.stopwatch.isRunning ? StopWatchTile() : Container(),
+          AppBar(
+            title: Text(
+              widget.project.projectName!,
+              style: TextStyle(
+                  color: DynamicColorTheme.of(context).isDark
+                      ? colorList[widget.project.projectColor!].shade200
+                      : colorList[widget.project.projectColor!]),
+            ),
+            actions: [
+              IconButton(
+                  icon: Icon(
+                    Icons.edit_rounded,
+                    color: DynamicColorTheme.of(context)
+                        .data
+                        .unselectedWidgetColor,
+                  ),
+                  onPressed: () => EditBottomSheet().buildEditBottomSheet(
+                      context: context,
+                      bottomSheet: ProjectEditBottomSheet(
+                          isUpdate: true, project: widget.project))),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+                controller: tabController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  // HomeScreen(),
+                  taskMap.isEmpty
+                      ? Center(
+                          child: Text(
+                              'No Tasks for ${widget.project.projectName}'))
+                      : TaskList(
+                          taskMap: taskMap,
+                          getWidget: (item, numberOfTasks) =>
+                              StatusExpansionTile(status: item as Status)),
+                  timeEntryMap.isEmpty
+                      ? Center(
+                          child: Text(
+                              'No Time Recorded for ${widget.project.projectName}'))
+                      : TimeEntriesByDay(timeEntries: timeEntries),
+                  // HomeScreen()
+                ]),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigation(
+          themeData: themeData, tabController: tabController, widget: widget),
+    ));
+  }
+}
+
+class BottomNavigation extends StatelessWidget {
+  const BottomNavigation({
+    Key? key,
+    required this.themeData,
+    required this.tabController,
+    required this.widget,
+  }) : super(key: key);
+
+  final ThemeData themeData;
+  final TabController? tabController;
+  final ProjectPage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<PageState>(
         create: (context) => PageState(),
         builder: (context, child) {
           PageState pageState = Provider.of<PageState>(context);
-          return SafeArea(
-              child: Scaffold(
-            // appBar: AppBar(
-            //   title: Text(
-            //     widget.project.projectName!,
-            //     style: TextStyle(
-            //         color: DynamicColorTheme.of(context).isDark
-            //             ? colorList[widget.project.projectColor!].shade200
-            //             : colorList[widget.project.projectColor!]),
-            //   ),
-            //   actions: [
-            //     IconButton(
-            //         icon: Icon(
-            //           Icons.edit_rounded,
-            //           color: DynamicColorTheme.of(context).data.unselectedWidgetColor,
-            //         ),
-            //         onPressed: () => EditBottomSheet().buildEditBottomSheet(
-            //             context: context,
-            //             bottomSheet: ProjectEditBottomSheet(
-            //                 isUpdate: true, project: widget.project))),
-            //   ],
-            // ),
-            body: Column(
-              children: [
-                stopwatchState.stopwatch.isRunning
-                    ? StopWatchTile()
-                    : Container(),
-                AppBar(
-                  title: Text(
-                    widget.project.projectName!,
-                    style: TextStyle(
-                        color: DynamicColorTheme.of(context).isDark
-                            ? colorList[widget.project.projectColor!].shade200
-                            : colorList[widget.project.projectColor!]),
-                  ),
-                  actions: [
-                    IconButton(
-                        icon: Icon(
-                          Icons.edit_rounded,
-                          color: DynamicColorTheme.of(context)
-                              .data
-                              .unselectedWidgetColor,
-                        ),
-                        onPressed: () => EditBottomSheet().buildEditBottomSheet(
-                            context: context,
-                            bottomSheet: ProjectEditBottomSheet(
-                                isUpdate: true, project: widget.project))),
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                      controller: tabController,
-                      physics: NeverScrollableScrollPhysics(),
+          return BottomAppBar(
+              child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(
+                              color: themeData.colorScheme.onBackground),
+                          bottom: BorderSide(
+                              color: themeData.colorScheme.onBackground))),
+                  child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // HomeScreen(),
-                        taskMap.isEmpty
-                            ? Center(
-                                child: Text(
-                                    'No Tasks for ${widget.project.projectName}'))
-                            : TaskList(
-                                taskMap: taskMap,
-                                getWidget: (item, numberOfTasks) =>
-                                    StatusExpansionTile(
-                                        status: item as Status)),
-                        timeEntryMap.isEmpty
-                            ? Center(
-                                child: Text(
-                                    'No Time Recorded for ${widget.project.projectName}'))
-                            : TimeEntriesByDay(timeEntries: timeEntries),
-                        // HomeScreen()
-                      ]),
-                ),
-              ],
-            ),
-            bottomNavigationBar: BottomAppBar(
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            top: BorderSide(
-                                color: DynamicColorTheme.of(context)
-                                    .data
-                                    .colorScheme
-                                    .onBackground),
-                            bottom: BorderSide(
-                                color: DynamicColorTheme.of(context)
-                                    .data
-                                    .colorScheme
-                                    .onBackground))),
-                    child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          // IconButton(
-                          //     icon: Icon(Icons.dashboard_rounded),
-                          //     tooltip: 'Dashboard',
-                          //     onPressed: () {
-                          //       tabController!.animateTo(0);
-                          //     }),
-                          IconButton(
-                              icon: Icon(Icons.rule_rounded,
-                                  color: pageState.page == 1
-                                      ? DynamicColorTheme.of(context)
-                                          .data
-                                          .iconTheme
-                                          .color
-                                      : DynamicColorTheme.of(context)
-                                          .data
-                                          .unselectedWidgetColor),
-                              tooltip: 'Tasks',
-                              onPressed: () {
-                                tabController!.animateTo(0);
-                                pageState.changePage(0);
-                              }),
-                          ProjectPageSpeedDial(project: widget.project),
-                          IconButton(
-                              icon: Icon(Icons.timelapse_rounded,
-                                  color: pageState.page == 1
-                                      ? DynamicColorTheme.of(context)
-                                          .data
-                                          .iconTheme
-                                          .color
-                                      : DynamicColorTheme.of(context)
-                                          .data
-                                          .unselectedWidgetColor),
-                              tooltip: 'Time Log',
-                              onPressed: () {
-                                tabController!.animateTo(1);
-                                pageState.changePage(1);
-                              }),
-                          // IconButton(
-                          //     icon: Icon(Icons.bar_chart_rounded),
-                          //     tooltip: 'Goals',
-                          //     onPressed: () {
-                          //       tabController!.animateTo(3);
-                          //     }),
-                        ]))),
-          ));
+                        // IconButton(
+                        //     icon: Icon(Icons.dashboard_rounded),
+                        //     tooltip: 'Dashboard',
+                        //     onPressed: () {
+                        //       tabController!.animateTo(0);
+                        //     }),
+                        IconButton(
+                            icon: Icon(Icons.rule_rounded,
+                                color: pageState.page == 0
+                                    ? themeData.iconTheme.color
+                                    : themeData.colorScheme.onBackground),
+                            tooltip: 'Tasks',
+                            onPressed: () {
+                              tabController!.animateTo(0);
+                              pageState.changePage(0);
+                            }),
+                        ProjectPageSpeedDial(project: widget.project),
+                        IconButton(
+                            icon: Icon(Icons.timelapse_rounded,
+                                color: pageState.page == 1
+                                    ? themeData.iconTheme.color
+                                    : themeData.colorScheme.onBackground),
+                            tooltip: 'Time Log',
+                            onPressed: () {
+                              tabController!.animateTo(1);
+                              pageState.changePage(1);
+                            }),
+                        // IconButton(
+                        //     icon: Icon(Icons.bar_chart_rounded),
+                        //     tooltip: 'Goals',
+                        //     onPressed: () {
+                        //       tabController!.animateTo(3);
+                        //     }),
+                      ])));
         });
   }
 }

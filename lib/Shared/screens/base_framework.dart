@@ -61,7 +61,6 @@ class _BaseFrameworkState extends State<BaseFramework>
                 bottomNavigationBar:
                     NavigationBar(tabController: tabController),
                 drawer: SettingsDrawer(),
-                // floatingActionButton: FloatingActionButton(backgroundColor: Color.fromARGB(100, 149, 0, 0), onPressed: () {},),
               ),
             ));
   }
@@ -97,7 +96,7 @@ class NavigationBar extends StatelessWidget {
                       icon: Icon(Icons.dashboard_rounded,
                           color: pageState.page == 0
                               ? themeData.iconTheme.color
-                              : themeData.unselectedWidgetColor),
+                              : themeData.colorScheme.onBackground),
                       tooltip: 'Dashboard',
                       onPressed: () {
                         tabController!.animateTo(0);
@@ -107,7 +106,7 @@ class NavigationBar extends StatelessWidget {
                       icon: Icon(Icons.rule_rounded,
                           color: pageState.page == 1
                               ? themeData.iconTheme.color
-                              : themeData.unselectedWidgetColor),
+                              : themeData.colorScheme.onBackground),
                       tooltip: 'Tasks',
                       onPressed: () {
                         tabController!.animateTo(1);
@@ -118,7 +117,7 @@ class NavigationBar extends StatelessWidget {
                       icon: Icon(Icons.timelapse_rounded,
                           color: pageState.page == 2
                               ? themeData.iconTheme.color
-                              : themeData.unselectedWidgetColor),
+                              : themeData.colorScheme.onBackground),
                       tooltip: 'Time Log',
                       onPressed: () {
                         tabController!.animateTo(2);
@@ -128,7 +127,7 @@ class NavigationBar extends StatelessWidget {
                       icon: Icon(Icons.bar_chart_rounded,
                           color: pageState.page == 3
                               ? themeData.iconTheme.color
-                              : themeData.unselectedWidgetColor),
+                              : themeData.colorScheme.onBackground),
                       tooltip: 'Goals',
                       onPressed: () {
                         tabController!.animateTo(3);

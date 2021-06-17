@@ -32,9 +32,9 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
         color: colorScheme.onSurface
       ),
 
-      accentIconTheme: base.accentIconTheme.copyWith(color: colorScheme.onSurface),
+      // accentIconTheme: base.accentIconTheme.copyWith(color: colorScheme.onSurface),
 
-      unselectedWidgetColor: base.unselectedWidgetColor,
+      // unselectedWidgetColor: colorScheme.onBackground,
 
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
@@ -114,7 +114,7 @@ ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? b
       secondaryVariant: currentColor.shade700,
       onSecondary: Colors.grey.shade900,
       background: Colors.grey.shade50,
-      onBackground: Colors.grey.shade300,
+      onBackground: Colors.grey.shade400,
       surface: Colors.white,
       onSurface: Colors.grey.shade600
   );
