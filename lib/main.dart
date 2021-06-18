@@ -47,7 +47,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
       return Center(child: Text('Something went wrong'));
     }
     if (!_initialized) {
-      return Center(child: Text('Loading'));
+      return Center(child: CircularProgressIndicator());
     }
     return Provider(
       create: (context) => AuthService(),

@@ -101,7 +101,7 @@ ColorScheme buildColorScheme({Color? color, required bool isDark, ColorScheme? b
         secondaryVariant: currentColor.shade100,
         onSecondary: Colors.grey.shade900,
         background: Colors.grey.shade900,
-        onBackground: Colors.grey.shade700,
+        onBackground: Colors.grey.shade500,
         surface: Colors.grey.shade800,
         onSurface: Colors.grey.shade100
         );
