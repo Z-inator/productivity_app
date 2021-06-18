@@ -1,52 +1,43 @@
 import 'package:dynamic_color_theme/dynamic_color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:productivity_app/Shared/functions/color_functions.dart';
+import 'package:productivity_app/Shared/functions/datetime_functions.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
+// Projects can also use radial menu using percentages for completing goals of different amounts
+
 class GoalScreen extends StatelessWidget {
-  List<Widget> habitCharts = [
-    RadialHabitChart(fakeHabitData: [
-      FakeHabitData(habitName: 'Workout', habitColor: 5, habitPercentage: .75)
-    ]),
-    RadialHabitChart(
-      fakeHabitData: [
-        FakeHabitData(
-            habitName: 'Learn Something New',
-            habitColor: 8,
-            habitPercentage: .4)
-      ],
-    ),
-    RadialHabitChart(fakeHabitData: [
+  List<FakeHabitData> habitCharts = [
+      FakeHabitData(habitName: 'Workout', habitColor: 5, habitPercentage: .75),
       FakeHabitData(
-          habitName: 'Don\'t get on Social Media',
+          habitName: 'Learn Something',
+          habitColor: 8,
+          habitPercentage: .4),
+      FakeHabitData(
+          habitName: 'Wake Up Early',
           habitColor: 12,
           habitPercentage: .2)
-    ])
   ];
 
-  List<Widget> projectCharts = [
-    ProjectGoalChart(fakeProjectData: [
+  List<FakeProjectData> projectCharts = [
       FakeProjectData(
           projectName: 'New App',
           projectColor: 2,
-          projectTime: 4,
-          projectGoalTime: 5),
-    ]),
-    ProjectGoalChart(fakeProjectData: [
+          projectTime: 14400,
+          projectGoalTime: 18000),
       FakeProjectData(
           projectName: 'Backyard Padio',
           projectColor: 7,
-          projectTime: 2,
-          projectGoalTime: 8),
-    ]),
-    ProjectGoalChart(fakeProjectData: [
+          projectTime: 7000,
+          projectGoalTime: 28800),
       FakeProjectData(
           projectName: 'Marketing Launch',
           projectColor: 15,
-          projectTime: 30,
-          projectGoalTime: 40)
-    ])
+          projectTime: 108000,
+          projectGoalTime: 144000)
   ];
 
   @override
@@ -56,34 +47,45 @@ class GoalScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Coming Soon'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ListTile(
-            title: Text(
-              'Goals',
-              style: themeData.textTheme.headline5,
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ListTile(
+              title: Text(
+                'Goals',
+                style: themeData.textTheme.headline5,
+              ),
+              subtitle: Text(
+                  'Track goals across projects. Set a goal of how much time you want to spend on a project and log your activity towards that goal.'),
             ),
-            subtitle: Text(
-                'Track goals across projects. Set a goal of how much time you want to spend on a project and log your activity towards that goal.'),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            child: Column(
-              children: projectCharts,
+            Container(
+              // height: MediaQuery.of(context).size.height / 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: projectCharts.map((fakeProjectData) => ListTile(
+                    leading: Text(DateTimeFunctions().timeToTextWithoutSeconds(seconds: fakeProjectData.projectTime)),
+                    title: Text(fakeProjectData.projectName,
+                        textAlign: TextAlign.center,),
+                    subtitle: ProjectGoalChart(fakeProjectData: fakeProjectData),
+                    trailing: Text(DateTimeFunctions().timeToTextWithoutSeconds(seconds: fakeProjectData.projectGoalTime)),
+                )
+                ).toList(),
+              ),
             ),
-          ),
-          ListTile(
-            title: Text('Habits', style: themeData.textTheme.headline5),
-            subtitle: Text(
-                'Build a great routine by creating lasting habits. Create a new habit and log the success of that habit'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.max,
-            children: habitCharts,
-          )
-        ],
+            ListTile(
+              title: Text('Habits', style: themeData.textTheme.headline5),
+              subtitle: Text(
+                  'Build a great routine by creating lasting habits. Create a new habit and log the success of that habit'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
+              children: habitCharts.map((fakeHabitData) => RadialHabitChart(fakeHabitData: fakeHabitData)).toList(),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -95,26 +97,25 @@ class RadialHabitChart extends StatelessWidget {
     required this.fakeHabitData,
   }) : super(key: key);
 
-  final List<FakeHabitData> fakeHabitData;
+  final FakeHabitData fakeHabitData;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SfCircularChart(
-        legend:
-            Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-        series: <CircularSeries>[
-          RadialBarSeries<FakeHabitData, String>(
-              dataSource: fakeHabitData,
-              maximumValue: 1,
-              xValueMapper: (FakeHabitData data, _) => data.habitName,
-              yValueMapper: (FakeHabitData data, _) => data.habitPercentage,
-              strokeColor: DynamicColorTheme.of(context).isDark
-                  ? AppColorList[fakeHabitData.single.habitColor].shade200
-                  : AppColorList[fakeHabitData.single.habitColor].shade400,
-              dataLabelSettings: DataLabelSettings(isVisible: true))
-        ],
-      ),
+      child: CircularPercentIndicator(
+        radius: 90,
+        lineWidth: 20,
+        animation: true,
+        circularStrokeCap: CircularStrokeCap.round,
+        percent: fakeHabitData.habitPercentage,
+        center: Text('${(fakeHabitData.habitPercentage * 100).toInt().toString()}%'),
+        footer: Text(fakeHabitData.habitName,
+            softWrap: true,),
+        backgroundColor: DynamicColorTheme.of(context).data.colorScheme.onBackground,
+        progressColor: DynamicColorTheme.of(context).isDark
+                  ? AppColorList[fakeHabitData.habitColor].shade200
+                  : AppColorList[fakeHabitData.habitColor].shade400,
+      )
     );
   }
 }
@@ -123,30 +124,23 @@ class ProjectGoalChart extends StatelessWidget {
   const ProjectGoalChart({Key? key, required this.fakeProjectData})
       : super(key: key);
 
-  final List<FakeProjectData> fakeProjectData;
+  final FakeProjectData fakeProjectData;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SfCartesianChart(
-        primaryXAxis: CategoryAxis(),
-        legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-        primaryYAxis: CategoryAxis(
-          maximum: fakeProjectData.single.projectGoalTime.toDouble(),
-
-        ),
-        series: <BarSeries<FakeProjectData, String>>[
-          BarSeries<FakeProjectData, String>(
-            dataSource: fakeProjectData, 
-            // maximumValue: fakeProjectData.single.projectGoalTime,
-            xValueMapper: (FakeProjectData data, _) => data.projectName, 
-            yValueMapper: (FakeProjectData data, _) => data.projectTime,
-            color: DynamicColorTheme.of(context).isDark
-                  ? AppColorList[fakeProjectData.single.projectColor].shade200
-                  : AppColorList[fakeProjectData.single.projectColor].shade400,
-          )
-        ],
-      ),
+      child: LinearPercentIndicator(
+        lineHeight: 40,
+        animation: true,
+        linearStrokeCap: LinearStrokeCap.roundAll,
+        center: Text('${((fakeProjectData.projectTime / fakeProjectData.projectGoalTime) * 100).toInt().toString()}%',
+            style: TextStyle(color: DynamicColorTheme.of(context).data.colorScheme.onPrimary),),
+        percent: fakeProjectData.projectTime / fakeProjectData.projectGoalTime,
+        backgroundColor: DynamicColorTheme.of(context).data.colorScheme.onBackground,
+        progressColor: DynamicColorTheme.of(context).isDark
+                  ? AppColorList[fakeProjectData.projectColor].shade200
+                  : AppColorList[fakeProjectData.projectColor].shade400,
+      )
     );
   }
 }
