@@ -36,7 +36,8 @@ class SettingsDrawer extends StatelessWidget {
                             .colorScheme
                             .onSecondary)),
             trailing: IconButton(
-                icon: Icon(Icons.cancel_rounded),
+                icon: Icon(Icons.cancel_rounded,
+                    color: themeData.colorScheme.onSecondary),
                 onPressed: () => Navigator.pop(context)),
           ),
         ),
@@ -420,27 +421,28 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
     AuthService authService = Provider.of<AuthService>(context);
     ThemeData themeData = DynamicColorTheme.of(context).data;
     return ListTile(
-      tileColor: themeData.colorScheme.error,
-      title: Text('Delete User',
-          style: themeData.textTheme.subtitle1!
-              .copyWith(color: themeData.colorScheme.onError)),
+      title: Text('Delete User'),
       trailing: IconButton(
-        icon: Icon(Icons.delete_forever_rounded,
-            color: themeData.colorScheme.onError),
+        icon: Icon(Icons.delete_forever_rounded),
         onPressed: () => showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('Are you sure you want to delete your account?'),
+                backgroundColor: themeData.colorScheme.error,
+                title: Text('Are you sure you want to delete your account?',
+                    style: themeData.textTheme.subtitle1!.copyWith(color: themeData.colorScheme.onError)),
                 content: Text(
-                    'This action cannot be undone and will result in a complete loss of all your tracked time entries, tasks, projects, and statuses.'),
+                    'This action cannot be undone and will result in a complete loss of all your tracked time entries, tasks, projects, and statuses.',
+                        style: themeData.textTheme.bodyText2!.copyWith(color: themeData.colorScheme.onError)),
                 actions: [
                   TextButton(
-                    child: Text('Cancel'),
+                    child: Text('Cancel',
+                        style: themeData.textTheme.subtitle1!.copyWith(color: themeData.colorScheme.onError)),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   TextButton(
-                    child: Text('Confirm Deletion'),
+                    child: Text('Confirm Deletion',
+                        style: themeData.textTheme.subtitle1!.copyWith(color: themeData.colorScheme.onError)),
                     onPressed: () {
                       Navigator.of(context).pop();
                       authService
