@@ -23,11 +23,11 @@ class DateAndTimePickers {
     }
   }
 
-  TimeRangePicker buildTimeRangePicker({required BuildContext context, Function(TimeRangeValue)? saveTimeRange}) {
+  TimeRangePicker buildTimeRangePicker({required BuildContext context, required Function(TimeRangeValue) saveTimeRange}) {
     return TimeRangePicker.show(
         context: context,
         onSubmitted: (TimeRangeValue value) {
-          saveTimeRange!(value);
+          saveTimeRange(value);
           // final DateTime day = DateTime.now();
           // final DateTime startTime = DateTime(day.year, day.month, day.day, value.startTime.hour, value.startTime.minute);
           // final DateTime endTime = DateTime(day.year, day.month, day.day, value.endTime.hour, value.endTime.minute);

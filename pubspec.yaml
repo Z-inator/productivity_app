@@ -66,7 +66,7 @@ dependencies:
 
   # Dynamic Theme
   dynamic_themes: ^1.1.0
-  dynamic_color_theme: ^1.1.2
+  dynamic_color_theme: ^2.0.0
 
   # Save Theme to Phone
   shared_preferences: ^2.0.6
