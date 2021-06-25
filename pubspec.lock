@@ -390,9 +390,9 @@ packages:
   simple_time_range_picker:
     dependency: "direct main"
     description:
-      name: simple_time_range_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: simple_time_range_picker-master
+      relative: true
+    source: path
     version: "0.0.2"
   sky_engine:
     dependency: transitive

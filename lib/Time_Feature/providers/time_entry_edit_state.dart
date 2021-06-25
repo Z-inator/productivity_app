@@ -46,14 +46,14 @@ class TimeEntryEditState extends ChangeNotifier {
         newEntry.startTime!.year,
         newEntry.startTime!.month,
         newEntry.startTime!.day,
-        timeRangeValue.startTime.hour,
-        timeRangeValue.startTime.minute);
+        timeRangeValue.startTime!.hour,
+        timeRangeValue.startTime!.minute);
     newEntry.endTime = DateTime(
         newEntry.endTime!.year,
         newEntry.endTime!.month,
         newEntry.endTime!.day,
-        timeRangeValue.endTime.hour,
-        timeRangeValue.endTime.minute);
+        timeRangeValue.endTime!.hour,
+        timeRangeValue.endTime!.minute);
     notifyListeners();
   }
 }
