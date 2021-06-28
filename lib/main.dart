@@ -44,7 +44,7 @@ class _ProductivityAppState extends State<ProductivityApp> {
   @override
   Widget build(BuildContext context) {
     if (_error) {
-      return Center(child: Text('Something went wrong'));
+      return Center(child: Column(children: [Text('Something went wrong')]));
     }
     if (!_initialized) {
       return Center(child: CircularProgressIndicator());
