@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1040386963868:android:ce590467f89f02f1f53059",
         "android_client_info": {
-          "package_name": "com.example.productivity_app"
+          "package_name": "com.productivity_app.test"
         }
       },
       "oauth_client": [

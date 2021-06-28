@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.productivity_app">
+    package="com.productivity_app.test">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="productivity_app"
