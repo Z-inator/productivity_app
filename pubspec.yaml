@@ -56,8 +56,10 @@ dependencies:
   syncfusion_flutter_charts: ^19.1.69+1
 
   # Time Range Picker
-  simple_time_range_picker: 
-    path: ./simple_time_range_picker-master/
+  simple_time_range_picker: ^0.0.3
+  # simple_time_range_picker: 
+  #   path: ./simple_time_range_picker-master/
+  
   # FAB Speed Dial
   flutter_speed_dial: ^4.0.0-dev.1
 
@@ -70,6 +72,7 @@ dependencies:
 
   # Save Theme to Phone
   shared_preferences: ^2.0.6
+  
 
 
 dev_dependencies:
