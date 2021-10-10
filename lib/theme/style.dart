@@ -13,6 +13,7 @@ ThemeData buildThemeData(Color accentColor, bool isDark) {
       appBarTheme: base.appBarTheme.copyWith(
         backgroundColor: colorScheme.surface,
         elevation: 8,
+        foregroundColor: colorScheme.onSurface
       ),
 
       cardTheme: base.cardTheme.copyWith(
